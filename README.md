@@ -1,11 +1,10 @@
-# Revy Admin
+# InWeb Admin
 
 Admin Panel for Laravel Framework
 
 ## Features
 - CRUD
-- Translations management
-- Images management [wip]
+- Images management
 
 ## Requirements
 - Laravel >=5.6
@@ -14,11 +13,11 @@ Admin Panel for Laravel Framework
 
 1. Install package via *composer require*
     ```
-    composer require revys/revy-admin
+    composer require inwebcomp/admin
     ```
     or add to your composer.json to **autoload** section and update your dependencies
     ```
-    "revys/revy-admin": "*"
+    "inwebcomp/admin": "*"
     ```
 2. Run migrations
     ```
@@ -26,31 +25,24 @@ Admin Panel for Laravel Framework
     ```
 3. Run seeder
 
-    If you didn't seed ``revys/revy`` package, run
+    Run seeder to create admin user with default credentials
     ```
-    php artisan db:seed --class="Revys\Revy\Database\Seeds\DatabaseSeeder"
+    php artisan db:seed --class="InWeb\Admin\Database\Seeds\DatabaseSeeder"
     ```
-    then seed this package
-    ```
-    php artisan db:seed --class="Revys\RevyAdmin\Database\Seeds\DatabaseSeeder"
-    ```
-4. Change User model class in **config/auth.php**
+4. Add provider in **config/auth.php**
     ```php
     'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => \Revys\RevyAdmin\App\User::class,
-        ],
-     ]
+         ...
+
+         'admin' => [
+             'driver' => 'eloquent',
+             'model' => InWeb\Admin\App\Models\AdminUser::class,
+         ],
+    ],
     ```
 5. Publish assets
     ```
-    php artisan vendor:publish --provider="Revys\RevyAdmin\App\Providers\RevyAdminServiceProvider" --tag=public
+    php artisan vendor:publish --provider="InWeb\Admin\App\Providers\AdminServiceProvider" --tag=public
     ```
     
 You are ready to go!
-
-
-
-## TODO
-- Sort images
