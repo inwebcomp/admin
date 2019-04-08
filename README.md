@@ -13,11 +13,11 @@ Admin Panel for Laravel Framework
 
 1. Install package via *composer require*
     ```
-    composer require inwebcomp/admin
+    composer require inweb/admin
     ```
     or add to your composer.json to **autoload** section and update your dependencies
     ```
-    "inwebcomp/admin": "*"
+    "inweb/admin": "*"
     ```
 2. Run migrations
     ```
