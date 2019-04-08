@@ -1,0 +1,106 @@
+$side-popup-mask-bg: rgba(0, 0, 0, .3);
+$side-popup-mask-transition: opacity .3s ease;
+$side-popup-width: 800px;
+$side-popup-padding: $padding * 3;
+$side-popup-bg: $backface-color;
+$box-shadow: -2px 0 8px rgba(0, 0, 0, .33);
+
+.side-popup-mask {
+    position: fixed;
+    z-index: $z-index-side;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $side-popup-mask-bg;
+    display: table;
+    transition: $side-popup-mask-transition;
+    will-change: opacity;
+}
+
+.side-popup-wrapper {
+    width: 100%;
+    max-width: $side-popup-width;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: $z-index-side-up;
+}
+
+.side-popup-container {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+    //padding: $side-popup-padding * 2 $side-popup-padding;
+    background: $side-popup-bg;
+    box-shadow: $box-shadow;
+}
+
+.side-popup-close {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0;
+    margin: 0;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    z-index: 2;
+    font-size: 1.4rem;
+    transition: color $transition;
+
+    &:hover {
+        color: $accent-color;
+    }
+}
+
+// .side-popup-enter {
+// 	opacity: 0;
+// }
+
+// .side-popup-leave-active {
+// 	opacity: 0;
+// }
+
+// .side-popup-enter .side-popup-container,
+// .side-popup-leave-active .side-popup-container {
+// 	transform: scale(1.1);
+// }
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .3s;
+}
+
+.fade-enter, .fade-leave-to {
+    opacity: 0;
+}
+
+
+
+.side-popup-enter-active {
+    transition: all .3s ease;
+}
+
+.side-popup-leave-active {
+    transition: all .1s ease-out;
+}
+
+.side-popup-enter, .side-popup-leave-to
+    /* .slide-fade-leave-active до версии 2.1.8 */
+{
+    transform: translateX(50px);
+    opacity: 0;
+}
+
+
+// ---------------
+.side-popup-container {
+    .title {
+        padding-bottom: $side-popup-padding;
+    }
+}

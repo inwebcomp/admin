@@ -1,0 +1,32 @@
+$primary-color: #191f2e;
+$accent-color: #3f51b5;
+$dark-color: #353741;
+
+$background-color: #FFFFFF;
+$background-color-2: #F1F1F1;
+$backface-color: #f2f3f6;
+
+$font-color: #333;
+$font-color-heading: #333;
+$font-color-secondary: #515255;
+$font-color-light: #9a9a9a;
+$font-color-accent: $accent-color;
+$hover-color: $accent-color;
+$hover-bg-color: #F5F5F5;
+$link-color: $accent-color;
+$link-hover-color: $accent-color;
+
+$success-color: #66BB6A;
+$error-color: #FF6E58;
+$danger-color: #FF6E58;
+$warning-color: #fff494;
+$info-color: #81D4FA;
+
+$border-color: #e6e6e6;
+
+:root {
+    --danger: #{$danger-color};
+    --success: #{$success-color};
+    --warning: #{$warning-color};
+    --info: #{$info-color};
+}

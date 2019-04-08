@@ -1,0 +1,37 @@
+.editable-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    tr {
+        background-color: #FFF;
+    }
+}
+
+.flip-list-item {
+    display: inline-block;
+    margin-right: 10px;
+}
+.flip-list-enter-active, .flip-list-leave-active {
+    transition: all 1s;
+}
+.flip-list-enter, .flip-list-leave-to /* .list-leave-active до версии 2.1.8 */ {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.editable-list {
+    .ghost {
+        background-color: bg($info-color);
+    }
+}
+
+.sortable-drag {
+    opacity: 0 !important;
+    visibility: hidden;
+}
+
+.sortable-fallback {
+    opacity: 0 !important;
+    visibility: hidden;
+}

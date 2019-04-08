@@ -1,0 +1,4 @@
+@include font-face(Raleway, $font-path + '/Raleway/Raleway-Regular', normal, normal, ttf);
+@include font-face(Raleway, $font-path + '/Raleway/Raleway-Bold', bold, normal, ttf);
+@include font-face(Raleway, $font-path + '/Raleway/Raleway-SemiBold', 600, normal, ttf);
+@include font-face(Raleway, $font-path + '/Raleway/Raleway-Light', 300, normal, ttf);

@@ -1,0 +1,38 @@
+html, body {
+    height: 100%;
+}
+
+html {
+    font-size: 10px * $font-scale;
+}
+
+body {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    font-family: $font-family;
+    min-width: $content-min-width;
+    color: $font-color;
+    background-color: $backface-color;
+
+    font-feature-settings: 'lnum';
+    -moz-font-feature-settings: 'lnum=1';
+    -ms-font-feature-settings: 'lnum';
+    -webkit-font-feature-settings: 'lnum';
+    -o-font-feature-settings: 'lnum';
+}
+
+#app {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#content {
+    margin-bottom: auto;
+}
+
+#sidebar + #content {
+    margin-left: $sidebar-width;
+    margin-top: $header-height;
+}

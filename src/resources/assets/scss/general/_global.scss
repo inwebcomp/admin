@@ -1,0 +1,23 @@
+a {
+    color: $accent-color;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.clear {
+	height: 0;
+	overflow: hidden;
+	font-size: 1px;
+	clear: both;
+	visibility: hidden;
+}
+
+.link {
+	text-decoration: none;
+	cursor: pointer;
+	transition: color $transition;
+
+	&:hover {
+		color: $accent-color;
+	}
+}

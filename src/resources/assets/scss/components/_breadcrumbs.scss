@@ -1,0 +1,19 @@
+.breadcrumbs {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: $background-color;
+    border-bottom: 1px solid $border-color;
+    padding: $padding / 2 $padding;
+}
+
+.breadcrumbs__separator {
+    margin: 0 10px;
+    font-size: 18px;
+    line-height: 21px;
+}
+
+.breadcrumbs__item--home {
+    color: $dark-color;
+}

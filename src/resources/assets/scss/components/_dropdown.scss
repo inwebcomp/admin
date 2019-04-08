@@ -1,0 +1,99 @@
+$dropdown-font-size: 1em;
+$dropdown-size: $input-height;
+$dropdown-option-size: 34px;
+$dropdown-caret-width: $dropdown-size;
+$dropdown-background-color: #FFF;
+$dropdown-max-options: 8;
+
+.dropdown {
+    position: relative;
+    font-size: $dropdown-font-size;
+}
+
+.dropdown__option {
+    min-height: $dropdown-option-size;
+    padding: $padding / 2 $padding;
+    box-sizing: border-box;
+    cursor: pointer;
+    color: $font-color;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+        background-color: $hover-bg-color;
+    }
+}
+
+.dropdown__option__text {
+    color: $font-color;
+}
+
+.dropdown__option__image {
+    height: $dropdown-option-size - 4px;
+    width: $dropdown-option-size - 4px;
+    border-radius: 15px;
+    margin: 4px $padding / 2 4px 4px;
+}
+
+.dropdown__container {
+    position: absolute;
+    width: 100%;
+    top: 100%;
+    background-color: $dropdown-background-color;
+    box-shadow: $box-shadow;
+    z-index: 1;
+}
+
+.dropdown .dropdown__value {
+    cursor: pointer;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding-right: $dropdown-caret-width - 1;
+
+    &::after {
+        content: "\f107";
+        display: block;
+        font-family: $font-family-icons;
+        height: $dropdown-size;
+        line-height: $dropdown-size;
+        width: $dropdown-caret-width;
+        text-align: center;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+}
+
+.dropdown__values {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: $dropdown-max-options * $dropdown-option-size;
+    overflow-y: auto;
+}
+
+.dropdown--top {
+    .dropdown__container {
+        top: auto;
+        bottom: 100%;
+    }
+}
+
+.dropdown__search {
+    padding: $padding / 2;
+}
+
+
+
+.dropdown-enter-active {
+    transition: all $transition-ease .1s;
+}
+.dropdown-leave-active {
+    transition: all $transition-out-ease .05s;
+}
+.dropdown-enter, .dropdown-leave-to
+{
+    transform: translateY(10px);
+    opacity: 0;
+}

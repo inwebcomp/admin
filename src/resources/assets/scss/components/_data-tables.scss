@@ -1,0 +1,148 @@
+// Config
+$data-table-titles-height: rem(40px);
+$data-table-values-height: rem(44px);
+$data-table-titles-border: 1px solid $border-color;
+
+// Styles
+.data-table {
+    width: 100%;
+    font-size: rem(14px);
+
+    td {
+        vertical-align: middle;
+    }
+}
+
+.data-table--fixed {
+    table-layout: fixed;
+}
+
+.data-table--auto {
+    width: auto;
+}
+
+.data-table__header {
+    @apply .bg-grey-lightest .text-sm .font-bold .text-grey-darker .bg-grey-lightest;
+}
+
+.data-table__title {
+    height: $data-table-titles-height;
+}
+
+.data-table__value, .data-table__title {
+    padding: 0 $padding;
+}
+
+.data-table__line td {
+    @apply .border-t .border-grey-light;
+}
+
+.data-table__value {
+    font-size: 1em;
+    height: $data-table-values-height;
+}
+
+.data-table__value__link {
+    font-weight: bold;
+    font-size: 1.1em;
+    line-height: $data-table-values-height / 1.8;
+    display: inline-block;
+    box-sizing: border-box;
+
+    &::after {
+        content: "";
+        display: block;
+        border-bottom: 1px solid $font-color-accent;
+        width: 0;
+        height: 0;
+        margin-bottom: -1px;
+        @include transition(width $transition);
+    }
+    &:hover::after {
+        width: 100%;
+    }
+}
+
+.data-table__line--state-block .data-table__value {
+    opacity: 0.4;
+
+    &:last-child {
+        padding-right: $data-table-values-height;
+        position: relative;
+
+        &::after {
+            content: "";
+            background-image: url($icons-path + "/invisible.svg");
+            background-repeat: no-repeat;
+            background-size: rem(18px);
+            background-position: center;
+            width: rem(40px);
+            height: $data-table-values-height;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    }
+}
+
+.data-table__checkbox {
+    width: $data-table-values-height;
+    text-align: center;
+    cursor: pointer;
+}
+
+// ========================
+// Tree
+// ========================
+.data-table__tree-padding {
+    color: lighten($font-color, 50%);
+    vertical-align: top;
+    font-size: rem(18px);
+}
+
+.data-table__tree-padding--level-1 {
+    &::after {
+        content: "—";
+        margin-right: $padding / 2;
+    }
+}
+
+.data-table__tree-padding--level-2 {
+    &::after {
+        content: "——";
+        margin-right: $padding / 2;
+    }
+}
+
+.data-table__tree-padding--level-3 {
+    &::after {
+        content: "———";
+        margin-right: $padding / 2;
+    }
+}
+
+.data-table__tree-padding--level-4 {
+    &::after {
+        content: "————";
+        margin-right: $padding / 2;
+    }
+}
+
+.not-found {
+    text-align: center;
+    padding: $padding * 2;
+}
+
+
+.data-table__value--show-on-hover {
+    * {
+        visibility: hidden;
+    }
+}
+.data-table__line {
+    &:hover {
+        .data-table__value--show-on-hover * {
+            visibility: visible;
+        }
+    }
+}

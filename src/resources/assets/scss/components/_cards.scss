@@ -1,0 +1,79 @@
+// Config
+$card-background-color: #FFF;
+$card-border-radius: $border-radius;
+$card-margin-bottom: $padding;
+$card-header-border: 1px solid $border-color;
+
+$card-list-header-height: rem(40px);
+
+$card-form-header-height: rem(50px);
+
+
+
+// Styles
+.card {
+	background-color: $card-background-color;
+	border-radius: $card-border-radius;
+	margin-bottom: $padding;
+	margin-right: $padding;
+	width: 100%;
+
+	@include box-shadow(0 2px 6px rgba(0,0,0,0.1));
+}
+
+.card__header {
+	border-bottom: $card-header-border;
+	min-height: $card-list-header-height;
+
+	.select {
+		margin: 0.4rem;
+	}
+}
+
+.card-buttons {
+	padding: $padding;
+}
+
+.card--list {
+	margin-right: 0;
+}
+.card--list .pagination {
+	float: right;
+}
+
+
+
+
+// ===== Form
+// ================================================================
+.card--form {
+	display: inline-block;
+	vertical-align: top;
+
+	.card__header {
+		h2 {
+			margin: 0;
+			line-height: $card-form-header-height;
+			font-size: rem(16px);
+			padding: 0 $padding;
+		}
+	}
+
+	.form {
+		padding: $padding;
+	}
+}
+
+
+
+
+// ===== Card holder
+// ================================================================
+.card-holder {
+	display: inline-block;
+	vertical-align: top;
+
+	.card {
+		margin-bottom: $padding;
+	}
+}

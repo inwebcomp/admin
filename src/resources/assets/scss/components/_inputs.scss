@@ -1,0 +1,30 @@
+// ===== Config
+// ================================================================
+
+
+// Inputs
+$input-font-size: rem(14px);
+$input-font-color: #555;
+$input-border-color: $border-color;
+$input-border-radius: $border-radius;
+$input-height: rem(42px);
+$input-padding: rem(12px);
+
+
+// ===== Switchers
+// ================================================================
+$switcher-height: 2rem;
+$switcher-width: 4rem;
+$switcher-line-height: 1rem;
+$switcher-color: $border-color;
+$switcher-color-active: $primary-color;
+
+
+
+
+@import "./switch";
+@import "./checkbox";
+@import "./search-input";
+@import "./dropdown";
+
+

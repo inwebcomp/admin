@@ -1,0 +1,91 @@
+// Config
+$active-panel-caption-size: rem(18px);
+$active-panel-bg-color: #5A69C6;
+$active-panel-color: #FFF;
+$active-panel-color-disabled: #999;
+
+$active-panel-padding: $card-form-header-height;
+$active-panel-edit-padding: $card-form-header-height;
+
+$active-panel-button-size: rem(40px);
+$active-panel-button-icon-size: rem(20px);
+
+
+
+// Styles
+.active-panel {
+	background-color: $active-panel-bg-color;
+	margin: 0 0 (-$active-panel-edit-padding);
+	padding: $padding * 2 $padding ($padding * 2 + $active-panel-edit-padding);
+	color: $active-panel-color;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.active-panel__caption {
+	font-size: $active-panel-caption-size;
+	margin: 0 auto 0 0;
+	font-weight: normal;
+
+	small {
+		font-weight: bold;
+		margin-left: $padding;
+	}
+}
+
+.active-panel__button {
+	min-width: $active-panel-button-size;
+	height: $active-panel-button-size;
+	line-height: $active-panel-button-size;
+	cursor: pointer;
+	display: block;
+	margin: -($active-panel-button-size - $active-panel-button-icon-size) / 2 0;
+	border-radius: $border-radius;
+	color: #FFF;
+	font-size: $font-size;
+	padding: 0 $padding;
+
+	@include transition(background-color $transition);
+
+	&:hover {
+		background-color: darken($active-panel-bg-color, 3%);
+	}
+
+	.icon {
+		width: $active-panel-button-icon-size;
+		height: $active-panel-button-icon-size;
+		margin: ($active-panel-button-size - $active-panel-button-icon-size) / 2;
+	}
+}
+.active-panel__button + .active-panel__button {
+	margin-left: $padding;
+}
+.active-panel__button:last-child {
+	// margin-right: -($active-panel-button-size - $active-panel-button-icon-size) / 2;
+}
+
+.active-panel__button--icon {
+	padding: 0;
+}
+
+.active-panel__button--back {
+	$active-panel-button-icon-size: $active-panel-button-icon-size * 1.1;
+
+	// width: $active-panel-button-icon-size + $padding * 2;
+	// height: $active-panel-button-icon-size + $padding * 2;
+	// margin: (-$padding) 0 (-$padding) (-$padding);
+
+	// .icon {
+	// 	width: $active-panel-button-icon-size;
+	// 	height: $active-panel-button-icon-size;
+	// 	margin: $padding;
+	// }
+	margin-left: -($active-panel-button-size - $active-panel-button-icon-size) / 2;
+	margin-right: $padding - ($active-panel-button-size - $active-panel-button-icon-size) / 2;
+
+    font-size: 16px;
+    text-indent: -1px;
+    padding-top: 1px;
+    text-align: center;
+}

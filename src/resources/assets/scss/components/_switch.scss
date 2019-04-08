@@ -1,0 +1,131 @@
+//
+//.switcher {
+//    width: $switcher-width;
+//    height: $switcher-height;
+//    position: relative;
+//    display: inline-block;
+//    vertical-align: middle;
+//
+//    input {
+//        width: $switcher-width;
+//        height: $switcher-height;
+//        opacity: 0;
+//        cursor: pointer;
+//        position: absolute;
+//        top: 0;
+//        left: 0;
+//        z-index: 1;
+//
+//        &:checked + .switcher__lever {
+//            &::after {
+//                background-color: $switcher-color-active;
+//
+//                @include translate($switcher-width - $switcher-line-height * 2, 0);
+//            }
+//
+//            &::before {
+//                background-color: lighten($switcher-color-active, 15%);
+//            }
+//        }
+//    }
+//}
+//
+//.switcher__lever::before {
+//    content: "";
+//    display: block;
+//    width: $switcher-width - ($switcher-height - $switcher-line-height);
+//    height: $switcher-line-height;
+//    background-color: $switcher-color;
+//    border-radius: $switcher-height / 2;
+//    position: absolute;
+//    top: 0;
+//    left: 0;
+//    margin: ($switcher-height - $switcher-line-height) / 2;
+//
+//    @include transition(background-color ease .15s);
+//}
+//
+//.switcher__lever::after {
+//    content: "";
+//    display: block;
+//    width: $switcher-height;
+//    height: $switcher-height;
+//    background-color: darken($switcher-color, 5%);
+//    border-radius: 50%;
+//    position: absolute;
+//    top: 0;
+//    left: 0;
+//
+//    @include transition(transform ease .15s);
+//}
+
+
+/* Switch
+   ========================================================================== */
+$switch-checked-lever-bg: $accent-color;
+$switch-handle-bg-color: #FFF;
+$switch-unchecked-lever-bg: $border-color;
+$switch-radius: 11px;
+$switch-unchecked-bg: #FFF;
+
+.switch {
+    user-select: none;
+}
+
+.switch__label {
+    cursor: pointer;
+}
+
+.switch__input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+
+    &:checked + .switch__lever {
+        background-color: $switch-checked-lever-bg;
+
+        &:after {
+            background-color: $switch-handle-bg-color;
+            left: 30px;
+        }
+
+        .switch__icon {
+            opacity: 1;
+        }
+    }
+}
+
+.switch__lever {
+    display: block;
+    position: relative;
+    width: 50px;
+    height: 22px;
+    background-color: $switch-unchecked-lever-bg;
+    border-radius: $switch-radius;
+
+    @include transition(background $transition);
+
+    &:after {
+        content: "";
+        position: absolute;
+        display: block;
+        width: 16px;
+        height: 16px;
+        background-color: $switch-unchecked-bg;
+        border-radius: $switch-radius;
+        left: 3px;
+        top: 3px;
+        transition: all $transition;
+    }
+}
+
+.switch__icon {
+    position: absolute;
+    color: #FFF;
+    display: block;
+    top: 6px;
+    right: 27px;
+    opacity: 0;
+    line-height: 10px;
+    transition: opacity $transition;
+}

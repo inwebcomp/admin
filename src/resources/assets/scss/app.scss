@@ -1,0 +1,28 @@
+// Config
+@import "config/path";
+@import "config/colors";
+@import "config/typography";
+@import "config/interaction";
+
+// Utils
+@import "utils/functions";
+@import "utils/mixins";
+@import "utils/normalize";
+@import "utils/prefixer";
+
+@import "config/layout";
+
+// General
+@import "general/fonts";
+@import "general/global";
+@import "general/icons";
+@import "general/grid";
+@import "general/page";
+
+@import "general/includes";
+
+@import "responsive/all";
+
+@tailwind preflight;
+@tailwind components;
+@tailwind utilities;

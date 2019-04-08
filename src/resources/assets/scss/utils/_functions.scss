@@ -1,0 +1,11 @@
+@function remToPx($value) {
+    @return $value / 1rem * 10px * $font-scale;
+}
+
+@function rem($value) {
+    @return round((($value / 1px) / $font-scale) * .1rem * 1000) / 1000;
+}
+
+@function bg($color) {
+    @return lighten($color, 20%);
+}

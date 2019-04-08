@@ -1,0 +1,57 @@
+// ===== Checkboxes
+// ================================================================
+
+$checkbox-size: 18px;
+$checkbox-border-radius: 2px;
+$checkbox-icon-size: 10px;
+$checkbox-border-color: #ddd;
+$checkbox-border-color-disabled: #eee;
+$checkbox-accent-color: $accent-color;
+
+.checkbox {
+    height: $checkbox-size;
+    width: $checkbox-size;
+    font-size: 1rem;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    text-align: left;
+}
+.checkbox__input {
+    opacity: 0;
+    height: $checkbox-size;
+    width: $checkbox-size;
+    position: absolute;
+    z-index: 1;
+    cursor: pointer;
+}
+.checkbox__label {
+    height: $checkbox-size;
+    width: $checkbox-size;
+    display: block;
+    border: 1px solid $checkbox-border-color;
+    background-color: #FFF;
+    border-radius: $checkbox-border-radius;
+    box-sizing: border-box;
+
+    @include user-select(none);
+}
+.checkbox__checker {
+    display: none;
+}
+.checkbox__input:checked + .checkbox__label {
+    background-color: $checkbox-accent-color;
+    border-color: $checkbox-accent-color;
+
+    .checkbox__checker {
+        color: #FFF;
+        margin: ($checkbox-size - $checkbox-icon-size) / 2 - 1;
+        display: block;
+        font-size: $checkbox-icon-size;
+    }
+}
+.checkbox--success .checkbox__input:checked + .checkbox__label {
+    background-color: $success-color;
+    border-color: $success-color;
+}

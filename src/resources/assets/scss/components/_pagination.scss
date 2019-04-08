@@ -1,0 +1,40 @@
+$pagination-size: 36px;
+$pagination-color: #FFF;
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	background-color: $background-color;
+	user-select: none;
+}
+
+.pagination__page {
+	font-size: 16px;
+	line-height: $pagination-size;
+	height: $pagination-size;
+	width: $pagination-size * 1.1;
+	text-align: center;
+	border-right: 1px solid $border-color;
+	transition: background-color $transition;
+	cursor: pointer;
+	overflow: hidden;
+	padding: 0;
+
+	&:not(.pagination__page--disabled):hover {
+		background-color: darken($pagination-color, 3%);
+	}
+}
+
+.pagination__page--disabled {
+	outline: none;
+	cursor: default;
+	color: darken($pagination-color, 15%);
+	background-color: lighten($pagination-color, 3%);
+}
+
+.pagination__page--current {
+	outline: none;
+	font-weight: bold;
+	cursor: default;
+	color: $accent-color;
+}
