@@ -29,7 +29,18 @@ Admin Panel for Laravel Framework
     ```
     php artisan db:seed --class="InWeb\Admin\Database\Seeds\DatabaseSeeder"
     ```
-4. Add provider in **config/auth.php**
+4. Add guard in **config/auth.php**
+```php
+'guards' => [
+     ...
+
+    'admin' => [
+        'driver' => 'session',
+        'provider' => 'admin',
+    ],
+],
+```
+5. Add provider in **config/auth.php**
     ```php
     'providers' => [
          ...
@@ -40,7 +51,7 @@ Admin Panel for Laravel Framework
          ],
     ],
     ```
-5. Publish assets
+6. Publish assets
     ```
     php artisan vendor:publish --provider="InWeb\Admin\App\Providers\AdminServiceProvider" --tag=public
     ```
