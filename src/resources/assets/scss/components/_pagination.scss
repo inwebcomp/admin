@@ -6,6 +6,7 @@ $pagination-color: #FFF;
 	justify-content: center;
 	background-color: $background-color;
 	user-select: none;
+	height: $pagination-size;
 }
 
 .pagination__page {

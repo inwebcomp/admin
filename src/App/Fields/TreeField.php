@@ -10,5 +10,12 @@ class TreeField extends Field
     public function __construct($name, $attribute = null, $resolveCallback = null)
     {
         parent::__construct($name, $attribute, $resolveCallback);
+
+        $this->resolveUsing(function ($value, $model) {
+            if ($model->isLeaf())
+                $this->withMeta(['leaf' => true]);
+
+            return $value;
+        });
     }
 }

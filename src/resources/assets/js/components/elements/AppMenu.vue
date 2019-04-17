@@ -3,14 +3,14 @@
         <div class="sidebar">
             <div v-for="(group, $i) of groups" :key="$i" class="sidebar__item"
                  :class="{ 'sidebar__item--active': isSelected(group) }">
-                <router-link :to="{
-                            name: group.resources[0].route || 'index',
-                            params: {
-                                controller: group.resources[0].uriKey
-                            }
-                        }" class="sidebar__item__link" :title="group.label">
-                    <i class="icon fas" :class="'fa-' + (group.icon ? group.icon : 'circle')"></i>
-                </router-link>
+                <!--<router-link :to="{-->
+                            <!--name: group.resources[0].route || 'index',-->
+                            <!--params: {-->
+                                <!--controller: group.resources[0].uriKey-->
+                            <!--}-->
+                        <!--}" class="sidebar__item__link" :title="group.label">-->
+                    <!--<i class="icon fas" :class="'fa-' + (group.icon ? group.icon : 'circle')"></i>-->
+                <!--</router-link>-->
 
                 <div class="sidebar__children">
                     <router-link :to="{

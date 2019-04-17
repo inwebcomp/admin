@@ -17,6 +17,7 @@
                 return [
                     'data-table__title',
                     'text-' + this.field.textAlign,
+                    'data-table__cell-type--' + this.field.component,
                     ...this.field.classes
                 ]
             }

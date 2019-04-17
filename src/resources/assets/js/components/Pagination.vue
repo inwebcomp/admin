@@ -1,13 +1,15 @@
 <template>
-    <div class="pagination" v-if="pages.length">
-        <div @click="goTo(pagination.currentPage - 1)" class="pagination__page pagination__page--prev" v-if="! isFirstPage"><i class="far fa-angle-left"></i></div>
+    <div class="pagination">
+        <template v-if="pages.length">
+            <div @click="goTo(pagination.currentPage - 1)" class="pagination__page pagination__page--prev" v-if="! isFirstPage"><i class="far fa-angle-left"></i></div>
 
-        <div @click="goTo(page)" class="pagination__page"
-             :class="{ 'pagination__page--current': page == pagination.currentPage }"
-             v-for="({title, page}, $i) in pages" :key="$i">{{ title }}
-        </div>
+            <div @click="goTo(page)" class="pagination__page"
+                 :class="{ 'pagination__page--current': page == pagination.currentPage }"
+                 v-for="({title, page}, $i) in pages" :key="$i">{{ title }}
+            </div>
 
-        <div @click="goTo(pagination.currentPage + 1)" class="pagination__page pagination__page--next" v-if="! isLastPage"><i class="far fa-angle-right"></i></div>
+            <div @click="goTo(pagination.currentPage + 1)" class="pagination__page pagination__page--next" v-if="! isLastPage"><i class="far fa-angle-right"></i></div>
+        </template>
     </div>
 </template>
 
