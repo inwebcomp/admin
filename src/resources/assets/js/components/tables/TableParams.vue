@@ -1,6 +1,7 @@
 <template>
     <div class="active-panel active-panel--edit">
-        <router-link :to="{ name: 'home' }" class="active-panel__button active-panel__button--back active-panel__button--icon"><i class="fas fa-chevron-left"></i></router-link>
+        <div @click="go" class="active-panel__button active-panel__button--back active-panel__button--icon"><i class="fas fa-chevron-left"></i></div>
+
         <h1 class="active-panel__caption mr-4">{{ title }}</h1>
 
         <router-link v-if="this.controller" :to="{ name: 'action', params: { controller: this.controller, action: 'create' }}" class="active-panel__button mr-auto" @click="create">
@@ -44,7 +45,14 @@
 
         methods: {
             create() {
+                //
+            },
 
+            go() {
+                if (this.navigate)
+                    this.$router.push({ name: 'home' })
+                else
+                    App.$emit('back')
             }
         },
     }

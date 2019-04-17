@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table-params></table-params>
+        <table-params :navigate="! isNested"></table-params>
         <breadcrumbs v-if="isNested && breadcrumbs.length > 1" :items="breadcrumbs" />
         <data-table class="floating-panel__padding" :resources="resources" :loading="loading"></data-table>
 
@@ -67,10 +67,20 @@
             App.$on('indexRefresh', () => {
                 this.fetch()
             })
+
+
+            App.$on('back', () => {
+                if (this.isNested && this.breadcrumbs.length >= 2)
+                    App.$emit('parentSelect', this.breadcrumbs[this.breadcrumbs.length - 2].id)
+            })
         },
 
         destroyed() {
             App.$off('resourceUpdate')
+            App.$off('resourceDestroyed')
+            App.$off('resourceStore')
+            App.$off('parentSelect')
+            App.$off('indexRefresh')
         },
 
         methods: {

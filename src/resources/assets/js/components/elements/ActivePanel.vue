@@ -1,11 +1,11 @@
 <template>
     <div class="active-panel active-panel--edit">
-        <router-link v-if="! popupMode"
-                     :to="backRoute"
-                     class="active-panel__button active-panel__button--back active-panel__button--icon">
+        <div v-if="! popupMode"
+             @click="go"
+             class="active-panel__button active-panel__button--back active-panel__button--icon">
             <!--<i class="fas fa-chevron-left"></i>-->
             <i class="fas fa-times"></i>
-        </router-link>
+        </div>
 
         <div v-if="popupMode"
              class="active-panel__button active-panel__button--back active-panel__button--icon"
@@ -39,12 +39,23 @@
             popupMode: {
                 type: Boolean,
                 default: false
+            },
+            navigate: {
+                type: Boolean,
+                default: true
             }
         },
 
         methods: {
             closePopup() {
                 this.$closePopup()
+            },
+
+            go() {
+                if (this.navigate)
+                    this.$router.push(this.backRoute)
+                else
+                    App.$emit('back')
             }
         }
     }
