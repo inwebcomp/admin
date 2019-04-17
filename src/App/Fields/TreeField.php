@@ -12,7 +12,7 @@ class TreeField extends Field
         parent::__construct($name, $attribute, $resolveCallback);
 
         $this->resolveUsing(function ($value, $model) {
-            if ($model instanceof \InWeb\Admin\App\Contracts\Nested and $model->isLeaf())
+            if ($model instanceof \App\Contracts\Nested and $model->isLeaf())
                 $this->withMeta(['leaf' => true]);
 
             return $value;
