@@ -919,6 +919,10 @@ a.button {
   min-width: auto;
 }
 
+.data-table__cell-type--image-field {
+  min-width: 42px;
+}
+
 .data-table__line td {
   border-top-width: 1px;
   border-color: #dae1e7;

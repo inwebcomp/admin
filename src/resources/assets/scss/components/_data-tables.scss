@@ -47,6 +47,9 @@ $data-table-titles-border: 1px solid $border-color;
 .data-table__cell-type--fast-actions-field {
     min-width: auto;
 }
+.data-table__cell-type--image-field {
+    min-width: 42px;
+}
 
 
 .data-table__line td {
