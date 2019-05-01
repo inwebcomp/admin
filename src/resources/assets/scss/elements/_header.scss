@@ -7,6 +7,7 @@
 	height: $header-height;
 	z-index: $z-index-menu;
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
     border-bottom: 1px solid $border-color;
 }
@@ -15,7 +16,7 @@
 	height: $header-height;
 	width: $sidebar-item-height + $sidebar-children-width;
     background-color: #191f2e;
-    margin-right: auto;
+    margin-right: $padding;
     text-align: center;
 }
 .header__sitename__link {

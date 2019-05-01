@@ -6,20 +6,25 @@ use App\Models\Entity;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
+use Illuminate\Http\Resources\DelegatesToResource;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InWeb\Admin\App\Fields\ID;
 use InWeb\Admin\App\FillsFields;
 use InWeb\Admin\App\Http\Requests\AdminRequest;
+use InWeb\Admin\App\PerformsQueries;
 use InWeb\Admin\App\PerformsValidation;
 use InWeb\Admin\App\ResolvesFields;
+use Laravel\Scout\Searchable;
 
 abstract class Resource
 {
     use ResolvesFields,
         FillsFields,
         PerformsValidation,
-        ConditionallyLoadsAttributes;
+        ConditionallyLoadsAttributes,
+        PerformsQueries,
+        DelegatesToResource;
     /**
      * The underlying model resource instance.
      *
@@ -44,6 +49,12 @@ abstract class Resource
      * @var bool
      */
     public static $globallySearchable = true;
+    /**
+     * The relationships that should be eager loaded when performing an index query.
+     *
+     * @var array
+     */
+    public static $with = [];
     /**
      * Indicates if the resoruce should be displayed in navigation.
      *
@@ -116,34 +127,6 @@ abstract class Resource
     public function creationFields(AdminRequest $request)
     {
         return $this->fields($request);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function query()
-    {
-        return $this->model()->newQuery();
-    }
-
-    /**
-     * @param AdminRequest $request
-     * @param Builder      $query
-     * @return Builder
-     */
-    public function indexQuery(AdminRequest $request, Builder $query)
-    {
-        return $query;
-    }
-
-    /**
-     * @param AdminRequest $request
-     * @param Builder      $query
-     * @return Builder
-     */
-    public function detailQuery(AdminRequest $request, Builder $query)
-    {
-        return $query;
     }
 
     /**
@@ -331,6 +314,16 @@ abstract class Resource
     public function serializeForCreate(AdminRequest $request)
     {
         return $this->serialize($this->resolveCreationFields($request));
+    }
+
+    /**
+     * Determine if this resource uses Laravel Scout.
+     *
+     * @return bool
+     */
+    public static function usesScout()
+    {
+        return in_array(Searchable::class, class_uses_recursive(static::newModel()));
     }
 
     public function editPath()

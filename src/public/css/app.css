@@ -553,7 +553,7 @@ body {
 
 #sidebar + #content {
   margin-left: 12.857rem;
-  margin-top: 3.571rem;
+  margin-top: 50px;
 }
 
 .button {
@@ -1846,31 +1846,66 @@ select {
   visibility: hidden;
 }
 
+.search {
+  margin-right: auto;
+  width: 360px;
+  position: relative;
+}
+
+.search__input {
+  width: 100%;
+}
+
+.search__option__text {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.search__option__title {
+  flex-basis: 100%;
+  font-weight: bold;
+}
+
+.search__option__subtitle {
+  color: #515255;
+  font-size: .85em;
+  margin-top: 2px;
+}
+
+.search__option__id {
+  color: #515255;
+  font-size: .85em;
+  margin-top: 2px;
+}
+
 .header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   background: #fff;
-  height: 3.571rem;
+  height: 50px;
   z-index: 78;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #e6e6e6;
 }
 
 .header__sitename {
-  height: 3.571rem;
+  height: 50px;
   width: 12.857rem;
   background-color: #191f2e;
-  margin-right: auto;
+  margin-right: 1rem;
   text-align: center;
 }
 
 .header__sitename__link {
   font-size: 18px;
   font-weight: 300;
-  line-height: 3.571rem;
+  line-height: 50px;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: #f9f9f9;
@@ -1881,9 +1916,9 @@ select {
 .header__translation,
 .header__settings,
 .header__exit {
-  width: 3.571rem;
-  height: 3.571rem;
-  line-height: 3.571rem;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
   text-align: center;
   display: block;
   font-weight: bold;
@@ -1920,8 +1955,8 @@ select {
 }
 
 .header__user {
-  height: 3.571rem;
-  line-height: 3.571rem;
+  height: 50px;
+  line-height: 50px;
   display: block;
   font-weight: bold;
   font-size: 1.071rem;
@@ -2112,7 +2147,7 @@ select {
   background-color: #191f2d;
   height: 100%;
   position: fixed;
-  top: 3.571rem;
+  top: 50px;
   left: 0;
   bottom: 0;
   font-size: 1rem;
@@ -2143,7 +2178,7 @@ select {
   background-color: #293045;
   height: 100%;
   position: fixed;
-  top: 3.571rem;
+  top: 50px;
   bottom: 0;
   display: none;
 }

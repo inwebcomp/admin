@@ -1,0 +1,35 @@
+.search {
+    margin-right: auto;
+    width: 360px;
+    position: relative;
+
+    &__input {
+        width: 100%;
+    }
+
+    &__option {
+        &__text {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+
+        &__title {
+            flex-basis: 100%;
+            font-weight: bold;
+        }
+
+        &__subtitle {
+            color: $font-color-secondary;
+            font-size: .85em;
+            margin-top: 2px;
+        }
+
+        &__id {
+            color: $font-color-secondary;
+            font-size: .85em;
+            margin-top: 2px;
+        }
+    }
+}

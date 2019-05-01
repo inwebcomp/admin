@@ -17,6 +17,8 @@ AdminRoute::api('\InWeb\Admin\App\Http\Controllers', function () {
     Route::put('{resource}/{resourceId}/update', 'ResourceUpdateController@handle')->name('resource.update');
     Route::delete('{resource}/destroy', 'ResourceDestroyController@handle')->name('resource.destroy');
 
+    Route::get('{resource}/search', 'SearchController@index')->name('resource.search');
+
     Route::group(['prefix' => 'field', 'namespace' => 'Fields'], function() {
         Route::group(['prefix' => 'tree-field'], function() {
             Route::get('tree/{resource}/{resourceId?}', 'TreeFieldController@tree');

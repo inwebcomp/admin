@@ -4,6 +4,8 @@
             <a target="_blank" href="/" class="header__sitename__link">{{ sitename }}</a>
         </div>
 
+        <search/>
+
         <div class="header__language">
 
         </div>
