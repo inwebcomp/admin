@@ -98,7 +98,7 @@ class Admin
      * Get the resources available for the given request.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
     public static function globallySearchableResources(Request $request)
     {
