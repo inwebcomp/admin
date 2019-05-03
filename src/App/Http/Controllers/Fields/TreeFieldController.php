@@ -12,7 +12,7 @@ class TreeFieldController extends Controller
 {
     public function tree(ResourceDetailRequest $request)
     {
-        $model = \App\Admin\Resources\Category::$model;
+        $model = $request->model();
 
         $item = $model::find($request->input('id'));
 
