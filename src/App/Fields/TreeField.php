@@ -18,4 +18,15 @@ class TreeField extends Field
             return $value;
         });
     }
+
+    /**
+     * Determine wich model sould be used for select list
+     *
+     * @param $model
+     * @return TreeField
+     */
+    public function list($model)
+    {
+        return $this->withMeta(['model' => $model]);
+    }
 }
