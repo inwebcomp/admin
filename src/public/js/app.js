@@ -3465,7 +3465,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       App.api.request({
         url: 'field/tree-field/tree/' + this.resourceName + '/' + this.resourceId,
         params: {
-          id: id
+          id: id,
+          model: this.field.model
         }
       }).then(function (_ref) {
         var tree = _ref.tree,

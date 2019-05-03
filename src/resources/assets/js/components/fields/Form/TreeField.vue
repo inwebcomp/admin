@@ -112,7 +112,8 @@
                 App.api.request({
                     url: 'field/tree-field/tree/' + this.resourceName + '/' + this.resourceId,
                     params: {
-                        id
+                        id,
+                        model: this.field.model
                     }
                 }).then(({tree, item}) => {
                     this.tree = tree
