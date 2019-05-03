@@ -15,7 +15,7 @@ Admin Panel for Laravel Framework
     ```
     composer require inweb/admin
     ```
-    or add to your composer.json to **autoload** section and update your dependencies
+    or add to your composer.json to **require** section and update your dependencies
     ```
     "inweb/admin": "*"
     ```
