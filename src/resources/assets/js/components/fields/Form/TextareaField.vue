@@ -30,7 +30,7 @@
             defaultAttributes() {
                 return {
                     rows: this.field.rows,
-                    class: this.errorClasses,
+                    class: this.errorClasses(),
                     placeholder: this.field.name,
                 }
             },

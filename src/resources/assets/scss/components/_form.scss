@@ -244,3 +244,29 @@ select {
 .fr-popup {
 	z-index: $z-index-side-up !important;
 }
+
+
+
+
+
+
+.form__group__translatable {
+	display: flex;
+
+	&__locale {
+		height: $input-height;
+		line-height: $input-height;
+		padding: 0 $padding / 2;
+		text-transform: uppercase;
+		font-size: rem(12px);
+		border-top-right-radius: $border-radius;
+		border-bottom-right-radius: $border-radius;
+		border: 1px solid $border-color;
+		border-left: 0;
+	}
+
+	.form__group__input {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+}

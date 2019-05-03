@@ -55,13 +55,26 @@ export default {
          */
         fill(formData) {
             let value = !(this.value === undefined || this.value === null)
-                    ? this.value
-                    : ''
+                ? this.value
+                : ''
 
             if (this.castArray) {
                 FormDataHelper.append(value, formData, this.field.attribute)
             } else {
-                formData.append(this.field.attribute, value)
+                if (this.field.translatable) {
+                    Object.keys(this.field.translatableValues).forEach(locale => {
+                        value = !(this.field.translatableValues[locale] === undefined || this.field.translatableValues[locale] === null)
+                            ? this.field.translatableValues[locale]
+                            : ''
+
+                        formData.append(
+                            this.field.attribute + (this.field.currentLocale == locale ? '' : ':' + locale),
+                            value
+                        )
+                    })
+                } else {
+                    formData.append(this.field.attribute, value)
+                }
             }
         },
 
@@ -71,5 +84,9 @@ export default {
         handleChange(value) {
             this.field.value = value
         },
+
+        translationAttribute(locale) {
+            return this.field.attribute + (this.field.currentLocale == locale ? '' : ':' + locale)
+        }
     },
 }

@@ -30,7 +30,6 @@
         watch: {
             loading(newValue) {
                 if (newValue) {
-                    console.log(this.$el.offsetWidth)
                     this.$el.style.width = this.$el.offsetWidth + 'px'
                 } else {
                     this.$el.style.width = null

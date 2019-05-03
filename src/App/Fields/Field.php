@@ -2,7 +2,9 @@
 
 namespace InWeb\Admin\App\Fields;
 
+use App\Models\Entity;
 use Closure;
+use Dimsav\Translatable\Translatable;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use InWeb\Admin\App\Contracts\Resolvable;
@@ -216,13 +218,30 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Resolve the given attribute from the given resource.
      *
-     * @param  mixed  $resource
+     * @param  Entity  $resource
      * @param  string $attribute
      * @param null    $default
      * @return mixed
      */
     protected function resolveAttribute($resource, $attribute, $default = null)
     {
+        if ($resource->translatable() && $resource->isTranslationAttribute($attribute)) {
+            $this->withMeta(['translatable' => true]);
+
+            /** @var Translatable $resource */
+            $values = [];
+            $locales = config('translatable.locales');
+            array_unshift($locales, \App::getLocale());
+            $locales = array_unique($locales);
+
+            foreach ($locales as $locale) {
+                $values[$locale] = optional($resource->translate($locale))->getOriginal($attribute) ?? $default;
+            }
+
+            $this->withMeta(['translatableValues' => $values]);
+            $this->withMeta(['currentLocale' => \App::getLocale()]);
+        }
+
         if ($this->original)
             return $resource->getOriginal($attribute) ?? $default;
 
@@ -342,6 +361,19 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     {
         if ($request->exists($requestAttribute)) {
             $model->{$attribute} = $request[$requestAttribute];
+
+            if ($model->translatable() and $model->isTranslationAttribute($attribute)) {
+                foreach (config('translatable.locales') as $locale) {
+                    if ($locale == config('app.locale'))
+                        continue;
+
+                    $translationAttribute = $requestAttribute . ':' . $locale;
+
+                    if ($request->exists($translationAttribute)) {
+                        $model->{$translationAttribute} = $request[$translationAttribute];
+                    }
+                }
+            }
         }
     }
 
@@ -379,11 +411,27 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      */
     public function getRules(AdminRequest $request)
     {
-        return [
-            $this->attribute => is_callable($this->rules)
-                ? call_user_func($this->rules, $request)
-                : $this->rules,
+        $rules = is_callable($this->rules) ? call_user_func($this->rules, $request) : $this->rules;
+
+        $result = [
+            $this->attribute => $rules,
         ];
+
+        /** @var Entity $model */
+        $model = $request->model();
+
+        if ($model->translatable() and $model->isTranslationAttribute($this->attribute)) {
+            foreach (config('translatable.locales') as $locale) {
+                if ($locale == config('app.locale'))
+                    continue;
+
+                $translationAttribute = $this->attribute . ':' . $locale;
+
+                $result[$translationAttribute] = $rules;
+            }
+        }
+
+        return $result;
     }
 
     /**

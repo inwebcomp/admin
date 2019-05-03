@@ -1,12 +1,26 @@
 <template>
     <default-field :field="field" :errors="errors" :inline="inline" v-bind="other">
         <template slot="field" v-if="! field.sections">
-            <froala :tag="'textarea'"
-                    :config="config"
-                    :id="field.attribute"
-                    :value="value"
-                    @input="$emit('input', $event)"
-                    v-bind="extraAttributes"/>
+            <template v-if="! field.translatable">
+                <froala :tag="'textarea'"
+                        :config="config"
+                        :id="field.attribute"
+                        :value="value"
+                        @input="$emit('input', $event)"
+                        v-bind="extraAttributes"/>
+            </template>
+            <template v-if="field.translatable">
+                <div class="form__group__translatable mb-4" v-for="(translatableValue, locale) in field.translatableValues">
+                    <froala :tag="'textarea'"
+                            :config="config"
+                            :id="field.attribute"
+                            v-model="field.translatableValues[locale]"
+                            @input="$emit('input', $event)"
+                            v-bind="extraAttributes"
+                            :class="errorClasses(translationAttribute(locale))"/>
+                    <div class="form__group__translatable__locale" :class="errorClasses(translationAttribute(locale))">{{ locale }}</div>
+                </div>
+            </template>
         </template>
         <template slot="field" v-if="field.sections">
             <div class="field__editor__section mb-4" v-for="(section, $i) in value">
@@ -71,7 +85,7 @@
             defaultAttributes() {
                 return {
                     rows: this.field.rows,
-                    class: this.errorClasses,
+                    class: this.errorClasses(),
                     placeholder: this.field.name,
                 }
             },

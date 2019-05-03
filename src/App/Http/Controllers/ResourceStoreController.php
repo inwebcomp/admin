@@ -13,7 +13,7 @@ class ResourceStoreController extends Controller
     {
         $resource = $request->newResource();
 
-        $resource::validatorForCreation($request);
+        $resource::validateForCreation($request);
 
         $model = DB::transaction(function () use ($request, $resource) {
             $model = $request->model();
