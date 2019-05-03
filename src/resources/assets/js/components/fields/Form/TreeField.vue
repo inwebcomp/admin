@@ -57,7 +57,7 @@
                     step: this.field.step,
                     pattern: this.field.pattern,
                     placeholder: this.field.placeholder || this.field.name,
-                    class: this.errorClasses,
+                    class: this.errorClasses(),
                 }
             },
 

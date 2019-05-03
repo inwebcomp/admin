@@ -1790,7 +1790,6 @@ __webpack_require__.r(__webpack_exports__);
   watch: {
     loading: function loading(newValue) {
       if (newValue) {
-        console.log(this.$el.offsetWidth);
         this.$el.style.width = this.$el.offsetWidth + 'px';
       } else {
         this.$el.style.width = null;
@@ -2966,7 +2965,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: {
     defaultAttributes: function defaultAttributes() {
       return {
-        class: this.errorClasses
+        class: this.errorClasses()
       };
     },
     extraAttributes: function extraAttributes() {
@@ -3130,6 +3129,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3154,7 +3167,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     defaultAttributes: function defaultAttributes() {
       return {
         rows: this.field.rows,
-        class: this.errorClasses,
+        class: this.errorClasses(),
         placeholder: this.field.name
       };
     },
@@ -3268,10 +3281,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_mixins_HandlesValidationErrors__WEBPACK_IMPORTED_MODULE_0__["default"], _mixins_FormField__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  mixins: [_mixins_FormField__WEBPACK_IMPORTED_MODULE_1__["default"], _mixins_HandlesValidationErrors__WEBPACK_IMPORTED_MODULE_0__["default"]],
   computed: {
     defaultAttributes: function defaultAttributes() {
       return {
@@ -3280,8 +3309,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         max: this.field.max,
         step: this.field.step,
         pattern: this.field.pattern,
-        placeholder: this.field.placeholder,
-        class: this.errorClasses
+        placeholder: this.field.placeholder
       };
     },
     extraAttributes: function extraAttributes() {
@@ -3338,7 +3366,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     defaultAttributes: function defaultAttributes() {
       return {
         rows: this.field.rows,
-        class: this.errorClasses,
+        class: this.errorClasses(),
         placeholder: this.field.name
       };
     },
@@ -3421,7 +3449,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         step: this.field.step,
         pattern: this.field.pattern,
         placeholder: this.field.placeholder || this.field.name,
-        class: this.errorClasses
+        class: this.errorClasses()
       };
     },
     extraAttributes: function extraAttributes() {
@@ -29305,7 +29333,7 @@ var render = function() {
                 { staticClass: "form__group__error mt-2 text-danger" },
                 [
                   _vm._v(
-                    "\n            " + _vm._s(_vm.firstError) + "\n        "
+                    "\n            " + _vm._s(_vm.firstError()) + "\n        "
                   )
                 ]
               )
@@ -29359,29 +29387,93 @@ var render = function() {
             "template",
             { slot: "field" },
             [
-              _c(
-                "froala",
-                _vm._b(
-                  {
-                    attrs: {
-                      tag: "textarea",
-                      config: _vm.config,
-                      id: _vm.field.attribute,
-                      value: _vm.value
-                    },
-                    on: {
-                      input: function($event) {
-                        _vm.$emit("input", $event)
-                      }
-                    }
-                  },
-                  "froala",
-                  _vm.extraAttributes,
-                  false
-                )
-              )
+              !_vm.field.translatable
+                ? [
+                    _c(
+                      "froala",
+                      _vm._b(
+                        {
+                          attrs: {
+                            tag: "textarea",
+                            config: _vm.config,
+                            id: _vm.field.attribute,
+                            value: _vm.value
+                          },
+                          on: {
+                            input: function($event) {
+                              _vm.$emit("input", $event)
+                            }
+                          }
+                        },
+                        "froala",
+                        _vm.extraAttributes,
+                        false
+                      )
+                    )
+                  ]
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.field.translatable
+                ? _vm._l(_vm.field.translatableValues, function(
+                    translatableValue,
+                    locale
+                  ) {
+                    return _c(
+                      "div",
+                      { staticClass: "form__group__translatable mb-4" },
+                      [
+                        _c(
+                          "froala",
+                          _vm._b(
+                            {
+                              class: _vm.errorClasses(
+                                _vm.translationAttribute(locale)
+                              ),
+                              attrs: {
+                                tag: "textarea",
+                                config: _vm.config,
+                                id: _vm.field.attribute
+                              },
+                              on: {
+                                input: function($event) {
+                                  _vm.$emit("input", $event)
+                                }
+                              },
+                              model: {
+                                value: _vm.field.translatableValues[locale],
+                                callback: function($$v) {
+                                  _vm.$set(
+                                    _vm.field.translatableValues,
+                                    locale,
+                                    $$v
+                                  )
+                                },
+                                expression: "field.translatableValues[locale]"
+                              }
+                            },
+                            "froala",
+                            _vm.extraAttributes,
+                            false
+                          )
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "form__group__translatable__locale",
+                            class: _vm.errorClasses(
+                              _vm.translationAttribute(locale)
+                            )
+                          },
+                          [_vm._v(_vm._s(locale))]
+                        )
+                      ],
+                      1
+                    )
+                  })
+                : _vm._e()
             ],
-            1
+            2
           )
         : _vm._e(),
       _vm._v(" "),
@@ -29548,26 +29640,229 @@ var render = function() {
       false
     ),
     [
-      _c("template", { slot: "field" }, [
-        _c(
-          "input",
-          _vm._b(
-            {
-              staticClass: "w-full form__group__input",
-              attrs: { id: _vm.field.attribute },
-              domProps: { value: _vm.value },
-              on: {
-                input: function($event) {
-                  _vm.$emit("input", $event.target.value)
-                }
-              }
-            },
-            "input",
-            _vm.extraAttributes,
-            false
-          )
-        )
-      ])
+      _c(
+        "template",
+        { slot: "field" },
+        [
+          !_vm.field.translatable
+            ? [
+                _c(
+                  "input",
+                  _vm._b(
+                    {
+                      staticClass: "w-full form__group__input",
+                      class: _vm.errorClasses(),
+                      attrs: { id: _vm.field.attribute },
+                      domProps: { value: _vm.value },
+                      on: {
+                        input: function($event) {
+                          _vm.$emit("input", $event.target.value)
+                        }
+                      }
+                    },
+                    "input",
+                    _vm.extraAttributes,
+                    false
+                  )
+                )
+              ]
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.field.translatable
+            ? _vm._l(_vm.field.translatableValues, function(
+                translatableValue,
+                locale
+              ) {
+                return _c(
+                  "div",
+                  { staticClass: "form__group__translatable mb-2" },
+                  [
+                    _vm.extraAttributes.type === "checkbox"
+                      ? _c(
+                          "input",
+                          _vm._b(
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.field.translatableValues[locale],
+                                  expression: "field.translatableValues[locale]"
+                                }
+                              ],
+                              staticClass: "w-full form__group__input",
+                              class: _vm.errorClasses(
+                                _vm.translationAttribute(locale)
+                              ),
+                              attrs: {
+                                id: _vm.field.attribute + ":" + locale,
+                                type: "checkbox"
+                              },
+                              domProps: {
+                                checked: Array.isArray(
+                                  _vm.field.translatableValues[locale]
+                                )
+                                  ? _vm._i(
+                                      _vm.field.translatableValues[locale],
+                                      null
+                                    ) > -1
+                                  : _vm.field.translatableValues[locale]
+                              },
+                              on: {
+                                input: function($event) {
+                                  _vm.$emit("input", _vm.value)
+                                },
+                                change: function($event) {
+                                  var $$a =
+                                      _vm.field.translatableValues[locale],
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = null,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        _vm.$set(
+                                          _vm.field.translatableValues,
+                                          locale,
+                                          $$a.concat([$$v])
+                                        )
+                                    } else {
+                                      $$i > -1 &&
+                                        _vm.$set(
+                                          _vm.field.translatableValues,
+                                          locale,
+                                          $$a
+                                            .slice(0, $$i)
+                                            .concat($$a.slice($$i + 1))
+                                        )
+                                    }
+                                  } else {
+                                    _vm.$set(
+                                      _vm.field.translatableValues,
+                                      locale,
+                                      $$c
+                                    )
+                                  }
+                                }
+                              }
+                            },
+                            "input",
+                            _vm.extraAttributes,
+                            false
+                          )
+                        )
+                      : _vm.extraAttributes.type === "radio"
+                        ? _c(
+                            "input",
+                            _vm._b(
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.field.translatableValues[locale],
+                                    expression:
+                                      "field.translatableValues[locale]"
+                                  }
+                                ],
+                                staticClass: "w-full form__group__input",
+                                class: _vm.errorClasses(
+                                  _vm.translationAttribute(locale)
+                                ),
+                                attrs: {
+                                  id: _vm.field.attribute + ":" + locale,
+                                  type: "radio"
+                                },
+                                domProps: {
+                                  checked: _vm._q(
+                                    _vm.field.translatableValues[locale],
+                                    null
+                                  )
+                                },
+                                on: {
+                                  input: function($event) {
+                                    _vm.$emit("input", _vm.value)
+                                  },
+                                  change: function($event) {
+                                    _vm.$set(
+                                      _vm.field.translatableValues,
+                                      locale,
+                                      null
+                                    )
+                                  }
+                                }
+                              },
+                              "input",
+                              _vm.extraAttributes,
+                              false
+                            )
+                          )
+                        : _c(
+                            "input",
+                            _vm._b(
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.field.translatableValues[locale],
+                                    expression:
+                                      "field.translatableValues[locale]"
+                                  }
+                                ],
+                                staticClass: "w-full form__group__input",
+                                class: _vm.errorClasses(
+                                  _vm.translationAttribute(locale)
+                                ),
+                                attrs: {
+                                  id: _vm.field.attribute + ":" + locale,
+                                  type: _vm.extraAttributes.type
+                                },
+                                domProps: {
+                                  value: _vm.field.translatableValues[locale]
+                                },
+                                on: {
+                                  input: [
+                                    function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.field.translatableValues,
+                                        locale,
+                                        $event.target.value
+                                      )
+                                    },
+                                    function($event) {
+                                      _vm.$emit("input", _vm.value)
+                                    }
+                                  ]
+                                }
+                              },
+                              "input",
+                              _vm.extraAttributes,
+                              false
+                            )
+                          ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "form__group__translatable__locale",
+                        class: _vm.errorClasses(
+                          _vm.translationAttribute(locale)
+                        )
+                      },
+                      [_vm._v(_vm._s(locale))]
+                    )
+                  ]
+                )
+              })
+            : _vm._e()
+        ],
+        2
+      )
     ],
     2
   )
@@ -50176,12 +50471,21 @@ __webpack_require__.r(__webpack_exports__);
      * field's internal value attribute
      */
     fill: function fill(formData) {
+      var _this2 = this;
+
       var value = !(this.value === undefined || this.value === null) ? this.value : '';
 
       if (this.castArray) {
         _js_services_FormDataHelper__WEBPACK_IMPORTED_MODULE_0__["default"].append(value, formData, this.field.attribute);
       } else {
-        formData.append(this.field.attribute, value);
+        if (this.field.translatable) {
+          Object.keys(this.field.translatableValues).forEach(function (locale) {
+            value = !(_this2.field.translatableValues[locale] === undefined || _this2.field.translatableValues[locale] === null) ? _this2.field.translatableValues[locale] : '';
+            formData.append(_this2.field.attribute + (_this2.field.currentLocale == locale ? '' : ':' + locale), value);
+          });
+        } else {
+          formData.append(this.field.attribute, value);
+        }
       }
     },
 
@@ -50190,6 +50494,9 @@ __webpack_require__.r(__webpack_exports__);
      */
     handleChange: function handleChange(value) {
       this.field.value = value;
+    },
+    translationAttribute: function translationAttribute(locale) {
+      return this.field.attribute + (this.field.currentLocale == locale ? '' : ':' + locale);
     }
   }
 });
@@ -50222,19 +50529,42 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
-    errorClasses: function errorClasses() {
-      return this.hasError ? [this.errorClass] : [];
-    },
     fieldAttribute: function fieldAttribute() {
       return this.field.attribute;
+    }
+  },
+  methods: {
+    errorClasses: function errorClasses() {
+      var attribute = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      return this.hasError(attribute) ? [this.errorClass] : [];
     },
     hasError: function hasError() {
-      return this.errors.has(this.fieldAttribute);
+      var attribute = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      return this.errors.has(attribute ? attribute : this.fieldAttribute);
     },
     firstError: function firstError() {
-      if (this.hasError) {
-        return this.errors.first(this.fieldAttribute);
+      var _this = this;
+
+      var attribute = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+      if (this.field.translatable) {
+        var error = null;
+        Object.keys(this.field.translatableValues).forEach(function (locale) {
+          var value = _this.errors.first(_this.translationAttribute(locale));
+
+          if (value) {
+            error = value;
+          }
+        });
+        return error;
+      } else {
+        if (this.hasError(attribute)) {
+          return this.errors.first(attribute ? attribute : this.fieldAttribute);
+        }
       }
+    },
+    translationAttribute: function translationAttribute(locale) {
+      return this.field.attribute + (this.field.currentLocale == locale ? '' : ':' + locale);
     }
   }
 });

@@ -1421,6 +1421,27 @@ select {
   z-index: 81 !important;
 }
 
+.form__group__translatable {
+  display: flex;
+}
+
+.form__group__translatable__locale {
+  height: 3rem;
+  line-height: 3rem;
+  padding: 0 .5rem;
+  text-transform: uppercase;
+  font-size: .857rem;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border: 1px solid #e6e6e6;
+  border-left: 0;
+}
+
+.form__group__translatable .form__group__input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
 .active-panel {
   background-color: #5a69c6;
   margin: 0 0 -3.571rem;

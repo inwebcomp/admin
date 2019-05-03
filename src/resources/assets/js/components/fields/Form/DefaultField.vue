@@ -9,7 +9,7 @@
             <slot name="field" />
 
             <help-text class="form__group__error mt-2 text-danger" v-if="hasError && showErrors">
-                {{ firstError }}
+                {{ firstError() }}
             </help-text>
 
             <help-text class="help-text mt-2" v-if="showHelpText && field.helpText">{{ field.helpText }}</help-text>

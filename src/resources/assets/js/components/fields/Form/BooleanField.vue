@@ -29,7 +29,7 @@
         computed: {
             defaultAttributes() {
                 return {
-                    class: this.errorClasses,
+                    class: this.errorClasses(),
                 }
             },
 

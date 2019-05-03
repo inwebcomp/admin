@@ -56,7 +56,7 @@ trait ResolvesFields
      */
     public function resolveCreationFields(AdminRequest $request)
     {
-        return $this->removeNonUpdateFields($this->availableFields($request));
+        return $this->removeNonUpdateFields($this->resolveFields($request));
     }
 
     /**
