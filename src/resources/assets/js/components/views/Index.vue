@@ -6,6 +6,7 @@
                     :resources="resources"
                     :loading="loading"
                     @input="resources = $event"
+                    :sortable="sortable"
                     @sort="savePositions"></data-table>
 
         <floating-panel>
@@ -49,6 +50,9 @@
         computed: {
             isNested() {
                 return this.breadcrumbs && this.breadcrumbs.length
+            },
+            sortable() {
+                return this.$store.state.resource.info.positionable
             }
         },
 

@@ -2,7 +2,6 @@
 
 namespace InWeb\Admin\App\Http\Controllers;
 
-use App\Models\Category;
 use Illuminate\Pagination\Paginator;
 use InWeb\Admin\App\Contracts\Nested;
 use InWeb\Admin\App\Http\Requests\ResourceIndexRequest;

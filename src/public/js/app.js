@@ -4060,8 +4060,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 
@@ -4090,13 +4088,20 @@ __webpack_require__.r(__webpack_exports__);
     },
     sortable: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
   data: function data() {
     return {
-      drag: false,
-      dragOptions: {
+      drag: false
+    };
+  },
+  computed: {
+    fields: function fields() {
+      return this.resources[0].fields;
+    },
+    dragOptions: function dragOptions() {
+      return {
         disabled: !this.sortable,
         delay: 0,
         touchStartThreshold: 0,
@@ -4105,12 +4110,7 @@ __webpack_require__.r(__webpack_exports__);
         ghostClass: "ghost",
         handle: ".handle",
         dragClass: "sortable-drag"
-      }
-    };
-  },
-  computed: {
-    fields: function fields() {
-      return this.resources[0].fields;
+      };
     }
   },
   methods: {
@@ -4316,6 +4316,27 @@ __webpack_require__.r(__webpack_exports__);
       });else App.$emit('back');
     }
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/components/tables/TableSortHandle.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/components/tables/TableSortHandle.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "table-sort-handle"
 });
 
 /***/ }),
@@ -4869,6 +4890,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "index",
@@ -4896,6 +4918,9 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     isNested: function isNested() {
       return this.breadcrumbs && this.breadcrumbs.length;
+    },
+    sortable: function sortable() {
+      return this.$store.state.resource.info.positionable;
     }
   },
   created: function created() {
@@ -30806,7 +30831,7 @@ var render = function() {
                   "tr",
                   { staticClass: "data-table__header" },
                   [
-                    _c("td"),
+                    _vm.sortable ? _c("td") : _vm._e(),
                     _vm._v(" "),
                     _c("table-checkbox", { attrs: { all: true } }),
                     _vm._v(" "),
@@ -30847,14 +30872,7 @@ var render = function() {
                     "tr",
                     { key: $n, staticClass: "data-table__line" },
                     [
-                      _c(
-                        "td",
-                        {
-                          staticClass:
-                            "py-4 px-6 border-b border-grey-light cursor-move handle text-grey w-1 select-none"
-                        },
-                        [_c("i", { staticClass: "icon icon--handle" })]
-                      ),
+                      _vm.sortable ? _c("table-sort-handle") : _vm._e(),
                       _vm._v(" "),
                       _c("table-checkbox"),
                       _vm._v(" "),
@@ -31148,6 +31166,44 @@ var render = function() {
   )
 }
 var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/components/tables/TableSortHandle.vue?vue&type=template&id=7d828076&":
+/*!************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/components/tables/TableSortHandle.vue?vue&type=template&id=7d828076& ***!
+  \************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "td",
+      {
+        staticClass:
+          "data-table__handle py-4 px-6 cursor-move handle text-grey w-1 select-none"
+      },
+      [_c("i", { staticClass: "icon icon--handle" })]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -31453,7 +31509,11 @@ var render = function() {
       _vm._v(" "),
       _c("data-table", {
         staticClass: "floating-panel__padding",
-        attrs: { resources: _vm.resources, loading: _vm.loading },
+        attrs: {
+          resources: _vm.resources,
+          loading: _vm.loading,
+          sortable: _vm.sortable
+        },
         on: {
           input: function($event) {
             _vm.resources = $event
@@ -46951,6 +47011,7 @@ var map = {
 	"./tables/TableCheckbox.vue": "./src/resources/assets/js/components/tables/TableCheckbox.vue",
 	"./tables/TableHeading.vue": "./src/resources/assets/js/components/tables/TableHeading.vue",
 	"./tables/TableParams.vue": "./src/resources/assets/js/components/tables/TableParams.vue",
+	"./tables/TableSortHandle.vue": "./src/resources/assets/js/components/tables/TableSortHandle.vue",
 	"./tables/TableValue.vue": "./src/resources/assets/js/components/tables/TableValue.vue",
 	"./views/Create.vue": "./src/resources/assets/js/components/views/Create.vue",
 	"./views/Edit.vue": "./src/resources/assets/js/components/views/Edit.vue",
@@ -50163,6 +50224,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TableParams_vue_vue_type_template_id_33c676d4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TableParams_vue_vue_type_template_id_33c676d4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./src/resources/assets/js/components/tables/TableSortHandle.vue":
+/*!***********************************************************************!*\
+  !*** ./src/resources/assets/js/components/tables/TableSortHandle.vue ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TableSortHandle_vue_vue_type_template_id_7d828076___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TableSortHandle.vue?vue&type=template&id=7d828076& */ "./src/resources/assets/js/components/tables/TableSortHandle.vue?vue&type=template&id=7d828076&");
+/* harmony import */ var _TableSortHandle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TableSortHandle.vue?vue&type=script&lang=js& */ "./src/resources/assets/js/components/tables/TableSortHandle.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _TableSortHandle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TableSortHandle_vue_vue_type_template_id_7d828076___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TableSortHandle_vue_vue_type_template_id_7d828076___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "src/resources/assets/js/components/tables/TableSortHandle.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./src/resources/assets/js/components/tables/TableSortHandle.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************!*\
+  !*** ./src/resources/assets/js/components/tables/TableSortHandle.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TableSortHandle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./TableSortHandle.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/components/tables/TableSortHandle.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TableSortHandle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./src/resources/assets/js/components/tables/TableSortHandle.vue?vue&type=template&id=7d828076&":
+/*!******************************************************************************************************!*\
+  !*** ./src/resources/assets/js/components/tables/TableSortHandle.vue?vue&type=template&id=7d828076& ***!
+  \******************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TableSortHandle_vue_vue_type_template_id_7d828076___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./TableSortHandle.vue?vue&type=template&id=7d828076& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/components/tables/TableSortHandle.vue?vue&type=template&id=7d828076&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TableSortHandle_vue_vue_type_template_id_7d828076___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TableSortHandle_vue_vue_type_template_id_7d828076___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
