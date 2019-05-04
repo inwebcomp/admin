@@ -41,13 +41,13 @@
 </template>
 
 <script>
-    import draggable from "vuedraggable"
+    import Draggable from "vuedraggable"
 
     export default {
         name: "EditableList",
 
         components: {
-            draggable
+            Draggable
         },
 
         data() {
