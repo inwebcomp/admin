@@ -11,6 +11,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class AdminRequest extends FormRequest
 {
     use InteractsWithResources;
+    use InteractsWithTranslations;
 
     /**
      * @param null $attributes
