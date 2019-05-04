@@ -5,6 +5,7 @@ namespace InWeb\Admin\App\Fields;
 use App\Models\Entity;
 use Closure;
 use Dimsav\Translatable\Translatable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use InWeb\Admin\App\Contracts\Resolvable;
@@ -369,8 +370,12 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
 
                     $translationAttribute = $requestAttribute . ':' . $locale;
 
-                    if ($request->exists($translationAttribute)) {
-                        $model->{$translationAttribute} = $request[$translationAttribute];
+                    if ($request->withTranslations($locale)) {
+                        if ($request->exists($translationAttribute)) {
+                            $model->{$translationAttribute} = $request[$translationAttribute];
+                        }
+                    } else if ($model->getTranslation($locale)) {
+                        $model->deleteTranslations($locale);
                     }
                 }
             }
@@ -418,15 +423,29 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
         ];
 
         /** @var Entity $model */
-        $model = $request->model();
+        try {
+            $model = $request->findModelOrFail();
+        } catch (ModelNotFoundException $ex) {
+            $model = $request->model();
+        }
 
         if ($model->translatable() and $model->isTranslationAttribute($this->attribute)) {
+            /** @var Translatable $model */
+
             foreach (config('translatable.locales') as $locale) {
                 if ($locale == config('app.locale'))
                     continue;
 
-                $translationAttribute = $this->attribute . ':' . $locale;
+                if (! $request->withTranslations($locale)) {
+                    foreach ($rules as $key => $rule) {
+                        if ($rule == 'required') {
+                            unset($rules[$key]);
+                            break;
+                        }
+                    }
+                }
 
+                $translationAttribute = $this->attribute . ':' . $locale;
                 $result[$translationAttribute] = $rules;
             }
         }
