@@ -3,7 +3,7 @@
         <table class="data-table bg-white" v-if="resources.length">
             <thead>
             <tr class="data-table__header">
-                <td></td>
+                <td v-if="sortable"></td>
                 <table-checkbox :all="true"></table-checkbox>
                 <table-heading v-for="(field, $i) of fields" :key="$i" :field="field">{{ field.indexName }}</table-heading>
             </tr>
@@ -17,11 +17,9 @@
                        @end="dragEnd">
 
                 <tr class="data-table__line" v-for="(resource, $n) of resources" :key="$n">
-                    <td class="py-4 px-6 border-b border-grey-light cursor-move handle text-grey w-1 select-none">
-                        <i class="icon icon--handle"></i>
-                    </td>
+                    <table-sort-handle v-if="sortable"/>
 
-                    <table-checkbox></table-checkbox>
+                    <table-checkbox/>
 
                     <template v-for="(field, $i) of resource.fields">
                         <table-value :field="field" :resourceId="resource.id.value">
@@ -74,15 +72,24 @@
             },
             sortable: {
                 type: Boolean,
-                default: true
+                default: false
             }
         },
 
         data() {
             return {
                 drag: false,
-                dragOptions: {
-                    disabled: ! this.sortable,
+            }
+        },
+
+        computed: {
+            fields() {
+                return this.resources[0].fields
+            },
+
+            dragOptions() {
+                return {
+                    disabled: !this.sortable,
                     delay: 0,
                     touchStartThreshold: 0,
                     forceFallback: true,
@@ -91,12 +98,6 @@
                     handle: ".handle",
                     dragClass: "sortable-drag",
                 }
-            }
-        },
-
-        computed: {
-            fields() {
-                return this.resources[0].fields
             }
         },
 

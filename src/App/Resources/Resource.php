@@ -340,6 +340,7 @@ abstract class Resource
             'searchable'    => static::searchable(),
             'inline'        => static::$inline,
             'position'      => static::position(),
+            'positionable'  => (new static)->model()->positionable(),
         ];
     }
 }
