@@ -2,9 +2,11 @@
 
 namespace InWeb\Admin\App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Pagination\Paginator;
 use InWeb\Admin\App\Contracts\Nested;
 use InWeb\Admin\App\Http\Requests\ResourceIndexRequest;
+use InWeb\Admin\App\Models\Entity;
 use InWeb\Admin\App\Parameters;
 
 class ResourceIndexController extends Controller
@@ -37,6 +39,7 @@ class ResourceIndexController extends Controller
     {
         $res = new $resource;
         $query = $res->query();
+        /** @var Entity $model */
         $model = $res->model();
 
         // @todo Refactor this
@@ -52,6 +55,9 @@ class ResourceIndexController extends Controller
 
         if ($model->translatable())
             $query->withTranslation();
+
+        if ($model->positionable())
+            $query->ordered();
 
         $page = Parameters::remember($request, $resource, 'page');
 

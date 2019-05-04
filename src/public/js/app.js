@@ -2140,7 +2140,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "EditableList",
   components: {
-    draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_0___default.a
+    Draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_0___default.a
   },
   data: function data() {
     return {
@@ -4016,6 +4016,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_tables_NoDataFound__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~components/tables/NoDataFound */ "./src/resources/assets/js/components/tables/NoDataFound.vue");
 /* harmony import */ var _DataTableLoading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./DataTableLoading */ "./src/resources/assets/js/components/tables/DataTableLoading.vue");
 /* harmony import */ var _js_components_tables_TableHeading__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ~js/components/tables/TableHeading */ "./src/resources/assets/js/components/tables/TableHeading.vue");
+/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.umd.min.js");
+/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_5__);
 //
 //
 //
@@ -4048,6 +4050,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -4059,7 +4074,8 @@ __webpack_require__.r(__webpack_exports__);
     DataTableLoading: _DataTableLoading__WEBPACK_IMPORTED_MODULE_3__["default"],
     NoDataFound: _components_tables_NoDataFound__WEBPACK_IMPORTED_MODULE_2__["default"],
     TableValue: _components_tables_TableValue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    TableCheckbox: _components_tables_TableCheckbox__WEBPACK_IMPORTED_MODULE_0__["default"]
+    TableCheckbox: _components_tables_TableCheckbox__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_5___default.a
   },
   name: "data-table",
   props: {
@@ -4071,7 +4087,26 @@ __webpack_require__.r(__webpack_exports__);
     loading: {
       type: Boolean,
       default: true
+    },
+    sortable: {
+      type: Boolean,
+      default: true
     }
+  },
+  data: function data() {
+    return {
+      drag: false,
+      dragOptions: {
+        disabled: !this.sortable,
+        delay: 0,
+        touchStartThreshold: 0,
+        forceFallback: true,
+        animation: 150,
+        ghostClass: "ghost",
+        handle: ".handle",
+        dragClass: "sortable-drag"
+      }
+    };
   },
   computed: {
     fields: function fields() {
@@ -4086,6 +4121,10 @@ __webpack_require__.r(__webpack_exports__);
 
       args.unshift(this.controller);
       return '/' + args.join('/');
+    },
+    dragEnd: function dragEnd() {
+      this.drag = false;
+      this.$emit('sort');
     }
   }
 });
@@ -4826,6 +4865,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "index",
@@ -4833,6 +4876,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       resources: [],
+      positions: [],
       pagination: {},
       breadcrumbs: [],
       loading: {
@@ -4912,6 +4956,32 @@ __webpack_require__.r(__webpack_exports__);
         _this2.pagination = pagination;
         _this2.breadcrumbs = breadcrumbs;
         _this2.loading = false;
+        _this2.positions = [];
+
+        _this2.resources.forEach(function (item) {
+          _this2.positions.push(item.id.position);
+        });
+      });
+    },
+    savePositions: function savePositions() {
+      var _this3 = this;
+
+      _js_api__WEBPACK_IMPORTED_MODULE_0__["default"].request({
+        method: 'PUT',
+        controller: this.controller,
+        action: 'positions',
+        data: {
+          items: this.resources.map(function (item) {
+            return item.id.value;
+          }),
+          positions: this.positions
+        }
+      }).then(function () {
+        App.$emit('positionsUpdated');
+
+        _this3.$toasted.show(_this3.__('Positions was updated!'), {
+          type: 'success'
+        });
       });
     }
   }
@@ -30727,66 +30797,99 @@ var render = function() {
     },
     [
       _vm.resources.length
-        ? _c("table", { staticClass: "data-table bg-white" }, [
-            _c("thead", [
-              _c(
-                "tr",
-                { staticClass: "data-table__header" },
-                [
-                  _c("table-checkbox", { attrs: { all: true } }),
-                  _vm._v(" "),
-                  _vm._l(_vm.fields, function(field, $i) {
-                    return _c(
-                      "table-heading",
-                      { key: $i, attrs: { field: field } },
-                      [_vm._v(_vm._s(field.indexName))]
-                    )
-                  })
-                ],
-                2
-              )
-            ]),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              { staticClass: "data-table__body" },
-              _vm._l(_vm.resources, function(resource, $n) {
-                return _c(
+        ? _c(
+            "table",
+            { staticClass: "data-table bg-white" },
+            [
+              _c("thead", [
+                _c(
                   "tr",
-                  { key: $n, staticClass: "data-table__line" },
+                  { staticClass: "data-table__header" },
                   [
-                    _c("table-checkbox"),
+                    _c("td"),
                     _vm._v(" "),
-                    _vm._l(resource.fields, function(field, $i) {
-                      return [
-                        _c(
-                          "table-value",
-                          {
-                            attrs: {
-                              field: field,
-                              resourceId: resource.id.value
-                            }
-                          },
-                          [
-                            _c("index-" + field.component, {
-                              tag: "component",
-                              attrs: {
-                                field: field,
-                                resourceId: resource.id.value
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ]
+                    _c("table-checkbox", { attrs: { all: true } }),
+                    _vm._v(" "),
+                    _vm._l(_vm.fields, function(field, $i) {
+                      return _c(
+                        "table-heading",
+                        { key: $i, attrs: { field: field } },
+                        [_vm._v(_vm._s(field.indexName))]
+                      )
                     })
                   ],
                   2
                 )
-              }),
-              0
-            )
-          ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "draggable",
+                _vm._b(
+                  {
+                    staticClass: "data-table__body",
+                    attrs: { value: _vm.resources, tag: "tbody" },
+                    on: {
+                      input: function($event) {
+                        _vm.$emit("input", $event)
+                      },
+                      start: function($event) {
+                        _vm.drag = true
+                      },
+                      end: _vm.dragEnd
+                    }
+                  },
+                  "draggable",
+                  _vm.dragOptions,
+                  false
+                ),
+                _vm._l(_vm.resources, function(resource, $n) {
+                  return _c(
+                    "tr",
+                    { key: $n, staticClass: "data-table__line" },
+                    [
+                      _c(
+                        "td",
+                        {
+                          staticClass:
+                            "py-4 px-6 border-b border-grey-light cursor-move handle text-grey w-1 select-none"
+                        },
+                        [_c("i", { staticClass: "icon icon--handle" })]
+                      ),
+                      _vm._v(" "),
+                      _c("table-checkbox"),
+                      _vm._v(" "),
+                      _vm._l(resource.fields, function(field, $i) {
+                        return [
+                          _c(
+                            "table-value",
+                            {
+                              attrs: {
+                                field: field,
+                                resourceId: resource.id.value
+                              }
+                            },
+                            [
+                              _c("index-" + field.component, {
+                                tag: "component",
+                                attrs: {
+                                  field: field,
+                                  resourceId: resource.id.value
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ]
+                      })
+                    ],
+                    2
+                  )
+                }),
+                0
+              )
+            ],
+            1
+          )
         : _vm._e(),
       _vm._v(" "),
       !_vm.resources.length && !_vm.loading
@@ -31350,7 +31453,13 @@ var render = function() {
       _vm._v(" "),
       _c("data-table", {
         staticClass: "floating-panel__padding",
-        attrs: { resources: _vm.resources, loading: _vm.loading }
+        attrs: { resources: _vm.resources, loading: _vm.loading },
+        on: {
+          input: function($event) {
+            _vm.resources = $event
+          },
+          sort: _vm.savePositions
+        }
       }),
       _vm._v(" "),
       _c(

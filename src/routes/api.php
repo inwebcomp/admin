@@ -16,6 +16,7 @@ AdminRoute::api('\InWeb\Admin\App\Http\Controllers', function () {
     Route::get('{resource}/{resourceId}/edit', 'ResourceEditController@handle')->name('resource.edit');
     Route::put('{resource}/{resourceId}/update', 'ResourceUpdateController@handle')->name('resource.update');
     Route::delete('{resource}/destroy', 'ResourceDestroyController@handle')->name('resource.destroy');
+    Route::put('{resource}/positions', 'ResourcePositionsController@handle')->name('positions.index');
 
     Route::get('{resource}/search', 'SearchController@index')->name('resource.search');
 

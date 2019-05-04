@@ -1,8 +1,12 @@
 <template>
     <div>
         <table-params :navigate="! isNested"></table-params>
-        <breadcrumbs v-if="isNested && breadcrumbs.length > 1" :items="breadcrumbs" />
-        <data-table class="floating-panel__padding" :resources="resources" :loading="loading"></data-table>
+        <breadcrumbs v-if="isNested && breadcrumbs.length > 1" :items="breadcrumbs"/>
+        <data-table class="floating-panel__padding"
+                    :resources="resources"
+                    :loading="loading"
+                    @input="resources = $event"
+                    @sort="savePositions"></data-table>
 
         <floating-panel>
             <pagination :pagination="pagination" @changePage="changePage"></pagination>
@@ -23,6 +27,7 @@
         data() {
             return {
                 resources: [],
+                positions: [],
                 pagination: {},
                 breadcrumbs: [],
                 loading: {
@@ -107,6 +112,30 @@
                     this.pagination = pagination
                     this.breadcrumbs = breadcrumbs
                     this.loading = false
+
+                    this.positions = []
+                    this.resources.forEach(item => {
+                        this.positions.push(item.id.position)
+                    })
+                })
+            },
+
+            savePositions() {
+                Api.request({
+                    method: 'PUT',
+                    controller: this.controller,
+                    action: 'positions',
+                    data: {
+                        items: this.resources.map(item => item.id.value),
+                        positions: this.positions
+                    }
+                }).then(() => {
+                    App.$emit('positionsUpdated')
+
+                    this.$toasted.show(
+                        this.__('Positions was updated!'),
+                        {type: 'success'}
+                    )
                 })
             }
         }
