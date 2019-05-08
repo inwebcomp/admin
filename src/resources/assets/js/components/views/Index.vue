@@ -1,7 +1,9 @@
 <template>
     <div>
-        <table-params :navigate="! isNested"></table-params>
+        <table-params :navigate="! isNested" @destroy="destroy" />
+
         <breadcrumbs v-if="isNested && breadcrumbs.length > 1" :items="breadcrumbs"/>
+
         <data-table class="floating-panel__padding"
                     :resources="resources"
                     :loading="loading"
@@ -53,7 +55,10 @@
             },
             sortable() {
                 return this.$store.state.resource.info.positionable
-            }
+            },
+            selected() {
+                return this.$store.state.resource.selected
+            },
         },
 
         created() {
@@ -138,6 +143,31 @@
 
                     this.$toasted.show(
                         this.__('Positions was updated!'),
+                        {type: 'success'}
+                    )
+                })
+            },
+
+            destroy() {
+                if (! confirm(this.__('Are you sure to delete these records?')))
+                    return
+
+                App.api.request({
+                    method: 'DELETE',
+                    url: this.controller + '/destroy',
+                    data: {
+                        resources: this.selected
+                    }
+                }).then(() => {
+                    App.$emit('resourcesDestroyed', this.selected)
+
+                    this.fetch()
+                    this.$store.dispatch('resource/clearSelected')
+
+                    this.$toasted.show(
+                        this.__('Records were deleted!', {
+                            resource: this.controller,
+                        }),
                         {type: 'success'}
                     )
                 })

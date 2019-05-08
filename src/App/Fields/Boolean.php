@@ -12,21 +12,18 @@ class Boolean extends Field
      * @var string
      */
     public $component = 'boolean-field';
-
     /**
      * The value to be used when the field is "true".
      *
      * @var bool
      */
     public $trueValue = true;
-
     /**
      * The value to be used when the field is "false".
      *
      * @var bool
      */
     public $falseValue = false;
-
     /**
      * The text alignment for the field's text in tables.
      *
@@ -39,12 +36,12 @@ class Boolean extends Field
      *
      * @param  mixed  $resource
      * @param  string $attribute
-     * @param null    $default
+     * @param bool    $original
      * @return mixed
      */
-    protected function resolveAttribute($resource, $attribute, $default = null)
+    protected function resolveAttribute($resource, $attribute, $original = true)
     {
-        return parent::resolveAttribute($resource, $attribute, $default) == $this->trueValue ? true : false;
+        return parent::resolveAttribute($resource, $attribute, $original) == $this->trueValue ? true : false;
     }
 
     /**
@@ -60,15 +57,15 @@ class Boolean extends Field
     {
         if (isset($request[$requestAttribute])) {
             $model->{$attribute} = $request[$requestAttribute] == 'true'
-                    ? $this->trueValue : $this->falseValue;
+                ? $this->trueValue : $this->falseValue;
         }
     }
 
     /**
      * Specify the values to store for the field.
      *
-     * @param  mixed  $trueValue
-     * @param  mixed  $falseValue
+     * @param  mixed $trueValue
+     * @param  mixed $falseValue
      * @return $this
      */
     public function values($trueValue, $falseValue)
@@ -79,7 +76,7 @@ class Boolean extends Field
     /**
      * Specify the value to store when the field is "true".
      *
-     * @param  mixed  $value
+     * @param  mixed $value
      * @return $this
      */
     public function trueValue($value)
@@ -92,7 +89,7 @@ class Boolean extends Field
     /**
      * Specify the value to store when the field is "false".
      *
-     * @param  mixed  $value
+     * @param  mixed $value
      * @return $this
      */
     public function falseValue($value)

@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use InWeb\Admin\App\Contracts\Resolvable;
-use InWeb\Admin\App\Element;
 use InWeb\Admin\App\Http\Requests\AdminRequest;
 use JsonSerializable;
 
@@ -179,7 +178,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
         }
 
         if (is_callable($this->displayCallback)) { //  && $value !== '___missing'
-            $value = $this->resolveAttribute($resource, $attribute);
+            $value = $this->resolveAttribute($resource, $attribute, false);
             $this->value = call_user_func($this->displayCallback, $value);
         }
     }
@@ -219,12 +218,12 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Resolve the given attribute from the given resource.
      *
-     * @param  Entity  $resource
+     * @param  Entity $resource
      * @param  string $attribute
-     * @param null    $default
+     * @param bool    $original
      * @return mixed
      */
-    protected function resolveAttribute($resource, $attribute, $default = null)
+    protected function resolveAttribute($resource, $attribute, $original = true)
     {
         if ($resource->translatable() && $resource->isTranslationAttribute($attribute)) {
             $this->withMeta(['translatable' => true]);
@@ -236,18 +235,21 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
             $locales = array_unique($locales);
 
             foreach ($locales as $locale) {
-                $values[$locale] = optional($resource->translate($locale))->getOriginal($attribute) ?? $default;
+                if ($locale == \App::getLocale())
+                    continue;
+
+                $values[$locale] = optional($resource->translate($locale))->getOriginal($attribute) ?? null;
             }
 
             $this->withMeta(['translatableValues' => $values]);
             $this->withMeta(['currentLocale' => \App::getLocale()]);
         }
 
-        if ($this->original)
-            return $resource->getOriginal($attribute) ?? $default;
+        if ($original and $this->original)
+            return $resource->getOriginal($attribute);
 
 //        return data_get($resource, str_replace('->', '.', $attribute));
-        return $resource->{$attribute} ?? $default;
+        return $resource->{$attribute};
     }
 
     /**
@@ -364,6 +366,8 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
             $model->{$attribute} = $request[$requestAttribute];
 
             if ($model->translatable() and $model->isTranslationAttribute($attribute)) {
+                /** @var Translatable|Entity $model */
+
                 foreach (config('translatable.locales') as $locale) {
                     if ($locale == config('app.locale'))
                         continue;
@@ -374,8 +378,9 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
                         if ($request->exists($translationAttribute)) {
                             $model->{$translationAttribute} = $request[$translationAttribute];
                         }
-                    } else if ($model->getTranslation($locale)) {
-                        $model->deleteTranslations($locale);
+                    } else if ($model->getTranslation($locale, false)) {
+                        if ($model->getKey())
+                            $model->deleteTranslations($locale);
                     }
                 }
             }

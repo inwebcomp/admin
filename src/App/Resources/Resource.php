@@ -31,6 +31,14 @@ abstract class Resource
      * @var Entity
      */
     private $resource;
+
+    /**
+     * The underlying model class.
+     *
+     * @var string
+     */
+    public static $model = null;
+
     /**
      * The single value that should be used to represent the resource when being displayed.
      *

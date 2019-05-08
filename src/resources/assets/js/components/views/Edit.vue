@@ -93,6 +93,8 @@
             },
 
             save() {
+                App.$emit('saveResource', this.resource)
+
                 this.loading = true
 
                 App.api.action({

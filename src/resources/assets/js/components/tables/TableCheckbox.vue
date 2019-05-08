@@ -1,6 +1,6 @@
 <template>
-    <td class="data-table__checkbox" @click.stop="state = ! state">
-        <checkbox v-model="state"></checkbox>
+    <td class="data-table__checkbox" @click.stop="change">
+        <checkbox :value="value" @input="change"></checkbox>
     </td>
 </template>
 
@@ -15,23 +15,25 @@
         name: "table-checkbox",
 
         props: {
+            value: {
+                default: false
+            },
+
             all: {
                 default: false
             }
         },
 
-        data() {
-            return {
-                state: false
-            }
-        },
-
-        watch: {
-            state(newValue) {
-                if (this.all) {
-                    this.$emit('changeAll', newValue)
-                }
+        methods: {
+            change() {
+                this.$emit('change', ! this.value)
             }
         }
+
+        // watch: {
+        //     state(newValue) {
+        //         this.$emit('change', newValue)
+        //     }
+        // }
     }
 </script>
