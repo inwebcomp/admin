@@ -9,6 +9,8 @@
             {{ __('Добавить') }}
         </router-link>
 
+        <table-actions @action="$emit($event)" />
+
         <div class="active-panel__button">
             <i class="fas fa-sort-amount-down mr-2 text-grey-light"></i>
             {{ __('По дате добавления') }}

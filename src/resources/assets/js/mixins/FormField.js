@@ -61,19 +61,22 @@ export default {
             if (this.castArray) {
                 FormDataHelper.append(value, formData, this.field.attribute)
             } else {
+                formData.append(this.field.attribute, value)
+
                 if (this.field.translatable) {
                     Object.keys(this.field.translatableValues).forEach(locale => {
+                        if (this.field.currentLocale == locale)
+                            return
+
                         value = !(this.field.translatableValues[locale] === undefined || this.field.translatableValues[locale] === null)
                             ? this.field.translatableValues[locale]
                             : ''
 
                         formData.append(
-                            this.field.attribute + (this.field.currentLocale == locale ? '' : ':' + locale),
+                            this.field.attribute + ':' + locale,
                             value
                         )
                     })
-                } else {
-                    formData.append(this.field.attribute, value)
                 }
             }
         },

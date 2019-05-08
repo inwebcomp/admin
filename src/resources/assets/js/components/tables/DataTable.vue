@@ -4,7 +4,7 @@
             <thead>
             <tr class="data-table__header">
                 <td v-if="sortable"></td>
-                <table-checkbox :all="true"></table-checkbox>
+                <table-checkbox :all="true" :value="selected.length == resources.length" @change="selectAll"></table-checkbox>
                 <table-heading v-for="(field, $i) of fields" :key="$i" :field="field">{{ field.indexName }}</table-heading>
             </tr>
             </thead>
@@ -19,7 +19,7 @@
                 <tr class="data-table__line" v-for="(resource, $n) of resources" :key="$n">
                     <table-sort-handle v-if="sortable"/>
 
-                    <table-checkbox/>
+                    <table-checkbox @change="select(resource.id.value)" :value="selected.includes(resource.id.value)"/>
 
                     <template v-for="(field, $i) of resource.fields">
                         <table-value :field="field" :resourceId="resource.id.value">
@@ -83,6 +83,10 @@
         },
 
         computed: {
+            selected() {
+                return this.$store.state.resource.selected
+            },
+
             fields() {
                 return this.resources[0].fields
             },
@@ -102,6 +106,20 @@
         },
 
         methods: {
+            select(id) {
+                if (this.selected.includes(id))
+                    this.$store.commit('resource/deleteSelected', id)
+                else
+                    this.$store.commit('resource/addSelected', id)
+            },
+
+            selectAll(value) {
+                if (! value)
+                    this.$store.commit('resource/setSelected', [])
+                else
+                    this.$store.commit('resource/setSelected', this.resources.map(item => item.id.value))
+            },
+
             link(...args) {
                 args.unshift(this.controller)
                 return '/' + args.join('/')

@@ -1,7 +1,7 @@
 <template>
     <default-field :field="field" :errors="errors" :inline="inline" v-bind="other">
         <template slot="field">
-            <template v-if="! field.translatable">
+            <div :class="field.translatable ? 'form__group__translatable mb-2' : ''">
                 <input
                         class="w-full form__group__input"
                         :id="field.attribute"
@@ -10,14 +10,17 @@
                         v-bind="extraAttributes"
                         :class="errorClasses()"
                 />
-            </template>
+                <div v-if="field.translatable" class="form__group__translatable__locale" :class="errorClasses()">
+                    {{ this.field.currentLocale }}
+                </div>
+            </div>
+
             <template v-if="field.translatable">
                 <div class="form__group__translatable mb-2" v-for="(translatableValue, locale) in field.translatableValues">
                     <input
                             class="w-full form__group__input"
                             :id="field.attribute + ':' + locale"
                             v-model="field.translatableValues[locale]"
-                            @input="$emit('input', value)"
                             v-bind="extraAttributes"
                             :class="errorClasses(translationAttribute(locale))"
                     />

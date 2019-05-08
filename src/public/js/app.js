@@ -3297,6 +3297,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3336,6 +3339,27 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4097,6 +4121,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
+    selected: function selected() {
+      return this.$store.state.resource.selected;
+    },
     fields: function fields() {
       return this.resources[0].fields;
     },
@@ -4114,6 +4141,14 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    select: function select(id) {
+      if (this.selected.includes(id)) this.$store.commit('resource/deleteSelected', id);else this.$store.commit('resource/addSelected', id);
+    },
+    selectAll: function selectAll(value) {
+      if (!value) this.$store.commit('resource/setSelected', []);else this.$store.commit('resource/setSelected', this.resources.map(function (item) {
+        return item.id.value;
+      }));
+    },
     link: function link() {
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
@@ -4182,6 +4217,33 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/components/tables/TableActions.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/components/tables/TableActions.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "table-actions",
+  computed: {
+    selected: function selected() {
+      return this.$store.state.resource.selected;
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/components/tables/TableCheckbox.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/components/tables/TableCheckbox.vue?vue&type=script&lang=js& ***!
@@ -4205,22 +4267,23 @@ __webpack_require__.r(__webpack_exports__);
   },
   name: "table-checkbox",
   props: {
+    value: {
+      default: false
+    },
     all: {
       default: false
     }
   },
-  data: function data() {
-    return {
-      state: false
-    };
-  },
-  watch: {
-    state: function state(newValue) {
-      if (this.all) {
-        this.$emit('changeAll', newValue);
-      }
+  methods: {
+    change: function change() {
+      this.$emit('change', !this.value);
     }
-  }
+  } // watch: {
+  //     state(newValue) {
+  //         this.$emit('change', newValue)
+  //     }
+  // }
+
 });
 
 /***/ }),
@@ -4269,6 +4332,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -4650,6 +4715,7 @@ __webpack_require__.r(__webpack_exports__);
     save: function save() {
       var _this2 = this;
 
+      App.$emit('saveResource', this.resource);
       this.loading = true;
       App.api.action({
         controller: this.controller,
@@ -4891,6 +4957,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "index",
@@ -4921,6 +4989,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     sortable: function sortable() {
       return this.$store.state.resource.info.positionable;
+    },
+    selected: function selected() {
+      return this.$store.state.resource.selected;
     }
   },
   created: function created() {
@@ -5005,6 +5076,30 @@ __webpack_require__.r(__webpack_exports__);
         App.$emit('positionsUpdated');
 
         _this3.$toasted.show(_this3.__('Positions was updated!'), {
+          type: 'success'
+        });
+      });
+    },
+    destroy: function destroy() {
+      var _this4 = this;
+
+      if (!confirm(this.__('Are you sure to delete these records?'))) return;
+      App.api.request({
+        method: 'DELETE',
+        url: this.controller + '/destroy',
+        data: {
+          resources: this.selected
+        }
+      }).then(function () {
+        App.$emit('resourcesDestroyed', _this4.selected);
+
+        _this4.fetch();
+
+        _this4.$store.dispatch('resource/clearSelected');
+
+        _this4.$toasted.show(_this4.__('Records were deleted!', {
+          resource: _this4.controller
+        }), {
           type: 'success'
         });
       });
@@ -29739,29 +29834,52 @@ var render = function() {
         "template",
         { slot: "field" },
         [
-          !_vm.field.translatable
-            ? [
-                _c(
-                  "input",
-                  _vm._b(
-                    {
-                      staticClass: "w-full form__group__input",
-                      class: _vm.errorClasses(),
-                      attrs: { id: _vm.field.attribute },
-                      domProps: { value: _vm.value },
-                      on: {
-                        input: function($event) {
-                          _vm.$emit("input", $event.target.value)
-                        }
+          _c(
+            "div",
+            {
+              class: _vm.field.translatable
+                ? "form__group__translatable mb-2"
+                : ""
+            },
+            [
+              _c(
+                "input",
+                _vm._b(
+                  {
+                    staticClass: "w-full form__group__input",
+                    class: _vm.errorClasses(),
+                    attrs: { id: _vm.field.attribute },
+                    domProps: { value: _vm.value },
+                    on: {
+                      input: function($event) {
+                        _vm.$emit("input", $event.target.value)
                       }
-                    },
-                    "input",
-                    _vm.extraAttributes,
-                    false
-                  )
+                    }
+                  },
+                  "input",
+                  _vm.extraAttributes,
+                  false
                 )
-              ]
-            : _vm._e(),
+              ),
+              _vm._v(" "),
+              _vm.field.translatable
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "form__group__translatable__locale",
+                      class: _vm.errorClasses()
+                    },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(this.field.currentLocale) +
+                          "\n            "
+                      )
+                    ]
+                  )
+                : _vm._e()
+            ]
+          ),
           _vm._v(" "),
           _vm.field.translatable
             ? _vm._l(_vm.field.translatableValues, function(
@@ -29804,9 +29922,6 @@ var render = function() {
                                   : _vm.field.translatableValues[locale]
                               },
                               on: {
-                                input: function($event) {
-                                  _vm.$emit("input", _vm.value)
-                                },
                                 change: function($event) {
                                   var $$a =
                                       _vm.field.translatableValues[locale],
@@ -29876,9 +29991,6 @@ var render = function() {
                                   )
                                 },
                                 on: {
-                                  input: function($event) {
-                                    _vm.$emit("input", _vm.value)
-                                  },
                                   change: function($event) {
                                     _vm.$set(
                                       _vm.field.translatableValues,
@@ -29918,21 +30030,16 @@ var render = function() {
                                   value: _vm.field.translatableValues[locale]
                                 },
                                 on: {
-                                  input: [
-                                    function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.field.translatableValues,
-                                        locale,
-                                        $event.target.value
-                                      )
-                                    },
-                                    function($event) {
-                                      _vm.$emit("input", _vm.value)
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
                                     }
-                                  ]
+                                    _vm.$set(
+                                      _vm.field.translatableValues,
+                                      locale,
+                                      $event.target.value
+                                    )
+                                  }
                                 }
                               },
                               "input",
@@ -30000,27 +30107,124 @@ var render = function() {
       false
     ),
     [
-      _c("template", { slot: "field" }, [
-        _c(
-          "textarea",
-          _vm._b(
+      _c(
+        "template",
+        { slot: "field" },
+        [
+          _c(
+            "div",
             {
-              staticClass:
-                "form__group__input form__group__input--textarea w-full h-auto",
-              attrs: { id: _vm.field.attribute },
-              domProps: { value: _vm.value },
-              on: {
-                input: function($event) {
-                  _vm.$emit("input", $event.target.value)
-                }
-              }
+              class: _vm.field.translatable
+                ? "form__group__translatable mb-2"
+                : ""
             },
-            "textarea",
-            _vm.extraAttributes,
-            false
-          )
-        )
-      ])
+            [
+              _c(
+                "textarea",
+                _vm._b(
+                  {
+                    staticClass:
+                      "form__group__input form__group__input--textarea w-full h-auto",
+                    class: _vm.errorClasses(),
+                    attrs: { id: _vm.field.attribute },
+                    domProps: { value: _vm.value },
+                    on: {
+                      input: function($event) {
+                        _vm.$emit("input", $event.target.value)
+                      }
+                    }
+                  },
+                  "textarea",
+                  _vm.extraAttributes,
+                  false
+                )
+              ),
+              _vm._v(" "),
+              _vm.field.translatable
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "form__group__translatable__locale",
+                      class: _vm.errorClasses()
+                    },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(this.field.currentLocale) +
+                          "\n            "
+                      )
+                    ]
+                  )
+                : _vm._e()
+            ]
+          ),
+          _vm._v(" "),
+          _vm.field.translatable
+            ? _vm._l(_vm.field.translatableValues, function(
+                translatableValue,
+                locale
+              ) {
+                return _c(
+                  "div",
+                  { staticClass: "form__group__translatable mb-2" },
+                  [
+                    _c(
+                      "textarea",
+                      _vm._b(
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.field.translatableValues[locale],
+                              expression: "field.translatableValues[locale]"
+                            }
+                          ],
+                          staticClass:
+                            "form__group__input form__group__input--textarea w-full h-auto",
+                          class: _vm.errorClasses(
+                            _vm.translationAttribute(locale)
+                          ),
+                          attrs: { id: _vm.field.attribute + ":" + locale },
+                          domProps: {
+                            value: _vm.field.translatableValues[locale]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.field.translatableValues,
+                                locale,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        },
+                        "textarea",
+                        _vm.extraAttributes,
+                        false
+                      )
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "form__group__translatable__locale",
+                        class: _vm.errorClasses(
+                          _vm.translationAttribute(locale)
+                        )
+                      },
+                      [_vm._v(_vm._s(locale))]
+                    )
+                  ]
+                )
+              })
+            : _vm._e()
+        ],
+        2
+      )
     ],
     2
   )
@@ -30833,7 +31037,13 @@ var render = function() {
                   [
                     _vm.sortable ? _c("td") : _vm._e(),
                     _vm._v(" "),
-                    _c("table-checkbox", { attrs: { all: true } }),
+                    _c("table-checkbox", {
+                      attrs: {
+                        all: true,
+                        value: _vm.selected.length == _vm.resources.length
+                      },
+                      on: { change: _vm.selectAll }
+                    }),
                     _vm._v(" "),
                     _vm._l(_vm.fields, function(field, $i) {
                       return _c(
@@ -30874,7 +31084,16 @@ var render = function() {
                     [
                       _vm.sortable ? _c("table-sort-handle") : _vm._e(),
                       _vm._v(" "),
-                      _c("table-checkbox"),
+                      _c("table-checkbox", {
+                        attrs: {
+                          value: _vm.selected.includes(resource.id.value)
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.select(resource.id.value)
+                          }
+                        }
+                      }),
                       _vm._v(" "),
                       _vm._l(resource.fields, function(field, $i) {
                         return [
@@ -31021,6 +31240,46 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/components/tables/TableActions.vue?vue&type=template&id=4dab4ec6&":
+/*!*********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/components/tables/TableActions.vue?vue&type=template&id=4dab4ec6& ***!
+  \*********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return this.selected.length
+    ? _c(
+        "div",
+        {
+          staticClass: "active-panel__button",
+          on: {
+            click: function($event) {
+              _vm.$emit("action", "destroy")
+            }
+          }
+        },
+        [
+          _c("i", { staticClass: "fas fa-trash-alt mr-2 text-grey-light" }),
+          _vm._v("\n    " + _vm._s(_vm.__(" Удалить")) + "\n")
+        ]
+      )
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/components/tables/TableCheckbox.vue?vue&type=template&id=5ce28253&":
 /*!**********************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/components/tables/TableCheckbox.vue?vue&type=template&id=5ce28253& ***!
@@ -31043,20 +31302,12 @@ var render = function() {
       on: {
         click: function($event) {
           $event.stopPropagation()
-          _vm.state = !_vm.state
+          return _vm.change($event)
         }
       }
     },
     [
-      _c("checkbox", {
-        model: {
-          value: _vm.state,
-          callback: function($$v) {
-            _vm.state = $$v
-          },
-          expression: "state"
-        }
-      })
+      _c("checkbox", { attrs: { value: _vm.value }, on: { input: _vm.change } })
     ],
     1
   )
@@ -31144,6 +31395,14 @@ var render = function() {
             ]
           )
         : _vm._e(),
+      _vm._v(" "),
+      _c("table-actions", {
+        on: {
+          action: function($event) {
+            _vm.$emit($event)
+          }
+        }
+      }),
       _vm._v(" "),
       _c("div", { staticClass: "active-panel__button" }, [
         _c("i", {
@@ -31501,7 +31760,10 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("table-params", { attrs: { navigate: !_vm.isNested } }),
+      _c("table-params", {
+        attrs: { navigate: !_vm.isNested },
+        on: { destroy: _vm.destroy }
+      }),
       _vm._v(" "),
       _vm.isNested && _vm.breadcrumbs.length > 1
         ? _c("breadcrumbs", { attrs: { items: _vm.breadcrumbs } })
@@ -47008,6 +47270,7 @@ var map = {
 	"./tables/DataTable.vue": "./src/resources/assets/js/components/tables/DataTable.vue",
 	"./tables/DataTableLoading.vue": "./src/resources/assets/js/components/tables/DataTableLoading.vue",
 	"./tables/NoDataFound.vue": "./src/resources/assets/js/components/tables/NoDataFound.vue",
+	"./tables/TableActions.vue": "./src/resources/assets/js/components/tables/TableActions.vue",
 	"./tables/TableCheckbox.vue": "./src/resources/assets/js/components/tables/TableCheckbox.vue",
 	"./tables/TableHeading.vue": "./src/resources/assets/js/components/tables/TableHeading.vue",
 	"./tables/TableParams.vue": "./src/resources/assets/js/components/tables/TableParams.vue",
@@ -50022,6 +50285,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/resources/assets/js/components/tables/TableActions.vue":
+/*!********************************************************************!*\
+  !*** ./src/resources/assets/js/components/tables/TableActions.vue ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TableActions_vue_vue_type_template_id_4dab4ec6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TableActions.vue?vue&type=template&id=4dab4ec6& */ "./src/resources/assets/js/components/tables/TableActions.vue?vue&type=template&id=4dab4ec6&");
+/* harmony import */ var _TableActions_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TableActions.vue?vue&type=script&lang=js& */ "./src/resources/assets/js/components/tables/TableActions.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _TableActions_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TableActions_vue_vue_type_template_id_4dab4ec6___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TableActions_vue_vue_type_template_id_4dab4ec6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "src/resources/assets/js/components/tables/TableActions.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./src/resources/assets/js/components/tables/TableActions.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************!*\
+  !*** ./src/resources/assets/js/components/tables/TableActions.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TableActions_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./TableActions.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/components/tables/TableActions.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TableActions_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./src/resources/assets/js/components/tables/TableActions.vue?vue&type=template&id=4dab4ec6&":
+/*!***************************************************************************************************!*\
+  !*** ./src/resources/assets/js/components/tables/TableActions.vue?vue&type=template&id=4dab4ec6& ***!
+  \***************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TableActions_vue_vue_type_template_id_4dab4ec6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./TableActions.vue?vue&type=template&id=4dab4ec6& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/components/tables/TableActions.vue?vue&type=template&id=4dab4ec6&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TableActions_vue_vue_type_template_id_4dab4ec6___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TableActions_vue_vue_type_template_id_4dab4ec6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./src/resources/assets/js/components/tables/TableCheckbox.vue":
 /*!*********************************************************************!*\
   !*** ./src/resources/assets/js/components/tables/TableCheckbox.vue ***!
@@ -50717,13 +51049,14 @@ __webpack_require__.r(__webpack_exports__);
       if (this.castArray) {
         _js_services_FormDataHelper__WEBPACK_IMPORTED_MODULE_0__["default"].append(value, formData, this.field.attribute);
       } else {
+        formData.append(this.field.attribute, value);
+
         if (this.field.translatable) {
           Object.keys(this.field.translatableValues).forEach(function (locale) {
+            if (_this2.field.currentLocale == locale) return;
             value = !(_this2.field.translatableValues[locale] === undefined || _this2.field.translatableValues[locale] === null) ? _this2.field.translatableValues[locale] : '';
-            formData.append(_this2.field.attribute + (_this2.field.currentLocale == locale ? '' : ':' + locale), value);
+            formData.append(_this2.field.attribute + ':' + locale, value);
           });
-        } else {
-          formData.append(this.field.attribute, value);
         }
       }
     },
@@ -51550,17 +51883,36 @@ var actions = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var state = {
-  info: {}
+  info: {},
+  selected: []
 };
 var mutations = {
   set: function set(state, resource) {
     state.info = resource;
+  },
+  setSelected: function setSelected(state, items) {
+    state.selected = items;
+  },
+  deleteSelected: function deleteSelected(state, id) {
+    state.selected = state.selected.filter(function (item) {
+      return item != id;
+    });
+  },
+  addSelected: function addSelected(state, id) {
+    state.selected.push(id);
+  }
+};
+var actions = {
+  clearSelected: function clearSelected(_ref) {
+    var commit = _ref.commit;
+    commit('setSelected', []);
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
   namespaced: true,
   state: state,
-  mutations: mutations
+  mutations: mutations,
+  actions: actions
 });
 
 /***/ }),
