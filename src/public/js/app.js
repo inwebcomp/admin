@@ -2135,7 +2135,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "EditableList",
@@ -28564,21 +28563,12 @@ var render = function() {
                 _c(
                   "tr",
                   _vm._l(_vm.headers, function(item, $i) {
-                    return _c(
-                      "th",
-                      {
-                        key: $i,
-                        staticClass:
-                          "py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light"
-                      },
-                      [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(item) +
-                            "\n                "
-                        )
-                      ]
-                    )
+                    return _c("th", {
+                      key: $i,
+                      staticClass:
+                        "py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light",
+                      domProps: { innerHTML: _vm._s(item) }
+                    })
                   }),
                   0
                 )

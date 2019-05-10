@@ -4,8 +4,7 @@
             <thead v-if="headers.length">
                 <tr>
                     <th v-for="(item, $i) of headers" :key="$i"
-                        class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
-                        {{ item }}
+                        class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light" v-html="item">
                     </th>
                 </tr>
             </thead>
