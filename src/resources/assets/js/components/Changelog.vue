@@ -13,7 +13,7 @@
         </div>
 
         <div class="mb-10">
-            <h1 class="text-2xl my-4">Начало 05.2019</h1>
+            <h1 class="text-2xl my-4">01.05.2019</h1>
 
             <div class="pl-4">
                 <ul class="pl-6 leading-normal">
