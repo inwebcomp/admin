@@ -1,6 +1,31 @@
 <template>
     <div class="card p-4 px-8">
         <div class="mb-10">
+            <h1 class="text-2xl my-4">10.05.2019</h1>
+
+            <div class="pl-4">
+                <ul class="pl-6 leading-normal">
+                    <li>Удаление из списка с помощью чекбоксов</li>
+                    <li>Редактирование мета-данных</li>
+                    <li>Возможность публикации/скрытия параметров</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mb-10">
+            <h1 class="text-2xl my-4">Начало 05.2019</h1>
+
+            <div class="pl-4">
+                <ul class="pl-6 leading-normal">
+                    <li>Сортировка всех записей</li>
+                    <li>Перевод записей</li>
+                    <li>Поиск записей</li>
+                    <li>Редактирование навигации</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mb-10">
             <h1 class="text-2xl my-4">05.04.2019</h1>
 
             <div class="pl-4">
