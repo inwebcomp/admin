@@ -28343,11 +28343,11 @@ var staticRenderFns = [
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "mb-10" }, [
-        _c("h1", { staticClass: "text-2xl my-4" }, [_vm._v("Начало 05.2019")]),
+        _c("h1", { staticClass: "text-2xl my-4" }, [_vm._v("01.05.2019")]),
         _vm._v(" "),
         _c("div", { staticClass: "pl-4" }, [
           _c("ul", { staticClass: "pl-6 leading-normal" }, [
-            _c("li", [_vm._v("Сортировка всех записей")]),
+            _c("li", [_vm._v("Сортировка записей")]),
             _vm._v(" "),
             _c("li", [_vm._v("Перевод записей")]),
             _vm._v(" "),
