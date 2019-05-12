@@ -14,4 +14,9 @@ class Text extends Field
     {
         return $this->withMeta(['link' => $url]);
     }
+
+    public function subtitle($text)
+    {
+        return $this->withMeta(['subtitle' => $text]);
+    }
 }
