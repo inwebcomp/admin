@@ -3741,6 +3741,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['field']
 });
@@ -30659,6 +30660,10 @@ var render = function() {
             },
             [_vm._v("\n        " + _vm._s(_vm.field.value) + "\n    ")]
           )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.field.subtitle
+        ? _c("div", { domProps: { innerHTML: _vm._s(_vm.field.subtitle) } })
         : _vm._e()
     ],
     1
