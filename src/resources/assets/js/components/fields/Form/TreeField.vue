@@ -1,5 +1,5 @@
 <template>
-    <default-field :field="field" :errors="errors" :inline="inline" fullWidthContent>
+    <default-field :field="field" :errors="errors" :inline="inline">
         <template slot="field">
             <div class="tree" :id="field.attribute">
                 <div class="flex">

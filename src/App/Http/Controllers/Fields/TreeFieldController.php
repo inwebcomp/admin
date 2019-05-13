@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use InWeb\Admin\App\Http\Controllers\Controller;
 use InWeb\Admin\App\Http\Requests\ResourceDetailRequest;
+use Spatie\EloquentSortable\Sortable;
 
 class TreeFieldController extends Controller
 {
@@ -25,7 +26,12 @@ class TreeFieldController extends Controller
     private function getTree($model, $object = null)
     {
         if (! $object) {
-            $tree = $model::whereIsRoot()->get();
+            $query = $model::whereIsRoot();
+
+            if (new $model instanceof Sortable)
+                $query->ordered();
+
+            $tree = $query->get();
 
             return $tree->map(function($item) {
                 return [
@@ -38,7 +44,12 @@ class TreeFieldController extends Controller
             });
         }
 
-        $tree = $object->ancestors()->get();
+        $query = $object->ancestors();
+
+        if (new $model instanceof Sortable)
+            $query->ordered();
+
+        $tree = $query->get();
 
         $n = 1;
         foreach ($tree as $item) {
@@ -54,7 +65,12 @@ class TreeFieldController extends Controller
             $tree[] = $object;
         }
 
-        $cats = $object->isLeaf() ? $object->siblingsAndSelf()->get() : $object->children()->get();
+        $cats = $object->isLeaf() ? $object->siblingsAndSelf() : $object->children();
+
+        if ($object instanceof Sortable)
+            $cats->ordered();
+
+        $cats = $cats->get();
 
         foreach ($cats as $item) {
             $item->level = $n;
@@ -64,7 +80,12 @@ class TreeFieldController extends Controller
             $tree->push($item);
 
             if ($item->id == $object->id and ! $object->isLeaf()) {
-                foreach ($object->descendants()->get() as $item2) {
+                $query = $object->descendant();
+
+                if ($object instanceof Sortable)
+                    $query->ordered();
+
+                foreach ($query->get() as $item2) {
                     $item2->level = $n + 1;
                     $tree->push($item2);
                 }
