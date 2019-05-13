@@ -3174,6 +3174,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -29650,31 +29653,55 @@ var render = function() {
             "template",
             { slot: "field" },
             [
-              !_vm.field.translatable
-                ? [
-                    _c(
-                      "froala",
-                      _vm._b(
-                        {
-                          attrs: {
-                            tag: "textarea",
-                            config: _vm.config,
-                            id: _vm.field.attribute,
-                            value: _vm.value
-                          },
-                          on: {
-                            input: function($event) {
-                              _vm.$emit("input", $event)
-                            }
-                          }
+              _c(
+                "div",
+                {
+                  class: _vm.field.translatable
+                    ? "form__group__translatable mb-4"
+                    : ""
+                },
+                [
+                  _c(
+                    "froala",
+                    _vm._b(
+                      {
+                        attrs: {
+                          tag: "textarea",
+                          config: _vm.config,
+                          id: _vm.field.attribute,
+                          value: _vm.value
                         },
-                        "froala",
-                        _vm.extraAttributes,
-                        false
-                      )
+                        on: {
+                          input: function($event) {
+                            _vm.$emit("input", $event)
+                          }
+                        }
+                      },
+                      "froala",
+                      _vm.extraAttributes,
+                      false
                     )
-                  ]
-                : _vm._e(),
+                  ),
+                  _vm._v(" "),
+                  _vm.field.translatable
+                    ? _c(
+                        "div",
+                        {
+                          staticClass: "form__group__translatable__locale",
+                          class: _vm.errorClasses()
+                        },
+                        [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(this.field.currentLocale) +
+                              "\n            "
+                          )
+                        ]
+                      )
+                    : _vm._e()
+                ],
+                1
+              ),
               _vm._v(" "),
               _vm.field.translatable
                 ? _vm._l(_vm.field.translatableValues, function(
@@ -29695,12 +29722,7 @@ var render = function() {
                               attrs: {
                                 tag: "textarea",
                                 config: _vm.config,
-                                id: _vm.field.attribute
-                              },
-                              on: {
-                                input: function($event) {
-                                  _vm.$emit("input", $event)
-                                }
+                                id: _vm.field.attribute + ":" + locale
                               },
                               model: {
                                 value: _vm.field.translatableValues[locale],
@@ -30326,14 +30348,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "default-field",
-    {
-      attrs: {
-        field: _vm.field,
-        errors: _vm.errors,
-        inline: _vm.inline,
-        fullWidthContent: ""
-      }
-    },
+    { attrs: { field: _vm.field, errors: _vm.errors, inline: _vm.inline } },
     [
       _c("template", { slot: "field" }, [
         _c("div", { staticClass: "tree", attrs: { id: _vm.field.attribute } }, [

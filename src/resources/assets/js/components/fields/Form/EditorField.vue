@@ -1,21 +1,24 @@
 <template>
     <default-field :field="field" :errors="errors" :inline="inline" v-bind="other">
         <template slot="field" v-if="! field.sections">
-            <template v-if="! field.translatable">
+            <div :class="field.translatable ? 'form__group__translatable mb-4' : ''">
                 <froala :tag="'textarea'"
                         :config="config"
                         :id="field.attribute"
                         :value="value"
                         @input="$emit('input', $event)"
                         v-bind="extraAttributes"/>
-            </template>
+
+                <div v-if="field.translatable" class="form__group__translatable__locale" :class="errorClasses()">
+                    {{ this.field.currentLocale }}
+                </div>
+            </div>
             <template v-if="field.translatable">
                 <div class="form__group__translatable mb-4" v-for="(translatableValue, locale) in field.translatableValues">
                     <froala :tag="'textarea'"
                             :config="config"
-                            :id="field.attribute"
+                            :id="field.attribute + ':' + locale"
                             v-model="field.translatableValues[locale]"
-                            @input="$emit('input', $event)"
                             v-bind="extraAttributes"
                             :class="errorClasses(translationAttribute(locale))"/>
                     <div class="form__group__translatable__locale" :class="errorClasses(translationAttribute(locale))">{{ locale }}</div>

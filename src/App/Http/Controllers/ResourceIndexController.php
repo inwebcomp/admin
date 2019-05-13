@@ -56,11 +56,14 @@ class ResourceIndexController extends Controller
                     $query->where($res->nestedRelationResourceField(), $item->id);
                 }
             } else {
+
                 if ($model instanceof \App\Contracts\Nested) {
                     $query->whereIsRoot();
                 }
             }
         }
+
+        $query->withoutGlobalScopes();
 
         if ($model->translatable())
             $query->withTranslation();
