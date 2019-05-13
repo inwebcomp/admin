@@ -4,7 +4,47 @@ namespace InWeb\Admin\App;
 
 trait Nested
 {
-    public function breadcrumbs(\App\Contracts\Nested $node = null)
+    public function nestedRelationResourceField()
+    {
+        return 'parent_id';
+    }
+
+    public function nestedRelationResource()
+    {
+        return $this;
+    }
+
+    public function breadcrumbs(\App\Contracts\Nested $node = null, $withOptions = true)
+    {
+        $path = $this->breadcrumbsPath($node);
+
+        if ($withOptions) {
+            $options = $node ? $node->children() : $this->nestedRelationResource()->whereIsRoot();
+
+            $options->hasChildren();
+
+            $options = $options->get()->map(function($item) {
+                return [
+                    'title' => $item->title,
+                    'value' => $item->getKey(),
+                ];
+            })->toArray();
+
+            array_unshift($options, [
+                'title' => '-- ' . __('Выберите значение'),
+                'value' => null,
+            ]);
+        } else {
+            $options = null;
+        }
+
+        return [
+            'path' => $path,
+            'options' => $options,
+        ];
+    }
+
+    public function breadcrumbsPath(\App\Contracts\Nested $node = null)
     {
         $path = [
             self::root()

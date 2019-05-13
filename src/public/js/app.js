@@ -1834,13 +1834,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Breadcrumbs",
   props: {
     items: {
       type: Array,
       default: null
-    }
+    },
+    options: {
+      type: Array,
+      default: null
+    },
+    value: {}
   },
   methods: {
     go: function go(id) {
@@ -3848,6 +3855,10 @@ __webpack_require__.r(__webpack_exports__);
     immediate: {
       type: Boolean,
       default: false
+    },
+    search: {
+      type: Boolean,
+      default: true
     }
   },
   data: function data() {
@@ -3879,9 +3890,12 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.opened = true;
-      this.$nextTick(function () {
-        _this.$refs.search.$refs.input.focus();
-      });
+
+      if (this.search) {
+        this.$nextTick(function () {
+          _this.$refs.search.$refs.input.focus();
+        });
+      }
     }
   },
   computed: {
@@ -4779,6 +4793,7 @@ __webpack_require__.r(__webpack_exports__);
     destroy: function destroy() {
       var _this3 = this;
 
+      if (!confirm(this.__('Are you sure to delete this record?'))) return;
       App.api.request({
         method: 'DELETE',
         url: this.controller + '/destroy',
@@ -5010,7 +5025,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     isNested: function isNested() {
-      return this.breadcrumbs && this.breadcrumbs.length;
+      return this.breadcrumbs && this.breadcrumbs.path && this.breadcrumbs.path.length;
     },
     sortable: function sortable() {
       return this.$store.state.resource.info.positionable;
@@ -5038,7 +5053,7 @@ __webpack_require__.r(__webpack_exports__);
       _this.fetch();
     });
     App.$on('back', function () {
-      if (_this.isNested && _this.breadcrumbs.length >= 2) App.$emit('parentSelect', _this.breadcrumbs[_this.breadcrumbs.length - 2].id);
+      if (_this.isNested && _this.breadcrumbs.path.length >= 2) App.$emit('parentSelect', _this.breadcrumbs.path[_this.breadcrumbs.path.length - 2].id);
     });
   },
   destroyed: function destroyed() {
@@ -28257,7 +28272,19 @@ var render = function() {
             2
           )
         ]
-      })
+      }),
+      _vm._v(" "),
+      _vm.options && _vm.options.length > 1
+        ? _c("app-select", {
+            staticClass: "ml-4 text-base",
+            attrs: { search: false, options: _vm.options, value: _vm.value },
+            on: {
+              input: function($event) {
+                _vm.go($event)
+              }
+            }
+          })
+        : _vm._e()
     ],
     2
   )
@@ -30806,30 +30833,32 @@ var render = function() {
             staticClass: "dropdown__container"
           },
           [
-            _c(
-              "div",
-              { staticClass: "dropdown__search" },
-              [
-                _c("text-input", {
-                  ref: "search",
-                  staticClass: "select__input",
-                  attrs: { placeholder: _vm.__("Поиск"), small: "" },
-                  on: {
-                    input: function($event) {
-                      _vm.$emit("search", _vm.searchWord)
-                    }
-                  },
-                  model: {
-                    value: _vm.searchWord,
-                    callback: function($$v) {
-                      _vm.searchWord = $$v
-                    },
-                    expression: "searchWord"
-                  }
-                })
-              ],
-              1
-            ),
+            _vm.search
+              ? _c(
+                  "div",
+                  { staticClass: "dropdown__search" },
+                  [
+                    _c("text-input", {
+                      ref: "search",
+                      staticClass: "select__input",
+                      attrs: { placeholder: _vm.__("Поиск"), small: "" },
+                      on: {
+                        input: function($event) {
+                          _vm.$emit("search", _vm.searchWord)
+                        }
+                      },
+                      model: {
+                        value: _vm.searchWord,
+                        callback: function($$v) {
+                          _vm.searchWord = $$v
+                        },
+                        expression: "searchWord"
+                      }
+                    })
+                  ],
+                  1
+                )
+              : _vm._e(),
             _vm._v(" "),
             _c(
               "ul",
@@ -31815,8 +31844,14 @@ var render = function() {
         on: { destroy: _vm.destroy }
       }),
       _vm._v(" "),
-      _vm.isNested && _vm.breadcrumbs.length > 1
-        ? _c("breadcrumbs", { attrs: { items: _vm.breadcrumbs } })
+      _vm.isNested
+        ? _c("breadcrumbs", {
+            attrs: {
+              items: _vm.breadcrumbs.path,
+              options: _vm.breadcrumbs.options,
+              value: _vm.selected
+            }
+          })
         : _vm._e(),
       _vm._v(" "),
       _c("data-table", {

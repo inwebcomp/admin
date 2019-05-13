@@ -6,7 +6,7 @@
 
         <transition name="dropdown">
             <div class="dropdown__container" ref="container" v-show="opened">
-                <div class="dropdown__search">
+                <div class="dropdown__search" v-if="search">
                     <text-input ref="search"
                                 :placeholder="__('Поиск')"
                                 small
@@ -44,6 +44,10 @@
                 type: Boolean,
                 default: false
             },
+            search: {
+                type: Boolean,
+                default: true,
+            }
         },
 
         data() {
@@ -83,9 +87,11 @@
             open() {
                 this.opened = true
 
-                this.$nextTick(() => {
-                    this.$refs.search.$refs.input.focus()
-                })
+                if (this.search) {
+                    this.$nextTick(() => {
+                        this.$refs.search.$refs.input.focus()
+                    })
+                }
             },
         },
 

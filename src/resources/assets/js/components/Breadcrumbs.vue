@@ -9,6 +9,8 @@
                 </template>
             </div>
         </template>
+
+        <app-select class="ml-4 text-base" :search="false" v-if="options && options.length > 1" :options="options" :value="value" @input="go($event)" />
     </div>
 </template>
 
@@ -21,6 +23,11 @@
                 type: Array,
                 default: null
             },
+            options: {
+                type: Array,
+                default: null
+            },
+            value: {},
         },
 
         methods: {
