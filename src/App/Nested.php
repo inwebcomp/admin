@@ -21,7 +21,7 @@ trait Nested
         if ($withOptions) {
             $options = $node ? $node->children() : $this->nestedRelationResource()->whereIsRoot();
 
-            $options->hasChildren();
+//            $options->hasChildren();
 
             $options = $options->get()->map(function($item) {
                 return [
