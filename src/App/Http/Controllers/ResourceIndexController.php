@@ -2,6 +2,7 @@
 
 namespace InWeb\Admin\App\Http\Controllers;
 
+use App\Admin\Resources\Product;
 use Illuminate\Pagination\Paginator;
 use InWeb\Admin\App\Contracts\Nested;
 use InWeb\Admin\App\Http\Requests\ResourceIndexRequest;
@@ -45,10 +46,19 @@ class ResourceIndexController extends Controller
         if ($res instanceof Nested) {
             $parent = Parameters::remember($request, $resource, 'parent');
 
-            if ($item = $model::find($parent)) {
-                $query->where('parent_id', $item->id);
+            if ($parent and $item = $res->nestedRelationResource()->model()->find($parent)) {
+                if ($res instanceof Product) { // @todo
+                    $query->whereIn('category_id', array_merge(
+                        $item->getDescendants([$item->getKeyName()])->pluck($item->getKeyName())->toArray(),
+                        [$item->id]
+                    ));
+                } else {
+                    $query->where($res->nestedRelationResourceField(), $item->id);
+                }
             } else {
-                $query->whereIsRoot();
+                if ($res instanceof \App\Contracts\Nested) {
+                    $query->whereIsRoot();
+                }
             }
         }
 
@@ -81,12 +91,12 @@ class ResourceIndexController extends Controller
     private function getBreadcrumbs(ResourceIndexRequest $request)
     {
         $item = null;
-        $model = $request->newResource()->model();
+        $model = $request->newResource()->nestedRelationResource()->model();
 
         $parent = Parameters::get($request->resource(), 'parent');
 
         $item = $model::find($parent);
 
-        return $request->newResource()->breadcrumbs($item);
+        return $request->newResource()->nestedRelationResource()->breadcrumbs($item);
     }
 }

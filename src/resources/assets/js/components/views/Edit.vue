@@ -134,6 +134,9 @@
             },
 
             destroy() {
+                if (! confirm(this.__('Are you sure to delete this record?')))
+                    return
+
                 App.api.request({
                     method: 'DELETE',
                     url: this.controller + '/destroy',

@@ -2,7 +2,7 @@
     <div>
         <table-params :navigate="! isNested" @destroy="destroy" />
 
-        <breadcrumbs v-if="isNested && breadcrumbs.length > 1" :items="breadcrumbs"/>
+        <breadcrumbs v-if="isNested" :items="breadcrumbs.path" :options="breadcrumbs.options" :value="selected" />
 
         <data-table class="floating-panel__padding"
                     :resources="resources"
@@ -51,7 +51,7 @@
 
         computed: {
             isNested() {
-                return this.breadcrumbs && this.breadcrumbs.length
+                return this.breadcrumbs && this.breadcrumbs.path && this.breadcrumbs.path.length
             },
             sortable() {
                 return this.$store.state.resource.info.positionable
@@ -84,8 +84,8 @@
 
 
             App.$on('back', () => {
-                if (this.isNested && this.breadcrumbs.length >= 2)
-                    App.$emit('parentSelect', this.breadcrumbs[this.breadcrumbs.length - 2].id)
+                if (this.isNested && this.breadcrumbs.path.length >= 2)
+                    App.$emit('parentSelect', this.breadcrumbs.path[this.breadcrumbs.path.length - 2].id)
             })
         },
 
