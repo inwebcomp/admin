@@ -56,7 +56,7 @@ class ResourceIndexController extends Controller
                     $query->where($res->nestedRelationResourceField(), $item->id);
                 }
             } else {
-                if ($res instanceof \App\Contracts\Nested) {
+                if ($model instanceof \App\Contracts\Nested) {
                     $query->whereIsRoot();
                 }
             }
