@@ -9,7 +9,7 @@
                 </g>
             </svg>
             <h3 class="text-base text-80 font-normal">
-                No data matched the given criteria.
+                {{ __('Нет записей') }}
             </h3>
         </div>
     </div>

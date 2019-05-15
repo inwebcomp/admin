@@ -15,6 +15,9 @@ export default {
         fieldAttribute() {
             return this.field.attribute
         },
+        hasErrorComputed() {
+            return this.errors.has(this.fieldAttribute)
+        },
     },
 
     methods: {
@@ -28,7 +31,7 @@ export default {
 
         firstError(attribute = null) {
             if (this.field.translatable) {
-                let error = null
+                let error = this.errors.first(attribute ? attribute : this.fieldAttribute)
 
                 Object.keys(this.field.translatableValues).forEach(locale => {
                     let value = this.errors.first(this.translationAttribute(locale))

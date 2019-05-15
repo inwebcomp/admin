@@ -27,6 +27,7 @@ Vue.component('form-boolean-field', require('~fields/Form/BooleanField.vue').def
 
 // Editor Field...
 Vue.component('form-editor-field', require('~fields/Form/EditorField.vue').default)
+Vue.component('index-editor-field', require('~fields/Index/EditorField.vue').default)
 
 // Form Section ...
 Vue.component('form-section', require('~fields/Form/FormSection.vue').default)
