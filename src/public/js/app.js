@@ -2070,6 +2070,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Changelog"
 });
@@ -28455,6 +28465,16 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card p-4 px-8" }, [
+      _c("div", { staticClass: "mb-10" }, [
+        _c("h1", { staticClass: "text-2xl my-4" }, [_vm._v("15.05.2019")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "pl-4" }, [
+          _c("ul", { staticClass: "pl-6 leading-normal" }, [
+            _c("li", [_vm._v('Чекбокс "Оставаться в системе" при логине')])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
       _c("div", { staticClass: "mb-10" }, [
         _c("h1", { staticClass: "text-2xl my-4" }, [_vm._v("14.05.2019")]),
         _vm._v(" "),
