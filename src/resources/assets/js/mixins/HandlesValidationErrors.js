@@ -26,26 +26,26 @@ export default {
         },
 
         hasError(attribute = null) {
-            return this.errors.has(attribute ? attribute : this.fieldAttribute)
+            return this.firstError(attribute)
         },
 
         firstError(attribute = null) {
             if (this.field.translatable) {
                 let error = this.errors.first(attribute ? attribute : this.fieldAttribute)
 
-                Object.keys(this.field.translatableValues).forEach(locale => {
-                    let value = this.errors.first(this.translationAttribute(locale))
+                if (! error) {
+                    Object.keys(this.field.translatableValues).forEach(locale => {
+                        let value = this.errors.first(this.translationAttribute(locale))
 
-                    if (value) {
-                        error = value
-                    }
-                })
+                        if (value) {
+                            error = value
+                        }
+                    })
+                }
 
                 return error
             } else {
-                if (this.hasError(attribute)) {
-                    return this.errors.first(attribute ? attribute : this.fieldAttribute)
-                }
+                return this.errors.first(attribute ? attribute : this.fieldAttribute)
             }
         },
 

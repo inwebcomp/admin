@@ -29729,7 +29729,7 @@ var render = function() {
         [
           _vm._t("field"),
           _vm._v(" "),
-          _vm.hasErrorComputed && _vm.showErrors
+          _vm.hasError() && _vm.showErrors
             ? _c(
                 "help-text",
                 { staticClass: "form__group__error mt-2 text-danger" },
@@ -51470,7 +51470,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     hasError: function hasError() {
       var attribute = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-      return this.errors.has(attribute ? attribute : this.fieldAttribute);
+      return this.firstError(attribute);
     },
     firstError: function firstError() {
       var _this = this;
@@ -51479,18 +51479,20 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.field.translatable) {
         var error = this.errors.first(attribute ? attribute : this.fieldAttribute);
-        Object.keys(this.field.translatableValues).forEach(function (locale) {
-          var value = _this.errors.first(_this.translationAttribute(locale));
 
-          if (value) {
-            error = value;
-          }
-        });
+        if (!error) {
+          Object.keys(this.field.translatableValues).forEach(function (locale) {
+            var value = _this.errors.first(_this.translationAttribute(locale));
+
+            if (value) {
+              error = value;
+            }
+          });
+        }
+
         return error;
       } else {
-        if (this.hasError(attribute)) {
-          return this.errors.first(attribute ? attribute : this.fieldAttribute);
-        }
+        return this.errors.first(attribute ? attribute : this.fieldAttribute);
       }
     },
     translationAttribute: function translationAttribute(locale) {

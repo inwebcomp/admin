@@ -8,7 +8,7 @@
         <div class="form__group__input-group" :class="fieldClasses">
             <slot name="field" />
 
-            <help-text class="form__group__error mt-2 text-danger" v-if="hasErrorComputed && showErrors">
+            <help-text class="form__group__error mt-2 text-danger" v-if="hasError() && showErrors">
                 {{ firstError() }}
             </help-text>
 
