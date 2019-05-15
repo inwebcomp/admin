@@ -114,6 +114,11 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      * @var string
      */
     public $size = 'w-1/2';
+    /**
+     * Default value of field
+     * @var mixed
+     */
+    public $default = null;
 
     /**
      * Create a new field.
@@ -155,6 +160,12 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     public function size($width)
     {
         $this->size = 'w-' . $width;
+        return $this;
+    }
+
+    public function default($value)
+    {
+        $this->default = $value;
         return $this;
     }
 
@@ -245,11 +256,12 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
             $this->withMeta(['currentLocale' => \App::getLocale()]);
         }
 
-        if ($original and $this->original)
-            return $resource->getOriginal($attribute);
+        if ($original and $this->original) {
+            return $resource->getOriginal($attribute) ?? $this->default;
+        }
 
 //        return data_get($resource, str_replace('->', '.', $attribute));
-        return $resource->{$attribute};
+        return $resource->{$attribute} ?? $this->default;
     }
 
     /**

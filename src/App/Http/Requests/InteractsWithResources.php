@@ -2,17 +2,22 @@
 
 namespace InWeb\Admin\App\Http\Requests;
 
+use App\Models\Entity;
+use Illuminate\Database\Eloquent\Model;
 use InWeb\Admin\App\Admin;
 use InWeb\Admin\App\Resources\Resource;
 
 /**
  * Trait InteractsWithResources
  * @package InWeb\Admin\App\Http\Requests
+ * @property Resource|null resourceInstance
  * @property string|null resource
  * @property string|null resourceID
  */
 trait InteractsWithResources
 {
+    public $resourceInstance = null;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -35,6 +40,13 @@ trait InteractsWithResources
         ];
     }
 
+    public function setResource(Resource $resource)
+    {
+        $this->resourceInstance = $resource;
+        $this->resourceId = $resource->model()->getKey();
+        return $this;
+    }
+
     /**
      * Get the class name of the resource being requested.
      *
@@ -42,6 +54,9 @@ trait InteractsWithResources
      */
     public function resource()
     {
+        if ($this->resourceInstance)
+            return $this->resourceInstance;
+
         return tap(Admin::resourceForKey($this->resource), function ($resource) {
             abort_if(is_null($resource), 404);
         });
