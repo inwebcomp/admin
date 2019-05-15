@@ -8,10 +8,16 @@
                              :errors="validationErrors"
                              v-model="form.id" />
 
-            <form-text-field class="w-full" ref="firstField"
+            <form-text-field class="w-full"
                              :field="{name: __('Пароль'), attribute: 'password', type: 'password'}"
                              :errors="validationErrors"
                              v-model="form.password" />
+
+            <form-boolean-field class="w-full remember"
+                                inline
+                                :field="{name: __('Оставаться в системе'), attribute: 'remember', type: 'remember', size: 'none'}"
+                                :errors="validationErrors"
+                                v-model="form.remember" />
 
             <app-button submit class="w-full mt-4" type="accent" :loading="loading">{{ __('Вход') }}</app-button>
         </form>
@@ -85,3 +91,12 @@
         },
     }
 </script>
+
+<style lang="scss">
+    .remember {
+        .form__group__label {
+            margin: 0.5rem;
+            width: 100%;
+        }
+    }
+</style>
