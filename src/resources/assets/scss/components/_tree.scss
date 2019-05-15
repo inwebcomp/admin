@@ -11,7 +11,7 @@ $tree-item-height: 2.4rem;
 
 .tree__item__line {
     display: block;
-    height: $tree-item-height;
+    min-height: $tree-item-height;
     font-size: 100%;
     line-height: $tree-item-height;
     padding: 0 $padding;
