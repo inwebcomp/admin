@@ -25,6 +25,7 @@ abstract class Resource
         ConditionallyLoadsAttributes,
         PerformsQueries,
         DelegatesToResource;
+    
     /**
      * The underlying model resource instance.
      *

@@ -23,6 +23,7 @@ class ResourceUpdateController extends Controller
                 return response('', 409)->throwResponse();
             }
 
+            /** @var \App\Models\Entity $model */
             [$model, $callbacks] = $resource::fillForUpdate($request, $model);
 
             return tap(tap($model)->save(), function ($model) use ($request, $callbacks) {
