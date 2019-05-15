@@ -1443,6 +1443,10 @@ select {
   border-bottom-right-radius: 0;
 }
 
+.fr-wrapper > div:first-child:not(.fr-view) {
+  visibility: hidden;
+}
+
 .active-panel {
   background-color: #5a69c6;
   margin: 0 0 -3.571rem;
