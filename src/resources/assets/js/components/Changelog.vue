@@ -1,6 +1,16 @@
 <template>
     <div class="card p-4 px-8">
         <div class="mb-10">
+            <h1 class="text-2xl my-4">15.05.2019</h1>
+
+            <div class="pl-4">
+                <ul class="pl-6 leading-normal">
+                    <li>Чекбокс "Оставаться в системе" при логине</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mb-10">
             <h1 class="text-2xl my-4">14.05.2019</h1>
 
             <div class="pl-4">
