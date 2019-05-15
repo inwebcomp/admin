@@ -12,7 +12,7 @@ class AuthController extends Controller
     {
         $id = $request->input('id');
         $password = $request->input('password');
-        $remember = $request->input('remember');
+        $remember = $request->input('remember') == 'true';
         $redirect = $request->input('redirect');
 
         if (
