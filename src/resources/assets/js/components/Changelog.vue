@@ -1,6 +1,26 @@
 <template>
     <div class="card p-4 px-8">
         <div class="mb-10">
+            <h1 class="text-2xl my-4">14.05.2019</h1>
+
+            <div class="pl-4">
+                <ul class="pl-6 leading-normal">
+                    <li>Загрузка SVG изображений</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mb-10">
+            <h1 class="text-2xl my-4">13.05.2019</h1>
+
+            <div class="pl-4">
+                <ul class="pl-6 leading-normal">
+                    <li>Фильтр по категории</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mb-10">
             <h1 class="text-2xl my-4">10.05.2019</h1>
 
             <div class="pl-4">
