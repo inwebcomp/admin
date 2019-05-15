@@ -29,9 +29,9 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
 
     <!-- Include Editor JS files. -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@2.9.3/js/froala_editor.pkgd.min.js"></script>
+    <script type="text/javascript" src="/admin-assets/js/froala/froala_editor.pkgd.min.js"></script>
 
-    <script src='https://cdn.jsdelivr.net/npm/froala-editor@2.9.3/js/languages/ru.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/froala-editor@2.9.3/js/third_party/spell_checker.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/froala-editor@2.9.3/js/plugins/image.min.js'></script>
+    <script src='/admin-assets/js/froala/languages/ru.js'></script>
+    <script src='/admin-assets/js/froala/third_party/spell_checker.min.js'></script>
+    <script src='/admin-assets/js/froala/plugins/image.min.js'></script>
 @endpush
