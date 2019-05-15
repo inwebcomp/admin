@@ -70,7 +70,7 @@ class GlobalSearch
 
         foreach ($this->resources as $resource) {
             $query = $resource::buildIndexQuery(
-                $this->request, $resource::newModel()->newQuery(),
+                $this->request, $resource::newModel()->newQueryWithoutScopes(),
                 $this->request->search
             );
 
