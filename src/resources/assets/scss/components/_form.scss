@@ -271,3 +271,12 @@ select {
 		border-bottom-right-radius: 0;
 	}
 }
+
+
+
+
+
+
+.fr-wrapper > div:first-child:not(.fr-view) {
+	visibility: hidden;
+}
