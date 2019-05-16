@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="{{ asset('admin-assets/fonts/FontAwesome/css/all.css') }}" />
 
-<link rel="stylesheet" href="{{ asset('admin-assets/css/app.css') }}" />
+<link rel="stylesheet" href="{{ mix('/css/app.css', 'admin-assets') }}" />
 
 <!-- Tool Styles -->
 @foreach(\InWeb\Admin\App\Admin::availableStyles(request()) as $name => $path)
