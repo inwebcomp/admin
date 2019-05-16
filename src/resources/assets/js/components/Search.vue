@@ -12,7 +12,7 @@
                         <div class="dropdown__option__text search__option__text">
                             <div class="search__option__title">{{ option.title }}</div>
                             <div class="search__option__subtitle">{{ option.subTitle }}</div>
-                            <div class="search__option__id">ID: {{ option.resourceId }}</div>
+                            <div class="search__option__id">ID: {{ option.resourceId }}<i v-if="option.visibility" class="fas fa-eye-slash  text-grey ml-2"></i></div>
                         </div>
                     </router-link>
                 </ul>
