@@ -18,6 +18,8 @@ class AdminAccess
     public function handle($request, Closure $next)
     {
         if (strpos(\Route::current()->getName(), 'admin::login') === false) {
+            Auth::viaRemember();
+
             if (! Auth::user() and in_array('api', \Route::current()->computedMiddleware)) {
                 return abort('403');
             } else if (! Auth::user()) {
