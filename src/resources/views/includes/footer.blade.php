@@ -4,7 +4,7 @@
 
 @stack('js')
 
-<script src="{{ asset('admin-assets/js/app.js') }}"></script>
+<script src="{{ mix('/js/app.js', 'admin-assets') }}"></script>
 
 <!-- Build Admin Instance -->
 <script>

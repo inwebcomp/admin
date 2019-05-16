@@ -1,6 +1,6 @@
 const mix = require('laravel-mix')
 
-require('laravel-mix-tailwind');
+require('laravel-mix-tailwind')
 
 /*
  |--------------------------------------------------------------------------
@@ -15,9 +15,12 @@ require('laravel-mix-tailwind');
 
 let srcRoot = `${__dirname}/src/resources/assets`
 
-mix.js(`${srcRoot}/js/app.js`, 'src/public/js')
-   .sass(`${srcRoot}/scss/app.scss`, 'src/public/css')
-   .tailwind()
+mix
+    .setPublicPath('src/public/')
+    .js(`${srcRoot}/js/app.js`, 'js')
+    .sass(`${srcRoot}/scss/app.scss`, 'css')
+    .tailwind()
+    .version()
 
 mix.options({
     processCssUrls: false
