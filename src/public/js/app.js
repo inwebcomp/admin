@@ -29230,7 +29230,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("div", { staticClass: "search__option__id" }, [
                           _vm._v("ID: " + _vm._s(option.resourceId)),
-                          option.visibility
+                          !option.visibility
                             ? _c("i", {
                                 staticClass: "fas fa-eye-slash  text-grey ml-2"
                               })
