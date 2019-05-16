@@ -2,6 +2,7 @@
 
 namespace InWeb\Admin\App;
 
+use App\Traits\WithStatus;
 use Illuminate\Support\Collection;
 use InWeb\Admin\App\Http\Requests\AdminRequest;
 
@@ -52,6 +53,7 @@ class GlobalSearch
                     'subTitle'      => $instance->subtitle(),
                     'resourceId'    => $model->getKey(),
                     'url'           => $instance->editPath(),
+                    'visibility'    => in_array(WithStatus::class, class_uses($model)) ? $model->isPublished() : true,
                 ];
             }
         }
