@@ -2,6 +2,7 @@
 
 namespace InWeb\Admin\App;
 
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use InWeb\Admin\App\Http\Middleware\DispatchServingAdminEvent;
 
 class AdminRoute
@@ -20,6 +21,7 @@ class AdminRoute
             'middleware' => [
                 'api',
                 'admin-auth',
+                AddQueuedCookiesToResponse::class,
                 DispatchServingAdminEvent::class
             ],
             'as'         => 'admin::',
