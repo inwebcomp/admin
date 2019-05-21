@@ -1,6 +1,17 @@
 <template>
     <div class="card p-4 px-8">
         <div class="mb-10">
+            <h1 class="text-2xl my-4">21.05.2019</h1>
+
+            <div class="pl-4">
+                <ul class="pl-6 leading-normal">
+                    <li>Вкладки в разделе редактирования</li>
+                    <li>Инструмент для массового изменения значений параметров</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mb-10">
             <h1 class="text-2xl my-4">15.05.2019</h1>
 
             <div class="pl-4">
