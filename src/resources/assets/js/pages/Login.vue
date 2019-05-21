@@ -15,7 +15,7 @@
 
             <form-boolean-field class="w-full remember"
                                 inline
-                                :field="{name: __('Оставаться в системе'), attribute: 'remember', type: 'remember', size: 'none'}"
+                                :field="{name: __('Оставаться в системе'), attribute: 'remember', size: 'none'}"
                                 :errors="validationErrors"
                                 v-model="form.remember" />
 

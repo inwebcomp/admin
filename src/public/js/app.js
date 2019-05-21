@@ -32218,7 +32218,6 @@ var render = function() {
             field: {
               name: _vm.__("Оставаться в системе"),
               attribute: "remember",
-              type: "remember",
               size: "none"
             },
             errors: _vm.validationErrors
