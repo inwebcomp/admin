@@ -1,0 +1,41 @@
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    width: 100%;
+    margin-top: 1px;
+}
+
+.tab {
+    line-height: $card-form-header-height;
+    font-size: rem(16px);
+    padding: 0 $padding;
+    cursor: pointer;
+    box-sizing: border-box;
+    flex: auto;
+    text-align: center;
+    font-weight: bold;
+    color: #FFF;
+
+    &--active {
+        cursor: default;
+        position: relative;
+        color: $font-color;
+        background-color: $background-color;
+        border-top-left-radius: $card-border-radius;
+        border-top-right-radius: $card-border-radius;
+
+        @include box-shadow(0 2px 6px rgba(0,0,0,0.1));
+
+        //&::after {
+        //    content: '';
+        //    display: block;
+        //    height: 2px;
+        //    width: 100%;
+        //    background-color: $background-color;
+        //    position: absolute;
+        //    top: 100%;
+        //    left: 0;
+        //}
+    }
+}

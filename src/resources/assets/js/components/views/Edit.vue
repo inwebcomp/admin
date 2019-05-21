@@ -6,9 +6,17 @@
                               :backRoute="{ name: 'index', params: { controller: this.controller } }"></active-panel>
 
                 <div class="px-4">
+                    <div class="tabs">
+                        <div v-for="(tab, $i) in availablePanels" :key="$i" class="tab" :class="{'tab--active': activeTab == $i}"
+                             @click="activeTab = $i" v-text="tab.name"></div>
+                    </div>
+
                     <component
+                            class="card--with-tabs"
                             v-for="(panel, $i) in availablePanels"
                             :key="$i"
+                            v-show="$i == activeTab"
+                            :withHeader="false"
                             :is="panel.component"
                             :resource-name="controller"
                             :resource-id="object"
@@ -44,6 +52,7 @@
             loading: true,
             validationErrors: new Errors(),
             lastRetrievedAt: null,
+            activeTab: 0,
         }),
 
         watch: {

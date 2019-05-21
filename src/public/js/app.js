@@ -2400,6 +2400,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     errors: {
       type: Object
+    },
+    withHeader: {
+      type: Boolean,
+      default: true
     }
   },
   methods: {
@@ -4743,6 +4747,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "edit",
@@ -4753,7 +4765,8 @@ __webpack_require__.r(__webpack_exports__);
       panels: [],
       loading: true,
       validationErrors: new form_backend_validation__WEBPACK_IMPORTED_MODULE_0__["Errors"](),
-      lastRetrievedAt: null
+      lastRetrievedAt: null,
+      activeTab: 0
     };
   },
   watch: {
@@ -29029,7 +29042,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "card",
-    { staticClass: "card--form", attrs: { caption: _vm.panel.name } },
+    {
+      staticClass: "card--form",
+      attrs: { caption: _vm.withHeader ? _vm.panel.name : null }
+    },
     [
       _c(
         "div",
@@ -31865,20 +31881,51 @@ var render = function() {
             _c(
               "div",
               { staticClass: "px-4" },
-              _vm._l(_vm.availablePanels, function(panel, $i) {
-                return _c(panel.component, {
-                  key: $i,
-                  tag: "component",
-                  attrs: {
-                    "resource-name": _vm.controller,
-                    "resource-id": _vm.object,
-                    resource: _vm.resource,
-                    panel: panel,
-                    errors: _vm.validationErrors
-                  }
+              [
+                _c(
+                  "div",
+                  { staticClass: "tabs" },
+                  _vm._l(_vm.availablePanels, function(tab, $i) {
+                    return _c("div", {
+                      key: $i,
+                      staticClass: "tab",
+                      class: { "tab--active": _vm.activeTab == $i },
+                      domProps: { textContent: _vm._s(tab.name) },
+                      on: {
+                        click: function($event) {
+                          _vm.activeTab = $i
+                        }
+                      }
+                    })
+                  }),
+                  0
+                ),
+                _vm._v(" "),
+                _vm._l(_vm.availablePanels, function(panel, $i) {
+                  return _c(panel.component, {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: $i == _vm.activeTab,
+                        expression: "$i == activeTab"
+                      }
+                    ],
+                    key: $i,
+                    tag: "component",
+                    staticClass: "card--with-tabs",
+                    attrs: {
+                      withHeader: false,
+                      "resource-name": _vm.controller,
+                      "resource-id": _vm.object,
+                      resource: _vm.resource,
+                      panel: panel,
+                      errors: _vm.validationErrors
+                    }
+                  })
                 })
-              }),
-              1
+              ],
+              2
             )
           ],
           1

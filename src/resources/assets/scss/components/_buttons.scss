@@ -43,6 +43,14 @@ $button-default-color: #FFF;
 	i {
 		font-size: rem(20px);
 	}
+
+	&--small {
+		font-size: $button-font-size * .9;
+
+		i {
+			font-size: rem(20px) * .8;
+		}
+	}
 }
 a.button {
     display: inline-block;
@@ -141,6 +149,28 @@ a.button {
 
 	&.button--loading::after {
 		background-color: #FFF;
+	}
+}
+
+.button--default {
+	color: $font-color;
+	background-color: $background-color;
+	border-color: $border-color;
+
+	&:focus, &:hover {
+		background-color: darken($background-color, 4%);
+	}
+
+	&:active {
+		background-color: darken($background-color, 6%);
+	}
+
+	&.button--loading::after {
+		background-color: $accent-color;
+	}
+
+	i {
+		color: lighten($font-color, 20%);
 	}
 }
 
