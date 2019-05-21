@@ -70,6 +70,7 @@
 
             select(value) {
                 this.$emit('input', value)
+                this.$emit('select', value)
                 this.close()
             },
 
