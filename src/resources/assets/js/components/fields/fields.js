@@ -1,5 +1,8 @@
 import Vue from 'vue'
 
+// Form Section ...
+Vue.component('form-section', require('~fields/Form/FormSection.vue').default)
+
 // Text Field...
 Vue.component('index-text-field', require('~fields/Index/TextField.vue').default)
 Vue.component('form-text-field', require('~fields/Form/TextField.vue').default)
@@ -29,5 +32,6 @@ Vue.component('form-boolean-field', require('~fields/Form/BooleanField.vue').def
 Vue.component('form-editor-field', require('~fields/Form/EditorField.vue').default)
 Vue.component('index-editor-field', require('~fields/Index/EditorField.vue').default)
 
-// Form Section ...
-Vue.component('form-section', require('~fields/Form/FormSection.vue').default)
+// Editor Field...
+Vue.component('form-select-field', require('~fields/Form/SelectField.vue').default)
+Vue.component('index-select-field', require('~fields/Index/SelectField.vue').default)
