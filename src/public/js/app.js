@@ -2080,6 +2080,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Changelog"
 });
@@ -3935,6 +3946,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     select: function select(value) {
       this.$emit('input', value);
+      this.$emit('select', value);
       this.close();
     },
     toggle: function toggle() {
@@ -28478,6 +28490,20 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card p-4 px-8" }, [
+      _c("div", { staticClass: "mb-10" }, [
+        _c("h1", { staticClass: "text-2xl my-4" }, [_vm._v("21.05.2019")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "pl-4" }, [
+          _c("ul", { staticClass: "pl-6 leading-normal" }, [
+            _c("li", [_vm._v("Вкладки в разделе редактирования")]),
+            _vm._v(" "),
+            _c("li", [
+              _vm._v("Инструмент для массового изменения значений параметров")
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
       _c("div", { staticClass: "mb-10" }, [
         _c("h1", { staticClass: "text-2xl my-4" }, [_vm._v("15.05.2019")]),
         _vm._v(" "),
