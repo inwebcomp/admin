@@ -1,5 +1,5 @@
 <template>
-    <card class="card--form" :caption="panel.name">
+    <card class="card--form" :caption="withHeader ? panel.name : null">
         <div class="p-8" :class="classes">
             <component
                 :key="index"
@@ -24,6 +24,7 @@ export default {
         resource: { type: Object },
         panel: { type: Object },
         errors: { type: Object },
+        withHeader: { type: Boolean, default: true },
     },
 
     methods: {

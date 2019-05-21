@@ -584,6 +584,14 @@ body {
   font-size: 1.429rem;
 }
 
+.button--small {
+  font-size: 1.0926rem;
+}
+
+.button--small i {
+  font-size: 1.1432rem;
+}
+
 a.button {
   display: inline-block;
 }
@@ -688,6 +696,29 @@ a.button {
 
 .button--info.button--loading::after {
   background-color: #fff;
+}
+
+.button--default {
+  color: #333;
+  background-color: #fff;
+  border-color: #e6e6e6;
+}
+
+.button--default:focus,
+.button--default:hover {
+  background-color: whitesmoke;
+}
+
+.button--default:active {
+  background-color: #f0f0f0;
+}
+
+.button--default.button--loading::after {
+  background-color: #3f51b5;
+}
+
+.button--default i {
+  color: #666;
 }
 
 .button--loading {
@@ -821,6 +852,11 @@ a.button {
   -ms-box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
    -o-box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
       box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+}
+
+.card--with-tabs {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
 }
 
 .card__header {
@@ -1626,7 +1662,7 @@ select {
 
 .side-popup-wrapper {
   width: 100%;
-  max-width: 800px;
+  max-width: 900px;
   height: 100%;
   position: fixed;
   top: 0;
@@ -1905,6 +1941,38 @@ select {
   color: #515255;
   font-size: .85em;
   margin-top: 2px;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  width: 100%;
+  margin-top: 1px;
+}
+
+.tab {
+  line-height: 3.571rem;
+  font-size: 1.143rem;
+  padding: 0 1rem;
+  cursor: pointer;
+  box-sizing: border-box;
+  flex: auto;
+  text-align: center;
+  font-weight: bold;
+  color: #fff;
+}
+
+.tab--active {
+  cursor: default;
+  position: relative;
+  color: #333;
+  background-color: #fff;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  -ms-box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+   -o-box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
 }
 
 .header {
