@@ -46,7 +46,7 @@ class ResourceIndexController extends Controller
         if ($res instanceof Nested) {
             $parent = Parameters::remember($request, $resource, 'parent');
 
-            if ($parent and $item = $res->nestedRelationResource()->model()->find($parent)) {
+            if ($parent and $item = $res->nestedRelationResource()->model()->withoutGlobalScopes()->find($parent)) {
                 if ($res instanceof Product) { // @todo
                     $query->whereIn('category_id', array_merge(
                         $item->getDescendants([$item->getKeyName()])->pluck($item->getKeyName())->toArray(),
@@ -56,7 +56,6 @@ class ResourceIndexController extends Controller
                     $query->where($res->nestedRelationResourceField(), $item->id);
                 }
             } else {
-
                 if ($model instanceof \App\Contracts\Nested) {
                     $query->whereIsRoot();
                 }
@@ -98,7 +97,7 @@ class ResourceIndexController extends Controller
 
         $parent = Parameters::get($request->resource(), 'parent');
 
-        $item = $model::find($parent);
+        $item = $model::withoutGlobalScopes()->find($parent);
 
         return $request->newResource()->nestedRelationResource()->breadcrumbs($item);
     }

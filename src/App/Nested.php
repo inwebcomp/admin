@@ -23,7 +23,7 @@ trait Nested
 
 //            $options->hasChildren();
 
-            $options = $options->get()->map(function($item) {
+            $options = $options->withoutGlobalScopes()->ordered()->get()->map(function($item) {
                 return [
                     'title' => $item->title,
                     'value' => $item->getKey(),
@@ -53,7 +53,7 @@ trait Nested
         if (! $node)
             return $path;
 
-        $node->ancestors()->each(function(\App\Contracts\Nested $ancestor) use (&$path) {
+        $node->ancestors()->withoutGlobalScopes()->ordered()->each(function(\App\Contracts\Nested $ancestor) use (&$path) {
             $path[] = [
                 'title' => $ancestor->title,
                 'id' => $ancestor->getKey()
