@@ -20,7 +20,7 @@ class ResourceUpdateController extends Controller
             $model = $request->findModelQuery()->lockForUpdate()->firstOrFail();
 
             if ($this->modelHasBeenUpdatedSinceRetrieval($request, $model)) {
-                return response('', 409)->throwResponse();
+                return response($model->updated_at . ' > ' . Carbon::createFromTimestamp($request->input('_retrieved_at')), 409)->throwResponse();
             }
 
             /** @var \App\Models\Entity $model */
@@ -49,6 +49,8 @@ class ResourceUpdateController extends Controller
      */
     protected function modelHasBeenUpdatedSinceRetrieval(ResourceUpdateRequest $request, $model)
     {
+        return false;
+
         $column = $model->getUpdatedAtColumn();
 
         if (! $model->{$column}) {

@@ -74,6 +74,8 @@
                     this.resource = resource
                     this.panels = panels
                     this.loading = false
+
+                    this.updateLastRetrievedAtTimestamp()
                 }).catch(({status}) => {
                     if (status == 404) {
                         this.$toasted.show(
@@ -84,8 +86,6 @@
                         )
                     }
                 })
-
-                this.updateLastRetrievedAtTimestamp()
             },
 
             /**
@@ -110,7 +110,7 @@
                     controller: this.controller,
                     action: 'update',
                     object: this.object,
-                    data: this.updateResourceFormData
+                    data: this.updateResourceFormData()
                 }).then(() => {
                     this.loading = false
 
@@ -164,7 +164,21 @@
                         {type: 'success'}
                     )
                 })
-            }
+            },
+
+            updateResourceFormData() {
+                return _.tap(new FormData(), formData => {
+                    _(this.panels).each(panel => {
+                        _(panel.fields).each(field => {
+                            if (field.fill)
+                                field.fill(formData)
+                        })
+                    })
+
+                    formData.append('_method', 'PUT')
+                    formData.append('_retrieved_at', this.lastRetrievedAt)
+                })
+            },
         },
 
         computed: {
@@ -195,20 +209,6 @@
 
                     return _.toArray(panels)
                 }
-            },
-
-            updateResourceFormData() {
-                return _.tap(new FormData(), formData => {
-                    _(this.panels).each(panel => {
-                        _(panel.fields).each(field => {
-                            if (field.fill)
-                                field.fill(formData)
-                        })
-                    })
-
-                    formData.append('_method', 'PUT')
-                    formData.append('_retrieved_at', this.lastRetrievedAt)
-                })
             },
         },
     }
