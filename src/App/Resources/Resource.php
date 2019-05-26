@@ -135,7 +135,7 @@ abstract class Resource
 
     public function creationFields(AdminRequest $request)
     {
-        return $this->fields($request);
+        return $this->detailFields($request);
     }
 
     /**
