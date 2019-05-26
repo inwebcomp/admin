@@ -11,7 +11,8 @@
         "laravel-mix": "^4.0.12",
         "laravel-mix-tailwind": "^0.1.0",
         "sass": "^1.15.2",
-        "tailwindcss": "^0.7.3"
+        "tailwindcss": "^0.7.3",
+        "@babel/runtime-corejs2": "^7.4.5"
     },
     "dependencies": {
         "axios": "^0.18.0",
