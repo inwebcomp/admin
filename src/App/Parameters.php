@@ -30,6 +30,13 @@ class Parameters
         return Session::get($key);
     }
 
+    public static function remove($resource, $param)
+    {
+        $key = self::getKey($resource, $param);
+
+        return Session::remove($key);
+    }
+
     /**
      * @param $resource
      * @param $param

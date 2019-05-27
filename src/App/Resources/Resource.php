@@ -3,7 +3,6 @@
 namespace InWeb\Admin\App\Resources;
 
 use App\Models\Entity;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
 use Illuminate\Http\Resources\DelegatesToResource;
