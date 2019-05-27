@@ -68,7 +68,7 @@ class Panel extends MergeValue implements JsonSerializable
      */
     public static function defaultNameFor(Resource $resource)
     {
-        return __('Базования информация');
+        return __('Базовая информация');
     }
 
     /**
