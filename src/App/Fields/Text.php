@@ -19,4 +19,9 @@ class Text extends Field
     {
         return $this->withMeta(['subtitle' => $text]);
     }
+
+    public function disabled()
+    {
+        return $this->withMeta(['extraAttributes' => ['disabled' => true]]);
+    }
 }
