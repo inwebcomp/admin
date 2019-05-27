@@ -113,7 +113,7 @@
 
                 Api.resource({
                     controller: this.controller, params: {
-                        page: this.$route.query.page || null,
+                        page: parent ? null : this.$route.query.page || null,
                         parent
                     }
                 }).then(({resources, pagination, breadcrumbs}) => {
