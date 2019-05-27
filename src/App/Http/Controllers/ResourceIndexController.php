@@ -8,6 +8,7 @@ use InWeb\Admin\App\Contracts\Nested;
 use InWeb\Admin\App\Http\Requests\ResourceIndexRequest;
 use InWeb\Admin\App\Models\Entity;
 use InWeb\Admin\App\Parameters;
+use Session;
 
 class ResourceIndexController extends Controller
 {
@@ -44,7 +45,11 @@ class ResourceIndexController extends Controller
 
         // @todo Refactor this
         if ($res instanceof Nested) {
+            $wasParent = Session::get('parent');
             $parent = Parameters::remember($request, $resource, 'parent');
+
+            if ($wasParent != $parent)
+                Parameters::remove($resource, 'page');
 
             if ($parent and $item = $res->nestedRelationResource()->model()->withoutGlobalScopes()->find($parent)) {
                 if ($res instanceof Product) { // @todo
