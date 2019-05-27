@@ -26,7 +26,7 @@ class TreeFieldController extends Controller
     private function getTree($model, $object = null)
     {
         if (! $object) {
-            $query = $model::whereIsRoot();
+            $query = $model::whereIsRoot()->withoutGlobalScopes();
 
             if (new $model instanceof Sortable)
                 $query->ordered();
@@ -44,7 +44,7 @@ class TreeFieldController extends Controller
             });
         }
 
-        $query = $object->ancestors();
+        $query = $object->ancestors()->withoutGlobalScopes();
 
         if (new $model instanceof Sortable)
             $query->ordered();
@@ -67,6 +67,8 @@ class TreeFieldController extends Controller
 
         $cats = $object->isLeaf() ? $object->siblingsAndSelf() : $object->children();
 
+        $cats->withoutGlobalScopes();
+
         if ($object instanceof Sortable)
             $cats->ordered();
 
@@ -80,7 +82,7 @@ class TreeFieldController extends Controller
             $tree->push($item);
 
             if ($item->id == $object->id and ! $object->isLeaf()) {
-                $query = $object->descendant();
+                $query = $object->descendant()->withoutGlobalScopes();
 
                 if ($object instanceof Sortable)
                     $query->ordered();
