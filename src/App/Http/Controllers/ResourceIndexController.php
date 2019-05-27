@@ -45,11 +45,12 @@ class ResourceIndexController extends Controller
 
         // @todo Refactor this
         if ($res instanceof Nested) {
-            $wasParent = Parameters::get($resource, 'page');
+            $wasParent = Parameters::get($resource, 'parent');
             $parent = Parameters::remember($request, $resource, 'parent');
 
-            if ($wasParent != $parent)
+            if ($wasParent != $parent) {
                 Parameters::remove($resource, 'page');
+            }
 
             if ($parent and $item = $res->nestedRelationResource()->model()->withoutGlobalScopes()->find($parent)) {
                 if ($res instanceof Product) { // @todo

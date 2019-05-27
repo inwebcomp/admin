@@ -4928,7 +4928,7 @@ __webpack_require__.r(__webpack_exports__);
      * Update the last retrieved at timestamp to the current UNIX timestamp.
      */
     updateLastRetrievedAtTimestamp: function updateLastRetrievedAtTimestamp() {
-      this.lastRetrievedAt = Math.floor(new Date().getTime() / 1000) + 2;
+      this.lastRetrievedAt = Math.floor(new Date().getTime() / 1000);
     },
     createPanelForField: function createPanelForField(field) {
       return _.tap(_.find(this.panels, function (panel) {
@@ -5267,7 +5267,7 @@ __webpack_require__.r(__webpack_exports__);
       _js_api__WEBPACK_IMPORTED_MODULE_0__["default"].resource({
         controller: this.controller,
         params: {
-          page: this.$route.query.page || null,
+          page: parent ? null : this.$route.query.page || null,
           parent: parent
         }
       }).then(function (_ref) {
