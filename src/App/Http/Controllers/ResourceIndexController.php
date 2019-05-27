@@ -45,7 +45,7 @@ class ResourceIndexController extends Controller
 
         // @todo Refactor this
         if ($res instanceof Nested) {
-            $wasParent = Session::get('parent');
+            $wasParent = Parameters::get($resource, 'page');
             $parent = Parameters::remember($request, $resource, 'parent');
 
             if ($wasParent != $parent)
