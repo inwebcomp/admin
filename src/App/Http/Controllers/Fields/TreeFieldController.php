@@ -15,7 +15,7 @@ class TreeFieldController extends Controller
     {
         $model = $request->input('model', $request->model());
 
-        $item = $model::find($request->input('id'));
+        $item = $model::withoutGlobalScopes()->find($request->input('id'));
 
         return [
             'tree' => $this->getTree($model, $item),
