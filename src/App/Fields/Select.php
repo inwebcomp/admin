@@ -17,7 +17,7 @@ class Select extends Field
 
     public function withEmpty()
     {
-        array_unshift($this->meta['options'] , [
+        array_unshift($this->meta['options'], [
             'title' => '-- ' . __('Выберите значение'),
             'value' => null,
         ]);
@@ -27,6 +27,15 @@ class Select extends Field
 
     public static function prepare($array)
     {
-        return [];
+        $result = [];
+
+        foreach ($array as $value => $title) {
+            $result[] = [
+                'title' => $title,
+                'value' => $value,
+            ];
+        }
+
+        return $result;
     }
 }
