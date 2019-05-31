@@ -24,4 +24,9 @@ class Select extends Field
 
         return $this;
     }
+
+    public static function prepare($array)
+    {
+        return [];
+    }
 }
