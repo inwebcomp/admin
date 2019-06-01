@@ -31,7 +31,7 @@ export default {
 
         // Register a global event for setting the field's value
         App.$on(this.field.attribute + '-value', value => {
-            this.value = value
+            this.handleChange(value)
         })
     },
 
