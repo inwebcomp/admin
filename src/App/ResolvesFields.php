@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use InWeb\Admin\App\Contracts\Resolvable;
 use InWeb\Admin\App\Fields\FieldCollection;
 use InWeb\Admin\App\Http\Requests\AdminRequest;
+use InWeb\Admin\App\Http\Requests\ResourceCreateRequest;
 use InWeb\Admin\App\Http\Requests\ResourceDetailRequest;
 use InWeb\Admin\App\Http\Requests\ResourceIndexRequest;
 use InWeb\Admin\App\Http\Requests\ResourceStoreRequest;
@@ -103,6 +104,8 @@ trait ResolvesFields
         else if ($request instanceof ResourceUpdateRequest)
             $fields = $this->updateFields($request);
         else if ($request instanceof ResourceStoreRequest)
+            $fields = $this->creationFields($request);
+        else if ($request instanceof ResourceCreateRequest)
             $fields = $this->creationFields($request);
         else
             $fields = $this->fields($request);
