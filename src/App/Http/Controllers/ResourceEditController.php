@@ -14,7 +14,9 @@ class ResourceEditController extends Controller
         })->firstOrFail());
 
         return response()->json([
-            'info' => $resource::info(),
+            'info' => array_merge($resource::info(), [
+                'title' => $resource->title()
+            ]),
             'panels' => $resource->availablePanels($request),
             'resource' => $this->assignFieldsToPanels(
                 $request, $resource->serializeForEdit($request)

@@ -187,8 +187,12 @@
             },
 
             accent() {
-                return (this.availablePanels && this.availablePanels[0].fields[0]) ? this.availablePanels[0].fields[0].value : null
+                return (this.resource) ? this.$store.state.resource.info.title : null
             },
+
+            // accent() {
+            //     return (this.availablePanels && this.availablePanels[0].fields[0]) ? this.availablePanels[0].fields[0].value : null
+            // },
 
             availablePanels() {
                 if (this.resource) {
