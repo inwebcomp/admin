@@ -1,6 +1,8 @@
 <template>
     <div class="form__section text-center my-4 mx-2">
-        <div class="form__section__text text-sm font-semibold text-grey-darker p-2">{{ field.name }}</div>
+        <div class="form__section__text text-sm font-semibold text-grey-darker p-2">
+            <slot><template v-if="field">{{ field.name }}</template></slot>
+        </div>
         <hr class="form__section__hr border-b">
     </div>
 </template>
@@ -28,17 +30,7 @@
         props: {
             field: {
                 type: Object,
-                required: true,
-            },
-        },
-
-        computed: {
-            extraAttributes() {
-                const attrs = this.field.extraAttributes
-
-                return {
-                    ...attrs,
-                }
+                required: false,
             },
         },
     }

@@ -44,6 +44,7 @@ trait InteractsWithResources
     {
         $this->resourceInstance = $resource;
         $this->resourceId = $resource->model()->getKey();
+
         return $this;
     }
 

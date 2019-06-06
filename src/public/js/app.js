@@ -3285,10 +3285,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+//
+//
 //
 //
 //
@@ -3318,13 +3316,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   props: {
     field: {
       type: Object,
-      required: true
-    }
-  },
-  computed: {
-    extraAttributes: function extraAttributes() {
-      var attrs = this.field.extraAttributes;
-      return _objectSpread({}, attrs);
+      required: false
     }
   }
 });
@@ -4984,8 +4976,11 @@ __webpack_require__.r(__webpack_exports__);
       return this.resource ? this.$store.state.resource.info.singularLabel : null;
     },
     accent: function accent() {
-      return this.availablePanels && this.availablePanels[0].fields[0] ? this.availablePanels[0].fields[0].value : null;
+      return this.resource ? this.$store.state.resource.info.title : null;
     },
+    // accent() {
+    //     return (this.availablePanels && this.availablePanels[0].fields[0]) ? this.availablePanels[0].fields[0].value : null
+    // },
     availablePanels: function availablePanels() {
       var _this5 = this;
 
@@ -5184,9 +5179,9 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    App.$on('resourceUpdate', function () {
-      _this.fetch();
-    });
+    // App.$on('resourceUpdate', () => {
+    //     this.fetch()
+    // })
     App.$on('resourceDestroyed', function () {
       _this.fetch();
     });
@@ -30139,7 +30134,12 @@ var render = function() {
         staticClass:
           "form__section__text text-sm font-semibold text-grey-darker p-2"
       },
-      [_vm._v(_vm._s(_vm.field.name))]
+      [
+        _vm._t("default", [
+          _vm.field ? [_vm._v(_vm._s(_vm.field.name))] : _vm._e()
+        ])
+      ],
+      2
     ),
     _vm._v(" "),
     _c("hr", { staticClass: "form__section__hr border-b" })

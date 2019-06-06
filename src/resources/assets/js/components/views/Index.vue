@@ -62,9 +62,9 @@
         },
 
         created() {
-            App.$on('resourceUpdate', () => {
-                this.fetch()
-            })
+            // App.$on('resourceUpdate', () => {
+            //     this.fetch()
+            // })
 
             App.$on('resourceDestroyed', () => {
                 this.fetch()
