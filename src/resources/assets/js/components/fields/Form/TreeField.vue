@@ -110,7 +110,7 @@
 
             fetch(id = null) {
                 App.api.request({
-                    url: 'field/tree-field/tree/' + this.resourceName + '/' + this.resourceId,
+                    url: 'field/tree-field/tree/' + this.resourceName + (this.resourceId ? '/' + this.resourceId : ''),
                     params: {
                         id,
                         model: this.field.model
