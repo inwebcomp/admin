@@ -13,12 +13,14 @@ use InWeb\Admin\App\FillsFields;
 use InWeb\Admin\App\Http\Requests\AdminRequest;
 use InWeb\Admin\App\PerformsQueries;
 use InWeb\Admin\App\PerformsValidation;
+use InWeb\Admin\App\ResolvesActions;
 use InWeb\Admin\App\ResolvesFields;
 use Laravel\Scout\Searchable;
 
 abstract class Resource
 {
     use ResolvesFields,
+        ResolvesActions,
         FillsFields,
         PerformsValidation,
         ConditionallyLoadsAttributes,

@@ -229,14 +229,18 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Resolve the given attribute from the given resource.
      *
-     * @param  Entity $resource
-     * @param  string $attribute
-     * @param bool    $original
+     * @param Entity $resource
+     * @param string $attribute
+     * @param bool $original
      * @return mixed
+     * @throws \ReflectionException
      */
     protected function resolveAttribute($resource, $attribute, $original = true)
     {
-        if ($resource->translatable() && $resource->isTranslationAttribute($attribute)) {
+        if (
+            ! (new \ReflectionClass($resource))->isAnonymous() and
+            $resource->translatable() && $resource->isTranslationAttribute($attribute)
+        ) {
             $this->withMeta(['translatable' => true]);
 
             /** @var Translatable $resource */

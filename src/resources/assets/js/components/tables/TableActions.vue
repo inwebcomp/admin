@@ -1,7 +1,11 @@
 <template>
-    <div v-if="this.selected.length" class="active-panel__button" @click="$emit('action', 'destroy')">
-        <i class="fas fa-trash-alt mr-2 text-grey-light"></i>
-        {{ __(' Удалить') }}
+    <div>
+        <custom-actions />
+
+        <div v-if="selected.length" class="active-panel__button" @click="$emit('action', 'destroy')">
+            <i class="fas fa-trash-alt mr-2 text-grey-light"></i>
+            {{ __(' Удалить') }}
+        </div>
     </div>
 </template>
 
