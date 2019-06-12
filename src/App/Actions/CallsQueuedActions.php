@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Nova\Actions;
+namespace InWeb\Admin\App\Actions;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -12,7 +12,7 @@ trait CallsQueuedActions
     /**
      * The action class name.
      *
-     * @var \Laravel\Nova\Actions\Action
+     * @var \InWeb\Admin\App\Actions\Action
      */
     public $action;
 
@@ -26,7 +26,7 @@ trait CallsQueuedActions
     /**
      * The resolved fields.
      *
-     * @var \Laravel\Nova\Fields\ActionFields
+     * @var \InWeb\Admin\App\Fields\ActionFields
      */
     public $fields;
 

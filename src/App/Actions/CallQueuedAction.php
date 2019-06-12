@@ -1,9 +1,9 @@
 <?php
 
-namespace Laravel\Nova\Actions;
+namespace InWeb\Admin\App\Actions;
 
 use Illuminate\Support\Str;
-use Laravel\Nova\Fields\ActionFields;
+use InWeb\Admin\App\Fields\ActionFields;
 use Illuminate\Database\Eloquent\Collection;
 
 class CallQueuedAction
@@ -20,9 +20,9 @@ class CallQueuedAction
     /**
      * Create a new job instance.
      *
-     * @param  \Laravel\Nova\Actions\Action  $action
+     * @param  \InWeb\Admin\App\Actions\Action  $action
      * @param  string  $method
-     * @param  \Laravel\Nova\Fields\ActionFields  $fields
+     * @param  \InWeb\Admin\App\Fields\ActionFields  $fields
      * @param  \Illuminate\Database\Eloquent\Collection  $models
      * @param  string  $batchId
      * @return void

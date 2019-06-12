@@ -1,23 +1,23 @@
 <?php
 
-namespace Laravel\Nova\Actions;
+namespace InWeb\Admin\App\Actions;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Queue;
-use Laravel\Nova\Fields\ActionFields;
+use InWeb\Admin\App\Fields\ActionFields;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Laravel\Nova\Http\Requests\ActionRequest;
+use InWeb\Admin\App\Http\Requests\ActionRequest;
 
 class DispatchAction
 {
     /**
      * Dispatch the given action.
      *
-     * @param  \Laravel\Nova\Http\Requests\ActionRequest $request
-     * @param  \Laravel\Nova\Actions\Action $action
+     * @param  \InWeb\Admin\App\Http\Requests\ActionRequest $request
+     * @param  \InWeb\Admin\App\Actions\Action $action
      * @param  string $method
      * @param  \Illuminate\Support\Collection $models
-     * @param  \Laravel\Nova\Fields\ActionFields $fields
+     * @param  \InWeb\Admin\App\Fields\ActionFields $fields
      * @return mixed
      */
     public static function forModels(
@@ -41,16 +41,18 @@ class DispatchAction
             }
 
             return $action->withBatchId($batchId)->{$method}($fields, $models);
-        }, function ($batchId) {
-            ActionEvent::markBatchAsFinished($batchId);
+        }, function ($batchId) use ($action) {
+            if (! $action->withoutActionEvents) {
+                ActionEvent::markBatchAsFinished($batchId);
+            }
         });
     }
 
     /**
      * Dispatch the given action in the background.
      *
-     * @param  \Laravel\Nova\Http\Requests\ActionRequest  $request
-     * @param  \Laravel\Nova\Actions\Action  $action
+     * @param  \InWeb\Admin\App\Http\Requests\ActionRequest  $request
+     * @param  \InWeb\Admin\App\Actions\Action  $action
      * @param  string  $method
      * @param  \Illuminate\Support\Collection  $models
      * @return void
@@ -74,7 +76,7 @@ class DispatchAction
     /**
      * Extract the queue connection for the action.
      *
-     * @param  \Laravel\Nova\Actions\Action  $action
+     * @param  \InWeb\Admin\App\Actions\Action  $action
      * @return string|null
      */
     protected static function connection($action)
@@ -85,7 +87,7 @@ class DispatchAction
     /**
      * Extract the queue name for the action.
      *
-     * @param  \Laravel\Nova\Actions\Action  $action
+     * @param  \InWeb\Admin\App\Actions\Action  $action
      * @return string|null
      */
     protected static function queue($action)

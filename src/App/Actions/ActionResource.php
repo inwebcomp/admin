@@ -1,16 +1,16 @@
 <?php
 
-namespace Laravel\Nova\Actions;
+namespace InWeb\Admin\App\Actions;
 
-use Laravel\Nova\Resource;
-use Laravel\Nova\Fields\ID;
+use InWeb\Admin\App\Resource;
+use InWeb\Admin\App\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Status;
-use Laravel\Nova\Fields\DateTime;
-use Laravel\Nova\Fields\KeyValue;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Fields\MorphToActionTarget;
+use InWeb\Admin\App\Fields\Text;
+use InWeb\Admin\App\Fields\Status;
+use InWeb\Admin\App\Fields\DateTime;
+use InWeb\Admin\App\Fields\KeyValue;
+use InWeb\Admin\App\Http\Requests\NovaRequest;
+use InWeb\Admin\App\Fields\MorphToActionTarget;
 
 class ActionResource extends Resource
 {
@@ -91,7 +91,7 @@ class ActionResource extends Resource
     /**
      * Build an "index" query for the given resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \InWeb\Admin\App\Http\Requests\NovaRequest  $request
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */

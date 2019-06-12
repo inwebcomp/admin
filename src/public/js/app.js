@@ -1845,6 +1845,11 @@ __webpack_require__.r(__webpack_exports__);
     getType: function getType() {
       return this.submit ? 'submit' : 'button';
     }
+  },
+  methods: {
+    focus: function focus() {
+      this.$refs.button.focus();
+    }
   }
 });
 
@@ -3036,6 +3041,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3065,27 +3071,13 @@ __webpack_require__.r(__webpack_exports__);
      */
     actions: function actions() {
       this.selectedActionKey = '';
-      this.initializeActionFields();
-    },
-    confirmActionModalOpened: function confirmActionModalOpened(opened) {
-      if (opened) {
-        this.$showPopup(this.selectedAction.component, {
-          working: this.working,
-          selectedResources: this.selectedResources,
-          resourceName: this.resourceName,
-          action: this.selectedAction,
-          errors: this.errors
-        });
-      } else {
-        this.$closePopup();
-      }
     }
   },
   created: function created() {
     var _this = this;
 
     App.$on('executeAction', function (action) {
-      _this.selectedAction = action;
+      _this.selectedActionKey = action.uriKey;
 
       _this.$nextTick(function () {
         _this.executeAction();
@@ -3126,14 +3118,20 @@ __webpack_require__.r(__webpack_exports__);
      * Confirm with the user that they actually want to run the selected action.
      */
     openConfirmationModal: function openConfirmationModal() {
-      this.confirmActionModalOpened = true;
+      this.$showPopup(this.selectedAction.component, {
+        working: this.working,
+        selectedResources: this.selectedResources,
+        resourceName: this.resourceName,
+        action: this.selectedAction,
+        errors: this.errors
+      });
     },
 
     /**
      * Close the action confirmation modal.
      */
     closeConfirmationModal: function closeConfirmationModal() {
-      this.confirmActionModalOpened = false;
+      this.$closePopup();
     },
 
     /**
@@ -3155,13 +3153,13 @@ __webpack_require__.r(__webpack_exports__);
     executeAction: function executeAction() {
       var _this3 = this;
 
-      this.working = true;
-
       if (this.selectedResources.length == 0) {
         alert(this.__('Please select a resource to perform this action on.'));
         return;
       }
 
+      if (this.working) return;
+      this.working = true;
       App.api.request({
         method: 'post',
         url: this.endpoint || "".concat(this.resourceName, "/action"),
@@ -3170,14 +3168,18 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this3.confirmActionModalOpened = false;
 
-        _this3.handleActionResponse(response.data);
+        _this3.handleActionResponse(response);
 
         _this3.working = false;
-      })["catch"](function (error) {
+
+        _this3.$store.dispatch('resource/clearSelected');
+      })["catch"](function (_ref2) {
+        var status = _ref2.status,
+            data = _ref2.data;
         _this3.working = false;
 
-        if (error.response.status == 422) {
-          _this3.errors = new form_backend_validation__WEBPACK_IMPORTED_MODULE_1__["Errors"](error.response.data.errors);
+        if (status == 422) {
+          _this3.errors = new form_backend_validation__WEBPACK_IMPORTED_MODULE_1__["Errors"](data.errors);
         }
       });
     },
@@ -3202,14 +3204,14 @@ __webpack_require__.r(__webpack_exports__);
      */
     handleActionResponse: function handleActionResponse(response) {
       if (response.message) {
-        this.$emit('actionExecuted');
+        App.$emit('actionExecuted');
         this.$toasted.show(response.message, {
           type: 'success'
         });
       } else if (response.deleted) {
-        this.$emit('actionExecuted');
+        App.$emit('actionExecuted');
       } else if (response.danger) {
-        this.$emit('actionExecuted');
+        App.$emit('actionExecuted');
         this.$toasted.show(response.danger, {
           type: 'error'
         });
@@ -3225,7 +3227,7 @@ __webpack_require__.r(__webpack_exports__);
       } else if (response.openInNewTab) {
         window.open(response.openInNewTab, '_blank');
       } else {
-        this.$emit('actionExecuted');
+        App.$emit('actionExecuted');
         this.$toasted.show(this.__('The action ran successfully!'), {
           type: 'success'
         });
@@ -3277,7 +3279,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this6 = this;
 
       return lodash__WEBPACK_IMPORTED_MODULE_0___default()(this.actions).filter(function (action) {
-        if (_this6.selectedResources != 'all') {
+        if (_this6.selectedResources.length) {
           return true;
         }
 
@@ -4615,6 +4617,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     working: Boolean,
@@ -4642,8 +4645,8 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     // If the modal has inputs, let's highlight the first one, otherwise
     // let's highlight the submit button
-    if (document.querySelectorAll('.modal input').length) {
-      document.querySelectorAll('.modal input')[0].focus();
+    if (document.querySelectorAll('.popup input').length) {
+      document.querySelectorAll('.popup input')[0].focus();
     } else {
       this.$refs.runButton.focus();
     }
@@ -4664,14 +4667,15 @@ __webpack_require__.r(__webpack_exports__);
      * Execute the selected action.
      */
     handleConfirm: function handleConfirm() {
-      this.$emit('confirm');
+      App.$emit('executeAction', this.action);
+      this.$closePopup();
     },
 
     /**
      * Close the modal.
      */
     handleClose: function handleClose() {
-      this.$emit('close');
+      this.$closePopup();
     }
   }
 });
@@ -5667,9 +5671,9 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    // App.$on('resourceUpdate', () => {
-    //     this.fetch()
-    // })
+    App.$on('resourceUpdate', function () {
+      _this.fetch();
+    });
     App.$on('resourceDestroyed', function () {
       _this.fetch();
     });
@@ -5680,6 +5684,9 @@ __webpack_require__.r(__webpack_exports__);
       _this.fetch(parent);
     });
     App.$on('indexRefresh', function () {
+      _this.fetch();
+    });
+    App.$on('actionExecuted', function () {
       _this.fetch();
     });
     App.$on('back', function () {
@@ -29186,7 +29193,12 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "button",
-    { staticClass: "button", class: _vm.classes, attrs: { type: _vm.getType } },
+    {
+      ref: "button",
+      staticClass: "button",
+      class: _vm.classes,
+      attrs: { type: _vm.getType }
+    },
     [
       _vm._t("default", [
         _vm.type == "destroy"
@@ -30490,7 +30502,7 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "custom-actions" },
-    _vm._l(_vm.actions, function(action) {
+    _vm._l(_vm.availableActions, function(action) {
       return _c(
         "div",
         {
@@ -30503,7 +30515,15 @@ var render = function() {
             }
           }
         },
-        [_vm._v("\n        " + _vm._s(action.name) + "\n    ")]
+        [
+          action.icon
+            ? _c("i", {
+                staticClass: " mr-2 text-grey-light",
+                class: action.icon
+              })
+            : _vm._e(),
+          _vm._v("\n        " + _vm._s(action.name) + "\n    ")
+        ]
       )
     }),
     0
@@ -32375,14 +32395,14 @@ var render = function() {
           _c(
             "heading",
             {
-              staticClass: "text-center border-b border-40 py-8 px-8",
+              staticClass: "text-center border-b border-40 pb-8 mb-8",
               attrs: { level: 2 }
             },
             [_vm._v(_vm._s(_vm.action.name))]
           ),
           _vm._v(" "),
           _vm.action.fields.length == 0
-            ? _c("p", { staticClass: "text-80 px-8 my-8" }, [
+            ? _c("p", { staticClass: "px-8 my-8 text-center" }, [
                 _vm._v(
                   "\n            " +
                     _vm._s(
@@ -32407,6 +32427,13 @@ var render = function() {
                             errors: _vm.errors,
                             "resource-name": _vm.resourceName,
                             field: field
+                          },
+                          model: {
+                            value: field.value,
+                            callback: function($$v) {
+                              _vm.$set(field, "value", $$v)
+                            },
+                            expression: "field.value"
                           }
                         })
                       ],
@@ -32438,7 +32465,10 @@ var render = function() {
           _vm._v(" "),
           _c(
             "app-button",
-            { attrs: { disabled: _vm.working, submit: "", type: "add" } },
+            {
+              ref: "runButton",
+              attrs: { disabled: _vm.working, submit: "", type: "add" }
+            },
             [_vm._v(_vm._s(_vm.__("Выполнить")))]
           )
         ],
@@ -32710,6 +32740,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "flex" },
     [
       _c("custom-actions"),
       _vm._v(" "),

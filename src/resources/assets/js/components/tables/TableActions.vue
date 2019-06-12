@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="flex">
         <custom-actions />
 
         <div v-if="selected.length" class="active-panel__button" @click="$emit('action', 'destroy')">
