@@ -3,22 +3,22 @@
 namespace InWeb\Admin\App\Actions;
 
 use Closure;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use InWeb\Admin\App\Admin;
-use InWeb\Admin\App\AuthorizedToSee;
-use InWeb\Admin\App\Exceptions\MissingActionHandlerException;
-use InWeb\Admin\App\Fields\ActionFields;
-use InWeb\Admin\App\Http\Requests\ActionRequest;
-use InWeb\Admin\App\Metable;
-use InWeb\Admin\App\Nova;
-use InWeb\Admin\App\ProxiesCanSeeToGate;
 use JsonSerializable;
+use InWeb\Admin\App\Metable;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use InWeb\Admin\App\AuthorizedToSee;
+use InWeb\Admin\App\Fields\ActionFields;
+use InWeb\Admin\App\ProxiesCanSeeToGate;
+use InWeb\Admin\App\Http\Requests\ActionRequest;
+use InWeb\Admin\App\Exceptions\MissingActionHandlerException;
 
 class Action implements JsonSerializable
 {
     use Metable;
     use AuthorizedToSee;
+    use ProxiesCanSeeToGate;
 
     /**
      * The displayable name of the action.
@@ -26,6 +26,13 @@ class Action implements JsonSerializable
      * @var string
      */
     public $name;
+
+    /**
+     * The displayable icon of the action.
+     *
+     * @var string
+     */
+    public $icon;
 
     /**
      * The action's component.
@@ -39,7 +46,7 @@ class Action implements JsonSerializable
      *
      * @var bool
      */
-    public $withoutActionEvents = false;
+    public $withoutActionEvents = true; // @todo Make ActionEvents table and change it to false
 
     /**
      * Indicates if this action is available to run against the entire resource.
@@ -143,6 +150,17 @@ class Action implements JsonSerializable
     public static function redirect($url)
     {
         return ['redirect' => $url];
+    }
+
+    /**
+     * Return an open new tab response from the action.
+     *
+     * @param  string  $url
+     * @return array
+     */
+    public static function openInNewTab($url)
+    {
+        return ['openInNewTab' => $url];
     }
 
     /**
@@ -331,6 +349,16 @@ class Action implements JsonSerializable
     }
 
     /**
+     * Get the displayable name of the action.
+     *
+     * @return string
+     */
+    public function icon()
+    {
+        return $this->icon;
+    }
+
+    /**
      * Get the URI key for the action.
      *
      * @return string
@@ -375,8 +403,10 @@ class Action implements JsonSerializable
             'component' => $this->component(),
             'destructive' => $this instanceof DestructiveAction,
             'name' => $this->name(),
+            'icon' => $this->icon(),
             'uriKey' => $this->uriKey(),
-            'fields' => collect($this->fields())->each->resolve(new class {})->all(),
+            'fields' => collect($this->fields())->each->resolve(new class {
+            })->all(),
             'availableForEntireResource' => $this->availableForEntireResource,
             'onlyOnDetail' => $this->onlyOnDetail,
             'onlyOnIndex' => $this->onlyOnIndex,

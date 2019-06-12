@@ -33,7 +33,9 @@ class ActionRequest extends AdminRequest
      */
     protected function resolveActions()
     {
-        return $this->newResource()->resolveActions($this);
+        return $this->isPivotAction()
+            ? $this->newResource()->resolvePivotActions($this)
+            : $this->newResource()->resolveActions($this);
     }
 
     /**
@@ -56,6 +58,16 @@ class ActionRequest extends AdminRequest
         return $this->resolveActions()->contains(function ($action) {
             return $action->uriKey() == $this->query('action');
         });
+    }
+
+    /**
+     * Determine if the action being executed is a pivot action.
+     *
+     * @return bool
+     */
+    public function isPivotAction()
+    {
+        return $this->pivotAction === 'true';
     }
 
     /**
@@ -89,7 +101,21 @@ class ActionRequest extends AdminRequest
             return $this->toQuery();
         }
 
-        return $this->newQueryWithoutScopes();
+        return $this->viaRelationship()
+            ? $this->modelsViaRelationship()
+            : $this->newQueryWithoutScopes();
+    }
+
+    /**
+     * Get the query for the related models that were selected by the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function modelsViaRelationship()
+    {
+        return $this->findParentModel()->{$this->viaRelationship}()
+                    ->withoutGlobalScopes()
+                    ->whereIn($this->model()->getQualifiedKeyName(), explode(',', $this->resources));
     }
 
     /**
@@ -100,7 +126,9 @@ class ActionRequest extends AdminRequest
      */
     protected function mapChunk($chunk)
     {
-        return ActionModelCollection::make($chunk);
+        return ActionModelCollection::make($this->isPivotAction()
+            ? $chunk->map->pivot
+            : $chunk);
     }
 
     /**
@@ -157,7 +185,9 @@ class ActionRequest extends AdminRequest
      */
     public function actionableKey($model)
     {
-        return $model->getKey();
+        return $this->isPivotAction()
+            ? $model->{$this->pivotRelation()->getForeignPivotKeyName()}
+            : $model->getKey();
     }
 
     /**
@@ -169,7 +199,9 @@ class ActionRequest extends AdminRequest
      */
     public function actionableModel()
     {
-        return $this->model();
+        return $this->isPivotAction()
+            ? $this->newViaResource()->model()
+            : $this->model();
     }
 
     /**
@@ -182,7 +214,9 @@ class ActionRequest extends AdminRequest
      */
     public function targetKey($model)
     {
-        return $model->getKey();
+        return $this->isPivotAction()
+            ? $model->{$this->pivotRelation()->getRelatedPivotKeyName()}
+            : $model->getKey();
     }
 
     /**
@@ -192,7 +226,19 @@ class ActionRequest extends AdminRequest
      */
     public function targetModel()
     {
-        return $this->model();
+        return $this->isPivotAction() ? $this->pivotRelation()->newPivot() : $this->model();
+    }
+
+    /**
+     * Get the many-to-many relationship for a pivot action.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\Relation
+     */
+    public function pivotRelation()
+    {
+        if ($this->isPivotAction()) {
+            return $this->newViaResource()->model()->{$this->viaRelationship}();
+        }
     }
 
     /**

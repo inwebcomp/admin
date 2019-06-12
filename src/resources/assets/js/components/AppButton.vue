@@ -1,5 +1,5 @@
 <template>
-    <button :type="getType" class="button" :class="classes">
+    <button :type="getType" class="button" :class="classes" ref="button">
         <slot>
             <i v-if="type == 'destroy'" class="far fa-trash-alt"></i>
         </slot>
@@ -56,6 +56,12 @@
 
             getType() {
                 return this.submit ? 'submit' : 'button'
+            }
+        },
+
+        methods: {
+            focus() {
+                this.$refs.button.focus()
             }
         }
     }

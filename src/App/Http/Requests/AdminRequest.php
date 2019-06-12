@@ -10,8 +10,9 @@ use Illuminate\Foundation\Http\FormRequest;
  */
 class AdminRequest extends FormRequest
 {
-    use InteractsWithResources;
-    use InteractsWithTranslations;
+    use InteractsWithResources,
+        InteractsWithRelatedResources,
+        InteractsWithTranslations;
 
     /**
      * @param null $attributes

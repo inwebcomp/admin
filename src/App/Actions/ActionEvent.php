@@ -1,14 +1,14 @@
 <?php
 
-namespace Laravel\Nova\Actions;
+namespace InWeb\Admin\App\Actions;
 
 use DateTime;
-use Laravel\Nova\Nova;
+use InWeb\Admin\App\Nova;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Http\Requests\ActionRequest;
+use InWeb\Admin\App\Http\Requests\NovaRequest;
+use InWeb\Admin\App\Http\Requests\ActionRequest;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 class ActionEvent extends Model
@@ -103,7 +103,7 @@ class ActionEvent extends Model
     /**
      * Create a new action event instance for an attached resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \InWeb\Admin\App\Http\Requests\NovaRequest  $request
      * @param  \Illuminate\Database\Eloquent\Model  $parent
      * @param  \Illuminate\Database\Eloquent\Model  $pivot
      * @return \Illuminate\Database\Eloquent\Model
@@ -131,7 +131,7 @@ class ActionEvent extends Model
     /**
      * Create a new action event instance for an attached resource update.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \InWeb\Admin\App\Http\Requests\NovaRequest  $request
      * @param  \Illuminate\Database\Eloquent\Model  $parent
      * @param  \Illuminate\Database\Eloquent\Model  $pivot
      * @return \Illuminate\Database\Eloquent\Model
@@ -252,8 +252,8 @@ class ActionEvent extends Model
     /**
      * Create the action records for the given models.
      *
-     * @param  \Laravel\Nova\Http\Requests\ActionRequest  $request
-     * @param  \Laravel\Nova\Actions\Action  $action
+     * @param  \InWeb\Admin\App\Http\Requests\ActionRequest  $request
+     * @param  \InWeb\Admin\App\Actions\Action  $action
      * @param  string  $batchId
      * @param  \Illuminate\Support\Collection  $models
      * @param  string  $status
@@ -283,8 +283,8 @@ class ActionEvent extends Model
     /**
      * Get the default attributes for creating a new action event.
      *
-     * @param  \Laravel\Nova\Http\Requests\ActionRequest  $request
-     * @param  \Laravel\Nova\Actions\Action  $action
+     * @param  \InWeb\Admin\App\Http\Requests\ActionRequest  $request
+     * @param  \InWeb\Admin\App\Actions\Action  $action
      * @param  string  $batchId
      * @param  string  $status
      * @return array

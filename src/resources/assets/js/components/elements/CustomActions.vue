@@ -1,7 +1,8 @@
 <template>
     <div class="custom-actions">
-        <div class="active-panel__button" v-for="action in actions" :key="action.urikey"
+        <div class="active-panel__button" v-for="action in availableActions" :key="action.urikey"
              @click.prevent="determineActionStrategy(action)">
+            <i v-if="action.icon" class=" mr-2 text-grey-light" :class="action.icon"></i>
             {{ action.name }}
         </div>
     </div>
@@ -39,27 +40,12 @@
              */
             actions() {
                 this.selectedActionKey = ''
-                this.initializeActionFields()
             },
-
-            confirmActionModalOpened(opened) {
-                if (opened) {
-                    this.$showPopup(this.selectedAction.component, {
-                        working: this.working,
-                        selectedResources: this.selectedResources,
-                        resourceName: this.resourceName,
-                        action: this.selectedAction,
-                        errors: this.errors,
-                    })
-                } else {
-                    this.$closePopup()
-                }
-            }
         },
 
         created() {
             App.$on('executeAction', (action) => {
-                this.selectedAction = action
+                this.selectedActionKey = action.uriKey
 
                 this.$nextTick(() => {
                     this.executeAction()
@@ -98,14 +84,20 @@
              * Confirm with the user that they actually want to run the selected action.
              */
             openConfirmationModal() {
-                this.confirmActionModalOpened = true
+                this.$showPopup(this.selectedAction.component, {
+                    working: this.working,
+                    selectedResources: this.selectedResources,
+                    resourceName: this.resourceName,
+                    action: this.selectedAction,
+                    errors: this.errors,
+                })
             },
 
             /**
              * Close the action confirmation modal.
              */
             closeConfirmationModal() {
-                this.confirmActionModalOpened = false
+                this.$closePopup()
             },
 
             /**
@@ -123,12 +115,15 @@
              * Execute the selected action.
              */
             executeAction() {
-                this.working = true
-
                 if (this.selectedResources.length == 0) {
                     alert(this.__('Please select a resource to perform this action on.'))
                     return
                 }
+
+                if (this.working)
+                    return
+
+                this.working = true
 
                 App.api.request({
                     method: 'post',
@@ -138,14 +133,16 @@
                 })
                     .then(response => {
                         this.confirmActionModalOpened = false
-                        this.handleActionResponse(response.data)
-                        this.working = false
-                    })
-                    .catch(error => {
+                        this.handleActionResponse(response)
                         this.working = false
 
-                        if (error.response.status == 422) {
-                            this.errors = new Errors(error.response.data.errors)
+                        this.$store.dispatch('resource/clearSelected')
+                    })
+                    .catch(({status, data}) => {
+                        this.working = false
+
+                        if (status == 422) {
+                            this.errors = new Errors(data.errors)
                         }
                     })
             },
@@ -168,12 +165,12 @@
              */
             handleActionResponse(response) {
                 if (response.message) {
-                    this.$emit('actionExecuted')
+                    App.$emit('actionExecuted')
                     this.$toasted.show(response.message, {type: 'success'})
                 } else if (response.deleted) {
-                    this.$emit('actionExecuted')
+                    App.$emit('actionExecuted')
                 } else if (response.danger) {
-                    this.$emit('actionExecuted')
+                    App.$emit('actionExecuted')
                     this.$toasted.show(response.danger, {type: 'error'})
                 } else if (response.download) {
                     let link = document.createElement('a')
@@ -187,7 +184,7 @@
                 } else if (response.openInNewTab) {
                     window.open(response.openInNewTab, '_blank')
                 } else {
-                    this.$emit('actionExecuted')
+                    App.$emit('actionExecuted')
                     this.$toasted.show(this.__('The action ran successfully!'), {type: 'success'})
                 }
             },
@@ -235,7 +232,7 @@
             availableActions() {
                 return _(this.actions)
                     .filter(action => {
-                        if (this.selectedResources != 'all') {
+                        if (this.selectedResources.length) {
                             return true
                         }
 

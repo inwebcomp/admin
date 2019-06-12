@@ -8,6 +8,7 @@ use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
 use Illuminate\Http\Resources\DelegatesToResource;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use InWeb\Admin\App\Authorizable;
 use InWeb\Admin\App\Fields\ID;
 use InWeb\Admin\App\FillsFields;
 use InWeb\Admin\App\Http\Requests\AdminRequest;
@@ -19,7 +20,8 @@ use Laravel\Scout\Searchable;
 
 abstract class Resource
 {
-    use ResolvesFields,
+    use Authorizable,
+        ResolvesFields,
         ResolvesActions,
         FillsFields,
         PerformsValidation,

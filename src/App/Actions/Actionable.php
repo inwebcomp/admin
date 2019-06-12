@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Nova\Actions;
+namespace InWeb\Admin\App\Actions;
 
 trait Actionable
 {
