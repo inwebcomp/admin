@@ -1,6 +1,6 @@
 .sidebar {
-	width: $sidebar-item-height;
-	background-color: $sidebar-color;
+	width: $sidebar-children-width;
+	//background-color: $sidebar-color;
 	height: 100%;
 	position: fixed;
 	top: $header-height;
@@ -8,6 +8,7 @@
 	bottom: 0;
 	font-size: 1rem;
     z-index: $z-index-menu;
+	background-color: $sidebar-children-color;
 
 	.icon {
 		color: $sidebar-icon-color;
@@ -33,11 +34,10 @@
 
 
 .sidebar__children {
-	width: $sidebar-children-width;
-	background-color: $sidebar-children-color;
-	height: 100%;
-	position: fixed;
-	top: $header-height;
+	//width: $sidebar-children-width;
+	//height: 100%;
+	//position: fixed;
+	//top: $header-height;
 	//left: $sidebar-item-height;
 	bottom: 0;
 	display: none;

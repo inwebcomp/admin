@@ -12,7 +12,11 @@ class AdminMenuController extends Controller
     {
         $menu = [];
 
-        foreach (Admin::groupedResources($request) as $groupKey => $resources) {
+        $groups = Admin::groupedResources($request);
+
+        $groups['tools'] = Admin::availableTools($request);
+
+        foreach ($groups as $groupKey => $resources) {
             $group = Admin::groupInfo($groupKey);
 
             foreach ($resources as $resource) {
