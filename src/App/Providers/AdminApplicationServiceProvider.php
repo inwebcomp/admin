@@ -18,6 +18,7 @@ class AdminApplicationServiceProvider extends ServiceProvider
         Admin::serving(function (ServingAdmin $event) {
             $this->groups();
             $this->resources();
+            Admin::tools($this->tools());
         });
     }
 
@@ -54,6 +55,11 @@ class AdminApplicationServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+    public function tools()
+    {
+        return [];
     }
 }
 

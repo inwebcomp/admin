@@ -30,6 +30,14 @@ class Admin
      * @var array
      */
     public static $groups = [];
+
+    /**
+     * All of the registered Admin tools.
+     *
+     * @var array
+     */
+    public static $tools = [];
+
     /**
      * All of the registered Admin tool scripts.
      *
@@ -284,6 +292,56 @@ class Admin
         $resource = static::resourceForKey($key);
 
         return $resource ? $resource::newModel() : null;
+    }
+
+
+
+    /**
+     * Register new tools with Nova.
+     *
+     * @param  array  $tools
+     * @return static
+     */
+    public static function tools(array $tools)
+    {
+        static::$tools = array_merge(
+            static::$tools,
+            $tools
+        );
+
+        return new static;
+    }
+
+    /**
+     * Get the tools registered with Nova.
+     *
+     * @return array
+     */
+    public static function registeredTools()
+    {
+        return static::$tools;
+    }
+
+    /**
+     * Boot the available Nova tools.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
+    public static function bootTools(Request $request)
+    {
+        collect(static::availableTools($request))->each->boot();
+    }
+
+    /**
+     * Get the tools registered with Nova.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return array
+     */
+    public static function availableTools(Request $request)
+    {
+        return collect(static::$tools)->all();
     }
 
     /**

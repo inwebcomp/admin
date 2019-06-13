@@ -5,6 +5,11 @@ import NotFound from '~pages/NotFound';
 import AppHeader from '~elements/AppHeader';
 import AppMenu from '~elements/AppMenu';
 
+import Vue from 'vue'
+
+Vue.component('app-header', AppHeader)
+Vue.component('app-sidebar', AppMenu)
+
 export default [
     {
         name: 'home',

@@ -1,6 +1,6 @@
 <template>
-    <div class="dropdown select" :class="{ 'dropdown--opened': opened, 'dropdown--top': atTop }" v-click-outside="close">
-        <div class="dropdown__value form__group__input" ref="value" @click="toggle">
+    <div class="dropdown select" :class="{ 'dropdown--opened': opened, 'dropdown--top': atTop, 'dropdown--small': small }" v-click-outside="close">
+        <div class="dropdown__value form__group__input" :class="{'form__group__input--h-small': small}" ref="value" @click="toggle">
             {{ selected ? selected.title : '-- ' + __('Выберите значение') }}
         </div>
 
@@ -47,7 +47,11 @@
             search: {
                 type: Boolean,
                 default: true,
-            }
+            },
+            small: {
+                type: Boolean,
+                default: false,
+            },
         },
 
         data() {

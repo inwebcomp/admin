@@ -16,6 +16,11 @@
                 default: null
             },
 
+            small: {
+                type: Boolean,
+                default: false
+            },
+
             submit: {
                 type: Boolean,
                 default: false
@@ -50,6 +55,9 @@
 
                 if (this.loading)
                     classes.push('button--loading')
+
+                if (this.small)
+                    classes.push('button--small')
 
                 return classes
             },

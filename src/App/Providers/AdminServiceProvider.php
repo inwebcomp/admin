@@ -39,6 +39,7 @@ class AdminServiceProvider extends ServiceProvider
         $this->registerJsonVariables();
 
         $this->registerResources();
+        $this->registerTools();
 
         $router->aliasMiddleware('admin-auth', AdminAccess::class);
     }
@@ -132,6 +133,15 @@ class AdminServiceProvider extends ServiceProvider
         }
 
         return json_decode(file_get_contents($translationFile), true);
-        return [];
+    }
+
+    /**
+     * Boot the standard Nova tools.
+     *
+     * @return void
+     */
+    protected function registerTools()
+    {
+        Admin::tools([]);
     }
 }

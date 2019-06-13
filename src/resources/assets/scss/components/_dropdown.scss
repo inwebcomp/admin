@@ -1,5 +1,6 @@
 $dropdown-font-size: 1em;
 $dropdown-size: $input-height;
+$dropdown-size-small: $input-height * 0.8;
 $dropdown-option-size: 34px;
 $dropdown-caret-width: $dropdown-size;
 $dropdown-background-color: #FFF;
@@ -8,6 +9,16 @@ $dropdown-max-options: 8;
 .dropdown {
     position: relative;
     font-size: $dropdown-font-size;
+
+    &--small.dropdown {
+        .dropdown__value {
+            &::after {
+                height: $dropdown-size-small;
+                line-height: $dropdown-size-small + rem(2px);
+                width: $dropdown-size-small;
+            }
+        }
+    }
 }
 
 .dropdown__option {
