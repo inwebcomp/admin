@@ -30870,7 +30870,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "popup-wrapper" },
+    { class: { "popup-wrapper": _vm.popup.active } },
     [
       _c("div", {
         directives: [
