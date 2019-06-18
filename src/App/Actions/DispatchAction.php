@@ -42,20 +42,19 @@ class DispatchAction
 
             return $action->withBatchId($batchId)->{$method}($fields, $models);
         }, function ($batchId) use ($action) {
-            if (! $action->withoutActionEvents) {
-                ActionEvent::markBatchAsFinished($batchId);
-            }
+            ActionEvent::markBatchAsFinished($batchId);
         });
     }
 
     /**
      * Dispatch the given action in the background.
      *
-     * @param  \InWeb\Admin\App\Http\Requests\ActionRequest  $request
-     * @param  \InWeb\Admin\App\Actions\Action  $action
-     * @param  string  $method
-     * @param  \Illuminate\Support\Collection  $models
+     * @param \InWeb\Admin\App\Http\Requests\ActionRequest $request
+     * @param \InWeb\Admin\App\Actions\Action $action
+     * @param string $method
+     * @param \Illuminate\Support\Collection $models
      * @return void
+     * @throws \Throwable
      */
     protected static function queueForModels(ActionRequest $request, Action $action, $method, Collection $models)
     {

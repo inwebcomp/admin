@@ -3744,6 +3744,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3760,7 +3761,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         imageUploadURL: App.api.url('field/editor-field/image/' + this.resourceName + '/' + this.resourceId),
         imageAllowedTypes: ['jpeg', 'jpg', 'png', 'svg', 'gif'],
         imageMaxSize: 1024 * 1024 * 2,
-        imageInsertButtons: ['imageBack', '|', 'imageUpload', 'imageByURL']
+        imageInsertButtons: ['imageBack', '|', 'imageUpload', 'imageByURL'],
+        entities: '&quot;&#39;&iexcl;&cent;&pound;&curren;&yen;&brvbar;'
       }
     };
   },
@@ -30813,7 +30815,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "custom-actions" },
+    { staticClass: "custom-actions flex" },
     _vm._l(_vm.availableActions, function(action) {
       return _c(
         "div",
@@ -30830,7 +30832,7 @@ var render = function() {
         [
           action.icon
             ? _c("i", {
-                staticClass: " mr-2 text-grey-light",
+                staticClass: "mr-2 text-grey-light",
                 class: action.icon
               })
             : _vm._e(),
@@ -31124,6 +31126,7 @@ var render = function() {
                     "froala",
                     _vm._b(
                       {
+                        class: _vm.errorClasses(),
                         attrs: {
                           tag: "textarea",
                           config: _vm.config,
@@ -54042,15 +54045,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!*******************************************************!*\
   !*** ./src/resources/assets/js/components/Loader.vue ***!
   \*******************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Loader_vue_vue_type_template_id_12181fc2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Loader.vue?vue&type=template&id=12181fc2& */ "./src/resources/assets/js/components/Loader.vue?vue&type=template&id=12181fc2&");
 /* harmony import */ var _Loader_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Loader.vue?vue&type=script&lang=js& */ "./src/resources/assets/js/components/Loader.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Loader_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Loader_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -54080,7 +54082,7 @@ component.options.__file = "src/resources/assets/js/components/Loader.vue"
 /*!********************************************************************************!*\
   !*** ./src/resources/assets/js/components/Loader.vue?vue&type=script&lang=js& ***!
   \********************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
