@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="popup-wrapper">
         <div class="side-popup-mask" v-show="sidePopup.active" @click="closeSidePopup"></div>
         <div class="popup-mask" v-show="popup.active" @click="closePopup"></div>
 
