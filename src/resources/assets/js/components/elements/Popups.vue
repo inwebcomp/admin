@@ -1,5 +1,5 @@
 <template>
-    <div class="popup-wrapper">
+    <div :class="{'popup-wrapper': popup.active}">
         <div class="side-popup-mask" v-show="sidePopup.active" @click="closeSidePopup"></div>
         <div class="popup-mask" v-show="popup.active" @click="closePopup"></div>
 
