@@ -1,10 +1,11 @@
 <template>
     <transition :name="transition">
-        <div class="popup-wrapper" v-show="show" @click="closePopup">
-            <div class="popup-container" @click.stop role="dialog">
-                <div class="popup-content" role="document">
-                    <slot></slot>
-                </div>
+        <div class="popup-container" v-show="show" @click.stop role="dialog">
+            <div class="popup-close" @click="forceClose" v-if="options.closeButton">
+                <i class="fal fa-times"></i>
+            </div>
+            <div class="popup-content" role="document">
+                <slot></slot>
             </div>
         </div>
     </transition>
@@ -56,6 +57,10 @@
 
                 if (this.options.closeOnOverlayClick !== false)
                     this.$closePopup()
+            },
+
+            forceClose() {
+                this.$closePopup()
             },
 
             closeOnEsc(e) {

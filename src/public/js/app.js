@@ -2675,6 +2675,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'popup',
   props: {
@@ -2711,6 +2712,9 @@ __webpack_require__.r(__webpack_exports__);
     closePopup: function closePopup() {
       App.$emit('popupMaskClick');
       if (this.options.closeOnOverlayClick !== false) this.$closePopup();
+    },
+    forceClose: function forceClose() {
+      this.$closePopup();
     },
     closeOnEsc: function closeOnEsc(e) {
       e.preventDefault();
@@ -30315,29 +30319,28 @@ var render = function() {
             expression: "show"
           }
         ],
-        staticClass: "popup-wrapper",
-        on: { click: _vm.closePopup }
+        staticClass: "popup-container",
+        attrs: { role: "dialog" },
+        on: {
+          click: function($event) {
+            $event.stopPropagation()
+          }
+        }
       },
       [
+        _vm.options.closeButton
+          ? _c(
+              "div",
+              { staticClass: "popup-close", on: { click: _vm.forceClose } },
+              [_c("i", { staticClass: "fal fa-times" })]
+            )
+          : _vm._e(),
+        _vm._v(" "),
         _c(
           "div",
-          {
-            staticClass: "popup-container",
-            attrs: { role: "dialog" },
-            on: {
-              click: function($event) {
-                $event.stopPropagation()
-              }
-            }
-          },
-          [
-            _c(
-              "div",
-              { staticClass: "popup-content", attrs: { role: "document" } },
-              [_vm._t("default")],
-              2
-            )
-          ]
+          { staticClass: "popup-content", attrs: { role: "document" } },
+          [_vm._t("default")],
+          2
         )
       ]
     )
@@ -30867,6 +30870,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "popup-wrapper" },
     [
       _c("div", {
         directives: [
@@ -58250,10 +58254,15 @@ __webpack_require__.r(__webpack_exports__);
   install: function install(Vue, options) {
     Vue.prototype.$showPopup = function (component, payload) {
       var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      var finalOptions = {
+        closeOnOverlayClick: true,
+        closeButton: true
+      };
+      Object.assign(finalOptions, options);
       this.$store.dispatch('popup/setComponent', {
         component: component,
         payload: payload,
-        options: options
+        options: finalOptions
       });
       this.$store.dispatch('popup/show');
     };
