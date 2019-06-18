@@ -7,7 +7,8 @@
                         :id="field.attribute"
                         :value="value"
                         @input="$emit('input', $event)"
-                        v-bind="extraAttributes"/>
+                        v-bind="extraAttributes"
+                        :class="errorClasses()"/>
 
                 <div v-if="field.translatable" class="form__group__translatable__locale" :class="errorClasses()">
                     {{ this.field.currentLocale }}
@@ -79,7 +80,8 @@
                     imageUploadURL: App.api.url('field/editor-field/image/' + this.resourceName + '/' + this.resourceId),
                     imageAllowedTypes: ['jpeg', 'jpg', 'png', 'svg', 'gif'],
                     imageMaxSize: 1024 * 1024 * 2,
-                    imageInsertButtons: ['imageBack', '|', 'imageUpload', 'imageByURL']
+                    imageInsertButtons: ['imageBack', '|', 'imageUpload', 'imageByURL'],
+                    entities: '&quot;&#39;&iexcl;&cent;&pound;&curren;&yen;&brvbar;'
                 },
             }
         },

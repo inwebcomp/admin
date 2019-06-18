@@ -1,8 +1,8 @@
 <template>
-    <div class="custom-actions">
+    <div class="custom-actions flex">
         <div class="active-panel__button" v-for="action in availableActions" :key="action.urikey"
              @click.prevent="determineActionStrategy(action)">
-            <i v-if="action.icon" class=" mr-2 text-grey-light" :class="action.icon"></i>
+            <i v-if="action.icon" class="mr-2 text-grey-light" :class="action.icon"></i>
             {{ action.name }}
         </div>
     </div>

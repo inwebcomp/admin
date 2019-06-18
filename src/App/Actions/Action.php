@@ -46,7 +46,7 @@ class Action implements JsonSerializable
      *
      * @var bool
      */
-    public $withoutActionEvents = true; // @todo Make ActionEvents table and change it to false
+    public $withoutActionEvents = false;
 
     /**
      * Indicates if this action is available to run against the entire resource.
