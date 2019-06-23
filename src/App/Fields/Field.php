@@ -262,7 +262,14 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
         }
 
         if ($original and $this->original) {
-            return $resource->getOriginal($attribute) ?? $this->default;
+            if (
+                ! (new \ReflectionClass($resource))->isAnonymous() and
+                $resource->translatable() && $resource->isTranslationAttribute($attribute)
+            ) {
+                return optional($resource->translate())->getOriginal($attribute) ?? $this->default;
+            } else {
+                return $resource->getOriginal($attribute) ?? $this->default;
+            }
         }
 
 //        return data_get($resource, str_replace('->', '.', $attribute));
