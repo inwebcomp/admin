@@ -35,3 +35,6 @@ Vue.component('index-editor-field', require('~fields/Index/EditorField.vue').def
 // Editor Field...
 Vue.component('form-select-field', require('~fields/Form/SelectField.vue').default)
 Vue.component('index-select-field', require('~fields/Index/SelectField.vue').default)
+
+// Icon Field...
+Vue.component('index-icon-field', require('~fields/Index/IconField.vue').default)
