@@ -2,6 +2,8 @@
 
 namespace InWeb\Admin\App\Fields;
 
+use InWeb\Base\Contracts\Nested;
+
 class TreeField extends Field
 {
     public $component = 'tree-field';
@@ -14,7 +16,7 @@ class TreeField extends Field
         parent::__construct($name, $attribute, $resolveCallback);
 
         $this->resolveUsing(function ($value, $model) {
-            if ($model instanceof \App\Contracts\Nested and $model->isLeaf())
+            if ($model instanceof Nested and $model->isLeaf())
                 $this->withMeta(['leaf' => true]);
 
             return $value;

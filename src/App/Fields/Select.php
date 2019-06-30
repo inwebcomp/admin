@@ -13,6 +13,8 @@ class Select extends Field
 
     public function options($options)
     {
+        $this->default(current($options)['value']);
+
         return $this->withMeta(['options' => $options]);
     }
 
@@ -25,6 +27,8 @@ class Select extends Field
             'title' => '-- ' . __('Выберите значение'),
             'value' => null,
         ]);
+
+        $this->default(current($this->meta['options'])['value']);
 
         return $this;
     }

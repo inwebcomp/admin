@@ -39,7 +39,7 @@ class ResourceIndexController extends Controller
     protected function paginator(ResourceIndexRequest $request, $resource)
     {
         $res = new $resource;
-        $query = $res->query();
+        $query = $request->toQuery();
         /** @var Entity $model */
         $model = $res->model();
 
@@ -62,7 +62,7 @@ class ResourceIndexController extends Controller
                     $query->where($res->nestedRelationResourceField(), $item->id);
                 }
             } else {
-                if ($model instanceof \App\Contracts\Nested) {
+                if ($model instanceof \InWeb\Base\Contracts\Nested) {
                     $query->whereIsRoot();
                 }
             }
