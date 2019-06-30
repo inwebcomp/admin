@@ -2,6 +2,8 @@
 
 namespace InWeb\Admin\App\Http\Requests;
 
+use InWeb\Admin\App\Resources\Resource;
+
 trait QueriesResources
 {
     /**
@@ -11,12 +13,17 @@ trait QueriesResources
      */
     public function toQuery()
     {
+        /** @var Resource $resource */
         $resource = $this->resource();
 
         return $resource::buildIndexQuery(
-            $this, $this->newQuery(), $this->search,
-            $this->filters()->all(), $this->orderings(), $this->trashed()
+            $this, $this->newQuery()
         );
+
+//        return $resource::buildIndexQuery(
+//            $this, $this->newQuery(), $this->search,
+//            $this->filters()->all(), $this->orderings(), $this->trashed()
+//        );
     }
 
     /**

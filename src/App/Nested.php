@@ -2,6 +2,8 @@
 
 namespace InWeb\Admin\App;
 
+use \InWeb\Base\Contracts\Nested as NestedContract;
+
 trait Nested
 {
     public function nestedRelationResourceField()
@@ -14,7 +16,7 @@ trait Nested
         return $this;
     }
 
-    public function breadcrumbs(\App\Contracts\Nested $node = null, $withOptions = true)
+    public function breadcrumbs(NestedContract $node = null, $withOptions = true)
     {
         $path = $this->breadcrumbsPath($node);
 
@@ -44,7 +46,7 @@ trait Nested
         ];
     }
 
-    public function breadcrumbsPath(\App\Contracts\Nested $node = null)
+    public function breadcrumbsPath(NestedContract $node = null)
     {
         $path = [
             self::root()
@@ -53,7 +55,7 @@ trait Nested
         if (! $node)
             return $path;
 
-        $node->ancestors()->withoutGlobalScopes()->ordered()->each(function(\App\Contracts\Nested $ancestor) use (&$path) {
+        $node->ancestors()->withoutGlobalScopes()->ordered()->each(function(NestedContract $ancestor) use (&$path) {
             $path[] = [
                 'title' => $ancestor->title,
                 'id' => $ancestor->getKey()
