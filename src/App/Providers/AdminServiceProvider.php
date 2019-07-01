@@ -90,7 +90,7 @@ class AdminServiceProvider extends ServiceProvider
     {
         // Config
         $this->publishes([
-            self::$packagePath . 'config/config.php' => config_path(self::$packageAlias . '/config.php'),
+            self::$packagePath . 'config/config.php' => config_path(self::$packageAlias . '.php'),
         ], 'config');
 
         // Views

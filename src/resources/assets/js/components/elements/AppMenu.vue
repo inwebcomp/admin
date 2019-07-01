@@ -55,7 +55,7 @@
 
         methods: {
             fetch() {
-                Api.request({controller: 'admin-menu', action: 'menu'}).then((data) => this.groups = data)
+                App.api.request({controller: 'admin-menu', action: 'menu'}).then((data) => this.groups = data)
             },
 
             isSelected(group) {

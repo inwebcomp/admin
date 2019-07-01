@@ -34,7 +34,7 @@ export default class Admin {
         this.bus = new Vue()
         this.bootingCallbacks = []
         this.config = config
-        this.api = Api
+        this.api = new Api(config)
     }
 
     /**

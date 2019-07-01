@@ -1863,6 +1863,11 @@ __webpack_require__.r(__webpack_exports__);
     go: function go(id) {
       App.$emit('parentSelect', id);
     }
+  },
+  computed: {
+    api: function api() {
+      return App.api;
+    }
   }
 });
 
@@ -3112,7 +3117,7 @@ __webpack_require__.r(__webpack_exports__);
     fetch: function fetch() {
       var _this = this;
 
-      _js_api__WEBPACK_IMPORTED_MODULE_0__["default"].request({
+      App.api.request({
         controller: 'admin-menu',
         action: 'menu'
       }).then(function (data) {
@@ -5852,7 +5857,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var parent = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
       this.loading = true;
-      _js_api__WEBPACK_IMPORTED_MODULE_0__["default"].resource({
+      App.api.resource({
         controller: this.controller,
         params: {
           page: parent ? null : this.$route.query.page || null,
@@ -5876,7 +5881,7 @@ __webpack_require__.r(__webpack_exports__);
     savePositions: function savePositions() {
       var _this3 = this;
 
-      _js_api__WEBPACK_IMPORTED_MODULE_0__["default"].request({
+      App.api.request({
         method: 'PUT',
         controller: this.controller,
         action: 'positions',
@@ -29130,7 +29135,7 @@ var render = function() {
             "div",
             {
               staticClass: "breadcrumbs__item link",
-              class: { "breadcrumbs__item--home": item.root },
+              class: { "breadcrumbs__item--home": _vm.api.root },
               on: {
                 click: function($event) {
                   _vm.go(item.id)
@@ -29138,11 +29143,11 @@ var render = function() {
               }
             },
             [
-              item.root
+              _vm.api.root
                 ? _c("i", { staticClass: "icon fas fa-home" })
                 : _vm._e(),
               _vm._v(" "),
-              !item.root
+              !_vm.api.root
                 ? [
                     _vm._v(
                       "\n                " +
@@ -48633,7 +48638,7 @@ function () {
     this.bus = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
     this.bootingCallbacks = [];
     this.config = config;
-    this.api = _js_api__WEBPACK_IMPORTED_MODULE_8__["default"];
+    this.api = new _js_api__WEBPACK_IMPORTED_MODULE_8__["default"](config);
   }
   /**
    * Register a callback to be called before Admin starts. This is used to bootstrap
@@ -48782,6 +48787,7 @@ function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Api; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -48791,19 +48797,20 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 
-var root = '/admin/api';
 
 var Api =
 /*#__PURE__*/
 function () {
-  function Api() {
+  function Api(config) {
     _classCallCheck(this, Api);
+
+    Api.root = '/' + config.baseUrl + '/api';
   }
 
-  _createClass(Api, null, [{
+  _createClass(Api, [{
     key: "url",
     value: function url(_url) {
-      return root + (_url ? '/' + _url : '');
+      return Api.root + (_url ? '/' + _url : '');
     }
   }, {
     key: "resource",
@@ -48831,7 +48838,7 @@ function () {
           method = _ref.method,
           data = _ref.data,
           params = _ref.params;
-      if (url) url = root + '/' + url;else url = root + '/' + controller + (object ? '/' + object : '') + '/' + action;
+      if (url) url = Api.root + '/' + url;else url = Api.root + '/' + controller + (object ? '/' + object : '') + '/' + action;
       method = method || 'get';
       return axios__WEBPACK_IMPORTED_MODULE_0___default()({
         method: method,
@@ -48855,7 +48862,7 @@ function () {
   return Api;
 }();
 
-/* harmony default export */ __webpack_exports__["default"] = (Api);
+
 
 /***/ }),
 
