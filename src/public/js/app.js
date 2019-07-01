@@ -31826,7 +31826,9 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    !_vm.field.link ? _c("span", [_vm._v(_vm._s(_vm.field.value))]) : _vm._e()
+    !_vm.field.link
+      ? _c("span", { domProps: { innerHTML: _vm._s(_vm.field.value) } })
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
