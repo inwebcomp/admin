@@ -4,6 +4,8 @@ namespace InWeb\Admin\App\Fields;
 
 class Number extends Text
 {
+    public $classes = ['min-w-0'];
+
     /**
      * Create a new field.
      *

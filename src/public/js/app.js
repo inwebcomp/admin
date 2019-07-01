@@ -6203,9 +6203,9 @@ if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 /***/ }),
 
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!../../../node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/components/fields/Form/FormSection.vue?vue&type=style&index=0&lang=scss&":
-/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!/home/escral/Server/www/uno/node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/components/fields/Form/FormSection.vue?vue&type=style&index=0&lang=scss& ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!/home/alexander/Server/www/uno/node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/components/fields/Form/FormSection.vue?vue&type=style&index=0&lang=scss& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6222,9 +6222,9 @@ exports.push([module.i, ".form__section {\n  flex-basis: 100%;\n  height: 18px;\
 /***/ }),
 
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!../../../node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/components/fields/Index/IconField.vue?vue&type=style&index=0&id=7ff4fdda&lang=scss&scoped=true&":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!/home/escral/Server/www/uno/node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/components/fields/Index/IconField.vue?vue&type=style&index=0&id=7ff4fdda&lang=scss&scoped=true& ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!/home/alexander/Server/www/uno/node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/components/fields/Index/IconField.vue?vue&type=style&index=0&id=7ff4fdda&lang=scss&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6241,9 +6241,9 @@ exports.push([module.i, ".icon-field[data-v-7ff4fdda] {\n  display: inline-block
 /***/ }),
 
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!../../../node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/pages/Login.vue?vue&type=style&index=0&lang=scss&":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!/home/escral/Server/www/uno/node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/pages/Login.vue?vue&type=style&index=0&lang=scss& ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!/home/alexander/Server/www/uno/node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/pages/Login.vue?vue&type=style&index=0&lang=scss& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28025,9 +28025,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**!
 /***/ }),
 
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!../../../node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/components/fields/Form/FormSection.vue?vue&type=style&index=0&lang=scss&":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!/home/escral/Server/www/uno/node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/components/fields/Form/FormSection.vue?vue&type=style&index=0&lang=scss& ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!/home/alexander/Server/www/uno/node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/components/fields/Form/FormSection.vue?vue&type=style&index=0&lang=scss& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28055,9 +28055,9 @@ if(false) {}
 /***/ }),
 
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!../../../node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/components/fields/Index/IconField.vue?vue&type=style&index=0&id=7ff4fdda&lang=scss&scoped=true&":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!/home/escral/Server/www/uno/node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/components/fields/Index/IconField.vue?vue&type=style&index=0&id=7ff4fdda&lang=scss&scoped=true& ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!/home/alexander/Server/www/uno/node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/components/fields/Index/IconField.vue?vue&type=style&index=0&id=7ff4fdda&lang=scss&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28085,9 +28085,9 @@ if(false) {}
 /***/ }),
 
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!../../../node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/pages/Login.vue?vue&type=style&index=0&lang=scss&":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!/home/escral/Server/www/uno/node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/pages/Login.vue?vue&type=style&index=0&lang=scss& ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!/home/alexander/Server/www/uno/node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/pages/Login.vue?vue&type=style&index=0&lang=scss& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32007,10 +32007,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "router-link",
-    {
-      staticClass: "data-table__value__link whitespace-no-wrap",
-      attrs: { to: _vm.field.link }
-    },
+    { staticClass: "data-table__value__link", attrs: { to: _vm.field.link } },
     [_vm._v(_vm._s(_vm.field.value))]
   )
 }
@@ -32071,7 +32068,7 @@ var render = function() {
         ? _c(
             "router-link",
             {
-              staticClass: "data-table__value__link whitespace-no-wrap",
+              staticClass: "data-table__value__link",
               attrs: { to: _vm.field.link }
             },
             [_vm._v("\n        " + _vm._s(_vm.field.value) + "\n    ")]
@@ -54423,8 +54420,8 @@ var mutations = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/escral/Server/www/uno/packages/inweb/admin/src/resources/assets/js/app.js */"./src/resources/assets/js/app.js");
-module.exports = __webpack_require__(/*! /home/escral/Server/www/uno/packages/inweb/admin/src/resources/assets/scss/app.scss */"./src/resources/assets/scss/app.scss");
+__webpack_require__(/*! /home/alexander/Server/www/uno/packages/inweb/admin/src/resources/assets/js/app.js */"./src/resources/assets/js/app.js");
+module.exports = __webpack_require__(/*! /home/alexander/Server/www/uno/packages/inweb/admin/src/resources/assets/scss/app.scss */"./src/resources/assets/scss/app.scss");
 
 
 /***/ })
