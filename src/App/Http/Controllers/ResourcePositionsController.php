@@ -2,7 +2,7 @@
 
 namespace InWeb\Admin\App\Http\Controllers;
 
-use App\Traits\Positionable;
+use InWeb\Base\Traits\Positionable;
 use InWeb\Admin\App\Http\Requests\ResourceIndexRequest;
 
 class ResourcePositionsController extends Controller

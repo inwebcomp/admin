@@ -2,7 +2,7 @@
 
 namespace InWeb\Admin\App\Fields;
 
-use App\Traits\Positionable;
+use InWeb\Base\Traits\Positionable;
 use Illuminate\Support\Traits\Macroable;
 
 class ID extends Field

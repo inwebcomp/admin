@@ -2,7 +2,7 @@
 
 namespace InWeb\Admin\App\Fields;
 
-use App\Models\Entity;
+use InWeb\Base\Entity;
 use Closure;
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;

@@ -2,7 +2,7 @@
 
 namespace InWeb\Admin\App\Http\Controllers\Fields;
 
-use App\Traits\WithContentImages;
+use InWeb\Media\WithContentImages;
 use InWeb\Admin\App\Http\Controllers\Controller;
 use InWeb\Admin\App\Http\Requests\ResourceDetailRequest;
 
