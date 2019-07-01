@@ -2,7 +2,7 @@
 
 namespace InWeb\Admin\App\Http\Requests;
 
-use App\Models\Entity;
+use InWeb\Base\Entity;
 use Illuminate\Database\Eloquent\Model;
 use InWeb\Admin\App\Admin;
 use InWeb\Admin\App\Resources\Resource;

@@ -2,7 +2,7 @@
 
 namespace InWeb\Admin\App;
 
-use App\Traits\WithStatus;
+use InWeb\Base\Traits\WithStatus;
 use Illuminate\Support\Collection;
 use InWeb\Admin\App\Http\Requests\AdminRequest;
 
