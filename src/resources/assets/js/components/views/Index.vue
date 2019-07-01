@@ -115,7 +115,7 @@
             fetch(parent = null) {
                 this.loading = true
 
-                Api.resource({
+                App.api.resource({
                     controller: this.controller, params: {
                         page: parent ? null : this.$route.query.page || null,
                         parent
@@ -134,7 +134,7 @@
             },
 
             savePositions() {
-                Api.request({
+                App.api.request({
                     method: 'PUT',
                     controller: this.controller,
                     action: 'positions',

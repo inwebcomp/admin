@@ -1,33 +1,34 @@
 import axios from 'axios'
 
-const root = '/admin/api'
+export default class Api {
+    constructor(config) {
+        Api.root = '/' + config.baseUrl + '/api'
+    }
 
-class Api {
-    static url(url) {
-        return root + (url ? '/' + url : '')
-    };
+    url(url) {
+        return Api.root + (url ? '/' + url : '')
+    }
 
-    static resource(params) {
+    resource(params) {
         params.action = params.action || ''
-
         return this.request(params).then((data) => {
             App.app.$store.commit('resource/set', data.info)
             return data
         })
-    };
+    }
 
-    static action(params) {
+    action(params) {
         if (! params.method)
             params.method = 'post'
 
         return this.request(params);
-    };
+    }
 
-    static request({ controller, action, object, full, url, method, data, params }) {
+    request({ controller, action, object, full, url, method, data, params }) {
         if (url)
-            url = root + '/' + url
+            url = Api.root + '/' + url
         else
-            url = root + '/' + controller + (object ? '/' + object : '') + '/' + action
+            url = Api.root + '/' + controller + (object ? '/' + object : '') + '/' + action
 
         method = method || 'get'
 
@@ -47,7 +48,5 @@ class Api {
 
             throw response
         })
-    };
+    }
 }
-
-export default Api;

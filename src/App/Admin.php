@@ -64,7 +64,7 @@ class Admin
      */
     public static function path()
     {
-        return config('admin.path', '/admin');
+        return config('admin.path', 'admin');
     }
 
     /**
