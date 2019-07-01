@@ -6,7 +6,7 @@ use App\Admin\Resources\Product;
 use Illuminate\Pagination\Paginator;
 use InWeb\Admin\App\Contracts\Nested;
 use InWeb\Admin\App\Http\Requests\ResourceIndexRequest;
-use InWeb\Admin\App\Models\Entity;
+use InWeb\Base\Entity;
 use InWeb\Admin\App\Parameters;
 use Session;
 
