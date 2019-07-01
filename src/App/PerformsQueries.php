@@ -111,15 +111,15 @@ trait PerformsQueries
      */
     protected static function applyOrderings($query, array $orderings)
     {
-        if (empty($orderings)) {
-            return empty($query->orders)
-                        ? $query->latest($query->getModel()->getQualifiedKeyName())
-                        : $query;
-        }
-
-        foreach ($orderings as $column => $direction) {
-            $query->orderBy($column, $direction);
-        }
+//        if (empty($orderings)) {
+//            return empty($query->orders)
+//                        ? $query->latest($query->getModel()->getQualifiedKeyName())
+//                        : $query;
+//        }
+//
+//        foreach ($orderings as $column => $direction) {
+//            $query->orderBy($column, $direction);
+//        }
 
         return $query;
     }
