@@ -1,6 +1,6 @@
 <template>
     <div>
-        <span v-if="!field.link">{{ field.value }}</span>
+        <span v-if="!field.link" v-html="field.value"></span>
     </div>
 </template>
 
