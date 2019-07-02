@@ -31,12 +31,13 @@ class AdminMenuController extends Controller
                 ];
             }
 
-            usort($group['resources'], function ($a, $b) {
-                return $a['position'] > $b['position'];
-            });
+            if (count($group['resources'])) {
+                usort($group['resources'], function ($a, $b) {
+                    return $a['position'] > $b['position'];
+                });
 
-            if (count($group['resources']))
                 $menu[] = $group;
+            }
         };
 
         return $menu;
