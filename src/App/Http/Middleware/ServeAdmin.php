@@ -18,6 +18,8 @@ class ServeAdmin
     public function handle($request, $next)
     {
         if ($this->isAdminRequest($request)) {
+            \Auth::shouldUse('admin');
+
             app()->register(AdminServiceProvider::class);
 
             AdminServiceProviderRegistered::dispatch();

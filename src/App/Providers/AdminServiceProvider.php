@@ -30,8 +30,6 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        \Auth::shouldUse('admin');
-
         if ($this->app->runningInConsole()) {
             $this->registerPublishing();
         }

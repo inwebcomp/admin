@@ -20,9 +20,9 @@ class AdminRoute
             'namespace'  => $namespace,
             'middleware' => [
                 'api',
-                'admin-auth',
                 AddQueuedCookiesToResponse::class,
-                DispatchServingAdminEvent::class
+                DispatchServingAdminEvent::class,
+                'admin-auth',
             ],
             'as'         => 'admin::',
         ], $callback);
@@ -40,8 +40,8 @@ class AdminRoute
             'namespace'  => '\InWeb\Admin\App\Http\Controllers',
             'middleware' => [
                 'web',
+                DispatchServingAdminEvent::class,
                 'admin-auth',
-                DispatchServingAdminEvent::class
             ],
             'as'         => 'admin::',
         ], $callback);
