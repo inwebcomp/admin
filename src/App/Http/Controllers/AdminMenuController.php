@@ -31,7 +31,7 @@ class AdminMenuController extends Controller
                 ];
             }
 
-            if (count($group['resources'])) {
+            if (isset($group['resources']) and $group['resources'] and count($group['resources'])) {
                 usort($group['resources'], function ($a, $b) {
                     return $a['position'] > $b['position'];
                 });
