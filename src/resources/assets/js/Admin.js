@@ -5,6 +5,7 @@ import VueRouter from 'vue-router'
 import Translator from './services/Translator'
 import VueFroala from 'vue-froala-wysiwyg'
 import store from './store'
+import filters from './store/modules/filters'
 import router from './router'
 import Api from "~js/api"
 import './components'
@@ -65,6 +66,7 @@ export default class Admin {
         let self = this
 
         self.boot()
+        this.registerStoreModules()
 
         self.app = new Vue({
             el: "#app",
@@ -109,6 +111,15 @@ export default class Admin {
                 },
             }
         });
+    }
+
+    /**
+     * Register the built-in Vuex modules for each resource
+     */
+    registerStoreModules() {
+        this.config.resources.forEach(resource => {
+            store.registerModule(resource.uriKey, filters)
+        })
     }
 
     /**

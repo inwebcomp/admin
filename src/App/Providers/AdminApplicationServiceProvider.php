@@ -15,11 +15,23 @@ class AdminApplicationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->routes();
+
         Admin::serving(function (ServingAdmin $event) {
             $this->groups();
             $this->resources();
             Admin::tools($this->tools());
         });
+    }
+
+    /**
+     * Register the Nova routes.
+     *
+     * @return void
+     */
+    protected function routes()
+    {
+        Admin::routes();
     }
 
     /**

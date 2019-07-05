@@ -1,16 +1,44 @@
 <template>
+    <div v-click-outside="close" class="dropdown relative">
+        <slot :toggle="toggle" />
 
+        <transition name="dropdown"> <slot v-if="visible" name="menu" /> </transition>
+    </div>
 </template>
 
 <script>
-    export default {
-        name: "dropdown",
+import composedPath from '~polyfills/composedPath'
 
-        props: {
-            values: {
-                type: Array,
-                default: () => {}
-            },
-        }
-    }
+export default {
+    props: {
+        classWhitelist: [Array, String],
+    },
+
+    data: () => ({ visible: false }),
+
+    methods: {
+        toggle() {
+            this.visible = !this.visible
+        },
+
+        close(event) {
+            let classArray = Array.isArray(this.classWhitelist)
+                ? this.classWhitelist
+                : [this.classWhitelist]
+
+            if (_.filter(classArray, className => pathIncludesClass(event, className)).length > 0) {
+                return
+            }
+
+            this.visible = false
+        },
+    },
+}
+
+function pathIncludesClass(event, className) {
+    return composedPath(event)
+        .filter(el => el !== document && el !== window)
+        .reduce((acc, e) => acc.concat([...e.classList]), [])
+        .includes(className)
+}
 </script>

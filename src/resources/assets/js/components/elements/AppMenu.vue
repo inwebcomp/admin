@@ -6,7 +6,7 @@
                 <!--<router-link :to="{-->
                             <!--name: group.resources[0].route || 'index',-->
                             <!--params: {-->
-                                <!--controller: group.resources[0].uriKey-->
+                                <!--resourceName: group.resources[0].uriKey-->
                             <!--}-->
                         <!--}" class="sidebar__item__link" :title="group.label">-->
                     <!--<i class="icon fas" :class="'fa-' + (group.icon ? group.icon : 'circle')"></i>-->
@@ -16,7 +16,7 @@
                     <router-link :to="{
                             name: resource.route || 'index',
                             params: {
-                                controller: resource.uriKey
+                                resourceName: resource.uriKey
                             }
                         }" class="sidebar__children__item" :title="resource.label"
                                  v-for="(resource, $i2) of group.resources" :key="$i2">
@@ -41,13 +41,13 @@
         },
 
         props: [
-            'controller',
+            'resourceName',
             'action',
             'param',
         ],
 
         watch: {
-            controller: {
+            resourceName: {
                 handler: 'fetch',
                 immediate: true
             }
@@ -55,7 +55,7 @@
 
         methods: {
             fetch() {
-                App.api.request({controller: 'admin-menu', action: 'menu'}).then((data) => this.groups = data)
+                App.api.request({resourceName: 'admin-menu', action: 'menu'}).then((data) => this.groups = data)
             },
 
             isSelected(group) {

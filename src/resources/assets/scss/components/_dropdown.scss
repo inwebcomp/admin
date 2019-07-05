@@ -53,6 +53,14 @@ $dropdown-max-options: 8;
     background-color: $dropdown-background-color;
     box-shadow: $box-shadow;
     z-index: 1;
+
+    &--left {
+        left: 0;
+    }
+
+    &--right {
+        right: 0;
+    }
 }
 
 .dropdown .dropdown__value {

@@ -68,6 +68,14 @@ class Admin
     }
 
     /**
+     * Register the Nova routes.
+     */
+    public static function routes()
+    {
+        return new PendingRouteRegistration();
+    }
+
+    /**
      * Register an event listener for the Admin "serving" event.
      *
      * @param  \Closure|string $callback
@@ -341,7 +349,7 @@ class Admin
      */
     public static function availableTools(Request $request)
     {
-        return collect(static::$tools)->all();
+        return collect(static::$tools)->filter->authorize($request)->all();
     }
 
     /**

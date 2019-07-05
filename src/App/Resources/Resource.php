@@ -2,6 +2,7 @@
 
 namespace InWeb\Admin\App\Resources;
 
+use InWeb\Admin\App\ResolvesFilters;
 use InWeb\Base\Entity;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
@@ -22,6 +23,7 @@ abstract class Resource
 {
     use Authorizable,
         ResolvesFields,
+        ResolvesFilters,
         ResolvesActions,
         FillsFields,
         PerformsValidation,
