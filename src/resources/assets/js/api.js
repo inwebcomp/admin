@@ -24,11 +24,11 @@ export default class Api {
         return this.request(params);
     }
 
-    request({ controller, action, object, full, url, method, data, params }) {
+    request({ resourceName, action, resourceId, full, url, method, data, params }) {
         if (url)
             url = Api.root + '/' + url
         else
-            url = Api.root + '/' + controller + (object ? '/' + object : '') + '/' + action
+            url = Api.root + '/' + resourceName + (resourceId ? '/' + resourceId : '') + '/' + action
 
         method = method || 'get'
 

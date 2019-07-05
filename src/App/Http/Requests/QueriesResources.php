@@ -6,6 +6,8 @@ use InWeb\Admin\App\Resources\Resource;
 
 trait QueriesResources
 {
+    use DecodesFilters;
+
     /**
      * Transform the request into a query.
      *
@@ -17,7 +19,7 @@ trait QueriesResources
         $resource = $this->resource();
 
         return $resource::buildIndexQuery(
-            $this, $this->newQuery()
+            $this, $this->newQuery(), null, $this->filters()->all()
         );
 
 //        return $resource::buildIndexQuery(
@@ -63,15 +65,5 @@ trait QueriesResources
         return ! empty($this->orderBy)
                         ? [$this->orderBy => $this->orderByDirection ?? 'asc']
                         : [];
-    }
-
-    /**
-     * Get the trashed status of the request.
-     *
-     * @return string
-     */
-    protected function trashed()
-    {
-        return $this->trashed;
     }
 }

@@ -11,6 +11,16 @@ abstract class Tool extends Element
     public static $displayInNavigation = true;
 
     /**
+     * Perform any tasks that need to happen on tool registration.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        //
+    }
+
+    /**
      * Get the URI route name
      *
      * @return string

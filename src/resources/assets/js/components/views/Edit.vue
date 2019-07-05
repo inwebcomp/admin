@@ -3,7 +3,7 @@
         <form @submit.prevent="save">
             <div class="scrollable-content">
                 <active-panel :title="title" :accent="accent"
-                              :backRoute="{ name: 'index', params: { controller: this.controller } }"></active-panel>
+                              :backRoute="{ name: 'index', params: { resourceName: this.resourceName } }"></active-panel>
 
                 <div class="px-4">
                     <div class="tabs">
@@ -18,8 +18,8 @@
                             v-show="$i == activeTab"
                             :withHeader="false"
                             :is="panel.component"
-                            :resource-name="controller"
-                            :resource-id="object"
+                            :resource-name="resourceName"
+                            :resource-id="resourceId"
                             :resource="resource"
                             :panel="panel"
                             :errors="validationErrors"
@@ -42,8 +42,8 @@
         name: "edit",
 
         props: [
-            'controller',
-            'object',
+            'resourceName',
+            'resourceId',
         ],
 
         data: () => ({
@@ -56,7 +56,7 @@
         }),
 
         watch: {
-            object: {
+            resourceId: {
                 handler() {
                     this.fetch()
                 },
@@ -67,9 +67,9 @@
         methods: {
             fetch() {
                 App.api.resource({
-                    controller: this.controller,
+                    resourceName: this.resourceName,
                     action: 'edit',
-                    object: this.object
+                    resourceId: this.resourceId
                 }).then(({resource, panels}) => {
                     this.resource = resource
                     this.panels = panels
@@ -80,7 +80,7 @@
                     if (status == 404) {
                         this.$toasted.show(
                             this.__("The :resource can't be found!", {
-                                resource: this.controller,
+                                resource: this.resourceName,
                             }),
                             {type: 'error'}
                         )
@@ -107,18 +107,18 @@
                 this.loading = true
 
                 App.api.action({
-                    controller: this.controller,
+                    resourceName: this.resourceName,
                     action: 'update',
-                    object: this.object,
+                    resourceId: this.resourceId,
                     data: this.updateResourceFormData()
                 }).then(() => {
                     this.loading = false
 
-                    App.$emit('resourceUpdate', this.object)
+                    App.$emit('resourceUpdate', this.resourceId)
 
                     this.$toasted.show(
                         this.__('The :resource was updated!', {
-                            resource: this.controller,
+                            resource: this.resourceName,
                         }),
                         {type: 'success'}
                     )
@@ -148,18 +148,18 @@
 
                 App.api.request({
                     method: 'DELETE',
-                    url: this.controller + '/destroy',
+                    url: this.resourceName + '/destroy',
                     data: {
-                        resources: [this.object]
+                        resources: [this.resourceId]
                     }
                 }).then(() => {
-                    App.$emit('resourceDestroyed', this.object)
+                    App.$emit('resourceDestroyed', this.resourceId)
 
-                    this.$router.push({name: 'index', params: {controller: this.controller}})
+                    this.$router.push({name: 'index', params: {resourceName: this.resourceName}})
 
                     this.$toasted.show(
                         this.__('The :resource was deleted!', {
-                            resource: this.controller,
+                            resource: this.resourceName,
                         }),
                         {type: 'success'}
                     )

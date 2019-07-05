@@ -1,6 +1,6 @@
 <template>
     <div>
-        <component :is="component" :controller="controller" :object="object"></component>
+        <component :is="component" :resourceName="resourceName" :resourceId="resourceId"></component>
     </div>
 </template>
 
@@ -15,10 +15,10 @@
         },
 
         props: {
-            controller: {
+            resourceName: {
                 default: 'home'
             },
-            object: {
+            resourceId: {
                 default: null
             },
             action: {
@@ -50,7 +50,7 @@
             App.$on('sidePopupMaskClick', () => {
                 this.$router.push({
                     name: 'index',
-                    params: {controller: this.controller}
+                    params: {resourceName: this.resourceName}
                 })
             })
         },
@@ -58,8 +58,8 @@
         methods: {
             showPopup() {
                 this.$showSidePopup(this.action, {
-                    controller: this.controller,
-                    object: this.object
+                    resourceName: this.resourceName,
+                    resourceId: this.resourceId
                 }, {
                     closeOnOverlayClick: false
                 })

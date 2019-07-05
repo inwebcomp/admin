@@ -75,6 +75,7 @@
             select(value) {
                 this.$emit('input', value)
                 this.$emit('select', value)
+                this.$emit('change', value)
                 this.close()
             },
 

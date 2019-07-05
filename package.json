@@ -18,11 +18,11 @@
         "axios": "^0.18.0",
         "form-backend-validation": "^2.3.6",
         "lodash": "^4.17.11",
-        "vue": "^2.5.21",
+        "vue": "^2.6.10",
         "vue-axios": "^2.1.4",
         "vue-froala-wysiwyg": "^2.9.3",
         "vue-router": "^3.0.2",
-        "vue-template-compiler": "^2.5.21",
+        "vue-template-compiler": "^2.6.10",
         "vue-toasted": "^1.1.26",
         "vuedraggable": "^2.20.0",
         "vuex": "^3.0.1"
