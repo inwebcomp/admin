@@ -4840,6 +4840,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     handleChange: function handleChange(value) {
+      if (value === '') value = null;
       this.$store.commit("".concat(this.resourceName, "/updateFilterState"), {
         filterClass: this.filterKey,
         value: value
@@ -4965,7 +4966,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       return this.options.find(function (item) {
-        return item.value == _this2.value;
+        return item.value === _this2.value;
       });
     }
   },
@@ -6153,6 +6154,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return this.$route.query[this.filterParameter] || '';
     }
   },
+  watch: {
+    resourceName: function resourceName() {
+      this.initializeFilters();
+    }
+  },
   created: function () {
     var _created = _asyncToGenerator(
     /*#__PURE__*/
@@ -6168,6 +6174,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               }, function () {
                 _this.fetch();
               });
+              _context.next = 3;
+              return this.initializeFilters();
+
+            case 3:
+              _context.next = 5;
+              return this.fetch();
+
+            case 5:
               App.$on('resourceUpdate', function () {
                 _this.fetch();
               });
@@ -6189,12 +6203,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               App.$on('back', function () {
                 if (_this.isNested && _this.breadcrumbs.path.length >= 2) App.$emit('parentSelect', _this.breadcrumbs.path[_this.breadcrumbs.path.length - 2].id);
               });
-              _context.next = 10;
-              return this.initializeFilters();
-
-            case 10:
-              _context.next = 12;
-              return this.fetch();
 
             case 12:
             case "end":
