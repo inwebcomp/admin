@@ -6169,19 +6169,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              this.$watch(function () {
-                return _this.resourceName + _this.encodedFilters;
-              }, function () {
-                _this.fetch();
-              });
-              _context.next = 3;
+              _context.next = 2;
               return this.initializeFilters();
 
-            case 3:
-              _context.next = 5;
+            case 2:
+              _context.next = 4;
               return this.fetch();
 
-            case 5:
+            case 4:
               App.$on('resourceUpdate', function () {
                 _this.fetch();
               });
@@ -6202,6 +6197,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               });
               App.$on('back', function () {
                 if (_this.isNested && _this.breadcrumbs.path.length >= 2) App.$emit('parentSelect', _this.breadcrumbs.path[_this.breadcrumbs.path.length - 2].id);
+              });
+              this.$watch(function () {
+                return _this.resourceName + _this.encodedFilters;
+              }, function () {
+                _this.fetch();
               });
 
             case 12:
