@@ -80,6 +80,12 @@
             },
         },
 
+        watch: {
+            resourceName() {
+                this.initializeFilters()
+            }
+        },
+
         async created() {
             this.$watch(
                 () => {
@@ -92,6 +98,9 @@
                     this.fetch()
                 }
             )
+
+            await this.initializeFilters()
+            await this.fetch()
 
             App.$on('resourceUpdate', () => {
                 this.fetch()
@@ -121,9 +130,6 @@
                 if (this.isNested && this.breadcrumbs.path.length >= 2)
                     App.$emit('parentSelect', this.breadcrumbs.path[this.breadcrumbs.path.length - 2].id)
             })
-
-            await this.initializeFilters()
-            await this.fetch()
         },
 
         destroyed() {

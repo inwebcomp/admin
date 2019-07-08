@@ -103,7 +103,7 @@
 
         computed: {
             selected() {
-                return this.options.find(item => item.value == this.value);
+                return this.options.find(item => item.value === this.value);
             }
         },
 

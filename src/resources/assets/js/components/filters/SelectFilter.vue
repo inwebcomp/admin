@@ -28,6 +28,9 @@ export default {
 
     methods: {
         handleChange(value) {
+            if (value === '')
+                value = null
+
             this.$store.commit(`${this.resourceName}/updateFilterState`, {
                 filterClass: this.filterKey,
                 value: value,
