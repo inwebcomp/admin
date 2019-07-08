@@ -87,18 +87,6 @@
         },
 
         async created() {
-            this.$watch(
-                () => {
-                    return (
-                        this.resourceName +
-                        this.encodedFilters
-                    )
-                },
-                () => {
-                    this.fetch()
-                }
-            )
-
             await this.initializeFilters()
             await this.fetch()
 
@@ -130,6 +118,18 @@
                 if (this.isNested && this.breadcrumbs.path.length >= 2)
                     App.$emit('parentSelect', this.breadcrumbs.path[this.breadcrumbs.path.length - 2].id)
             })
+
+            this.$watch(
+                () => {
+                    return (
+                        this.resourceName +
+                        this.encodedFilters
+                    )
+                },
+                () => {
+                    this.fetch()
+                }
+            )
         },
 
         destroyed() {
