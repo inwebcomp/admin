@@ -17,7 +17,7 @@ class AdminAccess
      */
     public function handle($request, Closure $next)
     {
-        if (strpos(\Route::current()->getName(), 'admin::login') === false) {
+        if (strpos(\Route::current()->getName(), 'admin::login') === false and strpos(\Route::current()->getName(), 'admin.api::login') === false) {
             Auth::viaRemember();
 
             if (! Auth::user() and in_array('api', \Route::current()->computedMiddleware)) {
