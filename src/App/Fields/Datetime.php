@@ -2,7 +2,7 @@
 
 namespace InWeb\Admin\App\Fields;
 
-class Date extends Text
+class Datetime extends Text
 {
     /**
      * Create a new field.
@@ -16,7 +16,11 @@ class Date extends Text
     {
         parent::__construct($name, $attribute, $resolveCallback);
 
-        $this->withMeta(['type' => 'date']);
+        $this->withMeta(['type' => 'datetime-local']);
+
+        $this->resolveUsing(function ($value) {
+            return $value ? $value->format('Y-m-d\TH:i') : '';
+        });
 
         $this->displayUsing(function ($value) {
             return (string) $value;

@@ -261,6 +261,31 @@ select {
     }
 }
 
+.form__group__erase {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: $input-height;
+    line-height: $input-height;
+    cursor: pointer;
+    opacity: .6;
+    transition: opacity $transition;
+    width: $input-height;
+    text-align: center;
+    color: $font-color-secondary;
+
+    &:hover {
+        opacity: 1;
+    }
+
+    &--h-small {
+        height: $input-height * 0.8;
+        line-height: $input-height * 0.8;
+        width: $input-height * 0.8;
+    }
+}
+
+
 
 .form-select {
     //-webkit-appearance: none;

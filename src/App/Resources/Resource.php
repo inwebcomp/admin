@@ -3,6 +3,8 @@
 namespace InWeb\Admin\App\Resources;
 
 use InWeb\Admin\App\ResolvesFilters;
+use InWeb\Admin\App\ResolvesOrderings;
+use InWeb\Admin\App\WithNotification;
 use InWeb\Base\Entity;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
@@ -24,12 +26,14 @@ abstract class Resource
     use Authorizable,
         ResolvesFields,
         ResolvesFilters,
+        ResolvesOrderings,
         ResolvesActions,
         FillsFields,
         PerformsValidation,
         ConditionallyLoadsAttributes,
         PerformsQueries,
-        DelegatesToResource;
+        DelegatesToResource,
+        WithNotification;
     
     /**
      * The underlying model resource instance.
@@ -62,7 +66,7 @@ abstract class Resource
      *
      * @var bool
      */
-    public static $globallySearchable = true;
+    public static $globallySearchable = false;
     /**
      * The relationships that should be eager loaded when performing an index query.
      *

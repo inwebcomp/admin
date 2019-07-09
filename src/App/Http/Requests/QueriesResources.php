@@ -3,6 +3,7 @@
 namespace InWeb\Admin\App\Http\Requests;
 
 use InWeb\Admin\App\Resources\Resource;
+use InWeb\Base\Entity;
 
 trait QueriesResources
 {
@@ -19,7 +20,11 @@ trait QueriesResources
         $resource = $this->resource();
 
         return $resource::buildIndexQuery(
-            $this, $this->newQuery(), null, $this->filters()->all()
+            $this,
+            $this->newQuery(),
+            $this->search,
+            $this->filters()->all(),
+            $this->orderings()
         );
 
 //        return $resource::buildIndexQuery(
@@ -35,14 +40,7 @@ trait QueriesResources
      */
     public function newQuery()
     {
-        if (! $this->viaRelationship()) {
-            return $this->model()->newQuery();
-        }
-
-        return forward_static_call([$this->viaResource(), 'newModel'])
-                        ->newQueryWithoutScopes()->findOrFail(
-                            $this->viaResourceId
-                        )->{$this->viaRelationship}();
+        return $this->model()->newQuery();
     }
 
     /**
@@ -62,8 +60,12 @@ trait QueriesResources
      */
     public function orderings()
     {
-        return ! empty($this->orderBy)
-                        ? [$this->orderBy => $this->orderByDirection ?? 'asc']
-                        : [];
+        $resource = $this->newResource();
+
+        if (! empty($this->orderBy)) {
+            return [$this->orderBy => $this->orderByDirection ?? 'asc'];
+        } else if ($resource->defaultOrdering($this)) {
+            return $resource->defaultOrdering($this);
+        }
     }
 }

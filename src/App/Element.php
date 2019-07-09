@@ -16,6 +16,13 @@ class Element implements \JsonSerializable
     public $component;
 
     /**
+     * If shoulf prefix component name with view name.
+     *
+     * @var string
+     */
+    public $prefixComponent = true;
+
+    /**
      * The callback used to authorize viewing the card.
      *
      * @var \Closure|null

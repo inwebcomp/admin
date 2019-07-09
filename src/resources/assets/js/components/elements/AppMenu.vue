@@ -21,6 +21,7 @@
                         }" class="sidebar__children__item" :title="resource.label"
                                  v-for="(resource, $i2) of group.resources" :key="$i2">
                         {{ resource.label }}
+                        <div class="sidebar__children__item__notification" v-if="resource.notification">{{ resource.notification }}</div>
                     </router-link>
                 </div>
             </div>

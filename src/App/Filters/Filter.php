@@ -41,6 +41,8 @@ abstract class Filter implements JsonSerializable
      */
     public $seeCallback;
 
+    public $withNull = true;
+
     /**
      * Apply the filter to the given query.
      *
@@ -155,11 +157,16 @@ abstract class Filter implements JsonSerializable
     {
         $container = Container::getInstance();
 
+        $options = collect($this->options($container->make(Request::class)));
+
+        if ($this->withNull)
+            $options->prepend('', '—');
+
         return array_merge([
             'class' => $this->key(),
             'name' => $this->name(),
             'component' => $this->component(),
-            'options' => collect($this->options($container->make(Request::class)))->prepend('', '—')->map(function ($value, $key) {
+            'options' => $options->map(function ($value, $key) {
                 return ['title' => $key, 'value' => $value];
             })->values()->all(),
             'currentValue' => $this->default(),

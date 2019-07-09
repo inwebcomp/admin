@@ -6,6 +6,7 @@ Vue.component('form-section', require('~fields/Form/FormSection.vue').default)
 // Text Field...
 Vue.component('index-text-field', require('~fields/Index/TextField.vue').default)
 Vue.component('form-text-field', require('~fields/Form/TextField.vue').default)
+Vue.component('detail-text-field', require('~fields/Detail/TextField.vue').default)
 
 // Textarea Field...
 Vue.component('index-textarea-field', require('~fields/Index/TextareaField.vue').default)
@@ -38,3 +39,6 @@ Vue.component('index-select-field', require('~fields/Index/SelectField.vue').def
 
 // Icon Field...
 Vue.component('index-icon-field', require('~fields/Index/IconField.vue').default)
+
+// Status Field...
+Vue.component('index-status-field', require('~fields/Index/StatusField.vue').default)

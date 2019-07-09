@@ -9,7 +9,6 @@ import resource from './modules/resource.js'
 import sidePopup from './modules/sidePopup.js'
 import popup from './modules/popup.js'
 import user from './modules/user.js'
-import filters from './modules/filters.js'
 
 export default new Vuex.Store({
     modules: {
@@ -17,7 +16,6 @@ export default new Vuex.Store({
         sidePopup,
         popup,
         user,
-        filters
     },
     strict: debug
 })
