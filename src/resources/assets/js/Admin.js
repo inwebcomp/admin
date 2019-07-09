@@ -5,17 +5,20 @@ import VueRouter from 'vue-router'
 import Translator from './services/Translator'
 import VueFroala from 'vue-froala-wysiwyg'
 import store from './store'
-import filters from './store/modules/filters'
+import filters from './store/modules/filters.js'
+import orderings from './store/modules/orderings.js'
 import router from './router'
 import Api from "~js/api"
 import './components'
 import SidePopup from './plugins/sidePopup'
 import Popup from './plugins/popup'
 import Toasted from 'vue-toasted'
+import _ from 'lodash'
 
 import ClickOutside from "~directives/ClickOutside";
 
 Vue.directive('click-outside', ClickOutside);
+
 
 
 Vue.use(VueAxios, axios)
@@ -118,7 +121,7 @@ export default class Admin {
      */
     registerStoreModules() {
         this.config.resources.forEach(resource => {
-            store.registerModule(resource.uriKey, filters)
+            store.registerModule(resource.uriKey, _.merge(filters, orderings))
         })
     }
 

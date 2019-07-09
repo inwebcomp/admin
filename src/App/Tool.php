@@ -6,6 +6,8 @@ use Illuminate\Support\Str;
 
 abstract class Tool extends Element
 {
+    use WithNotification;
+
     public static $position = null;
 
     public static $displayInNavigation = true;

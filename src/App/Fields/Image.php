@@ -20,4 +20,16 @@ class Image extends Field
     {
         return $this->resolveUsing($callback);
     }
+
+    public function many()
+    {
+        $this->classes = [
+            'py-1',
+            'px-0'
+        ];
+
+        $this->textAlign = 'left';
+
+        return $this;
+    }
 }

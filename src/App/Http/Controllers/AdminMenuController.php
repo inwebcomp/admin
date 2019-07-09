@@ -24,10 +24,11 @@ class AdminMenuController extends Controller
                     continue;
 
                 $group['resources'][] = [
-                    'route'    => $resource::route(),
-                    'uriKey'   => $resource::uriKey(),
-                    'label'    => $resource::label(),
-                    'position' => $resource::position(),
+                    'route'        => $resource::route(),
+                    'uriKey'       => $resource::uriKey(),
+                    'label'        => $resource::label(),
+                    'position'     => $resource::position(),
+                    'notification' => $resource::notification(),
                 ];
             }
 

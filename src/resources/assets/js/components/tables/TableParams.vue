@@ -14,10 +14,20 @@
 
         <table-actions @action="$emit($event)"/>
 
-        <div class="active-panel__button">
-            <i class="fas fa-sort-amount-down mr-2 text-grey-light"></i>
-            {{ __('По дате добавления') }}
-        </div>
+        <!-- Search -->
+        <table-search class="mr-4" @search="$emit('search', $event)" :query="search" />
+
+        <!-- Orderings -->
+        <orderings-menu :resourceName="resourceName"
+                     @clear-selected-orderings="$emit('clear-selected-orderings')"
+                     @ordering-changed="$emit('ordering-changed')">
+            <template v-slot="{ currentOrdering }">
+                <div class="active-panel__button" v-if="currentOrdering">
+                    <i class="fas mr-2 text-grey-light" :class="'fa-long-arrow-alt-' + (currentOrdering.direction == 'desc' ? 'up' : 'down')"></i>
+                    {{ currentOrdering.title }}
+                </div>
+            </template>
+        </orderings-menu>
 
         <!-- Filters -->
         <filter-menu :resourceName="resourceName"
@@ -35,16 +45,20 @@
             </template>
         </filter-menu>
 
-        <div class="active-panel__button">
-            <i class="fas fa-cog mr-2 text-grey-light"></i>
-            {{ __('Cтолбцы') }}
-        </div>
+        <!--<div class="active-panel__button">-->
+            <!--<i class="fas fa-cog mr-2 text-grey-light"></i>-->
+            <!--{{ __('Cтолбцы') }}-->
+        <!--</div>-->
     </div>
 </template>
 
 <script>
     export default {
         name: "table-params",
+
+        props: {
+            search: {},
+        },
 
         computed: {
             title() {

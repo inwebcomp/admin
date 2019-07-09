@@ -9,7 +9,7 @@ class ID extends Field
 {
     use Macroable;
     public $component = 'id-field';
-    public $classes = ['w-1'];
+    public $classes = ['w-1', 'min-w-0'];
 
     /**
      * Create a new field.

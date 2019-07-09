@@ -103,3 +103,41 @@ $active-panel-button-icon-size: rem(20px);
     padding-top: 1px;
     text-align: center;
 }
+
+
+
+.active-panel__search {
+	display: flex;
+	align-items: center;
+
+	&__input {
+		width: 300px;
+	}
+
+	&__query {
+
+	}
+
+	&__icon {
+		vertical-align: middle;
+		width: $active-panel-button-size;
+		height: $active-panel-button-size;
+		line-height: $active-panel-button-size;
+		text-align: center;
+		cursor: pointer;
+		color: #FFF;
+		font-size: $font-size;
+		border-radius: $border-radius;
+		margin-left: $padding / 2;
+
+		@include transition(background-color $transition);
+
+		&:hover {
+			background-color: darken($active-panel-bg-color, 3%);
+		}
+
+		i {
+			vertical-align: middle;
+		}
+	}
+}

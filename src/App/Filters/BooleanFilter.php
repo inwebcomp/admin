@@ -14,6 +14,8 @@ abstract class BooleanFilter extends Filter
      */
     public $component = 'boolean-filter';
 
+    public $withNull = false;
+
     /**
      * Set the default options for the filter.
      *

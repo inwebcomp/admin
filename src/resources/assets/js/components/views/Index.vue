@@ -2,7 +2,10 @@
     <div>
         <table-params :navigate="! isNested" @destroy="destroy"
                       @clear-selected-filters="clearSelectedFilters"
-                      @filter-changed="filterChanged"/>
+                      @filter-changed="filterChanged"
+                      @clear-selected-orderings="clearSelectedOrderings"
+                      @ordering-changed="orderingChanged"
+                      :search="search" @search="performSearch"/>
 
         <breadcrumbs v-if="isNested" :items="breadcrumbs.path" :options="breadcrumbs.options" :value="selected" />
 
@@ -22,6 +25,8 @@
 <script>
     import Api from "~js/api"
     import Filterable from "~mixins/Filterable"
+    import Orderable from "~mixins/Orderable"
+    import Searchable from "~mixins/Searchable"
     import InteractsWithQueryString from "~mixins/InteractsWithQueryString"
 
     export default {
@@ -34,6 +39,8 @@
 
         mixins: [
             Filterable,
+            Orderable,
+            Searchable,
             InteractsWithQueryString,
         ],
 
@@ -82,12 +89,18 @@
 
         watch: {
             resourceName() {
+                this.initializeSearchFromQueryString()
+
                 this.initializeFilters()
+                this.initializeOrderings()
             }
         },
 
         async created() {
+            this.initializeSearchFromQueryString()
+
             await this.initializeFilters()
+            await this.initializeOrderings()
             await this.fetch()
 
             App.$on('resourceUpdate', () => {
@@ -123,6 +136,9 @@
                 () => {
                     return (
                         this.resourceName +
+                        this.currentOrderBy +
+                        this.currentOrderByDirection +
+                        this.currentSearch +
                         this.encodedFilters
                     )
                 },
@@ -142,8 +158,8 @@
 
         methods: {
             changePage(page) {
-                this.$router.replace({
-                    query: {page}
+                this.updateQueryString({
+                    [this.pageParameter]: page,
                 })
 
                 this.fetch()
@@ -175,6 +191,9 @@
             resourceRequestQueryString(parent) {
                 return {
                     filters: this.encodedFilters,
+                    orderBy: this.currentOrderBy,
+                    orderByDirection: this.currentOrderByDirection,
+                    search: this.currentSearch,
                     parent,
                     page: parent ? null : this.$route.query.page || null,
                 }

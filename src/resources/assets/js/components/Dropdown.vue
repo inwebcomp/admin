@@ -2,7 +2,7 @@
     <div v-click-outside="close" class="dropdown relative">
         <slot :toggle="toggle" />
 
-        <transition name="dropdown"> <slot v-if="visible" name="menu" /> </transition>
+        <transition name="dropdown"> <slot v-if="visible" name="menu" :toggle="toggle" /> </transition>
     </div>
 </template>
 

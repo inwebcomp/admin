@@ -28,6 +28,9 @@ Route::post('/{resource}/action', 'ActionController@store');
 // Filters...
 Route::get('/{resource}/filters', 'FilterController@index');
 
+// Orderings...
+Route::get('/{resource}/orderings', 'OrderingController@index');
+
 // Fields...
 Route::group(['prefix' => 'field', 'namespace' => 'Fields'], function() {
     Route::group(['prefix' => 'tree-field'], function() {
