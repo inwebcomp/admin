@@ -39,6 +39,7 @@ export default {
     props: {
         working: Boolean,
         resourceName: { type: String, required: true },
+        resourceId: {},
         action: { type: Object, required: true },
         selectedResources: { type: [Array, String], required: true },
         errors: { type: Object, required: true },
@@ -57,6 +58,12 @@ export default {
         }
     },
 
+    computed: {
+        resourceKey() {
+            return this.resourceName + this.resourceId
+        },
+    },
+
     methods: {
         /**
          * Stop propogation of input events unless it's for an escape or enter keypress
@@ -73,7 +80,7 @@ export default {
          * Execute the selected action.
          */
         handleConfirm() {
-            App.$emit('executeAction', this.action)
+            App.$emit('executeAction' + this.resourceId, this.action)
             this.$closePopup()
         },
 

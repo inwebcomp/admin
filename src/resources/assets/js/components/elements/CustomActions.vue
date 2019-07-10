@@ -1,5 +1,5 @@
 <template>
-    <div class="custom-actions flex">
+    <div class="custom-actions flex flex-wrap">
         <div class="active-panel__button" v-for="action in availableActions" :key="action.urikey"
              @click.prevent="determineActionStrategy(action)">
             <i v-if="action.icon" class="mr-2 text-grey-light" :class="action.icon"></i>
@@ -20,6 +20,7 @@
                 type: String,
                 default: null,
             },
+            resourceId: {}
         },
 
         data: () => ({
@@ -31,10 +32,6 @@
         }),
 
         watch: {
-            resourceName() {
-               this.fetch()
-            },
-
             /**
              * Watch the actions property for changes.
              */
@@ -44,13 +41,32 @@
         },
 
         created() {
-            App.$on('executeAction', (action) => {
+            if (this.resourceName) {
+                this.fetch()
+            }
+
+            App.$on('executeAction' + this.resourceId, (action) => {
                 this.selectedActionKey = action.uriKey
 
                 this.$nextTick(() => {
                     this.executeAction()
                 })
             });
+
+            this.$watch(
+                () => {
+                    return (
+                        this.resourceKey
+                    )
+                },
+                () => {
+                    this.fetch()
+                }
+            )
+        },
+
+        destroyed() {
+            App.$off('executeAction' + this.resourceKey)
         },
 
         methods: {
@@ -62,7 +78,10 @@
                     url: `${this.resourceName}/actions`,
                 }).then(({actions}) => {
                     this.actions = _.filter(actions, action => {
-                        return !action.onlyOnDetail
+                        if (this.resourceId)
+                            return ! action.onlyOnIndex
+                        else
+                            return ! action.onlyOnDetail
                     })
                 })
             },
@@ -88,6 +107,7 @@
                     working: this.working,
                     selectedResources: this.selectedResources,
                     resourceName: this.resourceName,
+                    resourceId: this.resourceId,
                     action: this.selectedAction,
                     errors: this.errors,
                 })
@@ -195,7 +215,14 @@
                 return this.$store.state.resource.info.uriKey
             },
 
+            resourceKey() {
+                return this.resourceName + this.resourceId
+            },
+
             selectedResources() {
+                if (this.resourceId)
+                    return [this.resourceId * 1];
+
                 return this.$store.state.resource.selected
             },
 

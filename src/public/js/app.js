@@ -3328,15 +3328,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ActivePanel",
   props: {
     accent: {
-      type: String,
       default: null
     },
     title: {
-      type: String,
       default: null
     },
     backRoute: {
@@ -3538,7 +3537,8 @@ __webpack_require__.r(__webpack_exports__);
     endpoint: {
       type: String,
       default: null
-    }
+    },
+    resourceId: {}
   },
   data: function data() {
     return {
@@ -3550,10 +3550,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   watch: {
-    resourceName: function resourceName() {
-      this.fetch();
-    },
-
     /**
      * Watch the actions property for changes.
      */
@@ -3564,13 +3560,25 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    App.$on('executeAction', function (action) {
+    if (this.resourceName) {
+      this.fetch();
+    }
+
+    App.$on('executeAction' + this.resourceId, function (action) {
       _this.selectedActionKey = action.uriKey;
 
       _this.$nextTick(function () {
         _this.executeAction();
       });
     });
+    this.$watch(function () {
+      return _this.resourceKey;
+    }, function () {
+      _this.fetch();
+    });
+  },
+  destroyed: function destroyed() {
+    App.$off('executeAction' + this.resourceKey);
   },
   methods: {
     /**
@@ -3584,7 +3592,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (_ref) {
         var actions = _ref.actions;
         _this2.actions = lodash__WEBPACK_IMPORTED_MODULE_0___default.a.filter(actions, function (action) {
-          return !action.onlyOnDetail;
+          if (_this2.resourceId) return !action.onlyOnIndex;else return !action.onlyOnDetail;
         });
       });
     },
@@ -3610,6 +3618,7 @@ __webpack_require__.r(__webpack_exports__);
         working: this.working,
         selectedResources: this.selectedResources,
         resourceName: this.resourceName,
+        resourceId: this.resourceId,
         action: this.selectedAction,
         errors: this.errors
       });
@@ -3726,7 +3735,11 @@ __webpack_require__.r(__webpack_exports__);
     resourceName: function resourceName() {
       return this.$store.state.resource.info.uriKey;
     },
+    resourceKey: function resourceKey() {
+      return this.resourceName + this.resourceId;
+    },
     selectedResources: function selectedResources() {
+      if (this.resourceId) return [this.resourceId * 1];
       return this.$store.state.resource.selected;
     },
     selectedAction: function selectedAction() {
@@ -5135,6 +5148,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "app-select",
   props: {
@@ -5428,6 +5446,7 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       required: true
     },
+    resourceId: {},
     action: {
       type: Object,
       required: true
@@ -5454,6 +5473,11 @@ __webpack_require__.r(__webpack_exports__);
       this.$refs.runButton.focus();
     }
   },
+  computed: {
+    resourceKey: function resourceKey() {
+      return this.resourceName + this.resourceId;
+    }
+  },
   methods: {
     /**
      * Stop propogation of input events unless it's for an escape or enter keypress
@@ -5470,7 +5494,7 @@ __webpack_require__.r(__webpack_exports__);
      * Execute the selected action.
      */
     handleConfirm: function handleConfirm() {
-      App.$emit('executeAction', this.action);
+      App.$emit('executeAction' + this.resourceId, this.action);
       this.$closePopup();
     },
 
@@ -6190,6 +6214,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var form_backend_validation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! form-backend-validation */ "./node_modules/form-backend-validation/dist/index.js");
 /* harmony import */ var form_backend_validation__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(form_backend_validation__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elements_CustomActions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../elements/CustomActions */ "./src/resources/assets/js/components/elements/CustomActions.vue");
+//
+//
 //
 //
 //
@@ -6228,8 +6255,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "edit",
+  components: {
+    CustomActions: _elements_CustomActions__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   props: ['resourceName', 'resourceId'],
   data: function data() {
     return {
@@ -6248,6 +6279,9 @@ __webpack_require__.r(__webpack_exports__);
       },
       immediate: true
     }
+  },
+  created: function created() {
+    App.$on('actionExecuted', this.fetch);
   },
   methods: {
     fetch: function fetch() {
@@ -6313,7 +6347,7 @@ __webpack_require__.r(__webpack_exports__);
 
         _this2.validationErrors = new form_backend_validation__WEBPACK_IMPORTED_MODULE_0__["Errors"]();
 
-        _this2.updateLastRetrievedAtTimestamp();
+        _this2.fetch();
       }).catch(function (_ref3) {
         var data = _ref3.data,
             status = _ref3.status;
@@ -33909,37 +33943,44 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "active-panel active-panel--edit" }, [
-    !_vm.popupMode
-      ? _c(
-          "div",
-          {
-            staticClass:
-              "active-panel__button active-panel__button--back active-panel__button--icon",
-            on: { click: _vm.go }
-          },
-          [_c("i", { staticClass: "fas fa-times" })]
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.popupMode
-      ? _c(
-          "div",
-          {
-            staticClass:
-              "active-panel__button active-panel__button--back active-panel__button--icon",
-            attrs: { to: _vm.backRoute },
-            on: { click: _vm.closePopup }
-          },
-          [_c("i", { staticClass: "fas fa-times" })]
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _c("h1", { staticClass: "active-panel__caption" }, [
-      _vm._v(_vm._s(_vm.title) + " "),
-      _vm.accent ? _c("b", [_vm._v(_vm._s(_vm.accent))]) : _vm._e()
-    ])
-  ])
+  return _c(
+    "div",
+    { staticClass: "active-panel active-panel--edit" },
+    [
+      !_vm.popupMode
+        ? _c(
+            "div",
+            {
+              staticClass:
+                "active-panel__button active-panel__button--back active-panel__button--icon",
+              on: { click: _vm.go }
+            },
+            [_c("i", { staticClass: "fas fa-times" })]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.popupMode
+        ? _c(
+            "div",
+            {
+              staticClass:
+                "active-panel__button active-panel__button--back active-panel__button--icon",
+              attrs: { to: _vm.backRoute },
+              on: { click: _vm.closePopup }
+            },
+            [_c("i", { staticClass: "fas fa-times" })]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c("h1", { staticClass: "active-panel__caption" }, [
+        _vm._v(_vm._s(_vm.title) + " "),
+        _vm.accent ? _c("b", [_vm._v(_vm._s(_vm.accent))]) : _vm._e()
+      ]),
+      _vm._v(" "),
+      _vm._t("default")
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -34096,7 +34137,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "custom-actions flex" },
+    { staticClass: "custom-actions flex flex-wrap" },
     _vm._l(_vm.availableActions, function(action) {
       return _c(
         "div",
@@ -36030,8 +36071,27 @@ var render = function() {
           on: { click: _vm.toggle }
         },
         [
+          _vm.selected
+            ? [
+                _vm.selected.image
+                  ? _c("div", {
+                      staticClass: "dropdown__option__image",
+                      style: {
+                        "background-image": "url(" + _vm.selected.image + ")"
+                      }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.selected.color
+                  ? _c("div", {
+                      staticClass: "dropdown__option__color",
+                      class: "bg-" + _vm.selected.color
+                    })
+                  : _vm._e()
+              ]
+            : _vm._e(),
           _vm._v(
-            "\n        " +
+            "\n\n        " +
               _vm._s(
                 _vm.selected
                   ? _vm.selected.title
@@ -36039,7 +36099,8 @@ var render = function() {
               ) +
               "\n    "
           )
-        ]
+        ],
+        2
       ),
       _vm._v(" "),
       _c("transition", { attrs: { name: "dropdown" } }, [
@@ -36101,19 +36162,24 @@ var render = function() {
                     }
                   },
                   [
-                    _c("a", [
-                      option.image
-                        ? _c("span", {
-                            staticClass: "dropdown__option__image",
-                            style: {
-                              "background-image": "url(" + option.image + ")"
-                            }
-                          })
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "dropdown__option__text" }, [
-                        _vm._v(_vm._s(option.title))
-                      ])
+                    option.image
+                      ? _c("div", {
+                          staticClass: "dropdown__option__image",
+                          style: {
+                            "background-image": "url(" + option.image + ")"
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    option.color
+                      ? _c("div", {
+                          staticClass: "dropdown__option__color",
+                          class: "bg-" + option.color
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "dropdown__option__text" }, [
+                      _vm._v(_vm._s(option.title))
                     ])
                   ]
                 )
@@ -36827,7 +36893,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "active-panel active-panel--edit" },
+    { staticClass: "active-panel" },
     [
       _c(
         "div",
@@ -37218,17 +37284,22 @@ var render = function() {
           "div",
           { staticClass: "scrollable-content" },
           [
-            _c("active-panel", {
-              staticClass: "active-panel--static",
-              attrs: {
-                title: _vm.title,
-                accent: _vm.accent,
-                backRoute: {
-                  name: "index",
-                  params: { resourceName: this.resourceName }
+            _c(
+              "active-panel",
+              {
+                staticClass: "active-panel--static",
+                attrs: {
+                  title: _vm.title,
+                  accent: _vm.accent,
+                  backRoute: {
+                    name: "index",
+                    params: { resourceName: this.resourceName }
+                  }
                 }
-              }
-            }),
+              },
+              [_c("custom-actions", { attrs: { resourceId: _vm.resourceId } })],
+              1
+            ),
             _vm._v(" "),
             _c(
               "div",
