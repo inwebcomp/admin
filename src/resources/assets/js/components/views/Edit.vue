@@ -3,7 +3,9 @@
         <form @submit.prevent="save">
             <div class="scrollable-content">
                 <active-panel :title="title" :accent="accent" class="active-panel--static"
-                              :backRoute="{ name: 'index', params: { resourceName: this.resourceName } }"></active-panel>
+                              :backRoute="{ name: 'index', params: { resourceName: this.resourceName } }">
+                    <custom-actions :resourceId="resourceId"/>
+                </active-panel>
 
                 <div class="px-4">
                     <div class="tabs">
@@ -37,10 +39,11 @@
 
 <script>
     import {Errors} from 'form-backend-validation'
+    import CustomActions from "../elements/CustomActions"
 
     export default {
         name: "edit",
-
+        components: {CustomActions},
         props: [
             'resourceName',
             'resourceId',
@@ -62,6 +65,10 @@
                 },
                 immediate: true
             }
+        },
+
+        created() {
+            App.$on('actionExecuted', this.fetch)
         },
 
         methods: {
@@ -125,7 +132,7 @@
 
                     this.validationErrors = new Errors()
 
-                    this.updateLastRetrievedAtTimestamp()
+                    this.fetch()
                 }).catch(({data, status}) => {
                     this.loading = false
 

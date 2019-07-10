@@ -50,6 +50,13 @@ $dropdown-max-options: 8;
     }
 }
 
+.dropdown__option__color {
+    height: 16px;
+    width: 16px;
+    border-radius: 8px;
+    margin-right: 1rem;
+}
+
 .dropdown__container {
     position: absolute;
     width: 100%;
@@ -73,6 +80,7 @@ $dropdown-max-options: 8;
     overflow: hidden;
     white-space: nowrap;
     padding-right: $dropdown-caret-width - 1;
+    display: flex;
 
     &::after {
         content: "\f107";
