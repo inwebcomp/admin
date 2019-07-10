@@ -6454,7 +6454,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 
 
@@ -6823,8 +6822,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_NotFound__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ~pages/NotFound */ "./src/resources/assets/js/pages/NotFound.vue");
-//
-//
 //
 //
 //
@@ -36484,124 +36481,117 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "relative overflow-auto",
-      staticStyle: { height: "calc(100vh - 198px)" }
-    },
-    [
-      _vm.resources.length
-        ? _c(
-            "table",
-            { staticClass: "data-table bg-white" },
-            [
-              _c("thead", [
-                _c(
+  return _c("div", { staticClass: "relative overflow-auto" }, [
+    _vm.resources.length
+      ? _c(
+          "table",
+          { staticClass: "data-table bg-white" },
+          [
+            _c("thead", [
+              _c(
+                "tr",
+                { staticClass: "data-table__header" },
+                [
+                  _vm.sortable ? _c("td") : _vm._e(),
+                  _vm._v(" "),
+                  _c("table-checkbox", {
+                    attrs: {
+                      all: true,
+                      value: _vm.selected.length == _vm.resources.length
+                    },
+                    on: { change: _vm.selectAll }
+                  }),
+                  _vm._v(" "),
+                  _vm._l(_vm.fields, function(field, $i) {
+                    return _c(
+                      "table-heading",
+                      { key: $i, attrs: { field: field } },
+                      [_vm._v(_vm._s(field.indexName))]
+                    )
+                  })
+                ],
+                2
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "draggable",
+              _vm._b(
+                {
+                  staticClass: "data-table__body",
+                  attrs: { value: _vm.resources, tag: "tbody" },
+                  on: {
+                    input: function($event) {
+                      return _vm.$emit("input", $event)
+                    },
+                    start: function($event) {
+                      _vm.drag = true
+                    },
+                    end: _vm.dragEnd
+                  }
+                },
+                "draggable",
+                _vm.dragOptions,
+                false
+              ),
+              _vm._l(_vm.resources, function(resource, $n) {
+                return _c(
                   "tr",
-                  { staticClass: "data-table__header" },
+                  { key: $n, staticClass: "data-table__line" },
                   [
-                    _vm.sortable ? _c("td") : _vm._e(),
+                    _vm.sortable ? _c("table-sort-handle") : _vm._e(),
                     _vm._v(" "),
                     _c("table-checkbox", {
                       attrs: {
-                        all: true,
-                        value: _vm.selected.length == _vm.resources.length
+                        value: _vm.selected.includes(resource.id.value)
                       },
-                      on: { change: _vm.selectAll }
+                      on: {
+                        change: function($event) {
+                          return _vm.select(resource.id.value)
+                        }
+                      }
                     }),
                     _vm._v(" "),
-                    _vm._l(_vm.fields, function(field, $i) {
-                      return _c(
-                        "table-heading",
-                        { key: $i, attrs: { field: field } },
-                        [_vm._v(_vm._s(field.indexName))]
-                      )
-                    })
-                  ],
-                  2
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "draggable",
-                _vm._b(
-                  {
-                    staticClass: "data-table__body",
-                    attrs: { value: _vm.resources, tag: "tbody" },
-                    on: {
-                      input: function($event) {
-                        return _vm.$emit("input", $event)
-                      },
-                      start: function($event) {
-                        _vm.drag = true
-                      },
-                      end: _vm.dragEnd
-                    }
-                  },
-                  "draggable",
-                  _vm.dragOptions,
-                  false
-                ),
-                _vm._l(_vm.resources, function(resource, $n) {
-                  return _c(
-                    "tr",
-                    { key: $n, staticClass: "data-table__line" },
-                    [
-                      _vm.sortable ? _c("table-sort-handle") : _vm._e(),
-                      _vm._v(" "),
-                      _c("table-checkbox", {
-                        attrs: {
-                          value: _vm.selected.includes(resource.id.value)
-                        },
-                        on: {
-                          change: function($event) {
-                            return _vm.select(resource.id.value)
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _vm._l(resource.fields, function(field, $i) {
-                        return [
-                          _c(
-                            "table-value",
-                            {
+                    _vm._l(resource.fields, function(field, $i) {
+                      return [
+                        _c(
+                          "table-value",
+                          {
+                            attrs: {
+                              field: field,
+                              resourceId: resource.id.value
+                            }
+                          },
+                          [
+                            _c("index-" + field.component, {
+                              tag: "component",
                               attrs: {
                                 field: field,
                                 resourceId: resource.id.value
                               }
-                            },
-                            [
-                              _c("index-" + field.component, {
-                                tag: "component",
-                                attrs: {
-                                  field: field,
-                                  resourceId: resource.id.value
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ]
-                      })
-                    ],
-                    2
-                  )
-                }),
-                0
-              )
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.resources.length && !_vm.loading
-        ? _c("div", [_c("no-data-found")], 1)
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.loading ? _c("div", [_c("data-table-loading")], 1) : _vm._e()
-    ]
-  )
+                            })
+                          ],
+                          1
+                        )
+                      ]
+                    })
+                  ],
+                  2
+                )
+              }),
+              0
+            )
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.resources.length && !_vm.loading
+      ? _c("div", [_c("no-data-found")], 1)
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.loading ? _c("div", [_c("data-table-loading")], 1) : _vm._e()
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -37229,6 +37219,7 @@ var render = function() {
           { staticClass: "scrollable-content" },
           [
             _c("active-panel", {
+              staticClass: "active-panel--static",
               attrs: {
                 title: _vm.title,
                 accent: _vm.accent,
@@ -37366,7 +37357,6 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("data-table", {
-        staticClass: "floating-panel__padding",
         attrs: {
           resources: _vm.resources,
           loading: _vm.loading,
@@ -37546,16 +37536,10 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c(_vm.component, {
-        tag: "component",
-        attrs: { resourceName: _vm.resourceName, resourceId: _vm.resourceId }
-      })
-    ],
-    1
-  )
+  return _c(_vm.component, {
+    tag: "component",
+    attrs: { resourceName: _vm.resourceName, resourceId: _vm.resourceId }
+  })
 }
 var staticRenderFns = []
 render._withStripped = true

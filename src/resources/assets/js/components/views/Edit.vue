@@ -2,7 +2,7 @@
     <div class="fixed-content">
         <form @submit.prevent="save">
             <div class="scrollable-content">
-                <active-panel :title="title" :accent="accent"
+                <active-panel :title="title" :accent="accent" class="active-panel--static"
                               :backRoute="{ name: 'index', params: { resourceName: this.resourceName } }"></active-panel>
 
                 <div class="px-4">

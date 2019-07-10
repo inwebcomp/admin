@@ -22,7 +22,7 @@ class Status extends Field
         parent::__construct($name, $attribute, $resolveCallback);
 
         $this->displayUsing(function($value) {
-            return $this->options[$value] ?? null;
+            return array_first($this->options, function($option) use ($value) { return $option['value'] == $value; }) ?? null;
         });
     }
 

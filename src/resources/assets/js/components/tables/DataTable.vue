@@ -1,5 +1,5 @@
 <template>
-    <div class="relative overflow-auto" style="height: calc(100vh - 198px)">
+    <div class="relative overflow-auto">
         <table class="data-table bg-white" v-if="resources.length">
             <thead>
             <tr class="data-table__header">

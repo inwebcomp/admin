@@ -15,12 +15,23 @@ $active-panel-button-icon-size: rem(20px);
 // Styles
 .active-panel {
 	background-color: $active-panel-bg-color;
-	margin: 0 0 (-$active-panel-edit-padding);
-	padding: $padding $padding ($padding + $active-panel-edit-padding);
+	//margin: 0 0 (-$active-panel-edit-padding);
+	padding: $padding;
 	color: $active-panel-color;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	position: sticky;
+	top: $header-height;
+	z-index: 1;
+
+	&--static {
+		margin: 0 0 (-$active-panel-edit-padding);
+		padding: $padding $padding ($padding + $active-panel-edit-padding);
+		top: 0;
+		position: static;
+		//z-index: -1;
+	}
 }
 
 .active-panel__caption {

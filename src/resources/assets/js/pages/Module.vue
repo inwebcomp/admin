@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <component :is="component" :resourceName="resourceName" :resourceId="resourceId"></component>
-    </div>
+    <component :is="component" :resourceName="resourceName" :resourceId="resourceId"></component>
 </template>
 
 <script>
