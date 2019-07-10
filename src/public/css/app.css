@@ -1221,8 +1221,12 @@ a.button {
 .dropdown__option__image {
   height: 30px;
   width: 30px;
+  margin: 4px .5rem 4px 0;
+  background-size: contain;
+}
+
+.dropdown__option__image--rounded {
   border-radius: 15px;
-  margin: 4px .5rem 4px 4px;
 }
 
 .dropdown__container {
@@ -1531,12 +1535,22 @@ select {
 
 .active-panel {
   background-color: #5a69c6;
-  margin: 0 0 -3.571rem;
-  padding: 1rem 1rem 4.571rem;
+  padding: 1rem;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 50px;
+  z-index: 1;
+}
+
+.active-panel--static {
+  margin: 0 0 -3.571rem;
+  padding: 1rem 1rem 4.571rem;
+  top: 0;
+  position: static;
 }
 
 .active-panel__caption {
@@ -1641,7 +1655,8 @@ select {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: fixed;
+  position: -webkit-sticky;
+  position: sticky;
   bottom: 0;
   width: 100%;
   border-top: 1px solid #e6e6e6;
@@ -2002,7 +2017,7 @@ select {
 
 .search {
   margin-right: auto;
-  width: 360px;
+  width: 460px;
   position: relative;
 }
 

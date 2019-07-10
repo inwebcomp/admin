@@ -42,8 +42,12 @@ $dropdown-max-options: 8;
 .dropdown__option__image {
     height: $dropdown-option-size - 4px;
     width: $dropdown-option-size - 4px;
-    border-radius: 15px;
-    margin: 4px $padding / 2 4px 4px;
+    margin: 4px $padding / 2 4px 0;
+    background-size: contain;
+
+    &--rounded {
+        border-radius: 15px;
+    }
 }
 
 .dropdown__container {

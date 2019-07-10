@@ -9,8 +9,7 @@
 
         <breadcrumbs v-if="isNested" :items="breadcrumbs.path" :options="breadcrumbs.options" :value="selected" />
 
-        <data-table class="floating-panel__padding"
-                    :resources="resources"
+        <data-table :resources="resources"
                     :loading="loading"
                     @input="resources = $event"
                     :sortable="sortable"
