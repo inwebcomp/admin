@@ -223,6 +223,11 @@ abstract class Resource
         return null;
     }
 
+    public function preview()
+    {
+        return null;
+    }
+
     /**
      * Get a fresh instance of the model represented by the resource.
      *
