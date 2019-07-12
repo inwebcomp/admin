@@ -261,26 +261,51 @@ select {
     }
 }
 
+.form__group__erase {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: $input-height;
+    line-height: $input-height;
+    cursor: pointer;
+    opacity: .6;
+    transition: opacity $transition;
+    width: $input-height;
+    text-align: center;
+    color: $font-color-secondary;
+
+    &:hover {
+        opacity: 1;
+    }
+
+    &--h-small {
+        height: $input-height * 0.8;
+        line-height: $input-height * 0.8;
+        width: $input-height * 0.8;
+    }
+}
+
+
 
 .form-select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-repeat: no-repeat;
-    background-size: 10px 6px;
-    background-position: center right .75rem;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6"><path fill="%2335393C" fill-rule="nonzero" d="M8.293.293a1 1 0 0 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4A1 1 0 0 1 1.707.293L5 3.586 8.293.293z"/></svg>');
-    background-color: #FFF;
-    border-width: 1px;
-    border-color: var(--60);
-    padding: $padding / 2;
-    padding-right: 2rem;
-    padding-left: .75rem;
-    color: var(--80);
-    border-radius: $border-radius;
-    -webkit-box-shadow: 0 2px 4px 0 rgba(0,0,0,.05);
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,.05);
-    cursor: pointer;
+    //-webkit-appearance: none;
+    //-moz-appearance: none;
+    //appearance: none;
+    //background-repeat: no-repeat;
+    //background-size: 10px 6px;
+    //background-position: center right .75rem;
+    //background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6"><path fill="%2335393C" fill-rule="nonzero" d="M8.293.293a1 1 0 0 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4A1 1 0 0 1 1.707.293L5 3.586 8.293.293z"/></svg>');
+    //background-color: #FFF;
+    //border-width: 1px;
+    //border-color: var(--60);
+    //padding: $padding / 2;
+    //padding-right: 2rem;
+    //padding-left: .75rem;
+    //color: var(--80);
+    //border-radius: $border-radius;
+    //-webkit-box-shadow: 0 2px 4px 0 rgba(0,0,0,.05);
+    //box-shadow: 0 2px 4px 0 rgba(0,0,0,.05);
+    //cursor: pointer;
 }
 
 

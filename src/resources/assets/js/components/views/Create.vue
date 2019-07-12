@@ -3,15 +3,15 @@
         <form @submit.prevent="save">
             <div class="scrollable-content">
                 <active-panel :title="title" :accent="accent"
-                              :backRoute="{ name: 'index', params: { controller: this.controller } }"></active-panel>
+                              :backRoute="{ name: 'index', params: { resourceName: this.resourceName } }"></active-panel>
 
                 <div class="px-4">
                     <component
                             v-for="(panel, $i) in availablePanels"
                             :key="$i"
                             :is="panel.component"
-                            :resource-name="controller"
-                            :resource-id="object"
+                            :resource-name="resourceName"
+                            :resource-id="resourceId"
                             :resource="resource"
                             :panel="panel"
                             :errors="validationErrors"
@@ -33,8 +33,8 @@
         name: "create",
 
         props: [
-            'controller',
-            'object',
+            'resourceName',
+            'resourceId',
         ],
 
         data: () => ({
@@ -52,7 +52,7 @@
         methods: {
             fetch() {
                 App.api.resource({
-                    controller: this.controller,
+                    resourceName: this.resourceName,
                     action: 'create',
                 }).then(({resource, panels}) => {
                     this.resource = resource
@@ -71,18 +71,18 @@
                 this.loading = true
 
                 App.api.action({
-                    controller: this.controller,
+                    resourceName: this.resourceName,
                     action: 'store',
-                    object: this.object,
+                    resourceId: this.resourceId,
                     data: this.storeResourceFormData
                 }).then(({redirect}) => {
                     this.loading = false
 
-                    App.$emit('resourceStore', this.object)
+                    App.$emit('resourceStore', this.resourceId)
 
                     this.$toasted.show(
                         this.__('The :resource was created!', {
-                            resource: this.controller,
+                            resource: this.resourceName,
                         }),
                         {type: 'success'}
                     )

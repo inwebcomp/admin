@@ -5,7 +5,9 @@ namespace InWeb\Admin\App\Providers;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use InWeb\Admin\App\Admin;
+use InWeb\Admin\App\AdminRoute;
 use InWeb\Admin\App\Http\Middleware\AdminAccess;
+use InWeb\Admin\App\Tools\ResourceManager;
 
 class AdminServiceProvider extends ServiceProvider
 {
@@ -30,8 +32,6 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        \Auth::shouldUse('admin');
-
         if ($this->app->runningInConsole()) {
             $this->registerPublishing();
         }
@@ -78,8 +78,9 @@ class AdminServiceProvider extends ServiceProvider
      */
     protected function registerRoutes()
     {
-        $this->loadRoutesFrom(self::$packagePath . 'routes/api.php');
-        $this->loadRoutesFrom(self::$packagePath . 'routes/web.php');
+        AdminRoute::api('\InWeb\Admin\App\Http\Controllers', function () {
+            $this->loadRoutesFrom(self::$packagePath . 'routes/api.php');
+        });
 
         if (! $this->app->routesAreCached()) {
             \Route::getRoutes()->refreshNameLookups();
@@ -142,6 +143,8 @@ class AdminServiceProvider extends ServiceProvider
      */
     protected function registerTools()
     {
-        Admin::tools([]);
+        Admin::tools([
+            new ResourceManager()
+        ]);
     }
 }

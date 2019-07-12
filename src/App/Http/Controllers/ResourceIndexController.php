@@ -73,9 +73,6 @@ class ResourceIndexController extends Controller
         if ($model->translatable())
             $query->withTranslation();
 
-        if ($model->positionable())
-            $query->ordered();
-
         $page = Parameters::remember($request, $resource, 'page');
 
         if ($page) {

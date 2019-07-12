@@ -15,12 +15,31 @@ $active-panel-button-icon-size: rem(20px);
 // Styles
 .active-panel {
 	background-color: $active-panel-bg-color;
-	margin: 0 0 (-$active-panel-edit-padding);
-	padding: $padding * 2 $padding ($padding * 2 + $active-panel-edit-padding);
+	//margin: 0 0 (-$active-panel-edit-padding);
+	padding: $padding;
 	color: $active-panel-color;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	flex-wrap: wrap;
+	position: sticky;
+	top: $header-height;
+	z-index: 1;
+
+	&--static {
+		margin: 0 0 (-$active-panel-edit-padding);
+		padding: $padding $padding ($padding + $active-panel-edit-padding);
+		top: 0;
+		position: static;
+		//z-index: -1;
+	}
+}
+
+.active-panel--edit {
+	.custom-actions {
+		flex-basis: 100%;
+		margin-left: -0.7rem;
+	}
 }
 
 .active-panel__caption {
@@ -40,7 +59,6 @@ $active-panel-button-icon-size: rem(20px);
 	line-height: $active-panel-button-size;
 	cursor: pointer;
 	display: block;
-	margin: -($active-panel-button-size - $active-panel-button-icon-size) / 2 0;
 	border-radius: $border-radius;
 	color: #FFF;
 	font-size: $font-size;
@@ -57,12 +75,36 @@ $active-panel-button-icon-size: rem(20px);
 		height: $active-panel-button-icon-size;
 		margin: ($active-panel-button-size - $active-panel-button-icon-size) / 2;
 	}
+
+	&__count {
+		display: inline-block;
+		width: 14px;
+		height: 14px;
+		line-height: 14px;
+		text-align: center;
+		font-weight: bold;
+		border-radius: 7px;
+		background-color: $active-panel-color;
+		color: $font-color;
+		font-size: 10px;
+		margin-left: 3px;
+		vertical-align: middle;
+	}
 }
 .active-panel__button + .active-panel__button {
 	margin-left: $padding;
 }
 .active-panel__button:last-child {
 	// margin-right: -($active-panel-button-size - $active-panel-button-icon-size) / 2;
+}
+
+.custom-actions {
+	.active-panel__button {
+		//margin-right: $padding;
+	}
+	.active-panel__button + .active-panel__button {
+		margin-left: 0;
+	}
 }
 
 .active-panel__button--icon {
@@ -88,4 +130,42 @@ $active-panel-button-icon-size: rem(20px);
     text-indent: -1px;
     padding-top: 1px;
     text-align: center;
+}
+
+
+
+.active-panel__search {
+	display: flex;
+	align-items: center;
+
+	&__input {
+		width: 300px;
+	}
+
+	&__query {
+
+	}
+
+	&__icon {
+		vertical-align: middle;
+		width: $active-panel-button-size;
+		height: $active-panel-button-size;
+		line-height: $active-panel-button-size;
+		text-align: center;
+		cursor: pointer;
+		color: #FFF;
+		font-size: $font-size;
+		border-radius: $border-radius;
+		margin-left: $padding / 2;
+
+		@include transition(background-color $transition);
+
+		&:hover {
+			background-color: darken($active-panel-bg-color, 3%);
+		}
+
+		i {
+			vertical-align: middle;
+		}
+	}
 }

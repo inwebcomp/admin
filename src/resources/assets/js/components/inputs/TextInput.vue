@@ -7,12 +7,18 @@
                     :class="{'form__group__input--h-small': small}"
                     :value="value"
                     :placeholder="placeholder"
+                    :type="type"
                     @input="$emit('input', $event.target.value)"
                     @blur="$emit('blur', $event)"
                     @focus="$emit('focus', $event)"
                     @change="$emit('change', $event)"
                     @keypress.enter="$emit('enter', $event)"
+                    @keypress.esc="$emit('esc', $event)"
             />
+
+            <div class="form__group__erase" :class="{'form__group__erase--h-small': small}" v-show="eraseIcon && value != ''" @click="$emit('input', '')">
+                <i class="fal fa-times"></i>
+            </div>
         </slot>
     </div>
 </template>
@@ -23,6 +29,13 @@
 
         props: {
             value: {},
+            type: {
+                default: 'text',
+            },
+            eraseIcon: {
+                type: Boolean,
+                default: false,
+            },
             placeholder: {},
             small: {
                 type: Boolean,

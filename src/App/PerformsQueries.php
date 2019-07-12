@@ -3,6 +3,7 @@
 namespace InWeb\Admin\App;
 
 use InWeb\Admin\App\Http\Requests\AdminRequest;
+use InWeb\Base\Entity;
 
 trait PerformsQueries
 {
@@ -111,17 +112,34 @@ trait PerformsQueries
      */
     protected static function applyOrderings($query, array $orderings)
     {
-//        if (empty($orderings)) {
-//            return empty($query->orders)
-//                        ? $query->latest($query->getModel()->getQualifiedKeyName())
-//                        : $query;
-//        }
-//
-//        foreach ($orderings as $column => $direction) {
-//            $query->orderBy($column, $direction);
-//        }
+        if (empty($orderings)) {
+            return empty($query->orders)
+                        ? static::coreOrdering($query)
+                        : $query;
+        }
+
+        foreach ($orderings as $column => $direction) {
+            $query->orderBy($column, $direction);
+        }
 
         return $query;
+    }
+
+    /**
+     * Apply any applicable orderings to the query.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return string
+     */
+    protected static function coreOrdering($query)
+    {
+        /** @var Entity $model */
+        $model = $query->getModel();
+
+        if ($model->positionable())
+            $query->ordered();
+
+        return $query->latest($model->getQualifiedKeyName());
     }
 
     /**

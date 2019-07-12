@@ -42,8 +42,19 @@ $dropdown-max-options: 8;
 .dropdown__option__image {
     height: $dropdown-option-size - 4px;
     width: $dropdown-option-size - 4px;
-    border-radius: 15px;
-    margin: 4px $padding / 2 4px 4px;
+    margin: 4px $padding / 2 4px 0;
+    background-size: contain;
+
+    &--rounded {
+        border-radius: 15px;
+    }
+}
+
+.dropdown__option__color {
+    height: 16px;
+    width: 16px;
+    border-radius: 8px;
+    margin-right: 1rem;
 }
 
 .dropdown__container {
@@ -52,7 +63,15 @@ $dropdown-max-options: 8;
     top: 100%;
     background-color: $dropdown-background-color;
     box-shadow: $box-shadow;
-    z-index: 1;
+    z-index: 6;
+
+    &--left {
+        left: 0;
+    }
+
+    &--right {
+        right: 0;
+    }
 }
 
 .dropdown .dropdown__value {
@@ -61,6 +80,7 @@ $dropdown-max-options: 8;
     overflow: hidden;
     white-space: nowrap;
     padding-right: $dropdown-caret-width - 1;
+    display: flex;
 
     &::after {
         content: "\f107";

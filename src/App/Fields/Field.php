@@ -609,6 +609,14 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
         return $this;
     }
 
+    public function display()
+    {
+        $this->component = 'detail-' . $this->component;
+        $this->prefixComponent = false;
+
+        return $this;
+    }
+
     /**
      * Prepare the field for JSON serialization.
      *
@@ -618,7 +626,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     {
         return array_merge([
             'component'       => $this->component(),
-            'prefixComponent' => true,
+            'prefixComponent' => $this->prefixComponent,
             'indexName'       => $this->name,
             'name'            => $this->name,
             'attribute'       => $this->attribute,
