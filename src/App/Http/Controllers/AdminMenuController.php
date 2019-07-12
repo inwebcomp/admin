@@ -24,19 +24,21 @@ class AdminMenuController extends Controller
                     continue;
 
                 $group['resources'][] = [
-                    'route'    => $resource::route(),
-                    'uriKey'   => $resource::uriKey(),
-                    'label'    => $resource::label(),
-                    'position' => $resource::position(),
+                    'route'        => $resource::route(),
+                    'uriKey'       => $resource::uriKey(),
+                    'label'        => $resource::label(),
+                    'position'     => $resource::position(),
+                    'notification' => $resource::notification(),
                 ];
             }
 
-            usort($group['resources'], function ($a, $b) {
-                return $a['position'] > $b['position'];
-            });
+            if (isset($group['resources']) and $group['resources'] and count($group['resources'])) {
+                usort($group['resources'], function ($a, $b) {
+                    return $a['position'] > $b['position'];
+                });
 
-            if (count($group['resources']))
                 $menu[] = $group;
+            }
         };
 
         return $menu;

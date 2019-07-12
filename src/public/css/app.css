@@ -1221,8 +1221,19 @@ a.button {
 .dropdown__option__image {
   height: 30px;
   width: 30px;
+  margin: 4px .5rem 4px 0;
+  background-size: contain;
+}
+
+.dropdown__option__image--rounded {
   border-radius: 15px;
-  margin: 4px .5rem 4px 4px;
+}
+
+.dropdown__option__color {
+  height: 16px;
+  width: 16px;
+  border-radius: 8px;
+  margin-right: 1rem;
 }
 
 .dropdown__container {
@@ -1231,7 +1242,15 @@ a.button {
   top: 100%;
   background-color: #fff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
-  z-index: 1;
+  z-index: 6;
+}
+
+.dropdown__container--left {
+  left: 0;
+}
+
+.dropdown__container--right {
+  right: 0;
 }
 
 .dropdown .dropdown__value {
@@ -1240,6 +1259,7 @@ a.button {
   overflow: hidden;
   white-space: nowrap;
   padding-right: 2rem;
+  display: flex;
 }
 
 .dropdown .dropdown__value::after {
@@ -1492,24 +1512,28 @@ select {
   border-bottom-right-radius: 0;
 }
 
-.form-select {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  background-repeat: no-repeat;
-  background-size: 10px 6px;
-  background-position: center right .75rem;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6"><path fill="%2335393C" fill-rule="nonzero" d="M8.293.293a1 1 0 0 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4A1 1 0 0 1 1.707.293L5 3.586 8.293.293z"/></svg>');
-  background-color: #fff;
-  border-width: 1px;
-  border-color: var(60);
-  padding: .5rem;
-  padding-right: 2rem;
-  padding-left: .75rem;
-  color: var(80);
-  border-radius: 3px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .05);
+.form__group__erase {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 3rem;
+  line-height: 3rem;
   cursor: pointer;
+  opacity: .6;
+  transition: opacity ease .15s;
+  width: 3rem;
+  text-align: center;
+  color: #515255;
+}
+
+.form__group__erase:hover {
+  opacity: 1;
+}
+
+.form__group__erase--h-small {
+  height: 2.4rem;
+  line-height: 2.4rem;
+  width: 2.4rem;
 }
 
 .fr-wrapper > div:first-child:not(.fr-view) {
@@ -1519,12 +1543,28 @@ select {
 
 .active-panel {
   background-color: #5a69c6;
-  margin: 0 0 -3.571rem;
-  padding: 2rem 1rem 5.571rem;
+  padding: 1rem;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 50px;
+  z-index: 1;
+}
+
+.active-panel--static {
+  margin: 0 0 -3.571rem;
+  padding: 1rem 1rem 4.571rem;
+  top: 0;
+  position: static;
+}
+
+.active-panel--edit .custom-actions {
+  flex-basis: 100%;
+  margin-left: -0.7rem;
 }
 
 .active-panel__caption {
@@ -1544,7 +1584,6 @@ select {
   line-height: 2.857rem;
   cursor: pointer;
   display: block;
-  margin: -0.714rem 0;
   border-radius: 3px;
   color: #fff;
   font-size: 1rem;
@@ -1562,8 +1601,27 @@ select {
   margin: .714rem;
 }
 
+.active-panel__button__count {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  line-height: 14px;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 7px;
+  background-color: #fff;
+  color: #333;
+  font-size: 10px;
+  margin-left: 3px;
+  vertical-align: middle;
+}
+
 .active-panel__button + .active-panel__button {
   margin-left: 1rem;
+}
+
+.custom-actions .active-panel__button + .active-panel__button {
+  margin-left: 0;
 }
 
 .active-panel__button--icon {
@@ -1579,12 +1637,44 @@ select {
   text-align: center;
 }
 
+.active-panel__search {
+  display: flex;
+  align-items: center;
+}
+
+.active-panel__search__input {
+  width: 300px;
+}
+
+.active-panel__search__icon {
+  vertical-align: middle;
+  width: 2.857rem;
+  height: 2.857rem;
+  line-height: 2.857rem;
+  text-align: center;
+  cursor: pointer;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 3px;
+  margin-left: .5rem;
+ transition: background-color ease .15s;
+}
+
+.active-panel__search__icon:hover {
+  background-color: #4f5fc2;
+}
+
+.active-panel__search__icon i {
+  vertical-align: middle;
+}
+
 .floating-panel {
   background-color: #fff;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: fixed;
+  position: -webkit-sticky;
+  position: sticky;
   bottom: 0;
   width: 100%;
   border-top: 1px solid #e6e6e6;
@@ -1945,7 +2035,7 @@ select {
 
 .search {
   margin-right: auto;
-  width: 360px;
+  width: 460px;
   position: relative;
 }
 
@@ -2322,7 +2412,6 @@ select {
 }
 
 .sidebar__children__item {
-  display: block;
   width: 100%;
   box-sizing: border-box;
   padding: 0 1rem;
@@ -2334,11 +2423,28 @@ select {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
  transition: background-color ease .15s;
 }
 
 .sidebar__children__item:hover {
   background-color: #3c4665;
+}
+
+.sidebar__children__item__notification {
+  display: inline-block;
+  min-width: 16px;
+  padding: 0 4px;
+  height: 15px;
+  line-height: 16px;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 7px;
+  background-color: #5a69c6;
+  font-size: 10px;
+  margin-left: 3px;
 }
 
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
@@ -2934,6 +3040,22 @@ table {
   background-color: #3f51b5;
 }
 
+.bg-yellow {
+  background-color: var(--warning);
+}
+
+.bg-red {
+  background-color: var(--danger);
+}
+
+.bg-green {
+  background-color: var(--success);
+}
+
+.bg-blue {
+  background-color: #3f51b5;
+}
+
 .bg-info {
   background-color: var(--info);
 }
@@ -2994,6 +3116,22 @@ table {
   background-color: #3f51b5;
 }
 
+.hover\:bg-yellow:hover {
+  background-color: var(--warning);
+}
+
+.hover\:bg-red:hover {
+  background-color: var(--danger);
+}
+
+.hover\:bg-green:hover {
+  background-color: var(--success);
+}
+
+.hover\:bg-blue:hover {
+  background-color: #3f51b5;
+}
+
 .hover\:bg-info:hover {
   background-color: var(--info);
 }
@@ -3051,6 +3189,22 @@ table {
 }
 
 .focus\:bg-accent:focus {
+  background-color: #3f51b5;
+}
+
+.focus\:bg-yellow:focus {
+  background-color: var(--warning);
+}
+
+.focus\:bg-red:focus {
+  background-color: var(--danger);
+}
+
+.focus\:bg-green:focus {
+  background-color: var(--success);
+}
+
+.focus\:bg-blue:focus {
   background-color: #3f51b5;
 }
 
@@ -3186,6 +3340,22 @@ table {
   border-color: #3f51b5;
 }
 
+.border-yellow {
+  border-color: var(--warning);
+}
+
+.border-red {
+  border-color: var(--danger);
+}
+
+.border-green {
+  border-color: var(--success);
+}
+
+.border-blue {
+  border-color: #3f51b5;
+}
+
 .border-info {
   border-color: var(--info);
 }
@@ -3246,6 +3416,22 @@ table {
   border-color: #3f51b5;
 }
 
+.hover\:border-yellow:hover {
+  border-color: var(--warning);
+}
+
+.hover\:border-red:hover {
+  border-color: var(--danger);
+}
+
+.hover\:border-green:hover {
+  border-color: var(--success);
+}
+
+.hover\:border-blue:hover {
+  border-color: #3f51b5;
+}
+
 .hover\:border-info:hover {
   border-color: var(--info);
 }
@@ -3303,6 +3489,22 @@ table {
 }
 
 .focus\:border-accent:focus {
+  border-color: #3f51b5;
+}
+
+.focus\:border-yellow:focus {
+  border-color: var(--warning);
+}
+
+.focus\:border-red:focus {
+  border-color: var(--danger);
+}
+
+.focus\:border-green:focus {
+  border-color: var(--success);
+}
+
+.focus\:border-blue:focus {
   border-color: #3f51b5;
 }
 
@@ -5829,6 +6031,22 @@ table {
   color: #3f51b5;
 }
 
+.text-yellow {
+  color: var(--warning);
+}
+
+.text-red {
+  color: var(--danger);
+}
+
+.text-green {
+  color: var(--success);
+}
+
+.text-blue {
+  color: #3f51b5;
+}
+
 .text-info {
   color: var(--info);
 }
@@ -5889,6 +6107,22 @@ table {
   color: #3f51b5;
 }
 
+.hover\:text-yellow:hover {
+  color: var(--warning);
+}
+
+.hover\:text-red:hover {
+  color: var(--danger);
+}
+
+.hover\:text-green:hover {
+  color: var(--success);
+}
+
+.hover\:text-blue:hover {
+  color: #3f51b5;
+}
+
 .hover\:text-info:hover {
   color: var(--info);
 }
@@ -5946,6 +6180,22 @@ table {
 }
 
 .focus\:text-accent:focus {
+  color: #3f51b5;
+}
+
+.focus\:text-yellow:focus {
+  color: var(--warning);
+}
+
+.focus\:text-red:focus {
+  color: var(--danger);
+}
+
+.focus\:text-green:focus {
+  color: var(--success);
+}
+
+.focus\:text-blue:focus {
   color: #3f51b5;
 }
 
@@ -6443,6 +6693,22 @@ table {
     background-color: #3f51b5;
   }
 
+  .sm\:bg-yellow {
+    background-color: var(--warning);
+  }
+
+  .sm\:bg-red {
+    background-color: var(--danger);
+  }
+
+  .sm\:bg-green {
+    background-color: var(--success);
+  }
+
+  .sm\:bg-blue {
+    background-color: #3f51b5;
+  }
+
   .sm\:bg-info {
     background-color: var(--info);
   }
@@ -6503,6 +6769,22 @@ table {
     background-color: #3f51b5;
   }
 
+  .sm\:hover\:bg-yellow:hover {
+    background-color: var(--warning);
+  }
+
+  .sm\:hover\:bg-red:hover {
+    background-color: var(--danger);
+  }
+
+  .sm\:hover\:bg-green:hover {
+    background-color: var(--success);
+  }
+
+  .sm\:hover\:bg-blue:hover {
+    background-color: #3f51b5;
+  }
+
   .sm\:hover\:bg-info:hover {
     background-color: var(--info);
   }
@@ -6560,6 +6842,22 @@ table {
   }
 
   .sm\:focus\:bg-accent:focus {
+    background-color: #3f51b5;
+  }
+
+  .sm\:focus\:bg-yellow:focus {
+    background-color: var(--warning);
+  }
+
+  .sm\:focus\:bg-red:focus {
+    background-color: var(--danger);
+  }
+
+  .sm\:focus\:bg-green:focus {
+    background-color: var(--success);
+  }
+
+  .sm\:focus\:bg-blue:focus {
     background-color: #3f51b5;
   }
 
@@ -6687,6 +6985,22 @@ table {
     border-color: #3f51b5;
   }
 
+  .sm\:border-yellow {
+    border-color: var(--warning);
+  }
+
+  .sm\:border-red {
+    border-color: var(--danger);
+  }
+
+  .sm\:border-green {
+    border-color: var(--success);
+  }
+
+  .sm\:border-blue {
+    border-color: #3f51b5;
+  }
+
   .sm\:border-info {
     border-color: var(--info);
   }
@@ -6747,6 +7061,22 @@ table {
     border-color: #3f51b5;
   }
 
+  .sm\:hover\:border-yellow:hover {
+    border-color: var(--warning);
+  }
+
+  .sm\:hover\:border-red:hover {
+    border-color: var(--danger);
+  }
+
+  .sm\:hover\:border-green:hover {
+    border-color: var(--success);
+  }
+
+  .sm\:hover\:border-blue:hover {
+    border-color: #3f51b5;
+  }
+
   .sm\:hover\:border-info:hover {
     border-color: var(--info);
   }
@@ -6804,6 +7134,22 @@ table {
   }
 
   .sm\:focus\:border-accent:focus {
+    border-color: #3f51b5;
+  }
+
+  .sm\:focus\:border-yellow:focus {
+    border-color: var(--warning);
+  }
+
+  .sm\:focus\:border-red:focus {
+    border-color: var(--danger);
+  }
+
+  .sm\:focus\:border-green:focus {
+    border-color: var(--success);
+  }
+
+  .sm\:focus\:border-blue:focus {
     border-color: #3f51b5;
   }
 
@@ -9314,6 +9660,22 @@ table {
     color: #3f51b5;
   }
 
+  .sm\:text-yellow {
+    color: var(--warning);
+  }
+
+  .sm\:text-red {
+    color: var(--danger);
+  }
+
+  .sm\:text-green {
+    color: var(--success);
+  }
+
+  .sm\:text-blue {
+    color: #3f51b5;
+  }
+
   .sm\:text-info {
     color: var(--info);
   }
@@ -9374,6 +9736,22 @@ table {
     color: #3f51b5;
   }
 
+  .sm\:hover\:text-yellow:hover {
+    color: var(--warning);
+  }
+
+  .sm\:hover\:text-red:hover {
+    color: var(--danger);
+  }
+
+  .sm\:hover\:text-green:hover {
+    color: var(--success);
+  }
+
+  .sm\:hover\:text-blue:hover {
+    color: #3f51b5;
+  }
+
   .sm\:hover\:text-info:hover {
     color: var(--info);
   }
@@ -9431,6 +9809,22 @@ table {
   }
 
   .sm\:focus\:text-accent:focus {
+    color: #3f51b5;
+  }
+
+  .sm\:focus\:text-yellow:focus {
+    color: var(--warning);
+  }
+
+  .sm\:focus\:text-red:focus {
+    color: var(--danger);
+  }
+
+  .sm\:focus\:text-green:focus {
+    color: var(--success);
+  }
+
+  .sm\:focus\:text-blue:focus {
     color: #3f51b5;
   }
 
@@ -9929,6 +10323,22 @@ table {
     background-color: #3f51b5;
   }
 
+  .md\:bg-yellow {
+    background-color: var(--warning);
+  }
+
+  .md\:bg-red {
+    background-color: var(--danger);
+  }
+
+  .md\:bg-green {
+    background-color: var(--success);
+  }
+
+  .md\:bg-blue {
+    background-color: #3f51b5;
+  }
+
   .md\:bg-info {
     background-color: var(--info);
   }
@@ -9989,6 +10399,22 @@ table {
     background-color: #3f51b5;
   }
 
+  .md\:hover\:bg-yellow:hover {
+    background-color: var(--warning);
+  }
+
+  .md\:hover\:bg-red:hover {
+    background-color: var(--danger);
+  }
+
+  .md\:hover\:bg-green:hover {
+    background-color: var(--success);
+  }
+
+  .md\:hover\:bg-blue:hover {
+    background-color: #3f51b5;
+  }
+
   .md\:hover\:bg-info:hover {
     background-color: var(--info);
   }
@@ -10046,6 +10472,22 @@ table {
   }
 
   .md\:focus\:bg-accent:focus {
+    background-color: #3f51b5;
+  }
+
+  .md\:focus\:bg-yellow:focus {
+    background-color: var(--warning);
+  }
+
+  .md\:focus\:bg-red:focus {
+    background-color: var(--danger);
+  }
+
+  .md\:focus\:bg-green:focus {
+    background-color: var(--success);
+  }
+
+  .md\:focus\:bg-blue:focus {
     background-color: #3f51b5;
   }
 
@@ -10173,6 +10615,22 @@ table {
     border-color: #3f51b5;
   }
 
+  .md\:border-yellow {
+    border-color: var(--warning);
+  }
+
+  .md\:border-red {
+    border-color: var(--danger);
+  }
+
+  .md\:border-green {
+    border-color: var(--success);
+  }
+
+  .md\:border-blue {
+    border-color: #3f51b5;
+  }
+
   .md\:border-info {
     border-color: var(--info);
   }
@@ -10233,6 +10691,22 @@ table {
     border-color: #3f51b5;
   }
 
+  .md\:hover\:border-yellow:hover {
+    border-color: var(--warning);
+  }
+
+  .md\:hover\:border-red:hover {
+    border-color: var(--danger);
+  }
+
+  .md\:hover\:border-green:hover {
+    border-color: var(--success);
+  }
+
+  .md\:hover\:border-blue:hover {
+    border-color: #3f51b5;
+  }
+
   .md\:hover\:border-info:hover {
     border-color: var(--info);
   }
@@ -10290,6 +10764,22 @@ table {
   }
 
   .md\:focus\:border-accent:focus {
+    border-color: #3f51b5;
+  }
+
+  .md\:focus\:border-yellow:focus {
+    border-color: var(--warning);
+  }
+
+  .md\:focus\:border-red:focus {
+    border-color: var(--danger);
+  }
+
+  .md\:focus\:border-green:focus {
+    border-color: var(--success);
+  }
+
+  .md\:focus\:border-blue:focus {
     border-color: #3f51b5;
   }
 
@@ -12800,6 +13290,22 @@ table {
     color: #3f51b5;
   }
 
+  .md\:text-yellow {
+    color: var(--warning);
+  }
+
+  .md\:text-red {
+    color: var(--danger);
+  }
+
+  .md\:text-green {
+    color: var(--success);
+  }
+
+  .md\:text-blue {
+    color: #3f51b5;
+  }
+
   .md\:text-info {
     color: var(--info);
   }
@@ -12860,6 +13366,22 @@ table {
     color: #3f51b5;
   }
 
+  .md\:hover\:text-yellow:hover {
+    color: var(--warning);
+  }
+
+  .md\:hover\:text-red:hover {
+    color: var(--danger);
+  }
+
+  .md\:hover\:text-green:hover {
+    color: var(--success);
+  }
+
+  .md\:hover\:text-blue:hover {
+    color: #3f51b5;
+  }
+
   .md\:hover\:text-info:hover {
     color: var(--info);
   }
@@ -12917,6 +13439,22 @@ table {
   }
 
   .md\:focus\:text-accent:focus {
+    color: #3f51b5;
+  }
+
+  .md\:focus\:text-yellow:focus {
+    color: var(--warning);
+  }
+
+  .md\:focus\:text-red:focus {
+    color: var(--danger);
+  }
+
+  .md\:focus\:text-green:focus {
+    color: var(--success);
+  }
+
+  .md\:focus\:text-blue:focus {
     color: #3f51b5;
   }
 
@@ -13415,6 +13953,22 @@ table {
     background-color: #3f51b5;
   }
 
+  .xl\:bg-yellow {
+    background-color: var(--warning);
+  }
+
+  .xl\:bg-red {
+    background-color: var(--danger);
+  }
+
+  .xl\:bg-green {
+    background-color: var(--success);
+  }
+
+  .xl\:bg-blue {
+    background-color: #3f51b5;
+  }
+
   .xl\:bg-info {
     background-color: var(--info);
   }
@@ -13475,6 +14029,22 @@ table {
     background-color: #3f51b5;
   }
 
+  .xl\:hover\:bg-yellow:hover {
+    background-color: var(--warning);
+  }
+
+  .xl\:hover\:bg-red:hover {
+    background-color: var(--danger);
+  }
+
+  .xl\:hover\:bg-green:hover {
+    background-color: var(--success);
+  }
+
+  .xl\:hover\:bg-blue:hover {
+    background-color: #3f51b5;
+  }
+
   .xl\:hover\:bg-info:hover {
     background-color: var(--info);
   }
@@ -13532,6 +14102,22 @@ table {
   }
 
   .xl\:focus\:bg-accent:focus {
+    background-color: #3f51b5;
+  }
+
+  .xl\:focus\:bg-yellow:focus {
+    background-color: var(--warning);
+  }
+
+  .xl\:focus\:bg-red:focus {
+    background-color: var(--danger);
+  }
+
+  .xl\:focus\:bg-green:focus {
+    background-color: var(--success);
+  }
+
+  .xl\:focus\:bg-blue:focus {
     background-color: #3f51b5;
   }
 
@@ -13659,6 +14245,22 @@ table {
     border-color: #3f51b5;
   }
 
+  .xl\:border-yellow {
+    border-color: var(--warning);
+  }
+
+  .xl\:border-red {
+    border-color: var(--danger);
+  }
+
+  .xl\:border-green {
+    border-color: var(--success);
+  }
+
+  .xl\:border-blue {
+    border-color: #3f51b5;
+  }
+
   .xl\:border-info {
     border-color: var(--info);
   }
@@ -13719,6 +14321,22 @@ table {
     border-color: #3f51b5;
   }
 
+  .xl\:hover\:border-yellow:hover {
+    border-color: var(--warning);
+  }
+
+  .xl\:hover\:border-red:hover {
+    border-color: var(--danger);
+  }
+
+  .xl\:hover\:border-green:hover {
+    border-color: var(--success);
+  }
+
+  .xl\:hover\:border-blue:hover {
+    border-color: #3f51b5;
+  }
+
   .xl\:hover\:border-info:hover {
     border-color: var(--info);
   }
@@ -13776,6 +14394,22 @@ table {
   }
 
   .xl\:focus\:border-accent:focus {
+    border-color: #3f51b5;
+  }
+
+  .xl\:focus\:border-yellow:focus {
+    border-color: var(--warning);
+  }
+
+  .xl\:focus\:border-red:focus {
+    border-color: var(--danger);
+  }
+
+  .xl\:focus\:border-green:focus {
+    border-color: var(--success);
+  }
+
+  .xl\:focus\:border-blue:focus {
     border-color: #3f51b5;
   }
 
@@ -16286,6 +16920,22 @@ table {
     color: #3f51b5;
   }
 
+  .xl\:text-yellow {
+    color: var(--warning);
+  }
+
+  .xl\:text-red {
+    color: var(--danger);
+  }
+
+  .xl\:text-green {
+    color: var(--success);
+  }
+
+  .xl\:text-blue {
+    color: #3f51b5;
+  }
+
   .xl\:text-info {
     color: var(--info);
   }
@@ -16346,6 +16996,22 @@ table {
     color: #3f51b5;
   }
 
+  .xl\:hover\:text-yellow:hover {
+    color: var(--warning);
+  }
+
+  .xl\:hover\:text-red:hover {
+    color: var(--danger);
+  }
+
+  .xl\:hover\:text-green:hover {
+    color: var(--success);
+  }
+
+  .xl\:hover\:text-blue:hover {
+    color: #3f51b5;
+  }
+
   .xl\:hover\:text-info:hover {
     color: var(--info);
   }
@@ -16403,6 +17069,22 @@ table {
   }
 
   .xl\:focus\:text-accent:focus {
+    color: #3f51b5;
+  }
+
+  .xl\:focus\:text-yellow:focus {
+    color: var(--warning);
+  }
+
+  .xl\:focus\:text-red:focus {
+    color: var(--danger);
+  }
+
+  .xl\:focus\:text-green:focus {
+    color: var(--success);
+  }
+
+  .xl\:focus\:text-blue:focus {
     color: #3f51b5;
   }
 

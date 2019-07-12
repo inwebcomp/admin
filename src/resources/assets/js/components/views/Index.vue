@@ -1,11 +1,15 @@
 <template>
     <div>
-        <table-params :navigate="! isNested" @destroy="destroy" />
+        <table-params :navigate="! isNested" @destroy="destroy"
+                      @clear-selected-filters="clearSelectedFilters"
+                      @filter-changed="filterChanged"
+                      @clear-selected-orderings="clearSelectedOrderings"
+                      @ordering-changed="orderingChanged"
+                      :search="search" @search="performSearch"/>
 
         <breadcrumbs v-if="isNested" :items="breadcrumbs.path" :options="breadcrumbs.options" :value="selected" />
 
-        <data-table class="floating-panel__padding"
-                    :resources="resources"
+        <data-table :resources="resources"
                     :loading="loading"
                     @input="resources = $event"
                     :sortable="sortable"
@@ -19,12 +23,24 @@
 
 <script>
     import Api from "~js/api"
+    import Filterable from "~mixins/Filterable"
+    import Orderable from "~mixins/Orderable"
+    import Searchable from "~mixins/Searchable"
+    import InteractsWithQueryString from "~mixins/InteractsWithQueryString"
 
     export default {
         name: "index",
+
         props: [
-            'controller',
-            'object',
+            'resourceName',
+            'resourceId',
+        ],
+
+        mixins: [
+            Filterable,
+            Orderable,
+            Searchable,
+            InteractsWithQueryString,
         ],
 
         data() {
@@ -33,20 +49,8 @@
                 positions: [],
                 pagination: {},
                 breadcrumbs: [],
-                loading: {
-                    type: Boolean,
-                    default: true
-                }
+                loading: false,
             }
-        },
-
-        watch: {
-            controller: {
-                handler() {
-                    this.fetch()
-                },
-                immediate: true
-            },
         },
 
         computed: {
@@ -59,9 +63,45 @@
             selected() {
                 return this.$store.state.resource.selected
             },
+
+            /**
+             * Get the name of the page query string variable.
+             */
+            pageParameter() {
+                return 'page'
+            },
+
+            /**
+             * Return the currently encoded filter string from the store
+             */
+            encodedFilters() {
+                return this.$store.getters[`${this.resourceName}/currentEncodedFilters`]
+            },
+
+            /**
+             * Return the initial encoded filters from the query string
+             */
+            initialEncodedFilters() {
+                return this.$route.query[this.filterParameter] || ''
+            },
         },
 
-        created() {
+        watch: {
+            resourceName() {
+                this.initializeSearchFromQueryString()
+
+                this.initializeFilters()
+                this.initializeOrderings()
+            }
+        },
+
+        async created() {
+            this.initializeSearchFromQueryString()
+
+            await this.initializeFilters()
+            await this.initializeOrderings()
+            await this.fetch()
+
             App.$on('resourceUpdate', () => {
                 this.fetch()
             })
@@ -86,11 +126,25 @@
                 this.fetch()
             })
 
-
             App.$on('back', () => {
                 if (this.isNested && this.breadcrumbs.path.length >= 2)
                     App.$emit('parentSelect', this.breadcrumbs.path[this.breadcrumbs.path.length - 2].id)
             })
+
+            this.$watch(
+                () => {
+                    return (
+                        this.resourceName +
+                        this.currentOrderBy +
+                        this.currentOrderByDirection +
+                        this.currentSearch +
+                        this.encodedFilters
+                    )
+                },
+                () => {
+                    this.fetch()
+                }
+            )
         },
 
         destroyed() {
@@ -103,8 +157,8 @@
 
         methods: {
             changePage(page) {
-                this.$router.replace({
-                    query: {page}
+                this.updateQueryString({
+                    [this.pageParameter]: page,
                 })
 
                 this.fetch()
@@ -116,10 +170,7 @@
                 this.loading = true
 
                 App.api.resource({
-                    controller: this.controller, params: {
-                        page: parent ? null : this.$route.query.page || null,
-                        parent
-                    }
+                    resourceName: this.resourceName, params: this.resourceRequestQueryString(parent)
                 }).then(({resources, pagination, breadcrumbs}) => {
                     this.resources = resources
                     this.pagination = pagination
@@ -133,10 +184,24 @@
                 })
             },
 
+            /**
+             * Build the resource request query string.
+             */
+            resourceRequestQueryString(parent) {
+                return {
+                    filters: this.encodedFilters,
+                    orderBy: this.currentOrderBy,
+                    orderByDirection: this.currentOrderByDirection,
+                    search: this.currentSearch,
+                    parent,
+                    page: parent ? null : this.$route.query.page || null,
+                }
+            },
+
             savePositions() {
                 App.api.request({
                     method: 'PUT',
-                    controller: this.controller,
+                    resourceName: this.resourceName,
                     action: 'positions',
                     data: {
                         items: this.resources.map(item => item.id.value),
@@ -158,7 +223,7 @@
 
                 App.api.request({
                     method: 'DELETE',
-                    url: this.controller + '/destroy',
+                    url: this.resourceName + '/destroy',
                     data: {
                         resources: this.selected
                     }
@@ -170,7 +235,7 @@
 
                     this.$toasted.show(
                         this.__('Records were deleted!', {
-                            resource: this.controller,
+                            resource: this.resourceName,
                         }),
                         {type: 'success'}
                     )

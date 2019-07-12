@@ -55,7 +55,6 @@
 }
 
 .sidebar__children__item {
-	display: block;
 	width: 100%;
 	box-sizing: border-box;
 	padding: 0 $padding;
@@ -67,10 +66,27 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 
 	@include transition(background-color $transition);
 
 	&:hover {
 		background-color: lighten($sidebar-children-color, 10%);
+	}
+
+	&__notification {
+		display: inline-block;
+		min-width: 16px;
+		padding: 0 4px;
+		height: 15px;
+		line-height: 16px;
+		text-align: center;
+		font-weight: bold;
+		border-radius: 7px;
+		background-color: $active-panel-bg-color;
+		font-size: 10px;
+		margin-left: 3px;
 	}
 }

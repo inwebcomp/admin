@@ -15,7 +15,7 @@ export default new Vuex.Store({
         resource,
         sidePopup,
         popup,
-        user
+        user,
     },
     strict: debug
 })

@@ -1,19 +1,19 @@
 <?php
 
-namespace Laravel\Nova;
+namespace InWeb\Admin\App;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Http\Requests\NovaRequest;
+use InWeb\Admin\App\Http\Requests\AdminRequest;
 
 trait ResolvesFilters
 {
     /**
      * Get the filters that are available for the given request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \InWeb\Admin\App\Http\Requests\AdminRequest  $request
      * @return \Illuminate\Support\Collection
      */
-    public function availableFilters(NovaRequest $request)
+    public function availableFilters(AdminRequest $request)
     {
         return $this->resolveFilters($request)->filter->authorizedToSee($request)->values();
     }
@@ -21,10 +21,10 @@ trait ResolvesFilters
     /**
      * Get the filters for the given request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \InWeb\Admin\App\Http\Requests\AdminRequest  $request
      * @return \Illuminate\Support\Collection
      */
-    public function resolveFilters(NovaRequest $request)
+    public function resolveFilters(AdminRequest $request)
     {
         return collect(array_values($this->filter($this->filters($request))));
     }

@@ -17,5 +17,9 @@ class Date extends Text
         parent::__construct($name, $attribute, $resolveCallback);
 
         $this->withMeta(['type' => 'date']);
+
+        $this->displayUsing(function ($value) {
+            return (string) $value;
+        });
     }
 }

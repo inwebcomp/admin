@@ -3,7 +3,6 @@
         <div v-if="! popupMode"
              @click="go"
              class="active-panel__button active-panel__button--back active-panel__button--icon">
-            <!--<i class="fas fa-chevron-left"></i>-->
             <i class="fas fa-times"></i>
         </div>
 
@@ -15,6 +14,8 @@
         </div>
 
         <h1 class="active-panel__caption">{{ title }} <b v-if="accent">{{ accent }}</b></h1>
+
+        <slot />
     </div>
 </template>
 
@@ -24,11 +25,9 @@
 
         props: {
             accent: {
-                type: String,
                 default: null
             },
             title: {
-                type: String,
                 default: null
             },
             backRoute: {

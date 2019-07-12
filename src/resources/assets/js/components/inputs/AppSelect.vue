@@ -1,6 +1,12 @@
 <template>
     <div class="dropdown select" :class="{ 'dropdown--opened': opened, 'dropdown--top': atTop, 'dropdown--small': small }" v-click-outside="close">
         <div class="dropdown__value form__group__input" :class="{'form__group__input--h-small': small}" ref="value" @click="toggle">
+            <template v-if="selected">
+                <div v-if="selected.image" class="dropdown__option__image"
+                     :style="{ 'background-image': 'url(' + selected.image + ')' }"></div>
+                <div v-if="selected.color" class="dropdown__option__color" :class="'bg-' + selected.color"></div>
+            </template>
+
             {{ selected ? selected.title : '-- ' + __('Выберите значение') }}
         </div>
 
@@ -17,11 +23,10 @@
 
                 <ul class="dropdown__values select__values">
                     <li v-for="(option, $i) in options" :key="$i" class="dropdown__option" @click="select(option.value)">
-                        <a>
-                            <span v-if="option.image" class="dropdown__option__image"
-                                  :style="{ 'background-image': 'url(' + option.image + ')' }"></span>
-                            <span class="dropdown__option__text">{{ option.title }}</span>
-                        </a>
+                        <div v-if="option.image" class="dropdown__option__image"
+                              :style="{ 'background-image': 'url(' + option.image + ')' }"></div>
+                        <div v-if="option.color" class="dropdown__option__color" :class="'bg-' + option.color"></div>
+                        <div class="dropdown__option__text">{{ option.title }}</div>
                     </li>
                 </ul>
             </div>
@@ -75,6 +80,7 @@
             select(value) {
                 this.$emit('input', value)
                 this.$emit('select', value)
+                this.$emit('change', value)
                 this.close()
             },
 
@@ -102,7 +108,7 @@
 
         computed: {
             selected() {
-                return this.options.find(item => item.value == this.value);
+                return this.options.find(item => item.value === this.value);
             }
         },
 

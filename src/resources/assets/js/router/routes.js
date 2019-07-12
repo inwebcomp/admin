@@ -30,7 +30,7 @@ export default [
     },
     {
         name: 'index',
-        path: '/resource/:controller',
+        path: '/resource/:resourceName',
         components: {
             default: Module,
             header: AppHeader,
@@ -43,7 +43,7 @@ export default [
     },
     {
         name: 'action',
-        path: '/resource/:controller/:action',
+        path: '/resource/:resourceName/:action',
         components: {
             default: Module,
             header: AppHeader,
@@ -56,7 +56,7 @@ export default [
     },
     {
         name: 'module',
-        path: '/resource/:controller/:object/:action',
+        path: '/resource/:resourceName/:resourceId/:action',
         components: {
             default: Module,
             header: AppHeader,
