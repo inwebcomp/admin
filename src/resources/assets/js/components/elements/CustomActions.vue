@@ -135,7 +135,7 @@
              * Execute the selected action.
              */
             executeAction() {
-                if (this.selectedResources.length == 0) {
+                if (this.selectedResources.length == 0 && ! this.selectedAction.availableForEntireResource) {
                     alert(this.__('Please select a resource to perform this action on.'))
                     return
                 }
