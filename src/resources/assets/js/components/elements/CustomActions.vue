@@ -140,7 +140,7 @@
                     return
                 }
 
-                if (this.working)
+                if (this.workin
                     return
 
                 this.working = true
