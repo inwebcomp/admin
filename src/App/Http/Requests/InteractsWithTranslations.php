@@ -21,7 +21,7 @@ trait InteractsWithTranslations
             return $this->withTranslations[$locale];
 
         foreach ($this->input() as $attribute => $value) {
-            if (preg_match("/:[a-z]{2}$/", $attribute)) {
+            if (strpos($attribute, ':' . $locale)) {
                 if ($value !== null) {
                     return $this->withTranslations[$locale] = true;
                 }
