@@ -74,6 +74,7 @@
                         'print', 'spellChecker', 'help', 'html', '|',
                         'undo', 'redo'
                     ],
+                    toolbarSticky: false,
                     fileUpload: false,
                     videoUpload: false,
                     pastePlain: true,
