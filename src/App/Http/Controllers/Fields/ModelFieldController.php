@@ -5,6 +5,7 @@ namespace InWeb\Admin\App\Http\Controllers\Fields;
 use InWeb\Admin\App\Http\Controllers\Controller;
 use InWeb\Admin\App\Http\Requests\AdminRequest;
 use InWeb\Admin\App\Http\Requests\ResourceIndexRequest;
+use InWeb\Base\Traits\WithStatus;
 
 class ModelFieldController extends Controller
 {
