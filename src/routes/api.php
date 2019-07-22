@@ -39,4 +39,7 @@ Route::group(['prefix' => 'field', 'namespace' => 'Fields'], function() {
     Route::group(['prefix' => 'editor-field'], function() {
         Route::post('image/{resource}/{resourceId?}', 'EditorFieldController@image');
     });
+    Route::group(['prefix' => 'model-field'], function() {
+        Route::get('{resource}/search', 'ModelFieldController@search');
+    });
 });

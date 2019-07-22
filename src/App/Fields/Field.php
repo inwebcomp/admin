@@ -230,7 +230,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Resolve the given attribute from the given resource.
      *
-     * @param Entity $resource
+     * @param Model $resource
      * @param string $attribute
      * @param bool $original
      * @return mixed
@@ -390,7 +390,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
             $model->{$attribute} = $request[$requestAttribute];
 
             if (! $model instanceof Fluent and $model->translatable() and $model->isTranslationAttribute($attribute)) {
-                /** @var Translatable|Entity $model */
+                /** @var Translatable|Model $model */
 
                 foreach (config('translatable.locales') as $locale) {
                     if ($locale == config('app.locale'))
@@ -451,7 +451,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
             $this->attribute => $rules,
         ];
 
-        /** @var Entity $model */
+        /** @var Model $model */
         try {
             $model = $request->findModelOrFail();
         } catch (ModelNotFoundException $ex) {

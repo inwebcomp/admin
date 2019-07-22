@@ -7,7 +7,7 @@
                 <div v-if="selected.color" class="dropdown__option__color" :class="'bg-' + selected.color"></div>
             </template>
 
-            {{ selected ? selected.title : '-- ' + __('Выберите значение') }}
+            <span class="dropdown__value__text">{{ selected ? selected.title : '-- ' + __('Выберите значение') }}</span>
         </div>
 
         <transition name="dropdown">
@@ -21,14 +21,16 @@
                                 class="select__input"/>
                 </div>
 
-                <ul class="dropdown__values select__values">
-                    <li v-for="(option, $i) in options" :key="$i" class="dropdown__option" @click="select(option.value)">
-                        <div v-if="option.image" class="dropdown__option__image"
-                              :style="{ 'background-image': 'url(' + option.image + ')' }"></div>
-                        <div v-if="option.color" class="dropdown__option__color" :class="'bg-' + option.color"></div>
-                        <div class="dropdown__option__text">{{ option.title }}</div>
-                    </li>
-                </ul>
+                <slot :options="options">
+                    <ul class="dropdown__values select__values">
+                        <li v-for="(option, $i) in options" :key="$i" class="dropdown__option" @click="select(option.value)">
+                            <div v-if="option.image" class="dropdown__option__image"
+                                 :style="{ 'background-image': 'url(' + option.image + ')' }"></div>
+                            <div v-if="option.color" class="dropdown__option__color" :class="'bg-' + option.color"></div>
+                            <div class="dropdown__option__text">{{ option.title }}</div>
+                        </li>
+                    </ul>
+                </slot>
             </div>
         </transition>
     </div>

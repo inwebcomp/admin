@@ -33,7 +33,7 @@ Vue.component('form-boolean-field', require('~fields/Form/BooleanField.vue').def
 Vue.component('form-editor-field', require('~fields/Form/EditorField.vue').default)
 Vue.component('index-editor-field', require('~fields/Index/EditorField.vue').default)
 
-// Editor Field...
+// Select Field...
 Vue.component('form-select-field', require('~fields/Form/SelectField.vue').default)
 Vue.component('index-select-field', require('~fields/Index/SelectField.vue').default)
 
@@ -42,3 +42,7 @@ Vue.component('index-icon-field', require('~fields/Index/IconField.vue').default
 
 // Status Field...
 Vue.component('index-status-field', require('~fields/Index/StatusField.vue').default)
+
+// Editor Field...
+Vue.component('form-model-field', require('~fields/Form/ModelField.vue').default)
+Vue.component('index-model-field', require('~fields/Index/ModelField.vue').default)

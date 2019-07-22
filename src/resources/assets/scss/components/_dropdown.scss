@@ -50,6 +50,18 @@ $dropdown-max-options: 8;
     }
 }
 
+.dropdown__value {
+    .dropdown__option__image {
+        margin: -6px 12px -6px 0;
+    }
+
+    &__text {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+}
+
 .dropdown__option__color {
     height: 16px;
     width: 16px;

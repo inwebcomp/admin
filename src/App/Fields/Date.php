@@ -18,6 +18,10 @@ class Date extends Text
 
         $this->withMeta(['type' => 'date']);
 
+        $this->resolveUsing(function ($value) {
+            return $value ? $value->format('Y-m-d') : '';
+        });
+
         $this->displayUsing(function ($value) {
             return (string) $value;
         });
