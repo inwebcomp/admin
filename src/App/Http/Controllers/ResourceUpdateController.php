@@ -28,8 +28,7 @@ class ResourceUpdateController extends Controller
             /** @var \App\Models\Entity $model */
             [$model, $callbacks] = $resource::fillForUpdate($request, $model);
 
-            if (count($model->getDirty()))
-                ActionEvent::forResourceUpdate($request->user(), $model)->save();
+            ActionEvent::forResourceUpdate($request->user(), $model)->save();
 
             $model->save();
 

@@ -19,6 +19,6 @@ class ActionsOnModelController extends Controller
     {
         $object = $request->findResourceOrFail();
 
-        return $object->performedActions()->with('user')->take(100)->get();
+        return $object->performedActions()->with('user')->take(100)->latest()->get();
     }
 }
