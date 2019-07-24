@@ -4,13 +4,14 @@ namespace InWeb\Admin\App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use InWeb\Admin\App\Actions\Actionable;
 
 /**
  * @property bool admin
  */
 class AdminUser extends Authenticatable
 {
-    use Notifiable;
+    use Actionable, Notifiable;
 
     /**
      * The attributes that are mass assignable.

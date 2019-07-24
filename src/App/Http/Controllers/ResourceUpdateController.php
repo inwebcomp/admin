@@ -4,10 +4,12 @@ namespace InWeb\Admin\App\Http\Controllers;
 
 use Carbon\Carbon;
 use DB;
+use InWeb\Admin\App\Actions\ActionEvent;
 use InWeb\Admin\App\Http\Requests\ResourceUpdateRequest;
 
 class ResourceUpdateController extends Controller
 {
+
     public function handle(ResourceUpdateRequest $request)
     {
         $resourceObject = $request->findResourceOrFail();
@@ -26,11 +28,14 @@ class ResourceUpdateController extends Controller
             /** @var \App\Models\Entity $model */
             [$model, $callbacks] = $resource::fillForUpdate($request, $model);
 
-            return tap(tap($model)->save(), function ($model) use ($request, $callbacks) {
-//                ActionEvent::forResourceUpdate($request->user(), $model)->save();
+            if (count($model->getDirty()))
+                ActionEvent::forResourceUpdate($request->user(), $model)->save();
 
-                collect($callbacks)->each->__invoke();
-            });
+            $model->save();
+
+            collect($callbacks)->each->__invoke();
+
+            return $model;
         });
 
         return response()->json([

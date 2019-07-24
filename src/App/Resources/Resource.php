@@ -2,6 +2,7 @@
 
 namespace InWeb\Admin\App\Resources;
 
+use InWeb\Admin\App\Actions\ActionTarget;
 use InWeb\Admin\App\ResolvesFilters;
 use InWeb\Admin\App\ResolvesOrderings;
 use InWeb\Admin\App\WithNotification;
@@ -33,7 +34,8 @@ abstract class Resource
         ConditionallyLoadsAttributes,
         PerformsQueries,
         DelegatesToResource,
-        WithNotification;
+        WithNotification,
+        ActionTarget;
     
     /**
      * The underlying model resource instance.

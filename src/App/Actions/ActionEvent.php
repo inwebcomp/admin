@@ -43,7 +43,7 @@ class ActionEvent extends Model
      */
     public function target()
     {
-        return $this->morphTo('target', 'target_type', 'target_id')->withTrashed();
+        return $this->morphTo('target', 'target_type', 'target_id');
     }
 
     /**

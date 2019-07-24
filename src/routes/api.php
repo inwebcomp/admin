@@ -43,3 +43,10 @@ Route::group(['prefix' => 'field', 'namespace' => 'Fields'], function() {
         Route::get('{resource}/search', 'ModelFieldController@search');
     });
 });
+
+// ResourceTools...
+Route::group(['prefix' => 'resource-tool', 'namespace' => 'ResourceTools'], function() {
+    Route::group(['prefix' => 'actions-on-model-tool'], function() {
+        Route::get('{resource}/{resourceId}', 'ActionsOnModelController@index');
+    });
+});

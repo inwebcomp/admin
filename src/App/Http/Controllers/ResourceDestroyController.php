@@ -2,6 +2,7 @@
 
 namespace InWeb\Admin\App\Http\Controllers;
 
+use InWeb\Admin\App\Actions\ActionEvent;
 use InWeb\Admin\App\Http\Requests\DeletionRequest;
 use InWeb\Admin\App\Http\Requests\ResourceDeleteRequest;
 
@@ -19,10 +20,10 @@ class ResourceDestroyController extends DeletionRequest
             $models->each(function ($model) use ($request) {
                 $model->delete();
 
-//                DB::table('action_events')->insert(
-//                    ActionEvent::forResourceDelete($request->user(), collect([$model]))
-//                                ->map->getAttributes()->all()
-//                );
+                DB::table('action_events')->insert(
+                    ActionEvent::forResourceDelete($request->user(), collect([$model]))
+                                ->map->getAttributes()->all()
+                );
             });
         });
     }
