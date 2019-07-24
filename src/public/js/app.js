@@ -36885,7 +36885,7 @@ var render = function() {
           var item = ref.item
           return [
             _c("td", { staticClass: "py-4 px-6 border-b border-grey-light" }, [
-              _vm._v(_vm._s(item.user.name))
+              _vm._v(_vm._s(item.user.login))
             ]),
             _vm._v(" "),
             _c("td", { staticClass: "py-4 px-6 border-b border-grey-light" }, [

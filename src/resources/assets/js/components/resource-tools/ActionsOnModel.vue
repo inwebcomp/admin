@@ -4,7 +4,7 @@
                    :headers="[__('Пользователь'), __('Статус'), __('Время'), __('Изменения')]">
 
         <template slot-scope="{ item }">
-            <td class="py-4 px-6 border-b border-grey-light">{{ item.user.name }}</td>
+            <td class="py-4 px-6 border-b border-grey-light">{{ item.user.login }}</td>
             <td class="py-4 px-6 border-b border-grey-light">{{ item.status }}</td>
             <td class="py-4 px-6 border-b border-grey-light">{{ item.updated_at }}</td>
             <td class="py-4 px-6 border-b border-grey-light">
