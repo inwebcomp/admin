@@ -1,11 +1,11 @@
 <template>
     <editable-list class="mb-4"
                    v-model="actions"
-                   :headers="[__('Пользователь'), __('Статус'), __('Время'), __('Изменения')]">
+                   :headers="[__('Пользователь'), __('Действие'), __('Время'), __('Изменения')]">
 
         <template slot-scope="{ item }">
             <td class="py-4 px-6 border-b border-grey-light">{{ item.user.login }}</td>
-            <td class="py-4 px-6 border-b border-grey-light">{{ item.status }}</td>
+            <td class="py-4 px-6 border-b border-grey-light">{{ item.name }}</td>
             <td class="py-4 px-6 border-b border-grey-light">{{ item.updated_at }}</td>
             <td class="py-4 px-6 border-b border-grey-light">
                 <div v-for="(value, field) in item.changes" class="border-b border-grey-light">

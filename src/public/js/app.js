@@ -36873,7 +36873,7 @@ var render = function() {
     attrs: {
       headers: [
         _vm.__("Пользователь"),
-        _vm.__("Статус"),
+        _vm.__("Действие"),
         _vm.__("Время"),
         _vm.__("Изменения")
       ]
@@ -36889,7 +36889,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("td", { staticClass: "py-4 px-6 border-b border-grey-light" }, [
-              _vm._v(_vm._s(item.status))
+              _vm._v(_vm._s(item.name))
             ]),
             _vm._v(" "),
             _c("td", { staticClass: "py-4 px-6 border-b border-grey-light" }, [
