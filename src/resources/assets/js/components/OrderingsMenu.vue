@@ -5,7 +5,7 @@
             :handle-click="toggle"
             :active="orderingsAreApplied"
         >
-            <slot :currentOrdering="currentOrdering" />
+            <slot :currentOrdering="currentOrdering"/>
         </dropdown-trigger>
 
         <dropdown-menu class="text-black" slot="menu" width="290" direction="rtl"
