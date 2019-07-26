@@ -125,6 +125,7 @@ let colors = {
     'grey-lightest': '#f8fafc',
     'white': '#ffffff',
     'accent': '#3f51b5',
+    'orange': '#ffbb3f',
     'yellow': 'var(--warning)',
     'red': 'var(--danger)',
     'green': 'var(--success)',
