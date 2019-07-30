@@ -20,7 +20,7 @@ class ResourceDestroyController extends DeletionRequest
             $models->each(function ($model) use ($request) {
                 $model->delete();
 
-                DB::table('action_events')->insert(
+                \DB::table('action_events')->insert(
                     ActionEvent::forResourceDelete($request->user(), collect([$model]))
                                 ->map->getAttributes()->all()
                 );
