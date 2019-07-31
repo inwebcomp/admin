@@ -69,20 +69,36 @@
                         'fontSize', 'color', 'paragraphStyle', '|',
                         'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent',
                         '-',
-                        'insertLink', 'insertImage', 'insertVideo', 'embedly', 'insertTable', '|',
+                        'insertLink', 'insertImage', 'insertFile', 'insertVideo', 'embedly', 'insertTable', '|',
                         'specialCharacters', 'insertHR', 'clearFormatting', '|',
                         'print', 'spellChecker', 'help', 'html', '|',
                         'undo', 'redo'
                     ],
                     toolbarSticky: false,
-                    fileUpload: false,
                     videoUpload: false,
                     pastePlain: true,
                     imageUploadURL: App.api.url('field/editor-field/image/' + this.resourceName + '/' + this.resourceId),
                     imageAllowedTypes: ['jpeg', 'jpg', 'png', 'svg', 'gif'],
                     imageMaxSize: 1024 * 1024 * 2,
                     imageInsertButtons: ['imageBack', '|', 'imageUpload', 'imageByURL'],
-                    entities: '&quot;&#39;&iexcl;&cent;&pound;&curren;&yen;&brvbar;'
+                    entities: '&quot;&#39;&iexcl;&cent;&pound;&curren;&yen;&brvbar;',
+
+                    fileUpload: true,
+
+                    // Set the file upload parameter.
+                    fileUploadParam: 'file',
+
+                    // Set the file upload URL.
+                    fileUploadURL: App.api.url('field/editor-field/file/' + this.resourceName + '/' + this.resourceId),
+
+                    // Set request type.
+                    fileUploadMethod: 'POST',
+
+                    // Set max file size to 20MB.
+                    fileMaxSize: 20 * 1024 * 1024,
+
+                    // Allow to upload any file.
+                    fileAllowedTypes: ['*'],
                 },
             }
         },

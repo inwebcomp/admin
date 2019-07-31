@@ -23,4 +23,20 @@ class EditorFieldController extends Controller
             'link' => \Storage::url($path)
         ];
     }
+
+    public function file(ResourceDetailRequest $request)
+    {
+        /** @var WithContentImages $model */
+        $model = $request->findModelOrFail();
+
+        $request->validate([
+            'file' => 'required|max:' . 1024 * 20,
+        ]);
+
+        $path = $request->file('file')->storePubliclyAs($model->contentImagesPath(), $request->file('file')->getClientOriginalName(), ['disk' => 'public']);
+
+        return [
+            'link' => \Storage::url($path)
+        ];
+    }
 }
