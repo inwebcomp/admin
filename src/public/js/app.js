@@ -3913,6 +3913,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -34769,7 +34776,27 @@ var render = function() {
                 : ""
             },
             [
-              _vm._v("\n            " + _vm._s(_vm.value) + "\n            "),
+              !_vm.field.link
+                ? _c("span", [_vm._v(_vm._s(_vm.value))])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.field.link
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "data-table__value__link",
+                      attrs: { to: _vm.field.link }
+                    },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(_vm.value) +
+                          "\n            "
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
               _vm.field.translatable
                 ? _c(
                     "div",
@@ -34786,7 +34813,8 @@ var render = function() {
                     ]
                   )
                 : _vm._e()
-            ]
+            ],
+            1
           ),
           _vm._v(" "),
           _vm.field.translatable
@@ -34798,11 +34826,29 @@ var render = function() {
                   "div",
                   { staticClass: "form__group__translatable mb-2" },
                   [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(_vm.field.translatableValues[locale]) +
-                        "\n                "
-                    ),
+                    !_vm.field.link
+                      ? _c("span", [
+                          _vm._v(_vm._s(_vm.field.translatableValues[locale]))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.field.link
+                      ? _c(
+                          "router-link",
+                          {
+                            staticClass: "data-table__value__link",
+                            attrs: { to: _vm.field.link }
+                          },
+                          [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(_vm.field.translatableValues[locale]) +
+                                "\n                "
+                            )
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
                     _c(
                       "div",
                       {
@@ -34813,7 +34859,8 @@ var render = function() {
                       },
                       [_vm._v(_vm._s(locale))]
                     )
-                  ]
+                  ],
+                  1
                 )
               })
             : _vm._e()

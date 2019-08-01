@@ -2,7 +2,10 @@
     <default-field :field="field" :errors="errors" :inline="inline" v-bind="other">
         <template slot="field">
             <div :class="field.translatable ? 'form__group__translatable mb-2' : ''">
-                {{ value }}
+                <span v-if="! field.link">{{ value }}</span>
+                <router-link v-if="field.link" :to="field.link" class="data-table__value__link">
+                    {{ value }}
+                </router-link>
                 <div v-if="field.translatable" class="form__group__translatable__locale" :class="errorClasses()">
                     {{ this.field.currentLocale }}
                 </div>
@@ -10,7 +13,11 @@
 
             <template v-if="field.translatable">
                 <div class="form__group__translatable mb-2" v-for="(translatableValue, locale) in field.translatableValues">
-                    {{ field.translatableValues[locale] }}
+                    <span v-if="! field.link">{{ field.translatableValues[locale] }}</span>
+                    <router-link v-if="field.link" :to="field.link" class="data-table__value__link">
+                        {{ field.translatableValues[locale] }}
+                    </router-link>
+
                     <div class="form__group__translatable__locale" :class="errorClasses(translationAttribute(locale))">{{ locale }}</div>
                 </div>
             </template>
