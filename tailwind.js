@@ -130,6 +130,7 @@ let colors = {
     'red': 'var(--danger)',
     'green': 'var(--success)',
     'blue': '#3f51b5',
+    'turquoise': '#07e6ee',
     info: 'var(--info)',
     danger: 'var(--danger)',
     warning: 'var(--warning)',
