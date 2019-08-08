@@ -254,7 +254,10 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
                 if ($locale == \App::getLocale())
                     continue;
 
-                $values[$locale] = optional($resource->translate($locale))->getOriginal($attribute) ?? null;
+                if ($original)
+                    $values[$locale] = optional($resource->translate($locale))->getOriginal($attribute) ?? null;
+                else
+                    $values[$locale] = optional($resource->translate($locale))->{$attribute} ?? null;
             }
 
             $this->withMeta(['translatableValues' => $values]);
