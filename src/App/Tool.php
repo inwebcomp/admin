@@ -2,6 +2,7 @@
 
 namespace InWeb\Admin\App;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 abstract class Tool extends Element
@@ -9,8 +10,6 @@ abstract class Tool extends Element
     use WithNotification;
 
     public static $position = null;
-
-    public static $displayInNavigation = true;
 
     /**
      * Perform any tasks that need to happen on tool registration.
@@ -20,6 +19,17 @@ abstract class Tool extends Element
     public function boot()
     {
         //
+    }
+
+    /**
+     * Determine if this resource is available for navigation.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    public static function availableForNavigation(Request $request)
+    {
+        return true;
     }
 
     /**

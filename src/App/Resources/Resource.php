@@ -76,12 +76,6 @@ abstract class Resource
      */
     public static $with = [];
     /**
-     * Indicates if the resoruce should be displayed in navigation.
-     *
-     * @var bool
-     */
-    public static $displayInNavigation = true;
-    /**
      * The logical group associated with the resource.
      *
      * @var string
@@ -119,6 +113,17 @@ abstract class Resource
     public static function group()
     {
         return static::$group;
+    }
+
+    /**
+     * Determine if this resource is available for navigation.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    public static function availableForNavigation(Request $request)
+    {
+        return true;
     }
 
     /**

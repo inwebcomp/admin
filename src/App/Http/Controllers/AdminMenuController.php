@@ -14,16 +14,13 @@ class AdminMenuController extends Controller
 
         $groups = Admin::groupedResources($request);
 
-        $groups['tools'] = Admin::availableTools($request);
+        $groups['tools'] = Admin::availableToolsForNavigation($request);
 
         foreach ($groups as $groupKey => $resources) {
             $group = Admin::groupInfo($groupKey);
 
             foreach ($resources as $resource) {
-                if (! $resource::$displayInNavigation)
-                    continue;
-
-                $group['resources'][] = [
+                 $group['resources'][] = [
                     'route'        => $resource::route(),
                     'uriKey'       => $resource::uriKey(),
                     'label'        => $resource::label(),

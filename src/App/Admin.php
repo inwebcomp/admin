@@ -107,7 +107,10 @@ class Admin
      */
     public static function availableResources(Request $request)
     {
-        return collect(static::$resources);
+        return collect(static::$resources)->filter(function ($resource) use ($request) {
+            return $resource::authorizedToViewAny($request) &&
+                   $resource::availableForNavigation($request);
+        })->all();
     }
 
     /**
@@ -350,6 +353,20 @@ class Admin
     public static function availableTools(Request $request)
     {
         return collect(static::$tools)->filter->authorize($request)->all();
+    }
+
+    /**
+     * Get the tools registered with Nova.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return array
+     */
+    public static function availableToolsForNavigation(Request $request)
+    {
+        return collect(static::$tools)->filter(function ($tool) use ($request) {
+            return $tool->authorize($request) &&
+                   $tool::availableForNavigation($request);
+        })->all();
     }
 
     /**

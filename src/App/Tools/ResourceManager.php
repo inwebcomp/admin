@@ -8,7 +8,21 @@ use InWeb\Admin\App\Tool;
 
 class ResourceManager extends Tool
 {
-    public static $displayInNavigation = false;
+    public function __construct($component = null)
+    {
+        parent::__construct($component);
+    }
+
+    /**
+     * Determine if this resource is available for navigation.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return bool
+     */
+    public static function availableForNavigation(Request $request)
+    {
+        return false;
+    }
 
     /**
      * Perform any tasks that need to happen on tool registration.

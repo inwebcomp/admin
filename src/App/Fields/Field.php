@@ -75,6 +75,21 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      * @var bool
      */
     public $sortable = false;
+
+    /**
+     * Indicates if the field is nullable.
+     *
+     * @var bool
+     */
+    public $nullable = false;
+
+    /**
+     * Values which will be replaced to null.
+     *
+     * @var array
+     */
+    public $nullValues = [''];
+
     /**
      * Indicates if the field was resolved as a pivot field.
      *
@@ -390,7 +405,9 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     protected function fillAttributeFromRequest(AdminRequest $request, $requestAttribute, $model, $attribute)
     {
         if ($request->exists($requestAttribute)) {
-            $model->{$attribute} = $request[$requestAttribute];
+            $value = $request[$requestAttribute];
+
+            $model->{$attribute} = $this->isNullValue($value) ? null : $value;
 
             if (! $model instanceof Fluent and $model->translatable() and $model->isTranslationAttribute($attribute)) {
                 /** @var Translatable|Model $model */
@@ -412,6 +429,23 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
                 }
             }
         }
+    }
+
+    /**
+     * Check value for null value.
+     *
+     * @param  mixed $value
+     * @return bool
+     */
+    protected function isNullValue($value)
+    {
+        if (! $this->nullable) {
+            return false;
+        }
+
+        return is_callable($this->nullValues)
+            ? ($this->nullValues)($value)
+            : in_array($value, (array) $this->nullValues);
     }
 
     /**
@@ -560,6 +594,37 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
         if (! $this->computed()) {
             $this->sortable = $value;
         }
+
+        return $this;
+    }
+
+    /**
+     * Indicate that the field should be nullable.
+     *
+     * @param  bool $nullable
+     * @param  array|Closure $values
+     * @return $this
+     */
+    public function nullable($nullable = true, $values = null)
+    {
+        $this->nullable = $nullable;
+
+        if ($values !== null) {
+            $this->nullValues($values);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Specify nullable values.
+     *
+     * @param  array|Closure $values
+     * @return $this
+     */
+    public function nullValues($values)
+    {
+        $this->nullValues = $values;
 
         return $this;
     }
