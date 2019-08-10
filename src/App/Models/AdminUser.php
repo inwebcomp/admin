@@ -34,4 +34,14 @@ class AdminUser extends Authenticatable
     {
         return (bool) $this->admin;
     }
+
+    /**
+     * Determine if entity is sortable
+     *
+     * @return bool
+     */
+    public function positionable()
+    {
+        return false;
+    }
 }
