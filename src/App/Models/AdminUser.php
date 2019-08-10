@@ -44,4 +44,14 @@ class AdminUser extends Authenticatable
     {
         return false;
     }
+
+    /**
+     * Determine if entity is sortable
+     *
+     * @return bool
+     */
+    public function translatable()
+    {
+        return false;
+    }
 }
