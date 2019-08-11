@@ -2392,7 +2392,7 @@ select {
   z-index: 78;
   background-color: #293045;
   overflow: hidden;
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 
 .sidebar .icon {
