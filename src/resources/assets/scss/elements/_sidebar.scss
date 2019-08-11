@@ -10,7 +10,7 @@
     z-index: $z-index-menu;
 	background-color: $sidebar-children-color;
 	overflow: hidden;
-	overflow-y: hidden;
+	overflow-y: auto;
 
 	.icon {
 		color: $sidebar-icon-color;
