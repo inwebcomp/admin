@@ -8,15 +8,23 @@ use InWeb\Admin\App\Admin;
 
 class AdminAccess
 {
+    static public $availableRoutes = [
+        'admin::scripts',
+        'admin::styles',
+    ];
+
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
+        if ($this->availableRoute())
+            return $next($request);
+
         if (strpos(\Route::current()->getName(), 'admin::login') === false and strpos(\Route::current()->getName(), 'admin.api::login') === false) {
             Auth::viaRemember();
 
@@ -34,5 +42,22 @@ class AdminAccess
         }
 
         return $next($request);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function availableRoute()
+    {
+        $available = true;
+
+        foreach (self::$availableRoutes as $route) {
+            if (strpos(\Route::current()->getName(), $route) !== false) {
+                $available = false;
+                break;
+            }
+        }
+
+        return $available;
     }
 }
