@@ -1,7 +1,7 @@
 .sidebar {
 	width: $sidebar-children-width;
 	//background-color: $sidebar-color;
-	height: 100%;
+	height: calc(100% - #{$header-height});
 	position: fixed;
 	top: $header-height;
 	left: 0;
@@ -9,6 +9,8 @@
 	font-size: 1rem;
     z-index: $z-index-menu;
 	background-color: $sidebar-children-color;
+	overflow: hidden;
+	overflow-y: hidden;
 
 	.icon {
 		color: $sidebar-icon-color;
