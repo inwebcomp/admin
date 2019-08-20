@@ -38,7 +38,6 @@
 
         methods: {
             fetch() {
-                console.log('sdf')
                 App.api.request({
                     url: 'resource-tool/actions-on-model-tool/' + this.resourceName + '/' + this.resourceId,
                 }).then((data) => {
