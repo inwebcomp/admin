@@ -1,6 +1,12 @@
 <template>
-    <div class="dropdown select" :class="{ 'dropdown--opened': opened, 'dropdown--top': atTop, 'dropdown--small': small }" v-click-outside="close">
-        <div class="dropdown__value form__group__input" :class="{'form__group__input--h-small': small}" ref="value" @click="toggle">
+    <div class="dropdown select"
+         :class="{ 'dropdown--opened': opened, 'dropdown--top': atTop, 'dropdown--small': small }"
+         v-click-outside="close">
+        <button type="button" class="dropdown__value form__group__input" :class="{'form__group__input--h-small': small}" ref="value"
+                @click="toggle"
+                @keydown="moveFocus"
+                @keydown.enter="selectFocused">
+
             <template v-if="selected">
                 <div v-if="selected.image" class="dropdown__option__image"
                      :style="{ 'background-image': 'url(' + selected.image + ')' }"></div>
@@ -8,7 +14,7 @@
             </template>
 
             <span class="dropdown__value__text">{{ selected ? selected.title : '-- ' + __('Выберите значение') }}</span>
-        </div>
+        </button>
 
         <transition name="dropdown">
             <div class="dropdown__container" ref="container" v-show="opened">
@@ -23,10 +29,14 @@
 
                 <slot :options="options">
                     <ul class="dropdown__values select__values">
-                        <li v-for="(option, $i) in options" :key="$i" class="dropdown__option" @click="select(option.value)">
+                        <li v-for="(option, $i) in options" :key="$i"
+                            class="dropdown__option"
+                            :class="{'dropdown__option--focused': focused == $i + 1}"
+                            @click="select(option.value)">
                             <div v-if="option.image" class="dropdown__option__image"
                                  :style="{ 'background-image': 'url(' + option.image + ')' }"></div>
-                            <div v-if="option.color" class="dropdown__option__color" :class="'bg-' + option.color"></div>
+                            <div v-if="option.color" class="dropdown__option__color"
+                                 :class="'bg-' + option.color"></div>
                             <div class="dropdown__option__text">{{ option.title }}</div>
                         </li>
                     </ul>
@@ -66,6 +76,7 @@
                 searchWord: '',
                 opened: false,
                 atTop: false,
+                focused: null,
             }
         },
 
@@ -84,6 +95,11 @@
                 this.$emit('select', value)
                 this.$emit('change', value)
                 this.close()
+            },
+
+            selectByIndex(index) {
+                if (this.options[index])
+                    this.select(this.options[index].value)
             },
 
             toggle() {
@@ -106,6 +122,23 @@
                     })
                 }
             },
+
+            moveFocus(event) {
+                if (event.keyCode == 38) { // Up
+                    this.focused = (this.focused <= 1) ? this.options.length : this.focused - 1
+                    event.preventDefault()
+                } else if (event.keyCode == 40) { // Down
+                    this.focused = (this.focused >= this.options.length) ? 1 : this.focused + 1
+                    event.preventDefault()
+                }
+                if (! this.opened)
+                    this.selectByIndex(this.focused - 1)
+            },
+
+            selectFocused(event) {
+                this.selectByIndex(this.focused - 1)
+                event.preventDefault()
+            },
         },
 
         computed: {
@@ -116,7 +149,7 @@
 
         watch: {
             opened(opened) {
-                if (! opened)
+                if (!opened)
                     return
 
                 this.$nextTick(() => {
@@ -127,6 +160,8 @@
                 })
             },
             options() {
+                this.focused = false
+
                 this.$nextTick(() => {
                     let height = this.$refs.container.getBoundingClientRect().height
                     let offset = window.innerHeight - this.$refs.value.getBoundingClientRect().bottom - height

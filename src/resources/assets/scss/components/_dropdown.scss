@@ -33,6 +33,10 @@ $dropdown-max-options: 8;
     &:hover {
         background-color: $hover-bg-color;
     }
+
+    &--focused {
+        background-color: $hover-bg-color;
+    }
 }
 
 .dropdown__option__text {

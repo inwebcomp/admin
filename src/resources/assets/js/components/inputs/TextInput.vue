@@ -8,6 +8,7 @@
                     :value="value"
                     :placeholder="placeholder"
                     :type="type"
+                    :tabindex="tabindex"
                     @input="$emit('input', $event.target.value)"
                     @blur="$emit('blur', $event)"
                     @focus="$emit('focus', $event)"
@@ -37,6 +38,7 @@
                 default: false,
             },
             placeholder: {},
+            tabindex: {},
             small: {
                 type: Boolean,
                 default: false,

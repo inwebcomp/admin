@@ -1216,6 +1216,10 @@ a.button {
   background-color: #f5f5f5;
 }
 
+.dropdown__option--focused {
+  background-color: #f5f5f5;
+}
+
 .dropdown__option__text {
   color: #333;
 }
