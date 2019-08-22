@@ -28,7 +28,7 @@
                 </div>
 
                 <slot :options="options">
-                    <ul class="dropdown__values select__values">
+                    <ul class="dropdown__values select__values" ref="container">
                         <li v-for="(option, $i) in options" :key="$i"
                             class="dropdown__option"
                             :class="{'dropdown__option--focused': focused == $i + 1}"
@@ -127,9 +127,27 @@
                 if (event.keyCode == 38) { // Up
                     this.focused = (this.focused <= 1) ? this.options.length : this.focused - 1
                     event.preventDefault()
+
+                    if (this.focused == this.options.length) {
+                        this.$refs.container.scrollTop = this.options.length * 34;
+                    } else {
+                        let topPos = this.focused * 34;
+                        let dif = topPos - this.$refs.container.scrollTop
+                        if (dif <= 0)
+                            this.$refs.container.scrollTop += dif - 34;
+                    }
                 } else if (event.keyCode == 40) { // Down
                     this.focused = (this.focused >= this.options.length) ? 1 : this.focused + 1
                     event.preventDefault()
+
+                    if (this.focused == 1) {
+                        this.$refs.container.scrollTop = 0;
+                    } else {
+                        let topPos = this.focused * 34;
+                        let dif = topPos - this.$refs.container.scrollTop - Math.min(this.options.length, 8) * 34
+                        if (dif > 0)
+                            this.$refs.container.scrollTop += dif;
+                    }
                 }
                 if (! this.opened)
                     this.selectByIndex(this.focused - 1)
