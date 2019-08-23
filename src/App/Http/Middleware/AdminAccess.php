@@ -9,8 +9,8 @@ use InWeb\Admin\App\Admin;
 class AdminAccess
 {
     static public $availableRoutes = [
-        'admin::scripts',
-        'admin::styles',
+        'admin::script',
+        'admin::style',
     ];
 
     /**
@@ -49,11 +49,11 @@ class AdminAccess
      */
     public function availableRoute()
     {
-        $available = true;
+        $available = false;
 
         foreach (self::$availableRoutes as $route) {
             if (strpos(\Route::current()->getName(), $route) !== false) {
-                $available = false;
+                $available = true;
                 break;
             }
         }
