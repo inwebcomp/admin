@@ -60,6 +60,7 @@ trait InteractsWithResources
 
         return tap(Admin::resourceForKey($this->resource), function ($resource) {
             abort_if(is_null($resource), 404);
+            abort_if(! $resource::authorizedToViewAny($this), 403);
         });
     }
 

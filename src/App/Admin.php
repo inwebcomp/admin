@@ -12,6 +12,8 @@ use Symfony\Component\Finder\Finder;
 
 class Admin
 {
+    use AuthorizesRequests;
+
     /**
      * The registered resource names.
      *

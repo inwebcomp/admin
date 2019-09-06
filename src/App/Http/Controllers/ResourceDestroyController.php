@@ -3,6 +3,7 @@
 namespace InWeb\Admin\App\Http\Controllers;
 
 use InWeb\Admin\App\Actions\ActionEvent;
+use InWeb\Admin\App\Admin;
 use InWeb\Admin\App\Http\Requests\DeletionRequest;
 use InWeb\Admin\App\Http\Requests\ResourceDeleteRequest;
 
@@ -16,6 +17,9 @@ class ResourceDestroyController extends DeletionRequest
      */
     public function handle(ResourceDeleteRequest $request)
     {
+        $resource = $request->newResource();
+        abort_if(! $resource->authorizedToDelete($request), 403);
+
         $request->chunks(150, function ($models) use ($request) {
             $models->each(function ($model) use ($request) {
                 $model->delete();

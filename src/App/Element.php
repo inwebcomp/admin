@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 
 class Element implements \JsonSerializable
 {
-    use ProxiesCanSeeToGate;
+    use AuthorizedToSee,
+        ProxiesCanSeeToGate;
 
     /**
      * The element's component.

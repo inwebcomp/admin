@@ -1,5 +1,6 @@
 <?php
 
+use InWeb\Admin\App\Http\Middleware\Authorize;
 use InWeb\Admin\App\Http\Middleware\BootTools;
 use InWeb\Admin\App\Http\Middleware\DispatchServingAdminEvent;
 
@@ -18,6 +19,7 @@ return [
         'web',
         DispatchServingAdminEvent::class,
         BootTools::class,
+        Authorize::class,
         'admin-auth',
     ],
 ];

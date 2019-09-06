@@ -4,6 +4,7 @@ namespace InWeb\Admin\App;
 
 use App\Http\Middleware\EncryptCookies;
 use Illuminate\Session\Middleware\StartSession;
+use InWeb\Admin\App\Http\Middleware\Authorize;
 use InWeb\Base\Http\Middleware\ApiLanguage;
 use Route;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -28,6 +29,7 @@ class AdminRoute
                 StartSession::class,
                 AddQueuedCookiesToResponse::class,
                 DispatchServingAdminEvent::class,
+                Authorize::class,
             ])
             ->as('admin.api::')
             ->prefix(Admin::path() . '/api')
