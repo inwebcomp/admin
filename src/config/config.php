@@ -19,7 +19,7 @@ return [
         'web',
         DispatchServingAdminEvent::class,
         BootTools::class,
-        Authorize::class,
+//        Authorize::class,
         'admin-auth',
     ],
 ];
