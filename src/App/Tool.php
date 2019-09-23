@@ -39,7 +39,7 @@ abstract class Tool extends Element
      */
     public static function route()
     {
-        return 'admin-' . self::uriKey();
+        return 'admin-' . static::uriKey();
     }
 
     /**
