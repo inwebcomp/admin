@@ -29,7 +29,6 @@ class AdminRoute
                 StartSession::class,
                 AddQueuedCookiesToResponse::class,
                 DispatchServingAdminEvent::class,
-                Authorize::class,
             ])
             ->as('admin.api::')
             ->prefix(Admin::path() . '/api')
