@@ -25,6 +25,7 @@ class AdminRoute
                 'api',
                 'throttle:5000,1',
                 'admin-auth',
+                \Illuminate\Session\Middleware\AuthenticateSession::class,
                 EncryptCookies::class,
                 StartSession::class,
                 AddQueuedCookiesToResponse::class,

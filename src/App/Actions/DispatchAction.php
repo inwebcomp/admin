@@ -13,12 +13,13 @@ class DispatchAction
     /**
      * Dispatch the given action.
      *
-     * @param  \InWeb\Admin\App\Http\Requests\ActionRequest $request
-     * @param  \InWeb\Admin\App\Actions\Action $action
-     * @param  string $method
-     * @param  \Illuminate\Support\Collection $models
-     * @param  \InWeb\Admin\App\Fields\ActionFields $fields
+     * @param \InWeb\Admin\App\Http\Requests\ActionRequest $request
+     * @param \InWeb\Admin\App\Actions\Action $action
+     * @param string $method
+     * @param \Illuminate\Support\Collection $models
+     * @param \InWeb\Admin\App\Fields\ActionFields $fields
      * @return mixed
+     * @throws \Throwable
      */
     public static function forModels(
         ActionRequest $request,
