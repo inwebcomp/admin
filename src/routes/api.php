@@ -22,7 +22,7 @@ Route::put('{resource}/positions', 'ResourcePositionsController@handle')->name('
 Route::get('{resource}/search', 'SearchController@index')->name('resource.search');
 
 // Actions...
-Route::get('/{resource}/actions', 'ActionController@index');
+Route::get('/{resource}/actions/{resourceId?}', 'ActionController@index');
 Route::post('/{resource}/action', 'ActionController@store');
 
 // Filters...

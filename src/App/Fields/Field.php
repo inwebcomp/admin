@@ -97,7 +97,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      */
     public $pivot = false;
     /**
-     * If true, field value will not be mutated
+     * Show original value
      *
      * @var bool
      */
@@ -135,13 +135,18 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      * @var mixed
      */
     public $default = null;
+    /**
+     * If true, field value will not be mutated
+     * @var mixed
+     */
+    public $disabled = false;
 
     /**
      * Create a new field.
      *
-     * @param  string      $name
-     * @param  string|null $attribute
-     * @param  mixed|null  $resolveCallback
+     * @param string $name
+     * @param string|null $attribute
+     * @param mixed|null $resolveCallback
      * @return void
      */
     public function __construct($name, $attribute = null, $resolveCallback = null)
@@ -165,7 +170,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Set the help text for the field.
      *
-     * @param  string $helpText
+     * @param string $helpText
      * @return $this
      */
     public function help($helpText)
@@ -188,8 +193,8 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Resolve the field's value for display.
      *
-     * @param  mixed       $resource
-     * @param  string|null $attribute
+     * @param mixed $resource
+     * @param string|null $attribute
      * @return void
      */
     public function resolveForDisplay($resource, $attribute = null)
@@ -213,8 +218,8 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Resolve the field's value.
      *
-     * @param  mixed       $resource
-     * @param  string|null $attribute
+     * @param mixed $resource
+     * @param string|null $attribute
      * @return void
      */
     public function resolve($resource, $attribute = null)
@@ -297,7 +302,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Resolve a computed attribute.
      *
-     * @param  callable $attribute
+     * @param callable $attribute
      * @return void
      */
     protected function resolveComputedAttribute($attribute)
@@ -310,7 +315,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Define the callback that should be used to resolve the field's value.
      *
-     * @param  callable $displayCallback
+     * @param callable $displayCallback
      * @return $this
      */
     public function displayUsing(callable $displayCallback)
@@ -323,7 +328,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Define the callback that should be used to resolve the field's value.
      *
-     * @param  callable $resolveCallback
+     * @param callable $resolveCallback
      * @return $this
      */
     public function resolveUsing(callable $resolveCallback)
@@ -337,7 +342,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      * Hydrate the given attribute on the model based on the incoming request.
      *
      * @param AdminRequest $request
-     * @param  object      $model
+     * @param object $model
      * @return mixed
      */
     public function fill(AdminRequest $request, $model)
@@ -349,7 +354,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      * Hydrate the given attribute on the model based on the incoming request.
      *
      * @param AdminRequest $request
-     * @param  object      $model
+     * @param object $model
      * @return mixed
      */
     public function fillForAction(AdminRequest $request, $model)
@@ -361,9 +366,9 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      * Hydrate the given attribute on the model based on the incoming request.
      *
      * @param AdminRequest $request
-     * @param  object      $model
-     * @param  string      $attribute
-     * @param  string|null $requestAttribute
+     * @param object $model
+     * @param string $attribute
+     * @param string|null $requestAttribute
      * @return mixed
      */
     public function fillInto(AdminRequest $request, $model, $attribute, $requestAttribute = null)
@@ -375,9 +380,9 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      * Hydrate the given attribute on the model based on the incoming request.
      *
      * @param AdminRequest $request
-     * @param  string      $requestAttribute
-     * @param  object      $model
-     * @param  string      $attribute
+     * @param string $requestAttribute
+     * @param object $model
+     * @param string $attribute
      * @return void
      */
     protected function fillAttribute(AdminRequest $request, $requestAttribute, $model, $attribute)
@@ -397,9 +402,9 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      * Hydrate the given attribute on the model based on the incoming request.
      *
      * @param AdminRequest $request
-     * @param  string      $requestAttribute
-     * @param  object      $model
-     * @param  string      $attribute
+     * @param string $requestAttribute
+     * @param object $model
+     * @param string $attribute
      * @return mixed
      */
     protected function fillAttributeFromRequest(AdminRequest $request, $requestAttribute, $model, $attribute)
@@ -434,7 +439,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Check value for null value.
      *
-     * @param  mixed $value
+     * @param mixed $value
      * @return bool
      */
     protected function isNullValue($value)
@@ -451,7 +456,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Specify a callback that should be used to hydrate the model attribute for the field.
      *
-     * @param  callable $fillCallback
+     * @param callable $fillCallback
      * @return $this
      */
     public function fillUsing($fillCallback)
@@ -464,7 +469,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Set the validation rules for the field.
      *
-     * @param  callable|array|string $rules
+     * @param callable|array|string $rules
      * @return $this
      */
     public function rules($rules)
@@ -541,7 +546,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  callable|array|string $rules
+     * @param callable|array|string $rules
      * @return $this
      */
     public function updateRules($rules)
@@ -573,7 +578,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  callable|array|string $rules
+     * @param callable|array|string $rules
      * @return $this
      */
     public function creationRules($rules)
@@ -586,7 +591,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Specify that this field should be sortable.
      *
-     * @param  bool $value
+     * @param bool $value
      * @return $this
      */
     public function sortable($value = true)
@@ -601,8 +606,8 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Indicate that the field should be nullable.
      *
-     * @param  bool $nullable
-     * @param  array|Closure $values
+     * @param bool $nullable
+     * @param array|Closure $values
      * @return $this
      */
     public function nullable($nullable = true, $values = null)
@@ -619,7 +624,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Specify nullable values.
      *
-     * @param  array|Closure $values
+     * @param array|Closure $values
      * @return $this
      */
     public function nullValues($values)
@@ -637,7 +642,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     public function computed()
     {
         return (is_callable($this->attribute) && ! is_string($this->attribute)) ||
-            $this->attribute == 'ComputedField';
+               $this->attribute == 'ComputedField';
     }
 
     /**
@@ -657,7 +662,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Set the component that should be used by the field in general.
      *
-     * @param  string $component
+     * @param string $component
      * @return void
      */
     public static function useCustomComponent($component)
@@ -697,6 +702,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
             'prefixComponent' => $this->prefixComponent,
             'indexName'       => $this->name,
             'name'            => $this->name,
+            'disabled'        => $this->disabled,
             'attribute'       => $this->attribute,
             'value'           => $this->value,
             'panel'           => $this->panel,

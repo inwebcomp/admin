@@ -1,7 +1,9 @@
 <template>
     <div class="custom-actions flex flex-wrap">
-        <div class="active-panel__button" v-for="action in availableActions" :key="action.urikey"
-             @click.prevent="determineActionStrategy(action)">
+        <div class="active-panel__button"
+             :class="{'active-panel__button--disabled': action.disabled}"
+             v-for="action in availableActions" :key="action.urikey"
+             @click.prevent="! action.disabled && determineActionStrategy(action)">
             <i v-if="action.icon" class="mr-2 text-grey-light" :class="action.icon"></i>
             {{ action.name }}
         </div>
@@ -20,7 +22,7 @@
                 type: String,
                 default: null,
             },
-            resourceId: {}
+            resourceId: {},
         },
 
         data: () => ({
@@ -53,6 +55,8 @@
                 })
             });
 
+            App.$on('resourceUpdate', this.fetch);
+
             this.$watch(
                 () => {
                     return (
@@ -75,7 +79,7 @@
              */
             fetch() {
                 return App.api.request({
-                    url: `${this.resourceName}/actions`,
+                    url: `${this.resourceName}/actions/${this.resourceId}`,
                 }).then(({actions}) => {
                     this.actions = _.filter(actions, action => {
                         if (this.resourceId)

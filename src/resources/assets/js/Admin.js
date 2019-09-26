@@ -31,6 +31,7 @@ Vue.use(Popup)
 Vue.use(Toasted, {
     position: 'bottom-right',
     duration: 4000,
+    singleton: true,
 })
 
 export default class Admin {

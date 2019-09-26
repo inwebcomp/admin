@@ -22,6 +22,8 @@ class Text extends Field
 
     public function disabled()
     {
+        $this->disabled = true;
+
         return $this->withMeta(['extraAttributes' => ['disabled' => true]]);
     }
 }

@@ -176,7 +176,7 @@
             updateResourceFormData() {
                 return _.tap(new FormData(), formData => {
                     _(this.panels).each(panel => {
-                        _(panel.fields).each(field => {
+                        _(panel.fields).filter(field => ! field.disabled).each(field => {
                             if (field.fill)
                                 field.fill(formData)
                         })
@@ -221,6 +221,10 @@
                     return _.toArray(panels)
                 }
             },
+
+            actionPermissions() {
+                return []
+            }
         },
     }
 </script>

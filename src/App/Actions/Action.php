@@ -97,6 +97,8 @@ class Action implements JsonSerializable
      */
     public static $chunkCount = 200;
 
+    public $disabled = false;
+
     /**
      * Determine if the action is executable for the given request.
      *
@@ -173,6 +175,13 @@ class Action implements JsonSerializable
     public static function download($url, $name)
     {
         return ['download' => $url, 'name' => $name];
+    }
+
+    public function disabled($value = true)
+    {
+        $this->disabled = $value;
+
+        return $this;
     }
 
     /**
@@ -404,6 +413,7 @@ class Action implements JsonSerializable
             'destructive' => $this instanceof DestructiveAction,
             'name' => $this->name(),
             'icon' => $this->icon(),
+            'disabled' => $this->disabled,
             'uriKey' => $this->uriKey(),
             'fields' => collect($this->fields())->each->resolve(new class {
             })->all(),
