@@ -3752,6 +3752,7 @@ __webpack_require__.r(__webpack_exports__);
           type: 'error'
         });
       } else if (response.download) {
+        App.$emit('actionExecuted');
         var link = document.createElement('a');
         link.href = response.download;
         link.download = response.name;
@@ -3759,8 +3760,10 @@ __webpack_require__.r(__webpack_exports__);
         link.click();
         document.body.removeChild(link);
       } else if (response.redirect) {
+        App.$emit('actionExecuted');
         window.location = response.redirect;
       } else if (response.openInNewTab) {
+        App.$emit('actionExecuted');
         window.open(response.openInNewTab, '_blank');
       } else {
         App.$emit('actionExecuted');

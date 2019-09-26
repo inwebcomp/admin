@@ -193,6 +193,7 @@
                     App.$emit('actionExecuted')
                     this.$toasted.show(response.danger, {type: 'error'})
                 } else if (response.download) {
+                    App.$emit('actionExecuted')
                     let link = document.createElement('a')
                     link.href = response.download
                     link.download = response.name
@@ -200,8 +201,10 @@
                     link.click()
                     document.body.removeChild(link)
                 } else if (response.redirect) {
+                    App.$emit('actionExecuted')
                     window.location = response.redirect
                 } else if (response.openInNewTab) {
+                    App.$emit('actionExecuted')
                     window.open(response.openInNewTab, '_blank')
                 } else {
                     App.$emit('actionExecuted')
