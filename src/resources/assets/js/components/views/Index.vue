@@ -1,13 +1,16 @@
 <template>
     <div>
-        <table-params :navigate="! isNested" @destroy="destroy"
+        <table-params :navigate="! isNested"
+                      :create="authorizedToCreate"
+                      :remove="authorizedToDelete"
+                      @destroy="destroy"
                       @clear-selected-filters="clearSelectedFilters"
                       @filter-changed="filterChanged"
                       @clear-selected-orderings="clearSelectedOrderings"
                       @ordering-changed="orderingChanged"
                       :search="search" @search="performSearch"/>
 
-        <breadcrumbs v-if="isNested" :items="breadcrumbs.path" :options="breadcrumbs.options" :value="selected" />
+        <breadcrumbs v-if="isNested" :items="breadcrumbs.path" :options="breadcrumbs.options" :value="selected"/>
 
         <data-table :resources="resources"
                     :loading="loading"
@@ -49,6 +52,8 @@
                 positions: [],
                 pagination: {},
                 breadcrumbs: [],
+                authorizedToCreate: false,
+                authorizedToDelete: false,
                 loading: false,
             }
         },
@@ -171,10 +176,18 @@
 
                 App.api.resource({
                     resourceName: this.resourceName, params: this.resourceRequestQueryString(parent)
-                }).then(({resources, pagination, breadcrumbs}) => {
+                }).then(({
+                     resources,
+                     pagination,
+                     breadcrumbs,
+                     authorizedToCreate,
+                     authorizedToDelete,
+                 }) => {
                     this.resources = resources
                     this.pagination = pagination
                     this.breadcrumbs = breadcrumbs
+                    this.authorizedToCreate = authorizedToCreate
+                    this.authorizedToDelete = authorizedToDelete
                     this.loading = false
 
                     this.positions = []
@@ -218,7 +231,7 @@
             },
 
             destroy() {
-                if (! confirm(this.__('Are you sure to delete these records?')))
+                if (!confirm(this.__('Are you sure to delete these records?')))
                     return
 
                 App.api.request({

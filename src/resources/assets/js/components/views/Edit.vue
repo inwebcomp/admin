@@ -29,9 +29,16 @@
                 </div>
             </div>
 
-            <floating-panel class="floating-panel--action-buttons">
-                <app-button submit type="save" :loading="loading">{{ __('Сохранить') }}</app-button>
-                <app-button type="destroy" @click.native="destroy"></app-button>
+            <floating-panel v-if="resource && (resource.authorizedToUpdate || resource.authorizedToCreate || resource.authorizedToDelete)" class="floating-panel--action-buttons">
+                <app-button v-if="resource.authorizedToUpdate" class="mr-4" submit type="save" :loading="loading">{{ __('Сохранить') }}</app-button>
+
+                <router-link v-if="resource.authorizedToCreate"
+                             :to="{ name: 'action', params: { resourceName: this.resourceName, action: 'create' }}"
+                             class="mr-auto">
+                    <app-button type="link">{{ __('Добавить') }}</app-button>
+                </router-link>
+
+                <app-button v-if="resource.authorizedToDelete" type="destroy" @click.native="destroy"></app-button>
             </floating-panel>
         </form>
     </div>
@@ -39,11 +46,10 @@
 
 <script>
     import {Errors} from 'form-backend-validation'
-    import CustomActions from "../elements/CustomActions"
 
     export default {
         name: "edit",
-        components: {CustomActions},
+
         props: [
             'resourceName',
             'resourceId',

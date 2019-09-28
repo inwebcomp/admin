@@ -14,11 +14,13 @@ class ResourceDestroyController extends DeletionRequest
      *
      * @param ResourceDeleteRequest $request
      * @return void
+     * @throws \Throwable
      */
     public function handle(ResourceDeleteRequest $request)
     {
         $resource = $request->newResource();
-        abort_if(! $resource->authorizedToDelete($request), 403);
+
+        $resource->authorizeToDelete($request);
 
         $request->chunks(150, function ($models) use ($request) {
             $models->each(function ($model) use ($request) {

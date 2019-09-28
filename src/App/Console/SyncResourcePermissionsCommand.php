@@ -5,6 +5,7 @@ namespace InWeb\Admin\App\Console;
 use Illuminate\Console\Command;
 use InWeb\Admin\App\Admin;
 use InWeb\Admin\App\Events\ServingAdmin;
+use InWeb\Admin\App\HasPermissions;
 
 class SyncResourcePermissionsCommand extends Command
 {
@@ -31,10 +32,18 @@ class SyncResourcePermissionsCommand extends Command
     {
         $resource = $this->argument('resource');
 
-        if ($resource)
+        if ($resource) {
             $resources = [$resource];
-        else
-            $resources = Admin::$resources;
+        } else {
+            $resources = array_merge(
+                Admin::$resources,
+                Admin::$tools
+            );
+        }
+
+        $resources = array_filter($resources, function ($section) {
+            return in_array(HasPermissions::class, class_uses_recursive($section));
+        });
 
         foreach ($resources as $resource) {
             $resource::syncPermissionActions();

@@ -5,14 +5,14 @@
 
         <h1 class="active-panel__caption mr-4">{{ title }}</h1>
 
-        <router-link v-if="this.resourceName"
+        <router-link v-if="this.resourceName && this.create"
                      :to="{ name: 'action', params: { resourceName: this.resourceName, action: 'create' }}"
                      class="active-panel__button mr-auto">
             <i class="fas fa-plus mr-2 text-grey-light"></i>
             {{ __('Добавить') }}
         </router-link>
 
-        <table-actions @action="$emit($event)"/>
+        <table-actions :remove="remove" class="ml-auto" @action="$emit($event)"/>
 
         <!-- Search -->
         <table-search class="mr-4" @search="$emit('search', $event)" :query="search" />
@@ -58,6 +58,14 @@
 
         props: {
             search: {},
+            create: {
+                type: Boolean,
+                default: false,
+            },
+            remove: {
+                type: Boolean,
+                default: false,
+            }
         },
 
         computed: {
@@ -66,6 +74,10 @@
                     return this.$store.state.resource.info.label;
                 else
                     return ''
+            },
+
+            resource() {
+                return this.$store.state.resource.info
             },
 
             resourceName() {

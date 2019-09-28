@@ -20,10 +20,15 @@ class ResourceIndexController extends Controller
             $request, $resource = $request->resource()
         );
 
+        $resourceObject = new $resource;
+        $resourceObject->authorizeToViewAny($request);
+
         return response()->json(array_merge([
-            'info' => $resource::info(),
-            'resources' => $paginator->getCollection()->mapInto($resource)->map->serializeForIndex($request),
-            'pagination' => $this->getPagination($paginator),
+            'info'               => $resource::info(),
+            'resources'          => $paginator->getCollection()->mapInto($resource)->map->serializeForIndex($request),
+            'pagination'         => $this->getPagination($paginator),
+            'authorizedToCreate' => $resource::authorizedToCreate($request),
+            'authorizedToDelete' => $resourceObject->authorizedToDelete($request),
         ], (new $resource instanceof Nested) ? [
             'breadcrumbs' => $this->getBreadcrumbs($request),
         ] : []));
@@ -33,7 +38,7 @@ class ResourceIndexController extends Controller
      * Get the paginator instance for the index request.
      *
      * @param ResourceIndexRequest $request
-     * @param string                     $resource
+     * @param string $resource
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     protected function paginator(ResourceIndexRequest $request, $resource)
@@ -88,8 +93,8 @@ class ResourceIndexController extends Controller
     {
         return [
             'currentPage' => $paginator->currentPage(),
-            'total' => $paginator->total(),
-            'lastPage' => $paginator->lastPage(),
+            'total'       => $paginator->total(),
+            'lastPage'    => $paginator->lastPage(),
         ];
     }
 

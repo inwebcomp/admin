@@ -1854,7 +1854,7 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     classes: function classes() {
       var classes = [];
-      if (this.type == 'save' || this.type == 'add') classes.push('button--success');else if (this.type == 'destroy') classes.push('button--danger button--icon');else if (this.type == 'accent') classes.push('button--accent');
+      if (this.type == 'save' || this.type == 'add') classes.push('button--success');else if (this.type == 'destroy') classes.push('button--danger button--icon');else if (this.type == 'accent') classes.push('button--accent');else if (this.type == 'link') classes.push('button--link');
       if (this.loading) classes.push('button--loading');
       if (this.small) classes.push('button--small');
       return classes;
@@ -6284,6 +6284,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "table-actions",
+  props: {
+    remove: {
+      type: Boolean,
+      "default": true
+    }
+  },
   computed: {
     selected: function selected() {
       return this.$store.state.resource.selected;
@@ -6438,11 +6444,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "table-params",
   props: {
-    search: {}
+    search: {},
+    create: {
+      type: Boolean,
+      "default": false
+    },
+    remove: {
+      type: Boolean,
+      "default": false
+    }
   },
   computed: {
     title: function title() {
       if (this.$store.state.resource.info) return this.$store.state.resource.info.label;else return '';
+    },
+    resource: function resource() {
+      return this.$store.state.resource.info;
     },
     resourceName: function resourceName() {
       return this.$store.state.resource.info.uriKey;
@@ -6776,7 +6793,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var form_backend_validation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! form-backend-validation */ "./node_modules/form-backend-validation/dist/index.js");
 /* harmony import */ var form_backend_validation__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(form_backend_validation__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _elements_CustomActions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../elements/CustomActions */ "./src/resources/assets/js/components/elements/CustomActions.vue");
 //
 //
 //
@@ -6816,13 +6832,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "edit",
-  components: {
-    CustomActions: _elements_CustomActions__WEBPACK_IMPORTED_MODULE_1__["default"]
-  },
   props: ['resourceName', 'resourceId'],
   data: function data() {
     return {
@@ -7055,6 +7074,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 
 
@@ -7070,6 +7092,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       positions: [],
       pagination: {},
       breadcrumbs: [],
+      authorizedToCreate: false,
+      authorizedToDelete: false,
       loading: false
     };
   },
@@ -7200,10 +7224,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }).then(function (_ref) {
         var resources = _ref.resources,
             pagination = _ref.pagination,
-            breadcrumbs = _ref.breadcrumbs;
+            breadcrumbs = _ref.breadcrumbs,
+            authorizedToCreate = _ref.authorizedToCreate,
+            authorizedToDelete = _ref.authorizedToDelete;
         _this2.resources = resources;
         _this2.pagination = pagination;
         _this2.breadcrumbs = breadcrumbs;
+        _this2.authorizedToCreate = authorizedToCreate;
+        _this2.authorizedToDelete = authorizedToDelete;
         _this2.loading = false;
         _this2.positions = [];
 
@@ -37898,7 +37926,9 @@ var render = function() {
                     _c("br"),
                     _vm._v(" "),
                     _c("span", [
-                      _vm._v(_vm._s(item.original[field]) + " "),
+                      _vm._v(
+                        _vm._s(item.original ? item.original[field] : "") + " "
+                      ),
                       _c("i", { staticClass: "fal fa-long-arrow-right" }),
                       _vm._v(" " + _vm._s(value))
                     ])
@@ -38180,7 +38210,7 @@ var render = function() {
     [
       _c("custom-actions"),
       _vm._v(" "),
-      _vm.selected.length
+      _vm.selected.length && _vm.remove
         ? _c(
             "div",
             {
@@ -38304,7 +38334,7 @@ var render = function() {
         _vm._v(_vm._s(_vm.title))
       ]),
       _vm._v(" "),
-      this.resourceName
+      this.resourceName && this.create
         ? _c(
             "router-link",
             {
@@ -38324,6 +38354,8 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("table-actions", {
+        staticClass: "ml-auto",
+        attrs: { remove: _vm.remove },
         on: {
           action: function($event) {
             return _vm.$emit($event)
@@ -38750,27 +38782,67 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _c(
-          "floating-panel",
-          { staticClass: "floating-panel--action-buttons" },
-          [
-            _c(
-              "app-button",
-              { attrs: { submit: "", type: "save", loading: _vm.loading } },
-              [_vm._v(_vm._s(_vm.__("Сохранить")))]
-            ),
-            _vm._v(" "),
-            _c("app-button", {
-              attrs: { type: "destroy" },
-              nativeOn: {
-                click: function($event) {
-                  return _vm.destroy($event)
-                }
-              }
-            })
-          ],
-          1
-        )
+        _vm.resource &&
+        (_vm.resource.authorizedToUpdate ||
+          _vm.resource.authorizedToCreate ||
+          _vm.resource.authorizedToDelete)
+          ? _c(
+              "floating-panel",
+              { staticClass: "floating-panel--action-buttons" },
+              [
+                _vm.resource.authorizedToUpdate
+                  ? _c(
+                      "app-button",
+                      {
+                        staticClass: "mr-4",
+                        attrs: {
+                          submit: "",
+                          type: "save",
+                          loading: _vm.loading
+                        }
+                      },
+                      [_vm._v(_vm._s(_vm.__("Сохранить")))]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.resource.authorizedToCreate
+                  ? _c(
+                      "router-link",
+                      {
+                        staticClass: "mr-auto",
+                        attrs: {
+                          to: {
+                            name: "action",
+                            params: {
+                              resourceName: this.resourceName,
+                              action: "create"
+                            }
+                          }
+                        }
+                      },
+                      [
+                        _c("app-button", { attrs: { type: "link" } }, [
+                          _vm._v(_vm._s(_vm.__("Добавить")))
+                        ])
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.resource.authorizedToDelete
+                  ? _c("app-button", {
+                      attrs: { type: "destroy" },
+                      nativeOn: {
+                        click: function($event) {
+                          return _vm.destroy($event)
+                        }
+                      }
+                    })
+                  : _vm._e()
+              ],
+              1
+            )
+          : _vm._e()
       ],
       1
     )
@@ -38802,7 +38874,12 @@ var render = function() {
     "div",
     [
       _c("table-params", {
-        attrs: { navigate: !_vm.isNested, search: _vm.search },
+        attrs: {
+          navigate: !_vm.isNested,
+          create: _vm.authorizedToCreate,
+          remove: _vm.authorizedToDelete,
+          search: _vm.search
+        },
         on: {
           destroy: _vm.destroy,
           "clear-selected-filters": _vm.clearSelectedFilters,

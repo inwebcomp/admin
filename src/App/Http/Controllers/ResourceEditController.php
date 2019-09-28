@@ -13,6 +13,8 @@ class ResourceEditController extends Controller
             $request->newResource()->detailQuery($request, $query);
         })->firstOrFail());
 
+        $resource->authorizeToView($request);
+
         return response()->json([
             'info' => array_merge($resource::info(), [
                 'title' => $resource->title()

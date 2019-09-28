@@ -9,12 +9,13 @@ use InWeb\Admin\App\Http\Requests\ResourceUpdateRequest;
 
 class ResourceUpdateController extends Controller
 {
-
     public function handle(ResourceUpdateRequest $request)
     {
         $resourceObject = $request->findResourceOrFail();
 
         $resource = $request->resource();
+
+        (new $resource)->authorizeToUpdate($request);
 
         $resource::validateForUpdate($request);
 

@@ -17,22 +17,43 @@ trait Authorizable
      */
     public static function authorizable()
     {
+        return static::authorizableByGate() or static::authorizableByPermissions();
+    }
+
+    /**
+     * Determine if the given resource is authorizable by gate.
+     *
+     * @return bool
+     */
+    public static function authorizableByGate()
+    {
         return ! is_null(Gate::getPolicyFor(static::newModel()));
+    }
+
+    /**
+     * Determine if the given resource is authorizable by permissions.
+     *
+     * @return bool
+     */
+    public static function authorizableByPermissions()
+    {
+        return in_array(HasPermissions::class, class_uses_recursive(new static));
     }
 
     /**
      * Determine if the resource should be available for the given request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return bool
+     * @param \Illuminate\Http\Request $request
+     * @return void
+     * @throws \Throwable
      */
     public function authorizeToViewAny(Request $request)
     {
-        if (! static::authorizable()) {
-            return;
-        }
-
-        if (method_exists(Gate::getPolicyFor(static::newModel()), 'viewAny')) {
+        if (static::authorizableByGate()) {
+            if (method_exists(Gate::getPolicyFor(static::newModel()), 'viewAny')) {
+                $this->authorizeTo($request, 'viewAny');
+            }
+        } else if (static::authorizableByPermissions()) {
             $this->authorizeTo($request, 'viewAny');
         }
     }
@@ -51,16 +72,16 @@ trait Authorizable
 
         return method_exists(Gate::getPolicyFor(static::newModel()), 'viewAny')
                         ? Gate::check('viewAny', get_class(static::newModel()))
-                        : true;
+                        : (new static)->authorizedWithoutGateTo($request, 'viewAny');
     }
 
     /**
      * Determine if the current user can view the given resource or throw an exception.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
+     * @param \Illuminate\Http\Request $request
+     * @return bool
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Throwable
      */
     public function authorizeToView(Request $request)
     {
@@ -81,10 +102,10 @@ trait Authorizable
     /**
      * Determine if the current user can create new resources or throw an exception.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return void
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Throwable
      */
     public static function authorizeToCreate(Request $request)
     {
@@ -94,29 +115,25 @@ trait Authorizable
     /**
      * Determine if the current user can create new resources.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param AdminRequest $request
      * @return bool
      */
-    public static function authorizedToCreate(Request $request)
+    public static function authorizedToCreate(AdminRequest $request)
     {
-        if (static::authorizable()) {
-            return Gate::check('create', get_class(static::newModel()));
-        }
-
-        return true;
+        return $request->newResource()->authorizedTo($request, 'create');
     }
 
     /**
      * Determine if the current user can update the given resource or throw an exception.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return void
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Throwable
      */
     public function authorizeToUpdate(Request $request)
     {
-        return $this->authorizeTo($request, 'update');
+        $this->authorizeTo($request, 'update');
     }
 
     /**
@@ -133,14 +150,14 @@ trait Authorizable
     /**
      * Determine if the current user can delete the given resource or throw an exception.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return void
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Throwable
      */
     public function authorizeToDelete(Request $request)
     {
-        return $this->authorizeTo($request, 'delete');
+        $this->authorizeTo($request, 'delete');
     }
 
     /**
@@ -260,11 +277,11 @@ trait Authorizable
     /**
      * Determine if the current user has a given ability.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $ability
+     * @param \Illuminate\Http\Request $request
+     * @param string $ability
      * @return void
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Throwable
      */
     public function authorizeTo(Request $request, $ability)
     {
@@ -280,6 +297,37 @@ trait Authorizable
      */
     public function authorizedTo(Request $request, $ability)
     {
-        return static::authorizable() ? Gate::check($ability, $this->resource) : true;
+        if (static::authorizableByGate())
+            return Gate::check($ability, $this->resource);
+        else if (static::authorizableByPermissions())
+            return $this->authorizedWithoutGateTo($request, $ability);
+
+        return true;
+    }
+
+    /**
+     * Determine if the current user has a given ability.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param string $ability
+     * @return void
+     *
+     * @throws \Throwable
+     */
+    public function authorizeWithoutGateTo(Request $request, $ability)
+    {
+        throw_unless($this->authorizedWithoutGateTo($request, $ability), AuthorizationException::class);
+    }
+
+    /**
+     * Determine if the current user can view the given resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $ability
+     * @return bool
+     */
+    public function authorizedWithoutGateTo(Request $request, $ability)
+    {
+        return $request->user()->can($this::permissionActionName($ability));
     }
 }

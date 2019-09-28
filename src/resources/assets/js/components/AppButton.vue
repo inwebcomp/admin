@@ -52,6 +52,8 @@
                     classes.push('button--danger button--icon')
                 else if (this.type == 'accent')
                     classes.push('button--accent')
+                else if (this.type == 'link')
+                    classes.push('button--link')
 
                 if (this.loading)
                     classes.push('button--loading')

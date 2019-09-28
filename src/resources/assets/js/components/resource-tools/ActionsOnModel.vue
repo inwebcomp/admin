@@ -10,7 +10,7 @@
             <td class="py-4 px-6 border-b border-grey-light">
                 <div v-for="(value, field) in item.changes" class="border-b border-grey-light">
                     <span class="text-sm font-bold">{{ field }}</span><br>
-                    <span>{{ item.original[field] }} <i class="fal fa-long-arrow-right"></i> {{ value }}</span>
+                    <span>{{ item.original ? item.original[field] : '' }} <i class="fal fa-long-arrow-right"></i> {{ value }}</span>
                 </div>
             </td>
         </template>

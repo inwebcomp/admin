@@ -2,6 +2,7 @@
 
 namespace InWeb\Admin\App;
 
+use App\Admin\Resources\Page;
 use BadMethodCallException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
@@ -205,8 +206,9 @@ class Admin
     /**
      * Register all of the resource classes in the given directory.
      *
-     * @param  string $directory
+     * @param string $directory
      * @return void
+     * @throws \ReflectionException
      */
     public static function resourcesIn($directory)
     {
@@ -333,6 +335,19 @@ class Admin
     public static function registeredTools()
     {
         return static::$tools;
+    }
+
+    /**
+     * Get the tool class name for a given key.
+     *
+     * @param  string $key
+     * @return Resource
+     */
+    public static function toolForKey($key)
+    {
+        return collect(static::$tools)->first(function ($value) use ($key) {
+            return $value::uriKey() === $key;
+        });
     }
 
     /**

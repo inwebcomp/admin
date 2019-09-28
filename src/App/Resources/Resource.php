@@ -3,6 +3,7 @@
 namespace InWeb\Admin\App\Resources;
 
 use InWeb\Admin\App\Actions\ActionTarget;
+use InWeb\Admin\App\HasPermissions;
 use InWeb\Admin\App\ResolvesFilters;
 use InWeb\Admin\App\ResolvesOrderings;
 use InWeb\Admin\App\WithNotification;
@@ -36,7 +37,8 @@ abstract class Resource
         PerformsQueries,
         DelegatesToResource,
         WithNotification,
-        ActionTarget;
+        ActionTarget,
+        HasPermissions;
 
     /**
      * The underlying model resource instance.
@@ -322,7 +324,11 @@ abstract class Resource
      */
     public function serializeForIndex(AdminRequest $request, $fields = null)
     {
-        return $this->serializeWithId($fields ?: $this->resolveIndexFields($request));
+        return array_merge($this->serializeWithId($fields ?: $this->resolveIndexFields($request)), [
+            'authorizedToView'   => $this->authorizedToView($request),
+            'authorizedToUpdate' => $this->authorizedToUpdate($request),
+            'authorizedToDelete' => $this->authorizedToDelete($request),
+        ]);
     }
 
     /**
@@ -333,7 +339,12 @@ abstract class Resource
      */
     public function serializeForEdit(AdminRequest $request)
     {
-        return $this->serializeWithId($this->resolveEditFields($request));
+        return array_merge($this->serializeWithId($this->resolveEditFields($request)), [
+            'authorizedToView'   => $this->authorizedToView($request),
+            'authorizedToUpdate' => $this->authorizedToUpdate($request),
+            'authorizedToCreate' => static::authorizedToCreate($request),
+            'authorizedToDelete' => $this->authorizedToDelete($request),
+        ]);
     }
 
     /**
@@ -360,29 +371,6 @@ abstract class Resource
     public function editPath()
     {
         return '/resource/' . static::uriKey() . '/' . $this->model()->getKey() . '/edit';
-    }
-
-    public static function permissionActions()
-    {
-        return [
-            'viewAny' => __('Доступ к ресурсу'),
-            'view' => __('Просмотр'),
-            'create' => __('Создание'),
-            'update' => __('Изменение'),
-            'delete' => __('Удаление'),
-        ];
-    }
-
-    public static function syncPermissionActions()
-    {
-        foreach (static::permissionActions() as $action => $title) {
-            Permission::findOrCreate(static::permissionActionName($action));
-        }
-    }
-
-    public static function permissionActionName($action)
-    {
-        return static::uriKey() . ':' . $action;
     }
 
     public static function info()

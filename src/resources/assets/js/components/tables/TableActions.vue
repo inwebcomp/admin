@@ -2,7 +2,7 @@
     <div class="flex">
         <custom-actions />
 
-        <div v-if="selected.length" class="active-panel__button" @click="$emit('action', 'destroy')">
+        <div v-if="selected.length && remove" class="active-panel__button" @click="$emit('action', 'destroy')">
             <i class="fas fa-trash-alt mr-2 text-grey-light"></i>
             {{ __(' Удалить') }}
         </div>
@@ -12,6 +12,13 @@
 <script>
     export default {
         name: "table-actions",
+
+        props: {
+            remove: {
+                type: Boolean,
+                default: true,
+            },
+        },
 
         computed: {
             selected() {
