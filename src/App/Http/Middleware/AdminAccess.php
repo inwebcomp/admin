@@ -32,8 +32,6 @@ class AdminAccess
                 return abort('403');
             } else if (! Auth::user()) {
                 return redirect(Admin::path() . '/login');
-            } else if (! Auth::user()->isAdmin()) {
-                return abort('403');
             }
         } else if (strpos(\Route::current()->getName(), 'admin::login.login-form') !== false) {
             if (Auth::user()) {

@@ -22,12 +22,6 @@ class AuthController extends Controller
             return abort(Response::HTTP_UNPROCESSABLE_ENTITY, __('Неверный логин или пароль'));
         }
 
-        if (! Auth::user()->isAdmin()) {
-            Auth::logout();
-
-            return abort(Response::HTTP_FORBIDDEN, __('У вас недостаточно прав'));
-        }
-
         return [
             'user' => Auth::user(),
             'redirect' => '/'

@@ -5,13 +5,16 @@ namespace InWeb\Admin\App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use InWeb\Admin\App\Actions\Actionable;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * @property bool admin
  */
 class AdminUser extends Authenticatable
 {
-    use Actionable, Notifiable;
+    use Actionable, Notifiable, HasRoles;
+
+    protected $guard_name = 'api';
 
     /**
      * The attributes that are mass assignable.
@@ -29,11 +32,6 @@ class AdminUser extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-    public function isAdmin()
-    {
-        return (bool) $this->admin;
-    }
 
     /**
      * Determine if entity is sortable

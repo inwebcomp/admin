@@ -16,10 +16,10 @@ class AdminApplicationServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->routes();
+        $this->resources();
 
         Admin::serving(function (ServingAdmin $event) {
             $this->groups();
-            $this->resources();
             Admin::tools($this->tools());
         });
     }

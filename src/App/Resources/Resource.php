@@ -21,6 +21,7 @@ use InWeb\Admin\App\PerformsValidation;
 use InWeb\Admin\App\ResolvesActions;
 use InWeb\Admin\App\ResolvesFields;
 use Laravel\Scout\Searchable;
+use Spatie\Permission\Models\Permission;
 
 abstract class Resource
 {
@@ -36,7 +37,7 @@ abstract class Resource
         DelegatesToResource,
         WithNotification,
         ActionTarget;
-    
+
     /**
      * The underlying model resource instance.
      *
@@ -97,7 +98,7 @@ abstract class Resource
     /**
      * Create a new resource instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Model $resource
+     * @param \Illuminate\Database\Eloquent\Model $resource
      * @return void
      */
     public function __construct($resource = null)
@@ -118,7 +119,7 @@ abstract class Resource
     /**
      * Determine if this resource is available for navigation.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return bool
      */
     public static function availableForNavigation(Request $request)
@@ -288,7 +289,7 @@ abstract class Resource
     /**
      * Prepare the resource for JSON serialization using the given fields.
      *
-     * @param  \Illuminate\Support\Collection $fields
+     * @param \Illuminate\Support\Collection $fields
      * @return array
      */
     public function serialize(Collection $fields)
@@ -301,7 +302,7 @@ abstract class Resource
     /**
      * Prepare the resource for JSON serialization using the given fields.
      *
-     * @param  \Illuminate\Support\Collection $fields
+     * @param \Illuminate\Support\Collection $fields
      * @return array
      */
     public function serializeWithId(Collection $fields)
@@ -315,8 +316,8 @@ abstract class Resource
     /**
      * Prepare the resource for JSON serialization.
      *
-     * @param AdminRequest                    $request
-     * @param  \Illuminate\Support\Collection $fields
+     * @param AdminRequest $request
+     * @param \Illuminate\Support\Collection $fields
      * @return array
      */
     public function serializeForIndex(AdminRequest $request, $fields = null)
@@ -359,6 +360,29 @@ abstract class Resource
     public function editPath()
     {
         return '/resource/' . static::uriKey() . '/' . $this->model()->getKey() . '/edit';
+    }
+
+    public static function permissionActions()
+    {
+        return [
+            'viewAny' => __('Доступ к ресурсу'),
+            'view' => __('Просмотр'),
+            'create' => __('Создание'),
+            'update' => __('Изменение'),
+            'delete' => __('Удаление'),
+        ];
+    }
+
+    public static function syncPermissionActions()
+    {
+        foreach (static::permissionActions() as $action => $title) {
+            Permission::findOrCreate(static::permissionActionName($action));
+        }
+    }
+
+    public static function permissionActionName($action)
+    {
+        return static::uriKey() . ':' . $action;
     }
 
     public static function info()
