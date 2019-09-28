@@ -6,11 +6,11 @@ use Illuminate\Database\Seeder;
 use InWeb\Admin\App\Models\AdminUser;
 use Spatie\Permission\Models\Role;
 
-class PermissionsSeeder extends Seeder
+class RoleSeeder extends Seeder
 {
     public function run()
     {
-        $superAdmin = Role::create(['name' => 'super-admin']);
-        $admin = Role::create(['name' => 'admin']);
+        Role::create(['name' => 'super-admin']);
+        Role::create(['name' => 'admin']);
     }
 }

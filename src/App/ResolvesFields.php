@@ -70,9 +70,9 @@ trait ResolvesFields
     {
         return $fields->reject(function ($field) {
             return ($field instanceof ID && $field->attribute === $this->resource->getKeyName()) ||
-                $field instanceof ResourceToolElement ||
-                $field instanceof Section ||
-                $field->attribute === 'ComputedField';
+                   $field instanceof ResourceToolElement ||
+                   $field instanceof Section ||
+                   $field->attribute === 'ComputedField';
         });
     }
 
@@ -113,7 +113,7 @@ trait ResolvesFields
         if (! $filter)
             return new FieldCollection(array_values($fields));
 
-        return new FieldCollection(array_values($this->filter($fields)));
+        return new FieldCollection(array_values($this->filter(collect($fields)->filter->authorizedToSee($request)->toArray())));
     }
 
     /**
@@ -124,7 +124,12 @@ trait ResolvesFields
      */
     public function availablePanels(AdminRequest $request)
     {
-        $panels = $this->availableFields($request, false)->whereInstanceOf(Panel::class)->values();
+        $panels = $this->availableFields($request, false)
+                       ->whereInstanceOf(Panel::class)
+                       ->filter(function (Panel $panel) use ($request) {
+                           return $panel->authorizedToSee($request);
+                       })
+                       ->values();
 
         $default = Panel::defaultNameFor($request->newResource());
 

@@ -9,11 +9,14 @@ class AdminUserSeeder extends Seeder
 {
     public function run()
     {
-        AdminUser::create([
+        /** @var AdminUser $user */
+        $user = AdminUser::create([
             'login' => config('admin.auth.login'),
             'email' => config('admin.auth.email'),
             'password' => \Hash::make(config('admin.auth.password')),
             'admin' => true
         ]);
+
+        $user->assignRole('super-admin');
     }
 }
