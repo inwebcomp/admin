@@ -1,0 +1,24 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Http\Request;
+use InWeb\Admin\App\Tool;
+
+class {{ class }} extends Tool
+{
+    public static function uriKey()
+    {
+        return '{{ component }}';
+    }
+
+    public static function label()
+    {
+        return __('{{ class }}');
+    }
+
+    public function authorizedToSee(Request $request)
+    {
+        return true;
+    }
+}

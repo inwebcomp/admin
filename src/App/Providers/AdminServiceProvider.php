@@ -6,8 +6,10 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use InWeb\Admin\App\Admin;
 use InWeb\Admin\App\AdminRoute;
+use InWeb\Admin\App\Console\ToolCommand;
 use InWeb\Admin\App\Http\Middleware\AdminAccess;
 use InWeb\Admin\App\Tools\ResourceManager;
+use InWeb\Admin\App\Console\PublishCommand;
 
 class AdminServiceProvider extends ServiceProvider
 {
@@ -51,7 +53,7 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->registerCommands();
     }
 
     /**
@@ -92,17 +94,25 @@ class AdminServiceProvider extends ServiceProvider
         // Config
         $this->publishes([
             self::$packagePath . 'config/config.php' => config_path(self::$packageAlias . '.php'),
-        ], 'config');
+        ], 'admin-config');
 
         // Views
         $this->publishes([
             self::$packagePath . 'resources/views' => base_path('resources/views/vendor/admin'),
-        ], 'views');
+        ], 'admin-views');
 
         // Assets
         $this->publishes([
             self::$packagePath . 'public' => public_path('admin-assets'),
-        ], 'public');
+        ], 'admin-assets');
+    }
+
+    public function registerCommands()
+    {
+        $this->commands([
+            PublishCommand::class,
+            ToolCommand::class,
+        ]);
     }
 
     /**
