@@ -14,7 +14,7 @@ class AdminUser extends Authenticatable
 {
     use Actionable, Notifiable, HasRoles;
 
-    protected $guard_name = 'api';
+    protected $guard_name = 'admin';
 
     /**
      * The attributes that are mass assignable.

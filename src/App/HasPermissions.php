@@ -20,7 +20,7 @@ trait HasPermissions
     public static function syncPermissionActions()
     {
         foreach (static::permissionActions() as $action => $title) {
-            Permission::findOrCreate(static::permissionActionName($action));
+            Permission::findOrCreate(static::permissionActionName($action), 'admin');
         }
     }
 
