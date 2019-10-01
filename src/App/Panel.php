@@ -8,6 +8,8 @@ use Illuminate\Http\Resources\MergeValue;
 
 class Panel extends MergeValue implements JsonSerializable
 {
+    use AuthorizedToSee;
+
     /**
      * The name of the panel.
      *
