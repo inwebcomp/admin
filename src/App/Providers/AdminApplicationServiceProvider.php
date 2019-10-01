@@ -21,7 +21,9 @@ class AdminApplicationServiceProvider extends ServiceProvider
         Admin::tools($this->tools());
 
         Admin::serving(function (ServingAdmin $event) {
-            //
+            \Gate::before(function ($user, $ability) {
+                return $user->hasRole('Super Admin') ? true : null;
+            });
         });
     }
 
