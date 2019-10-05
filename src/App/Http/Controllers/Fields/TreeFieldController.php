@@ -14,19 +14,26 @@ class TreeFieldController extends Controller
     public function tree(ResourceDetailRequest $request)
     {
         $model = $request->input('model', $request->model());
+        $related = $request->input('related', false);
 
         $item = $model::withoutGlobalScopes()->find($request->input('id'));
 
         return [
-            'tree' => $this->getTree($model, $item),
+            'tree' => $this->getTree($model, $item, $related),
             'item' => $item
         ];
     }
 
-    private function getTree($model, $object = null)
+    private function getTree($model, $object = null, $related = false)
     {
+        $relatedModel = $related ? $model::find($related) : false;
+
         if (! $object) {
-            $query = $model::whereIsRoot()->withoutGlobalScopes();
+            if (! $relatedModel) {
+                $query = $model::whereIsRoot()->withoutGlobalScopes();
+            } else {
+                $query = $relatedModel->children()->withoutGlobalScopes();
+            }
 
             if (new $model instanceof Sortable)
                 $query->ordered();
@@ -50,6 +57,13 @@ class TreeFieldController extends Controller
             $query->ordered();
 
         $tree = $query->get();
+
+        if ($relatedModel) {
+            $relatedIds = $relatedModel->ancestors()->pluck('id')->push($relatedModel->id)->toArray();
+            $tree = $tree->filter(function($item) use ($relatedIds) {
+                return ! in_array($item->id, $relatedIds);
+            });
+        }
 
         $n = 1;
         foreach ($tree as $item) {

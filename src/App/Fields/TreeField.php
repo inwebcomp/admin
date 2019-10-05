@@ -33,4 +33,9 @@ class TreeField extends Field
     {
         return $this->withMeta(['model' => $model]);
     }
+
+    public function related($modelId)
+    {
+        return $this->withMeta(['related' => $modelId]);
+    }
 }

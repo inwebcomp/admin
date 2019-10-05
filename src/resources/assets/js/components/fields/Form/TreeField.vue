@@ -113,7 +113,8 @@
                     url: 'field/tree-field/tree/' + this.resourceName + (this.resourceId ? '/' + this.resourceId : ''),
                     params: {
                         id,
-                        model: this.field.model
+                        model: this.field.model,
+                        related: this.field.related
                     }
                 }).then(({tree, item}) => {
                     this.tree = tree
