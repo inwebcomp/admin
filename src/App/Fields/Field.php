@@ -111,7 +111,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * The classes for the field's in tables.
      *
-     * @var string
+     * @var array
      */
     public $classes = [];
     /**
@@ -190,12 +190,24 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
         return $this;
     }
 
+    public function classes($classes, $override = false)
+    {
+        if ($override) {
+            $this->classes = $classes;
+        } else {
+            $this->classes = array_merge($this->classes, $classes);
+        }
+
+        return $this;
+    }
+
     /**
      * Resolve the field's value for display.
      *
      * @param mixed $resource
      * @param string|null $attribute
      * @return void
+     * @throws \ReflectionException
      */
     public function resolveForDisplay($resource, $attribute = null)
     {

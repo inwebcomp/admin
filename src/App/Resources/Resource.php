@@ -98,6 +98,13 @@ abstract class Resource
     public static $inline = true;
 
     /**
+     * Classes to style all fields
+     *
+     * @var array
+     */
+    public $classes = [];
+
+    /**
      * Create a new resource instance.
      *
      * @param \Illuminate\Database\Eloquent\Model $resource
@@ -310,8 +317,9 @@ abstract class Resource
     public function serializeWithId(Collection $fields)
     {
         return [
-            'id'     => $fields->whereInstanceOf(ID::class)->first() ?: ID::forModel($this->resource),
-            'fields' => $fields->all(),
+            'id'      => $fields->whereInstanceOf(ID::class)->first() ?: ID::forModel($this->resource),
+            'classes' => $this->classes,
+            'fields'  => $fields->all(),
         ];
     }
 

@@ -16,7 +16,7 @@
                        @start="drag = true"
                        @end="dragEnd">
 
-                <tr class="data-table__line" v-for="(resource, $n) of resources" :key="$n">
+                <tr class="data-table__line" :class="resource.classes" v-for="(resource, $n) of resources" :key="$n">
                     <table-sort-handle v-if="sortable"/>
 
                     <table-checkbox @change="select(resource.id.value)" :value="selected.includes(resource.id.value)"/>

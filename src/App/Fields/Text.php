@@ -10,6 +10,11 @@ class Text extends Field
 
     public $component = 'text-field';
 
+    public function linkClasses($classes)
+    {
+        return $this->withMeta(['linkClasses' => $classes]);
+    }
+
     public function link($url)
     {
         return $this->withMeta(['link' => $url]);
