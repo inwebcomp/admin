@@ -102,4 +102,14 @@ class ResourceTool extends Panel
     {
         return $this->withMeta([$method => ($parameters[0] ?? true)]);
     }
+
+    /**
+     * Prepare the panel for JSON serialization.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return array_merge(parent::jsonSerialize(), $this->element->meta());
+    }
 }
