@@ -26,11 +26,6 @@ trait QueriesResources
             $this->filters()->all(),
             $this->orderings()
         );
-
-//        return $resource::buildIndexQuery(
-//            $this, $this->newQuery(), $this->search,
-//            $this->filters()->all(), $this->orderings(), $this->trashed()
-//        );
     }
 
     /**

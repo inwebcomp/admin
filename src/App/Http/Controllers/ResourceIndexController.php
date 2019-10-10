@@ -39,7 +39,7 @@ class ResourceIndexController extends Controller
      *
      * @param ResourceIndexRequest $request
      * @param string $resource
-     * @return \Illuminate\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     protected function paginator(ResourceIndexRequest $request, $resource)
     {

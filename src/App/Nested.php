@@ -25,7 +25,7 @@ trait Nested
 
 //            $options->hasChildren();
 
-            $options = $options->withoutGlobalScopes()->ordered()->get()->map(function($item) {
+            $options = $options->withoutGlobalScopes()->withTranslation()->ordered()->get()->map(function($item) {
                 return [
                     'title' => $item->title,
                     'value' => $item->getKey(),

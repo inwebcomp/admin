@@ -51,6 +51,9 @@ trait PerformsQueries
      */
     protected static function applySearch($query, $search)
     {
+        if  ($search == '')
+            return $query;
+
         return $query->where(function ($query) use ($search) {
             if (is_numeric($search) && in_array($query->getModel()->getKeyType(), ['int', 'integer'])) {
                 $query->orWhere($query->getModel()->getQualifiedKeyName(), $search);
