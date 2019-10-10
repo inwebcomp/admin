@@ -1,6 +1,7 @@
 {
     "name": "inweb/admin",
     "description": "Admin Panel for Laravel Framework",
+    "version": "1.0.0",
     "keywords": [
         "framework",
         "laravel",
