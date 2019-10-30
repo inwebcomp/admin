@@ -20,12 +20,13 @@ class AdminMenuController extends Controller
             $group = Admin::groupInfo($groupKey);
 
             foreach ($resources as $resource) {
-                 $group['resources'][] = [
+                $group['resources'][] = [
                     'route'        => $resource::route(),
                     'uriKey'       => $resource::uriKey(),
                     'label'        => $resource::label(),
                     'position'     => $resource::position(),
                     'notification' => $resource::notification(),
+                    'color'        => $resource::color(),
                 ];
             }
 

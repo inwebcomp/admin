@@ -43,6 +43,16 @@ abstract class Tool extends Element
     }
 
     /**
+     * Get color of menu item
+     *
+     * @return string|null
+     */
+    public static function color()
+    {
+        return null;
+    }
+
+    /**
      * Get the position in menu
      *
      * @return int

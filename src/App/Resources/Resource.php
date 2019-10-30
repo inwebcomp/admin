@@ -126,6 +126,16 @@ abstract class Resource
     }
 
     /**
+     * Get color of menu item
+     *
+     * @return string|null
+     */
+    public static function color()
+    {
+        return null;
+    }
+
+    /**
      * Determine if this resource is available for navigation.
      *
      * @param \Illuminate\Http\Request $request

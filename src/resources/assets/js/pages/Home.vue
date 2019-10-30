@@ -1,6 +1,6 @@
 <template>
     <aside class="m-4">
-        <changelog/>
+        <home-menu/>
     </aside>
 </template>
 

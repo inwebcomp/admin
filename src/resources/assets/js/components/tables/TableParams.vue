@@ -65,6 +65,10 @@
             remove: {
                 type: Boolean,
                 default: false,
+            },
+            navigate: {
+                type: Boolean,
+                default: true
             }
         },
 
