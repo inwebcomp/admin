@@ -46,7 +46,7 @@
 
             options() {
                 if (this.search && this.searchWord) {
-                    return this.field.options.filter(option => option.title.indexOf(this.searchWord) === 0)
+                    return this.field.options.filter(option => option.title.lower().indexOf(this.searchWord.lower()) === 0)
                 }
 
                 return this.field.options
