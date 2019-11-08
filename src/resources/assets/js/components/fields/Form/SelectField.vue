@@ -2,10 +2,11 @@
     <default-field :field="field" :errors="errors" :inline="inline" v-bind="other">
         <template slot="field">
             <app-select :id="field.attribute"
-                        :options="field.options"
+                        :options="options"
                         :value="value"
                         @input="$emit('input', $event)"
-                        :search="false"
+                        @search="searchWord = $event"
+                        :search="search"
                         v-bind="extraAttributes"
                         :class="errorClasses()"/>
         </template>
@@ -18,6 +19,12 @@
 
     export default {
         mixins: [FormField, HandlesValidationErrors],
+
+        data() {
+            return {
+                searchWord: ''
+            }
+        },
 
         computed: {
             defaultAttributes() {
@@ -32,6 +39,18 @@
                     ...attrs,
                 }
             },
+
+            search() {
+                return! ! this.field.search
+            },
+
+            options() {
+                if (this.search && this.searchWord) {
+                    return this.field.options.filter(option => option.title.indexOf(this.searchWord) === 0)
+                }
+
+                return this.field.options
+            }
         },
     }
 </script>

@@ -11,6 +11,18 @@ class Select extends Field
 
     public $component = 'select-field';
 
+    public function __construct($name, $attribute = null, $resolveCallback = null)
+    {
+        parent::__construct($name, $attribute, $resolveCallback);
+
+        $this->withMeta(['search' => false]);
+    }
+
+    public function withSearch()
+    {
+        return $this->withMeta(['search' => true]);
+    }
+
     public function options($options)
     {
         if ($options instanceof Collection)

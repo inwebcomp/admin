@@ -4747,10 +4747,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixins_FormField__WEBPACK_IMPORTED_MODULE_1__["default"], _mixins_HandlesValidationErrors__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  data: function data() {
+    return {
+      searchWord: ''
+    };
+  },
   computed: {
     defaultAttributes: function defaultAttributes() {
       return {};
@@ -4758,6 +4764,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     extraAttributes: function extraAttributes() {
       var attrs = this.field.extraAttributes;
       return _objectSpread({}, this.defaultAttributes, attrs);
+    },
+    search: function search() {
+      return !!this.field.search;
+    },
+    options: function options() {
+      var _this = this;
+
+      if (this.search && this.searchWord) {
+        return this.field.options.filter(function (option) {
+          return option.title.indexOf(_this.searchWord) === 0;
+        });
+      }
+
+      return this.field.options;
     }
   }
 });
@@ -36321,13 +36341,16 @@ var render = function() {
                 class: _vm.errorClasses(),
                 attrs: {
                   id: _vm.field.attribute,
-                  options: _vm.field.options,
+                  options: _vm.options,
                   value: _vm.value,
-                  search: false
+                  search: _vm.search
                 },
                 on: {
                   input: function($event) {
                     return _vm.$emit("input", $event)
+                  },
+                  search: function($event) {
+                    _vm.searchWord = $event
                   }
                 }
               },
