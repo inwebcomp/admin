@@ -22,7 +22,8 @@ class TreeFieldController extends Controller
 
         $parent = Parameters::get($request->resource(), 'parent');
 
-        $item = ! $rememberParent ? $item : ($parent ? $model::find($parent) : $item);
+        if (! $item)
+            $item = ! $rememberParent ? $item : ($parent ? $model::find($parent) : null);
 
         return [
             'tree' => $this->getTree($model, $item, $related),
