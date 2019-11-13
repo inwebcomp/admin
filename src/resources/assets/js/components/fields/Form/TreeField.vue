@@ -114,7 +114,8 @@
                     params: {
                         id,
                         model: this.field.model,
-                        related: this.field.related
+                        related: this.field.related,
+                        rememberParent: this.field.rememberParent,
                     }
                 }).then(({tree, item}) => {
                     this.tree = tree

@@ -38,4 +38,9 @@ class TreeField extends Field
     {
         return $this->withMeta(['related' => $modelId]);
     }
+
+    public function rememberParent($value = true)
+    {
+        return $this->withMeta(['rememberParent' => $value]);
+    }
 }

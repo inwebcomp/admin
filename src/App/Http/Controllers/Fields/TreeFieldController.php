@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use InWeb\Admin\App\Http\Controllers\Controller;
 use InWeb\Admin\App\Http\Requests\ResourceDetailRequest;
+use InWeb\Admin\App\Parameters;
 use Spatie\EloquentSortable\Sortable;
 
 class TreeFieldController extends Controller
@@ -15,12 +16,17 @@ class TreeFieldController extends Controller
     {
         $model = $request->input('model', $request->model());
         $related = $request->input('related', false);
+        $rememberParent = $request->input('rememberParent', false);
 
         $item = $model::withoutGlobalScopes()->find($request->input('id'));
 
+        $parent = Parameters::get($request->resource(), 'parent');
+
+        $item = ! $rememberParent ? $item : ($parent ? $model::find($parent) : null);
+
         return [
             'tree' => $this->getTree($model, $item, $related),
-            'item' => $item
+            'item' => $item,
         ];
     }
 
@@ -40,11 +46,11 @@ class TreeFieldController extends Controller
 
             $tree = $query->get();
 
-            return $tree->map(function($item) {
+            return $tree->map(function ($item) {
                 return [
-                    'id' => $item->getKey(),
-                    'title' => $item->title,
-                    'level' => 1,
+                    'id'     => $item->getKey(),
+                    'title'  => $item->title,
+                    'level'  => 1,
                     'isLeaf' => $item->isLeaf(),
                     'active' => false,
                 ];
@@ -60,7 +66,7 @@ class TreeFieldController extends Controller
 
         if ($relatedModel) {
             $relatedIds = $relatedModel->ancestors()->pluck('id')->push($relatedModel->id)->toArray();
-            $tree = $tree->filter(function($item) use ($relatedIds) {
+            $tree = $tree->filter(function ($item) use ($relatedIds) {
                 return ! in_array($item->id, $relatedIds);
             });
         }
@@ -108,14 +114,14 @@ class TreeFieldController extends Controller
             }
         }
 
-        return $tree->map(function($item) use ($object) {
+        return $tree->map(function ($item) use ($object) {
             return [
-                'id' => $item->getKey(),
-                'title' => $item->title,
-                'level' => $item->level,
+                'id'       => $item->getKey(),
+                'title'    => $item->title,
+                'level'    => $item->level,
                 'ancestor' => $item->ancestor,
-                'isLeaf' => $item->isLeaf(),
-                'active' => $item->active,
+                'isLeaf'   => $item->isLeaf(),
+                'active'   => $item->active,
             ];
         });
     }
