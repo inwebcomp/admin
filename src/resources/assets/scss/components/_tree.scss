@@ -60,6 +60,18 @@ $tree-item-height: 2.4rem;
     padding-left: $padding * 4;
 }
 
+.tree__item--level-4 {
+    padding-left: $padding * 5;
+}
+
+.tree__item--level-5 {
+    padding-left: $padding * 6;
+}
+
+.tree__item--level-6 {
+    padding-left: $padding * 7;
+}
+
 .tree__item--active {
     font-weight: bold;
 }
