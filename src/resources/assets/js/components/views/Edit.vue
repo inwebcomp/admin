@@ -33,7 +33,7 @@
                 <app-button v-if="resource.authorizedToUpdate" class="mr-4" submit type="save" :loading="loading">{{ __('Сохранить') }}</app-button>
 
                 <router-link v-if="resource.authorizedToCreate"
-                             :to="{ name: 'action', params: { resourceName: this.resourceName, action: 'create' }}"
+                             :to="$makeRoute.create(resourceName)"
                              class="mr-auto">
                     <app-button type="link">{{ __('Добавить') }}</app-button>
                 </router-link>
@@ -57,6 +57,7 @@
 
         data: () => ({
             resource: null,
+            info: null,
             panels: [],
             loading: true,
             validationErrors: new Errors(),
@@ -83,8 +84,9 @@
                     resourceName: this.resourceName,
                     action: 'edit',
                     resourceId: this.resourceId
-                }).then(({resource, panels}) => {
+                }).then(({resource, panels, info}) => {
                     this.resource = resource
+                    this.info = info
                     this.panels = panels
                     this.loading = false
 
@@ -196,11 +198,11 @@
 
         computed: {
             title() {
-                return (this.resource) ? this.$store.state.resource.info.singularLabel : null
+                return this.info ? this.info.singularLabel : null
             },
 
             accent() {
-                return (this.resource) ? this.$store.state.resource.info.title : null
+                return this.info ? this.info.title : null
             },
 
             // accent() {

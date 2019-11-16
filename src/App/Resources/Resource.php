@@ -388,7 +388,7 @@ abstract class Resource
 
     public function editPath()
     {
-        return '/resource/' . static::uriKey() . '/' . $this->model()->getKey() . '/edit';
+        return '/resource/' . static::uriKey() . '#edit/' . static::uriKey() .'/' . $this->model()->getKey();
     }
 
     public static function info()

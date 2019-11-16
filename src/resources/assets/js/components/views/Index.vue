@@ -1,6 +1,8 @@
 <template>
     <div>
-        <table-params :navigate="! isNested"
+        <table-params :title="title"
+                      :resourceName="resourceName"
+                      :navigate="! isNested"
                       :create="authorizedToCreate"
                       :remove="authorizedToDelete"
                       @destroy="destroy"
@@ -49,6 +51,7 @@
         data() {
             return {
                 resources: [],
+                info: null,
                 positions: [],
                 pagination: {},
                 breadcrumbs: [],
@@ -67,6 +70,10 @@
             },
             selected() {
                 return this.$store.state.resource.selected
+            },
+
+            title() {
+                return this.info ? this.info.label : null
             },
 
             /**
@@ -178,12 +185,14 @@
                     resourceName: this.resourceName, params: this.resourceRequestQueryString(parent)
                 }).then(({
                      resources,
+                     info,
                      pagination,
                      breadcrumbs,
                      authorizedToCreate,
                      authorizedToDelete,
                  }) => {
                     this.resources = resources
+                    this.info = info
                     this.pagination = pagination
                     this.breadcrumbs = breadcrumbs
                     this.authorizedToCreate = authorizedToCreate

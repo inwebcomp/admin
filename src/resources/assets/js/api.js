@@ -12,7 +12,7 @@ export default class Api {
     resource(params) {
         params.action = params.action || ''
         return this.request(params).then((data) => {
-            App.app.$store.commit('resource/set', data.info)
+            // App.app.$store.commit('resource/set', data.info)
             return data
         })
     }

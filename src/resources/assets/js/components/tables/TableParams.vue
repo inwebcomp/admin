@@ -6,7 +6,7 @@
         <h1 class="active-panel__caption mr-4">{{ title }}</h1>
 
         <router-link v-if="this.resourceName && this.create"
-                     :to="{ name: 'action', params: { resourceName: this.resourceName, action: 'create' }}"
+                     :to="$makeRoute.create(this.resourceName)"
                      class="active-panel__button mr-auto">
             <i class="fas fa-plus mr-2 text-grey-light"></i>
             {{ __('Добавить') }}
@@ -58,6 +58,8 @@
 
         props: {
             search: {},
+            title: {},
+            resourceName: {},
             create: {
                 type: Boolean,
                 default: false,
@@ -69,23 +71,6 @@
             navigate: {
                 type: Boolean,
                 default: true
-            }
-        },
-
-        computed: {
-            title() {
-                if (this.$store.state.resource.info)
-                    return this.$store.state.resource.info.label;
-                else
-                    return ''
-            },
-
-            resource() {
-                return this.$store.state.resource.info
-            },
-
-            resourceName() {
-                return this.$store.state.resource.info.uriKey
             }
         },
 

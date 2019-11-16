@@ -9,6 +9,7 @@ import filters from './store/modules/filters.js'
 import orderings from './store/modules/orderings.js'
 import router from './router'
 import Api from "~js/api"
+import Route from "~js/Route"
 import './components'
 import SidePopup from './plugins/sidePopup'
 import Popup from './plugins/popup'
@@ -27,6 +28,7 @@ Vue.use(VueFroala)
 
 Vue.use(SidePopup)
 Vue.use(Popup)
+Vue.use(Route)
 
 Vue.use(Toasted, {
     position: 'bottom-right',
@@ -76,9 +78,11 @@ export default class Admin {
             el: "#app",
             router: router,
             store,
+            
             created() {
                 this.$store.commit('user/set', self.config.user)
             },
+            
             mounted() {
                 self.$on('error', message => {
                     this.$toasted.show(message, { type: 'error' })

@@ -39,14 +39,20 @@
 
         data: () => ({
             resource: null,
+            info: null,
             panels: [],
             loading: true,
             validationErrors: new Errors(),
             lastRetrievedAt: null,
         }),
 
-        created() {
-            this.fetch()
+        watch: {
+            resourceName: {
+                immediate: true,
+                handler(value) {
+                    this.fetch()
+                }
+            }
         },
 
         methods: {
@@ -54,8 +60,9 @@
                 App.api.resource({
                     resourceName: this.resourceName,
                     action: 'create',
-                }).then(({resource, panels}) => {
+                }).then(({resource, panels, info}) => {
                     this.resource = resource
+                    this.info = info
                     this.panels = panels
                     this.loading = false
                 })
@@ -108,7 +115,7 @@
             },
 
             accent() {
-                return this.resource ? this.$store.state.resource.info.label : null
+                return this.info ? this.info.label : null
             },
 
             availablePanels() {
