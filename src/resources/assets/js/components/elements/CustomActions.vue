@@ -22,6 +22,7 @@
                 type: String,
                 default: null,
             },
+            resourceName: {},
             resourceId: {},
         },
 
@@ -55,7 +56,9 @@
                 })
             });
 
-            App.$on('resourceUpdate', this.fetch);
+            if (this.resourceName) {
+                App.$on('resourceUpdate', this.fetch);
+            }
 
             this.$watch(
                 () => {
@@ -218,10 +221,6 @@
         },
 
         computed: {
-            resourceName() {
-                return this.$store.state.resource.info.uriKey
-            },
-
             resourceKey() {
                 return this.resourceName + this.resourceId
             },

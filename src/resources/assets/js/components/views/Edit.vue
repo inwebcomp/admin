@@ -4,7 +4,7 @@
             <div class="scrollable-content">
                 <active-panel :title="title" :accent="accent" class="active-panel--static"
                               :backRoute="{ name: 'index', params: { resourceName: this.resourceName } }">
-                    <custom-actions :resourceId="resourceId"/>
+                    <custom-actions :resourceName="resourceName" :resourceId="resourceId"/>
                 </active-panel>
 
                 <div class="px-4">
