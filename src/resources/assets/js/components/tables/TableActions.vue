@@ -1,6 +1,6 @@
 <template>
     <div class="flex">
-        <custom-actions />
+        <custom-actions :resourceName="resourceName" />
 
         <div v-if="selected.length && remove" class="active-panel__button" @click="$emit('action', 'destroy')">
             <i class="fas fa-trash-alt mr-2 text-grey-light"></i>
@@ -18,6 +18,7 @@
                 type: Boolean,
                 default: true,
             },
+            resourceName: {},
         },
 
         computed: {

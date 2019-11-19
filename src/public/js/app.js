@@ -6398,7 +6398,8 @@ __webpack_require__.r(__webpack_exports__);
     remove: {
       type: Boolean,
       "default": true
-    }
+    },
+    resourceName: {}
   },
   computed: {
     selected: function selected() {
@@ -38508,7 +38509,7 @@ var render = function() {
     "div",
     { staticClass: "flex" },
     [
-      _c("custom-actions"),
+      _c("custom-actions", { attrs: { resourceName: _vm.resourceName } }),
       _vm._v(" "),
       _vm.selected.length && _vm.remove
         ? _c(
@@ -38650,7 +38651,7 @@ var render = function() {
       _vm._v(" "),
       _c("table-actions", {
         staticClass: "ml-auto",
-        attrs: { remove: _vm.remove },
+        attrs: { resourceName: _vm.resourceName, remove: _vm.remove },
         on: {
           action: function($event) {
             return _vm.$emit($event)
