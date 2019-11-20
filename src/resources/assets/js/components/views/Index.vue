@@ -66,7 +66,7 @@
                 return this.breadcrumbs && this.breadcrumbs.path && this.breadcrumbs.path.length
             },
             sortable() {
-                return this.$store.state.resource.info.positionable
+                return this.info && this.info.positionable
             },
             selected() {
                 return this.$store.state.resource.selected
