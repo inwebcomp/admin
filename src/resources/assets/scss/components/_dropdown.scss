@@ -80,6 +80,7 @@ $dropdown-max-options: 8;
     background-color: $dropdown-background-color;
     box-shadow: $box-shadow;
     z-index: 6;
+    min-width: 10rem;
 
     &--left {
         left: 0;

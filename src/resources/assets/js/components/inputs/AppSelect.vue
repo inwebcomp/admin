@@ -2,7 +2,8 @@
     <div class="dropdown select"
          :class="{ 'dropdown--opened': opened, 'dropdown--top': atTop, 'dropdown--small': small }"
          v-click-outside="close">
-        <button type="button" class="dropdown__value form__group__input" :class="{'form__group__input--h-small': small}" ref="value"
+        <button type="button" class="dropdown__value form__group__input" :class="{'form__group__input--h-small': small}"
+                ref="value"
                 @click="toggle"
                 @keydown="moveFocus"
                 @keydown.enter="selectFocused">
@@ -13,7 +14,7 @@
                 <div v-if="selected.color" class="dropdown__option__color" :class="'bg-' + selected.color"></div>
             </template>
 
-            <span class="dropdown__value__text">{{ selected ? selected.title : '-- ' + __('Выберите значение') }}</span>
+            <span class="dropdown__value__text">{{ selected ? selected.title : this.emptyTitleText }}</span>
         </button>
 
         <transition name="dropdown">
@@ -27,9 +28,9 @@
                                 class="select__input"/>
                 </div>
 
-                <slot :options="options">
+                <slot :options="filteredOptions">
                     <ul class="dropdown__values select__values" ref="container">
-                        <li v-for="(option, $i) in options" :key="$i"
+                        <li v-for="(option, $i) in filteredOptions" :key="$i"
                             class="dropdown__option"
                             :class="{'dropdown__option--focused': focused == $i + 1}"
                             @click="select(option.value)">
@@ -65,10 +66,18 @@
                 type: Boolean,
                 default: true,
             },
+            simpleSearch: {
+                type: Boolean,
+                default: false,
+            },
             small: {
                 type: Boolean,
                 default: false,
             },
+            emptyTitle: {
+                type: String,
+                default: null,
+            }
         },
 
         data() {
@@ -149,7 +158,7 @@
                             this.$refs.container.scrollTop += dif;
                     }
                 }
-                if (! this.opened)
+                if (!this.opened)
                     this.selectByIndex(this.focused - 1)
             },
 
@@ -162,6 +171,18 @@
         computed: {
             selected() {
                 return this.options.find(item => item.value === this.value);
+            },
+
+            emptyTitleText() {
+                return this.emptyTitle ? this.emptyTitle : '-- ' + this.__('Выберите значение')
+            },
+
+            filteredOptions() {
+                if (this.search && this.simpleSearch && this.searchWord) {
+                    return this.options.filter(option => option.title.toLowerCase().indexOf(this.searchWord.toLowerCase()) === 0)
+                }
+
+                return this.options
             }
         },
 
@@ -177,6 +198,7 @@
                     this.atTop = offset < 0
                 })
             },
+
             options() {
                 this.focused = false
 

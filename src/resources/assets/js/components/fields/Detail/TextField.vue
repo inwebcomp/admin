@@ -14,7 +14,7 @@
             <template v-if="field.translatable">
                 <div class="form__group__translatable mb-2" v-for="(translatableValue, locale) in field.translatableValues">
                     <span v-if="! field.link">{{ field.translatableValues[locale] }}</span>
-                    <router-link v-if="field.link" :to="field.link" class="data-table__value__link">
+                    <router-link v-if="field.link" :to="{ path: field.link, query: $route.query }" class="data-table__value__link">
                         {{ field.translatableValues[locale] }}
                     </router-link>
 
