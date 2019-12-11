@@ -33,6 +33,7 @@ class ResourceTool extends Panel
         parent::__construct($this->name(), [new ResourceToolElement($this->component())]);
 
         $this->element = $this->data[0];
+        $this->withMeta(['uid' => $this->component()]);
     }
 
     /**

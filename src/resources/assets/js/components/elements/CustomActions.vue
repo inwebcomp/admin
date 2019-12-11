@@ -152,6 +152,14 @@
 
                 this.working = true
 
+                if (! this.selectedAction.queueable) {
+                    this.$toasted.show(this.__('Загрузка ...'), {
+                        iconPack: 'fontawesome',
+                        icon: 'fa-hourglass-half',
+                        duration: 1000 * 1000,
+                    })
+                }
+
                 App.api.request({
                     method: 'post',
                     url: this.endpoint || `${this.resourceName}/action`,
@@ -215,7 +223,7 @@
                     window.open(response.openInNewTab, '_blank')
                 } else {
                     App.$emit('actionExecuted')
-                    this.$toasted.show(this.__('The action ran successfully!'), {type: 'success'})
+                    this.$toasted.show(this.__('Действие запущено'), {type: 'success'})
                 }
             },
         },

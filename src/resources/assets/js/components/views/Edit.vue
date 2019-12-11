@@ -10,7 +10,7 @@
                 <div class="px-4">
                     <div class="tabs">
                         <div v-for="(tab, $i) in availablePanels" :key="$i" class="tab" :class="{'tab--active': activeTab == $i}"
-                             @click="activeTab = $i" v-text="tab.name"></div>
+                             @click="changeTab(tab, $i)" v-text="tab.name"></div>
                     </div>
 
                     <component
@@ -76,6 +76,14 @@
 
         created() {
             App.$on('actionExecuted', this.fetch)
+
+            let tabs = sessionStorage.getItem('openedTabs')
+
+            if (tabs)
+                tabs = JSON.parse(tabs)
+
+            if (tabs && tabs[this.resourceName])
+                this.activeTab = tabs[this.resourceName]
         },
 
         methods: {
@@ -194,6 +202,25 @@
                     formData.append('_retrieved_at', this.lastRetrievedAt)
                 })
             },
+
+            changeTab(tab, index) {
+                this.activeTab = index
+
+                App.$emit('editFormTabChange', tab)
+
+                if (! sessionStorage.getItem('openedTabs')) {
+                    sessionStorage.setItem('openedTabs', JSON.stringify({}))
+                }
+
+                let tabs = sessionStorage.getItem('openedTabs')
+
+                if (tabs)
+                    tabs = JSON.parse(tabs)
+
+                tabs[this.resourceName] = index
+
+                sessionStorage.setItem('openedTabs', JSON.stringify(tabs))
+            }
         },
 
         computed: {

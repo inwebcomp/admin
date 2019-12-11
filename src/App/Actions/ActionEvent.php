@@ -352,6 +352,21 @@ class ActionEvent extends Model
     }
 
     /**
+     * Get action by batch.
+     *
+     * @param string $batchId
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @return string
+     */
+    public static function getAction($batchId, $model)
+    {
+        return static::where('batch_id', $batchId)
+                     ->where('model_type', $model->getMorphClass())
+                     ->where('model_id', $model->getKey())
+                     ->first();
+    }
+
+    /**
      * Mark the given batch as running.
      *
      * @param string $batchId

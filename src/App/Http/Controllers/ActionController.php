@@ -26,6 +26,7 @@ class ActionController extends Controller
      *
      * @param \InWeb\Admin\App\Http\Requests\ActionRequest $request
      * @return \Illuminate\Http\Response
+     * @throws \InWeb\Admin\App\Exceptions\MissingActionHandlerException
      */
     public function store(ActionRequest $request)
     {

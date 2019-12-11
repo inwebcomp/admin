@@ -3,6 +3,7 @@
 namespace InWeb\Admin\App\Actions;
 
 use Closure;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use InWeb\Admin\App\Admin;
 use JsonSerializable;
 use InWeb\Admin\App\Metable;
@@ -102,8 +103,8 @@ class Action implements JsonSerializable
     /**
      * Determine if the action is executable for the given request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Database\Eloquent\Model $model
      * @return bool
      */
     public function authorizedToRun(Request $request, $model)
@@ -114,7 +115,7 @@ class Action implements JsonSerializable
     /**
      * Return a message response from the action.
      *
-     * @param  string  $message
+     * @param string $message
      * @return array
      */
     public static function message($message)
@@ -125,7 +126,7 @@ class Action implements JsonSerializable
     /**
      * Return a dangerous message response from the action.
      *
-     * @param  string  $message
+     * @param string $message
      * @return array
      */
     public static function danger($message)
@@ -146,7 +147,7 @@ class Action implements JsonSerializable
     /**
      * Return a redirect response from the action.
      *
-     * @param  string  $url
+     * @param string $url
      * @return array
      */
     public static function redirect($url)
@@ -157,7 +158,7 @@ class Action implements JsonSerializable
     /**
      * Return an open new tab response from the action.
      *
-     * @param  string  $url
+     * @param string $url
      * @return array
      */
     public static function openInNewTab($url)
@@ -168,8 +169,8 @@ class Action implements JsonSerializable
     /**
      * Return a download response from the action.
      *
-     * @param  string  $url
-     * @param  string  $name
+     * @param string $url
+     * @param string $name
      * @return array
      */
     public static function download($url, $name)
@@ -187,7 +188,7 @@ class Action implements JsonSerializable
     /**
      * Execute the action for the given request.
      *
-     * @param  \InWeb\Admin\App\Http\Requests\ActionRequest  $request
+     * @param \InWeb\Admin\App\Http\Requests\ActionRequest $request
      * @return mixed
      * @throws MissingActionHandlerException
      */
@@ -205,16 +206,16 @@ class Action implements JsonSerializable
 
         $results = $request->chunks(
             static::$chunkCount, function ($models) use ($fields, $request, $method, &$wasExecuted) {
-                $models = $models->filterForExecution($request);
+            $models = $models->filterForExecution($request);
 
-                if (count($models) > 0) {
-                    $wasExecuted = true;
-                }
-
-                return DispatchAction::forModels(
-                    $request, $this, $method, $models, $fields
-                );
+            if (count($models) > 0) {
+                $wasExecuted = true;
             }
+
+            return DispatchAction::forModels(
+                $request, $this, $method, $models, $fields
+            );
+        }
         );
 
         if (! $wasExecuted) {
@@ -227,8 +228,8 @@ class Action implements JsonSerializable
     /**
      * Handle chunk results.
      *
-     * @param  \InWeb\Admin\App\Fields\ActionFields $fields
-     * @param  array $results
+     * @param \InWeb\Admin\App\Fields\ActionFields $fields
+     * @param array $results
      *
      * @return mixed
      */
@@ -240,7 +241,7 @@ class Action implements JsonSerializable
     /**
      * Mark the action event record for the model as finished.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param \Illuminate\Database\Eloquent\Model $model
      * @return int
      */
     protected function markAsFinished($model)
@@ -251,8 +252,8 @@ class Action implements JsonSerializable
     /**
      * Mark the action event record for the model as failed.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  \Throwable|string  $e
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param \Throwable|string $e
      * @return int
      */
     protected function markAsFailed($model, $e = null)
@@ -273,7 +274,7 @@ class Action implements JsonSerializable
     /**
      * Indicate that this action can be run for the entire resource at once.
      *
-     * @param  bool  $value
+     * @param bool $value
      * @return $this
      */
     public function availableForEntireResource($value = true)
@@ -286,7 +287,7 @@ class Action implements JsonSerializable
     /**
      * Indicate that this action is only available on the resource index view.
      *
-     * @param  bool  $value
+     * @param bool $value
      * @return $this
      */
     public function onlyOnIndex($value = true)
@@ -300,7 +301,7 @@ class Action implements JsonSerializable
     /**
      * Indicate that this action is only available on the resource detail view.
      *
-     * @param  bool  $value
+     * @param bool $value
      * @return $this
      */
     public function onlyOnDetail($value = true)
@@ -314,7 +315,7 @@ class Action implements JsonSerializable
     /**
      * Set the current batch ID being handled by the action.
      *
-     * @param  string  $batchId
+     * @param string $batchId
      * @return $this
      */
     public function withBatchId($batchId)
@@ -327,7 +328,7 @@ class Action implements JsonSerializable
     /**
      * Set the callback to be run to authorize running the action.
      *
-     * @param  \Closure  $callback
+     * @param \Closure $callback
      * @return $this
      */
     public function canRun(Closure $callback)
@@ -409,18 +410,18 @@ class Action implements JsonSerializable
     public function jsonSerialize()
     {
         return array_merge([
-            'component' => $this->component(),
-            'destructive' => $this instanceof DestructiveAction,
-            'name' => $this->name(),
-            'icon' => $this->icon(),
-            'disabled' => $this->disabled,
-            'uriKey' => $this->uriKey(),
-            'fields' => collect($this->fields())->each->resolve(new class {
-            })->all(),
+            'component'                  => $this->component(),
+            'destructive'                => $this instanceof DestructiveAction,
+            'name'                       => $this->name(),
+            'icon'                       => $this->icon(),
+            'disabled'                   => $this->disabled,
+            'uriKey'                     => $this->uriKey(),
+            'fields'                     => collect($this->fields())->each->resolve(new class{})->all(),
             'availableForEntireResource' => $this->availableForEntireResource,
-            'onlyOnDetail' => $this->onlyOnDetail,
-            'onlyOnIndex' => $this->onlyOnIndex,
-            'withoutConfirmation' => $this->withoutConfirmation,
+            'onlyOnDetail'               => $this->onlyOnDetail,
+            'onlyOnIndex'                => $this->onlyOnIndex,
+            'withoutConfirmation'        => $this->withoutConfirmation,
+            'queueable'                  => $this instanceof ShouldQueue,
         ], $this->meta());
     }
 }

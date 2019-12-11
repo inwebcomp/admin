@@ -32,8 +32,8 @@ class Panel extends MergeValue implements JsonSerializable
     /**
      * Create a new panel instance.
      *
-     * @param  string         $name
-     * @param  \Closure|array $fields
+     * @param string $name
+     * @param \Closure|array $fields
      * @return void
      */
     public function __construct($name, $fields = [])
@@ -52,7 +52,7 @@ class Panel extends MergeValue implements JsonSerializable
     /**
      * Prepare the given fields.
      *
-     * @param  \Closure|array $fields
+     * @param \Closure|array $fields
      * @return array
      */
     protected function prepareFields($fields)
@@ -83,7 +83,7 @@ class Panel extends MergeValue implements JsonSerializable
         return [
             'component' => 'panel',
             'name'      => $this->name,
-            'inline'      => $this->inline,
+            'inline'    => $this->inline,
             'fields'    => []
         ];
     }
