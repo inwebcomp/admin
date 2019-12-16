@@ -101,8 +101,6 @@
         watch: {
             resourceName() {
                 this.initializeSearchFromQueryString()
-
-                this.initializeFilters()
                 this.initializeOrderings()
             }
         },
@@ -150,11 +148,12 @@
                         this.currentOrderBy +
                         this.currentOrderByDirection +
                         this.currentSearch +
-                        this.encodedFilters
+                        this.initialEncodedFilters
                     )
                 },
-                () => {
-                    this.fetch()
+                async () => {
+                    await this.initializeFilters()
+                    await this.fetch()
                 }
             )
         },
