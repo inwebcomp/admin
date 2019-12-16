@@ -7081,14 +7081,25 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
+    var _this = this;
+
     App.$on('actionExecuted', this.fetch);
     var tabs = sessionStorage.getItem('openedTabs');
     if (tabs) tabs = JSON.parse(tabs);
-    if (tabs && tabs[this.resourceName]) this.activeTab = tabs[this.resourceName];
+
+    if (tabs && tabs[this.resourceName]) {
+      this.activeTab = tabs[this.resourceName];
+      this.$nextTick(function () {
+        App.$emit('editFormTabChange', _this.activeTab);
+      });
+    }
+  },
+  destroyed: function destroyed() {
+    App.$off('actionExecuted');
   },
   methods: {
     fetch: function fetch() {
-      var _this = this;
+      var _this2 = this;
 
       App.api.resource({
         resourceName: this.resourceName,
@@ -7098,18 +7109,18 @@ __webpack_require__.r(__webpack_exports__);
         var resource = _ref.resource,
             panels = _ref.panels,
             info = _ref.info;
-        _this.resource = resource;
-        _this.info = info;
-        _this.panels = panels;
-        _this.loading = false;
+        _this2.resource = resource;
+        _this2.info = info;
+        _this2.panels = panels;
+        _this2.loading = false;
 
-        _this.updateLastRetrievedAtTimestamp();
+        _this2.updateLastRetrievedAtTimestamp();
       })["catch"](function (_ref2) {
         var status = _ref2.status;
 
         if (status == 404) {
-          _this.$toasted.show(_this.__("The :resource can't be found!", {
-            resource: _this.resourceName
+          _this2.$toasted.show(_this2.__("The :resource can't be found!", {
+            resource: _this2.resourceName
           }), {
             type: 'error'
           });
@@ -7131,7 +7142,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     save: function save() {
-      var _this2 = this;
+      var _this3 = this;
 
       App.$emit('saveResource', this.resource);
       this.loading = true;
@@ -7141,36 +7152,36 @@ __webpack_require__.r(__webpack_exports__);
         resourceId: this.resourceId,
         data: this.updateResourceFormData()
       }).then(function () {
-        _this2.loading = false;
-        App.$emit('resourceUpdate', _this2.resourceId);
+        _this3.loading = false;
+        App.$emit('resourceUpdate', _this3.resourceId);
 
-        _this2.$toasted.show(_this2.__('The :resource was updated!', {
-          resource: _this2.resourceName
+        _this3.$toasted.show(_this3.__('The :resource was updated!', {
+          resource: _this3.resourceName
         }), {
           type: 'success'
         });
 
-        _this2.validationErrors = new form_backend_validation__WEBPACK_IMPORTED_MODULE_0__["Errors"]();
+        _this3.validationErrors = new form_backend_validation__WEBPACK_IMPORTED_MODULE_0__["Errors"]();
 
-        _this2.fetch();
+        _this3.fetch();
       })["catch"](function (_ref3) {
         var data = _ref3.data,
             status = _ref3.status;
-        _this2.loading = false;
+        _this3.loading = false;
 
         if (status == 422) {
-          _this2.validationErrors = new form_backend_validation__WEBPACK_IMPORTED_MODULE_0__["Errors"](data.errors);
+          _this3.validationErrors = new form_backend_validation__WEBPACK_IMPORTED_MODULE_0__["Errors"](data.errors);
         }
 
         if (status == 409) {
-          _this2.$toasted.show(_this2.__('Another user has updated this resource since this page was loaded. Please refresh the page and try again.'), {
+          _this3.$toasted.show(_this3.__('Another user has updated this resource since this page was loaded. Please refresh the page and try again.'), {
             type: 'error'
           });
         }
       });
     },
     destroy: function destroy() {
-      var _this3 = this;
+      var _this4 = this;
 
       if (!confirm(this.__('Are you sure to delete this record?'))) return;
       App.api.request({
@@ -7180,27 +7191,27 @@ __webpack_require__.r(__webpack_exports__);
           resources: [this.resourceId]
         }
       }).then(function () {
-        App.$emit('resourceDestroyed', _this3.resourceId);
+        App.$emit('resourceDestroyed', _this4.resourceId);
 
-        _this3.$router.push({
+        _this4.$router.push({
           name: 'index',
           params: {
-            resourceName: _this3.resourceName
+            resourceName: _this4.resourceName
           }
         });
 
-        _this3.$toasted.show(_this3.__('The :resource was deleted!', {
-          resource: _this3.resourceName
+        _this4.$toasted.show(_this4.__('The :resource was deleted!', {
+          resource: _this4.resourceName
         }), {
           type: 'success'
         });
       });
     },
     updateResourceFormData: function updateResourceFormData() {
-      var _this4 = this;
+      var _this5 = this;
 
       return _.tap(new FormData(), function (formData) {
-        _(_this4.panels).each(function (panel) {
+        _(_this5.panels).each(function (panel) {
           _(panel.fields).filter(function (field) {
             return !field.disabled;
           }).each(function (field) {
@@ -7209,7 +7220,7 @@ __webpack_require__.r(__webpack_exports__);
         });
 
         formData.append('_method', 'PUT');
-        formData.append('_retrieved_at', _this4.lastRetrievedAt);
+        formData.append('_retrieved_at', _this5.lastRetrievedAt);
       });
     },
     changeTab: function changeTab(tab, index) {
@@ -7237,7 +7248,7 @@ __webpack_require__.r(__webpack_exports__);
     //     return (this.availablePanels && this.availablePanels[0].fields[0]) ? this.availablePanels[0].fields[0].value : null
     // },
     availablePanels: function availablePanels() {
-      var _this5 = this;
+      var _this6 = this;
 
       if (this.resource) {
         var panels = {};
@@ -7251,7 +7262,7 @@ __webpack_require__.r(__webpack_exports__);
             return panels[field.panel].fields.push(field);
           }
 
-          panels[field.panel] = _this5.createPanelForField(field);
+          panels[field.panel] = _this6.createPanelForField(field);
         });
         return _.toArray(panels);
       }
