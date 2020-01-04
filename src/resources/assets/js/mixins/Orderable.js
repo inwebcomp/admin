@@ -86,10 +86,12 @@ export default {
             this.orderBy = this.currentOrderBy
             this.orderByDirection = this.currentOrderByDirection
 
-            this.$store.commit(`${this.resourceName}/setOrdering`, {
-                field: this.orderBy,
-                direction: this.orderByDirection,
-            })
+            if (this.orderBy && this.orderByDirection) {
+                this.$store.commit(`${this.resourceName}/setOrdering`, {
+                    field: this.orderBy,
+                    direction: this.orderByDirection,
+                })
+            }
         },
     },
 }
