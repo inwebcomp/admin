@@ -24,14 +24,14 @@
     .ghost {
         background-color: bg($info-color);
     }
-}
 
-.sortable-drag {
-    opacity: 0 !important;
-    visibility: hidden;
-}
+    .sortable-drag {
+        opacity: 0 !important;
+        visibility: hidden;
+    }
 
-.sortable-fallback {
-    opacity: 0 !important;
-    visibility: hidden;
+    .sortable-fallback {
+        opacity: 0 !important;
+        visibility: hidden;
+    }
 }
