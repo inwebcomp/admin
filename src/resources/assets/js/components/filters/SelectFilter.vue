@@ -5,7 +5,8 @@
         <div class="p-2 pt-0">
             <app-select
                 small
-                :search="false"
+                :search="filter.search"
+                :simpleSearch="true"
                 :value="value"
                 :options="filter.options"
                 @change="handleChange" />
