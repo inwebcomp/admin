@@ -3,7 +3,7 @@
         <form @submit.prevent="save">
             <div class="scrollable-content">
                 <active-panel :title="title" :accent="accent" class="active-panel--static"
-                              :backRoute="{ name: 'index', params: { resourceName: this.resourceName } }">
+                              :backRoute="$route.fullPath.substr(0, $route.fullPath.indexOf('#'))">
                     <custom-actions :resourceName="resourceName" :resourceId="resourceId"/>
                 </active-panel>
 
