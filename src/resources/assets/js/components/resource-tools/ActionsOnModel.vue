@@ -15,7 +15,7 @@
             <template slot-scope="{ item }">
                 <td class="py-4 px-6 border-b border-grey-light">
                     <div class="font-bold">{{ item.user.login }}</div>
-                    <div class="text-grey-dark text-sm">{{ item.updated_at }}</div>
+                    <div class="text-grey-dark text-sm">{{ item.created_at }}</div>
                 </td>
                 <td class="py-4 px-6 border-b border-grey-light">
                     <div class="flex items-center">
