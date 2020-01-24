@@ -10,15 +10,28 @@
 
         <editable-list class="mb-4"
                        v-model="actions"
-                       :headers="[__('Пользователь'), __('Действие'), __('Время'), __('Изменения')]">
+                       :headers="[__('Пользователь'), __('Действие'), __('Статус'), __('Изменения')]">
 
             <template slot-scope="{ item }">
-                <td class="py-4 px-6 border-b border-grey-light">{{ item.user.login }}</td>
+                <td class="py-4 px-6 border-b border-grey-light">
+                    <div class="font-bold">{{ item.user.login }}</div>
+                    <div class="text-grey-dark text-sm">{{ item.updated_at }}</div>
+                </td>
                 <td class="py-4 px-6 border-b border-grey-light">
                     <div class="flex items-center">
                         <span>{{ item.name }}</span>
-                        <span :title="statusTitle(item.status)" class="status-field__icon ml-2" :class="'bg-' + statusColor(item.status)"></span>
                     </div>
+                </td>
+                <td class="py-4 px-6 border-b border-grey-light">
+                    <div :title="item.progress_status ? item.progress_status : statusTitle(item.status)" class="status-field__icon bg-grey w-32"  style="display: block" v-if="item.progress_total">
+                        <div class="text-white text-sm relative">
+                            <div class="text-center z-10 relative" :class="{'text-black': statusColor(item.status) == 'warning'}">{{ item.progress + '/' + item.progress_total }}</div>
+                            <div class="progress-bar__value" :style="{width: ((item.progress / item.progress_total) * 100) + '%'}" :class="'bg-' + statusColor(item.status)"></div>
+                        </div>
+                    </div>
+
+                    <span v-if="! item.progress_total" :title="statusTitle(item.status)" class="status-field__icon bg-grey-light" :class="'bg-' + statusColor(item.status)"></span>
+
                     <a v-if="item.exception" @click="(item.showError = ! item.showError) && (watch = false)">{{ item.showError ? __('Скрыть ошибку') : __('Показать ошибку') }}</a>
                     <div v-if="item.exception && item.showError"
                          class="bg-black shadow text-sm text-white p-2 mt-1 overflow-auto"
@@ -26,7 +39,6 @@
                         {{ item.exception }}
                     </div>
                 </td>
-                <td class="py-4 px-6 border-b border-grey-light">{{ item.updated_at }}</td>
                 <td class="py-4 px-6 border-b border-grey-light">
                     <div v-for="(value, field) in item.changes" class="border-b border-grey-light">
                         <span class="text-sm font-bold">{{ field }}</span><br>
@@ -52,8 +64,8 @@
                 actions: [],
                 watch: false,
                 watchIntervals: [null, null],
-                watchTimeout: 3000,
-                timeout: 3000,
+                watchTimeout: 1000,
+                timeout: 1000,
             }
         },
 
@@ -138,8 +150,19 @@
             color: #222;
             height: 16px;
             line-height: 16px;
-            width: 16px;
+            min-width: 16px;
             border-radius: 8px;
+            overflow: hidden;
+        }
+    }
+
+    .progress-bar {
+        &__value {
+            width: 0;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
     }
 </style>
