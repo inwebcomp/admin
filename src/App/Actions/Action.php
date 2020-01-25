@@ -261,6 +261,21 @@ class Action implements JsonSerializable
         return $this->batchId ? ActionEvent::markAsFailed($this->batchId, $model, $e) : 0;
     }
 
+    public function progressStart($model, $value)
+    {
+        return $this->batchId ? ActionEvent::progressStart($this->batchId, $model, $value) : null;
+    }
+
+    public function progressAdvance($model, $value = 1)
+    {
+        return $this->batchId ? ActionEvent::progressAdvance($this->batchId, $model, $value) : null;
+    }
+
+    public function progressStatus($model, $value)
+    {
+        return $this->batchId ? ActionEvent::progressStatus($this->batchId, $model, $value) : null;
+    }
+
     /**
      * Get the fields available on the action.
      *

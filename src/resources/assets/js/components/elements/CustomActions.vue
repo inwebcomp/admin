@@ -204,6 +204,7 @@
                     this.$toasted.show(response.message, {type: 'success'})
                 } else if (response.deleted) {
                     App.$emit('actionExecuted')
+                    this.$toasted.clear()
                 } else if (response.danger) {
                     App.$emit('actionExecuted')
                     this.$toasted.show(response.danger, {type: 'error'})
@@ -215,12 +216,15 @@
                     document.body.appendChild(link)
                     link.click()
                     document.body.removeChild(link)
+                    this.$toasted.show(this.__('Началось скачивание'), {type: 'success'})
                 } else if (response.redirect) {
                     App.$emit('actionExecuted')
                     window.location = response.redirect
+                    this.$toasted.clear()
                 } else if (response.openInNewTab) {
                     App.$emit('actionExecuted')
                     window.open(response.openInNewTab, '_blank')
+                    this.$toasted.clear()
                 } else {
                     App.$emit('actionExecuted')
                     this.$toasted.show(this.__('Действие запущено'), {type: 'success'})

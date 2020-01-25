@@ -45,12 +45,14 @@ abstract class Filter implements JsonSerializable
 
     public $default = null;
 
+    public $search = false;
+
     /**
      * Apply the filter to the given query.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  mixed  $value
+     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param mixed $value
      * @return \Illuminate\Database\Eloquent\Builder
      */
     abstract public function apply(Request $request, $query, $value);
@@ -58,7 +60,7 @@ abstract class Filter implements JsonSerializable
     /**
      * Get the filter's available options.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     abstract public function options(Request $request);
@@ -66,7 +68,7 @@ abstract class Filter implements JsonSerializable
     /**
      * Determine if the filter should be available for the given request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return bool
      */
     public function authorizedToSee(Request $request)
@@ -77,7 +79,7 @@ abstract class Filter implements JsonSerializable
     /**
      * Set the callback to be run to authorize viewing the filter.
      *
-     * @param  \Closure  $callback
+     * @param \Closure $callback
      * @return $this
      */
     public function canSee(Closure $callback)
@@ -146,7 +148,7 @@ abstract class Filter implements JsonSerializable
     /**
      * Set additional meta information for the filter.
      *
-     * @param  array  $meta
+     * @param array $meta
      * @return $this
      */
     public function withMeta(array $meta)
@@ -171,13 +173,14 @@ abstract class Filter implements JsonSerializable
             $options->prepend('', '—');
 
         return array_merge([
-            'class' => $this->key(),
-            'name' => $this->name(),
-            'component' => $this->component(),
-            'options' => $options->map(function ($value, $key) {
+            'class'        => $this->key(),
+            'name'         => $this->name(),
+            'component'    => $this->component(),
+            'options'      => $options->map(function ($value, $key) {
                 return ['title' => $key, 'value' => $value];
             })->values()->all(),
             'currentValue' => $this->default(),
+            'search'       => $this->search,
         ], $this->meta());
     }
 }

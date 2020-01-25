@@ -29,6 +29,9 @@ class CreateActionEventsTable extends Migration
             $table->text('exception');
             $table->json('original')->nullable();
             $table->json('changes')->nullable();
+            $table->integer('progress')->default(0);
+            $table->integer('progress_total')->default(0);
+            $table->integer('progress_status')->default(0);
             $table->timestamps();
 
             $table->index(['actionable_type', 'actionable_id']);

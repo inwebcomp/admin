@@ -21,7 +21,7 @@
             color: #222;
             height: 16px;
             line-height: 16px;
-            width: 16px;
+            min-width: 16px;
             border-radius: 8px;
         }
 

@@ -2,6 +2,8 @@
 
 namespace InWeb\Admin\App\Fields;
 
+use Carbon\Carbon;
+
 class Datetime extends Text
 {
     /**
@@ -23,7 +25,14 @@ class Datetime extends Text
         });
 
         $this->displayUsing(function ($value) {
-            return (string) $value;
+            return $value ? $value->format('Y.m.d H:i') : null;
+        });
+
+        $this->fillUsing(function($request, $model, $attribute, $requestAttribute) {
+            $value = $request->input($requestAttribute);
+            try {
+                $model->{$attribute} = $value ? Carbon::createFromFormat('Y-m-d\TH:i', $value) : null;
+            } catch (\Exception $ex) {}
         });
     }
 }
