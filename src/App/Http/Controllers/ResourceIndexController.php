@@ -86,7 +86,14 @@ class ResourceIndexController extends Controller
             });
         }
 
-        return $query->paginate($this->perPage);
+        if ($query->getQuery()->limit) {
+            $perPage = $query->getQuery()->limit;
+            $query->getQuery()->limit = null;
+        } else {
+            $perPage = $this->perPage;
+        }
+
+        return $query->paginate($perPage);
     }
 
     private function getPagination(\Illuminate\Pagination\LengthAwarePaginator $paginator)

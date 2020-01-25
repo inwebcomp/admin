@@ -36,7 +36,7 @@ export default {
          */
         async initializeFilters(lens) {
             // Clear out the filters from the store first
-            this.$store.commit(`${this.resourceName}/clearFilters`)
+            // this.$store.commit(`${this.resourceName}/clearFilters`)
 
             await this.$store.dispatch(`${this.resourceName}/fetchFilters`, {
                 resourceName: this.resourceName,

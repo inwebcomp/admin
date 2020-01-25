@@ -85,10 +85,13 @@ export default {
          * Store the mutable ordering settings
          */
         setDefaultOrdering(state, data) {
-            state.ordering = {
-                field: data.field,
-                direction: data.direction,
+            if (! state.ordering) {
+                state.ordering = {
+                    field: data.field,
+                    direction: data.direction,
+                }
             }
+
             state.originalOrdering = {
                 field: data.field,
                 direction: data.direction,

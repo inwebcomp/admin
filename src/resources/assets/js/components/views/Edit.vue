@@ -82,8 +82,17 @@
             if (tabs)
                 tabs = JSON.parse(tabs)
 
-            if (tabs && tabs[this.resourceName])
+            if (tabs && tabs[this.resourceName]) {
                 this.activeTab = tabs[this.resourceName]
+
+                this.$nextTick(() => {
+                    App.$emit('editFormTabChange', this.activeTab)
+                })
+            }
+        },
+
+        destroyed() {
+            App.$off('actionExecuted')
         },
 
         methods: {

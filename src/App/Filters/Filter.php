@@ -43,6 +43,8 @@ abstract class Filter implements JsonSerializable
 
     public $withNull = true;
 
+    public $default = null;
+
     /**
      * Apply the filter to the given query.
      *
@@ -122,7 +124,13 @@ abstract class Filter implements JsonSerializable
      */
     public function default()
     {
-        return null;
+        return $this->default;
+    }
+
+    public function setDefault($value)
+    {
+        $this->default = $value;
+        return $this;
     }
 
     /**
