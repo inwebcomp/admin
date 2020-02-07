@@ -20,90 +20,78 @@ class Action implements JsonSerializable
     use Metable;
     use AuthorizedToSee;
     use ProxiesCanSeeToGate;
-
     /**
      * The displayable name of the action.
      *
      * @var string
      */
     public $name;
-
     /**
      * The displayable icon of the action.
      *
      * @var string
      */
     public $icon;
-
     /**
      * The action's component.
      *
      * @var string
      */
     public $component = 'confirm-action-modal';
-
     /**
      * Indicates if need to skip log action events for models.
      *
      * @var bool
      */
     public $withoutActionEvents = false;
-
     /**
      * Indicates if this action is available to run against the entire resource.
      *
      * @var bool
      */
     public $availableForEntireResource = false;
-
     /**
      * Determine where the action redirection should be without confirmation.
      *
      * @var bool
      */
     public $withoutConfirmation = false;
-
     /**
      * Indicates if this action is only available on the resource detail view.
      *
      * @var bool
      */
     public $onlyOnIndex = false;
-
     /**
      * Indicates if this action is only available on the resource detail view.
      *
      * @var bool
      */
     public $onlyOnDetail = false;
-
     /**
      * The current batch ID being handled by the action.
      *
      * @var string|null
      */
     public $batchId;
-
     /**
      * The callback used to authorize running the action.
      *
      * @var \Closure|null
      */
     public $runCallback;
-
     /**
      * The number of models that should be included in each chunk.
      *
      * @var int
      */
     public static $chunkCount = 200;
-
     public $disabled = false;
 
     /**
      * Determine if the action is executable for the given request.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request            $request
      * @param \Illuminate\Database\Eloquent\Model $model
      * @return bool
      */
@@ -229,7 +217,7 @@ class Action implements JsonSerializable
      * Handle chunk results.
      *
      * @param \InWeb\Admin\App\Fields\ActionFields $fields
-     * @param array $results
+     * @param array                                $results
      *
      * @return mixed
      */
@@ -253,7 +241,7 @@ class Action implements JsonSerializable
      * Mark the action event record for the model as failed.
      *
      * @param \Illuminate\Database\Eloquent\Model $model
-     * @param \Throwable|string $e
+     * @param \Throwable|string                   $e
      * @return int
      */
     protected function markAsFailed($model, $e = null)
@@ -431,7 +419,9 @@ class Action implements JsonSerializable
             'icon'                       => $this->icon(),
             'disabled'                   => $this->disabled,
             'uriKey'                     => $this->uriKey(),
-            'fields'                     => collect($this->fields())->each->resolve(new class{})->all(),
+            'fields'                     => collect($this->fields())->each->resolve(new class
+            {
+            })->all(),
             'availableForEntireResource' => $this->availableForEntireResource,
             'onlyOnDetail'               => $this->onlyOnDetail,
             'onlyOnIndex'                => $this->onlyOnIndex,

@@ -40,6 +40,7 @@ export default {
         working: Boolean,
         resourceName: { type: String, required: true },
         resourceId: {},
+        uid: {},
         action: { type: Object, required: true },
         selectedResources: { type: [Array, String], required: true },
         errors: { type: Object, required: true },
@@ -80,7 +81,7 @@ export default {
          * Execute the selected action.
          */
         handleConfirm() {
-            App.$emit('executeAction' + this.resourceId, this.action)
+            App.$emit('executeAction-' + this.resourceId + '-' + this.uid, this.action)
             this.$closePopup()
         },
 

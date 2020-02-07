@@ -37,7 +37,7 @@
 
                 if (this.popup.options.closeOnOverlayClick !== false)
                     this.$closePopup()
-            }
+            },
         }
     }
 </script>

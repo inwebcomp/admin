@@ -48,11 +48,12 @@
                 this.fetch()
             }
 
-            App.$on('executeAction' + this.resourceId, (action) => {
+            App.$on('executeAction-' + this.resourceId + '-' + this._uid, (action) => {
                 this.selectedActionKey = action.uriKey
 
                 this.$nextTick(() => {
                     this.executeAction()
+                    console.log("Action executed " + this.resourceId + '-' + this._uid)
                 })
             });
 
@@ -115,6 +116,7 @@
                     selectedResources: this.selectedResources,
                     resourceName: this.resourceName,
                     resourceId: this.resourceId,
+                    uid:  this._uid,
                     action: this.selectedAction,
                     errors: this.errors,
                 })
