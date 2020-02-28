@@ -13,7 +13,19 @@
             <i class="fas fa-times"></i>
         </div>
 
-        <h1 class="active-panel__caption">{{ title }} <b v-if="accent">{{ accent }}</b></h1>
+        <h1 class="active-panel__caption">
+            {{ title }}
+            <b v-if="id">#{{ id }}</b>
+            <template v-if="accent && (! id || accent != id)"> -
+                <b v-if="!href">{{ accent }}</b>
+                <b v-if="href">
+                    <a target="_blank" class="text-white" :href="href">
+                        {{ accent }}
+                        <i class="fas fa-external-link-alt text-sm ml-1 align-middle"></i>
+                    </a>
+                </b>
+            </template>
+        </h1>
 
         <slot />
     </div>
@@ -28,6 +40,12 @@
                 default: null
             },
             title: {
+                default: null
+            },
+            id: {
+                default: null
+            },
+            href: {
                 default: null
             },
             backRoute: {

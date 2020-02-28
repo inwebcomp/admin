@@ -237,6 +237,16 @@ abstract class Resource
     }
 
     /**
+     * Get the value that should be displayed to represent the resource id.
+     *
+     * @return string
+     */
+    public function id()
+    {
+        return $this->resource->getKey();
+    }
+
+    /**
      * Get the value that should be displayed to represent the resource.
      *
      * @return string
@@ -257,6 +267,16 @@ abstract class Resource
     }
 
     public function preview()
+    {
+        return null;
+    }
+
+    /**
+     * Link to be applied to resource title in edit view
+     *
+     * @return string|null
+     */
+    public function href()
     {
         return null;
     }

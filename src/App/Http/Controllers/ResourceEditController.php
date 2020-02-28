@@ -16,10 +16,12 @@ class ResourceEditController extends Controller
         $resource->authorizeToView($request);
 
         return response()->json([
-            'info' => array_merge($resource::info(), [
-                'title' => $resource->title()
+            'info'     => array_merge($resource::info(), [
+                'id'    => $resource->id(),
+                'title' => $resource->title(),
+                'href'  => $resource->href(),
             ]),
-            'panels' => $resource->availablePanels($request),
+            'panels'   => $resource->availablePanels($request),
             'resource' => $this->assignFieldsToPanels(
                 $request, $resource->serializeForEdit($request)
             ),
@@ -30,7 +32,7 @@ class ResourceEditController extends Controller
      * Assign any un-assigned fields to the default panel.
      *
      * @param ResourceDetailRequest $request
-     * @param  array                $resource
+     * @param array $resource
      * @return array
      */
     protected function assignFieldsToPanels(ResourceDetailRequest $request, array $resource)

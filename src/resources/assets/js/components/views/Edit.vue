@@ -2,7 +2,7 @@
     <div class="fixed-content">
         <form @submit.prevent="save">
             <div class="scrollable-content">
-                <active-panel :title="title" :accent="accent" class="active-panel--static"
+                <active-panel :title="title" :id="resourceId" :accent="accent" :href="href" class="active-panel--static"
                               :backRoute="$route.fullPath.substr(0, $route.fullPath.indexOf('#'))">
                     <custom-actions :resourceName="resourceName" :resourceId="resourceId"/>
                 </active-panel>
@@ -239,6 +239,10 @@
 
             accent() {
                 return this.info ? this.info.title : null
+            },
+
+            href() {
+                return this.info ? this.info.href : null
             },
 
             // accent() {

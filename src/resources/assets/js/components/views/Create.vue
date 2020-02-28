@@ -7,8 +7,10 @@
 
                 <div class="px-4">
                     <component
+                            class="card--with-tabs"
                             v-for="(panel, $i) in availablePanels"
                             :key="$i"
+                            :withHeader="false"
                             :is="panel.component"
                             :resource-name="resourceName"
                             :resource-id="resourceId"
@@ -139,8 +141,9 @@
             storeResourceFormData() {
                 return _.tap(new FormData(), formData => {
                     _(this.panels).each(panel => {
-                        _(panel.fields).each(field => {
-                            field.fill(formData)
+                        _(panel.fields).filter(field => ! field.disabled).each(field => {
+                            if (field.fill)
+                                field.fill(formData)
                         })
                     })
 
