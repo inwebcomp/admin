@@ -16,7 +16,8 @@
         <h1 class="active-panel__caption">
             {{ title }}
             <b v-if="id">#{{ id }}</b>
-            <template v-if="accent && (! id || accent != id)"> -
+            <template v-if="accent && (! id || accent != id)">
+                <span v-if="id"> - </span>
                 <b v-if="!href">{{ accent }}</b>
                 <b v-if="href">
                     <a target="_blank" class="text-white" :href="href">
