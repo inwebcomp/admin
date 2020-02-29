@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "axios": "^0.18.0",
+        "flatpickr": "^4.6.3",
         "form-backend-validation": "^2.3.6",
         "lodash": "^4.17.11",
         "vue": "^2.6.10",

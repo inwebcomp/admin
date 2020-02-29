@@ -1,5 +1,6 @@
 <template>
-    <dropdown v-if="filters && filters.length > 0">
+    <dropdown v-if="filters && filters.length > 0"
+              class-whitelist="flatpickr-calendar">
         <dropdown-trigger
             slot-scope="{ toggle }"
             :handle-click="toggle"

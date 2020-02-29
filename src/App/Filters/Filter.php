@@ -162,6 +162,7 @@ abstract class Filter implements JsonSerializable
      * Prepare the filter for JSON serialization.
      *
      * @return array
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function jsonSerialize()
     {

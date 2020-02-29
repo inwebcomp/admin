@@ -13,6 +13,8 @@ abstract class DateFilter extends Filter
      */
     public $component = 'date-filter';
 
+    public $range = false;
+
     /**
      * Set the first day of the week.
      *
@@ -33,5 +35,45 @@ abstract class DateFilter extends Filter
     public function options(Request $request)
     {
         return [];
+    }
+
+    /**
+     * Filter with range (since/till)
+     *
+     * @param bool $value
+     * @return DateFilter
+     */
+    public function range($value = true)
+    {
+        $this->range = $value;
+
+        return $this->withMeta(['range' => $value]);
+    }
+
+    /**
+     * Set the default options for the filter.
+     *
+     * @return mixed
+     */
+    public function default()
+    {
+        if ($this->range)
+            return [];
+
+        return parent::default();
+    }
+
+    /**
+     * Prepare the filter for JSON serialization.
+     *
+     * @return array
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    public function jsonSerialize()
+    {
+        return array_merge(parent::jsonSerialize(), [
+            'currentValue' => $this->default(),
+            'valueSince' => '',
+        ]);
     }
 }
