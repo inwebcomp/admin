@@ -9,15 +9,34 @@
 
                 <div class="px-4">
                     <div class="tabs">
-                        <div v-for="(tab, $i) in availablePanels" :key="$i" class="tab" :class="{'tab--active': activeTab == $i}"
-                             @click="changeTab(tab, $i)" v-text="tab.name"></div>
+                        <div v-for="(tab, $i) in visiblePanels" :key="$i" class="tab"
+                             :class="{'tab--active': activeTab == tab.id}"
+                             @click="changeTab(tab)" v-text="tab.name"></div>
+
+                        <div class="tabs__more" v-if="hiddenPanels.length">
+                            <div class="tab" @click.stop="toggleTabsMenu">
+                                <i class="far fa-ellipsis-v"></i>
+                            </div>
+                            <div class="dropdown">
+                                <transition name="dropdown">
+                                    <div v-show="showTabsMenu" v-click-outside="hideTabsMenu"
+                                         class="dropdown__container rounded overflow-hidden dropdown__container--right">
+                                        <div class="dropdown__option font-bold"
+                                             :class="{'bg-accent text-white hover:bg-accent hover:text-white': activeTab == tab.id}"
+                                             @click="changeTab(tab)" v-for="(tab, $i) in hiddenPanels" :key="$i">{{
+                                            tab.name }}
+                                        </div>
+                                    </div>
+                                </transition>
+                            </div>
+                        </div>
                     </div>
 
                     <component
                             class="card--with-tabs"
                             v-for="(panel, $i) in availablePanels"
                             :key="$i"
-                            v-show="$i == activeTab"
+                            v-show="activeTab == panel.id"
                             :withHeader="false"
                             :is="panel.component"
                             :resource-name="resourceName"
@@ -29,8 +48,12 @@
                 </div>
             </div>
 
-            <floating-panel v-if="resource && (resource.authorizedToUpdate || resource.authorizedToCreate || resource.authorizedToDelete)" class="floating-panel--action-buttons">
-                <app-button v-if="resource.authorizedToUpdate" class="mr-4" submit type="save" :loading="loading">{{ __('Сохранить') }}</app-button>
+            <floating-panel
+                    v-if="resource && (resource.authorizedToUpdate || resource.authorizedToCreate || resource.authorizedToDelete)"
+                    class="floating-panel--action-buttons">
+                <app-button v-if="resource.authorizedToUpdate" class="mr-4" submit type="save" :loading="loading">{{
+                    __('Сохранить') }}
+                </app-button>
 
                 <router-link v-if="resource.authorizedToCreate"
                              :to="$makeRoute.create(resourceName)"
@@ -63,6 +86,7 @@
             validationErrors: new Errors(),
             lastRetrievedAt: null,
             activeTab: 0,
+            showTabsMenu: false,
         }),
 
         watch: {
@@ -120,6 +144,15 @@
                 })
             },
 
+            toggleTabsMenu() {
+                this.showTabsMenu = !this.showTabsMenu
+            },
+
+            hideTabsMenu(event) {
+                if (this.showTabsMenu)
+                    this.showTabsMenu = false
+            },
+
             /**
              * Update the last retrieved at timestamp to the current UNIX timestamp.
              */
@@ -175,7 +208,7 @@
             },
 
             destroy() {
-                if (! confirm(this.__('Are you sure to delete this record?')))
+                if (!confirm(this.__('Are you sure to delete this record?')))
                     return
 
                 App.api.request({
@@ -201,7 +234,7 @@
             updateResourceFormData() {
                 return _.tap(new FormData(), formData => {
                     _(this.panels).each(panel => {
-                        _(panel.fields).filter(field => ! field.disabled).each(field => {
+                        _(panel.fields).filter(field => !field.disabled).each(field => {
                             if (field.fill)
                                 field.fill(formData)
                         })
@@ -212,12 +245,13 @@
                 })
             },
 
-            changeTab(tab, index) {
+            changeTab(tab) {
+                let index = tab.id
                 this.activeTab = index
 
                 App.$emit('editFormTabChange', tab)
 
-                if (! sessionStorage.getItem('openedTabs')) {
+                if (!sessionStorage.getItem('openedTabs')) {
                     sessionStorage.setItem('openedTabs', JSON.stringify({}))
                 }
 
@@ -229,6 +263,8 @@
                 tabs[this.resourceName] = index
 
                 sessionStorage.setItem('openedTabs', JSON.stringify(tabs))
+
+                this.hideTabsMenu()
             }
         },
 
@@ -266,8 +302,19 @@
                         panels[field.panel] = this.createPanelForField(field)
                     })
 
-                    return _.toArray(panels)
+                    return _.toArray(panels).map((panel, index) => {
+                        panel.id = index
+                        return panel
+                    })
                 }
+            },
+
+            visiblePanels() {
+                return this.availablePanels ? this.availablePanels.filter(panel => ! panel.hidden) : []
+            },
+
+            hiddenPanels() {
+                return this.availablePanels ? this.availablePanels.filter(panel => panel.hidden) : []
             },
 
             actionPermissions() {

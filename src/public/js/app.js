@@ -7218,6 +7218,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "edit",
@@ -7230,7 +7253,8 @@ __webpack_require__.r(__webpack_exports__);
       loading: true,
       validationErrors: new form_backend_validation__WEBPACK_IMPORTED_MODULE_0__["Errors"](),
       lastRetrievedAt: null,
-      activeTab: 0
+      activeTab: 0,
+      showTabsMenu: false
     };
   },
   watch: {
@@ -7287,6 +7311,12 @@ __webpack_require__.r(__webpack_exports__);
           });
         }
       });
+    },
+    toggleTabsMenu: function toggleTabsMenu() {
+      this.showTabsMenu = !this.showTabsMenu;
+    },
+    hideTabsMenu: function hideTabsMenu(event) {
+      if (this.showTabsMenu) this.showTabsMenu = false;
     },
 
     /**
@@ -7384,7 +7414,8 @@ __webpack_require__.r(__webpack_exports__);
         formData.append('_retrieved_at', _this5.lastRetrievedAt);
       });
     },
-    changeTab: function changeTab(tab, index) {
+    changeTab: function changeTab(tab) {
+      var index = tab.id;
       this.activeTab = index;
       App.$emit('editFormTabChange', tab);
 
@@ -7396,6 +7427,7 @@ __webpack_require__.r(__webpack_exports__);
       if (tabs) tabs = JSON.parse(tabs);
       tabs[this.resourceName] = index;
       sessionStorage.setItem('openedTabs', JSON.stringify(tabs));
+      this.hideTabsMenu();
     }
   },
   computed: {
@@ -7428,8 +7460,21 @@ __webpack_require__.r(__webpack_exports__);
 
           panels[field.panel] = _this6.createPanelForField(field);
         });
-        return _.toArray(panels);
+        return _.toArray(panels).map(function (panel, index) {
+          panel.id = index;
+          return panel;
+        });
       }
+    },
+    visiblePanels: function visiblePanels() {
+      return this.availablePanels ? this.availablePanels.filter(function (panel) {
+        return !panel.hidden;
+      }) : [];
+    },
+    hiddenPanels: function hiddenPanels() {
+      return this.availablePanels ? this.availablePanels.filter(function (panel) {
+        return panel.hidden;
+      }) : [];
     },
     actionPermissions: function actionPermissions() {
       return [];
@@ -42401,20 +42446,101 @@ var render = function() {
                 _c(
                   "div",
                   { staticClass: "tabs" },
-                  _vm._l(_vm.availablePanels, function(tab, $i) {
-                    return _c("div", {
-                      key: $i,
-                      staticClass: "tab",
-                      class: { "tab--active": _vm.activeTab == $i },
-                      domProps: { textContent: _vm._s(tab.name) },
-                      on: {
-                        click: function($event) {
-                          return _vm.changeTab(tab, $i)
+                  [
+                    _vm._l(_vm.visiblePanels, function(tab, $i) {
+                      return _c("div", {
+                        key: $i,
+                        staticClass: "tab",
+                        class: { "tab--active": _vm.activeTab == tab.id },
+                        domProps: { textContent: _vm._s(tab.name) },
+                        on: {
+                          click: function($event) {
+                            return _vm.changeTab(tab)
+                          }
                         }
-                      }
-                    })
-                  }),
-                  0
+                      })
+                    }),
+                    _vm._v(" "),
+                    _vm.hiddenPanels.length
+                      ? _c("div", { staticClass: "tabs__more" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "tab",
+                              on: {
+                                click: function($event) {
+                                  $event.stopPropagation()
+                                  return _vm.toggleTabsMenu($event)
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "far fa-ellipsis-v" })]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "dropdown" },
+                            [
+                              _c(
+                                "transition",
+                                { attrs: { name: "dropdown" } },
+                                [
+                                  _c(
+                                    "div",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value: _vm.showTabsMenu,
+                                          expression: "showTabsMenu"
+                                        },
+                                        {
+                                          name: "click-outside",
+                                          rawName: "v-click-outside",
+                                          value: _vm.hideTabsMenu,
+                                          expression: "hideTabsMenu"
+                                        }
+                                      ],
+                                      staticClass:
+                                        "dropdown__container rounded overflow-hidden dropdown__container--right"
+                                    },
+                                    _vm._l(_vm.hiddenPanels, function(tab, $i) {
+                                      return _c(
+                                        "div",
+                                        {
+                                          key: $i,
+                                          staticClass:
+                                            "dropdown__option font-bold",
+                                          class: {
+                                            "bg-accent text-white hover:bg-accent hover:text-white":
+                                              _vm.activeTab == tab.id
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.changeTab(tab)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(tab.name) +
+                                              "\n                                    "
+                                          )
+                                        ]
+                                      )
+                                    }),
+                                    0
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ])
+                      : _vm._e()
+                  ],
+                  2
                 ),
                 _vm._v(" "),
                 _vm._l(_vm.availablePanels, function(panel, $i) {
@@ -42423,8 +42549,8 @@ var render = function() {
                       {
                         name: "show",
                         rawName: "v-show",
-                        value: $i == _vm.activeTab,
-                        expression: "$i == activeTab"
+                        value: _vm.activeTab == panel.id,
+                        expression: "activeTab == panel.id"
                       }
                     ],
                     key: $i,
@@ -42466,7 +42592,7 @@ var render = function() {
                           loading: _vm.loading
                         }
                       },
-                      [_vm._v(_vm._s(_vm.__("Сохранить")))]
+                      [_vm._v(_vm._s(_vm.__("Сохранить")) + "\n            ")]
                     )
                   : _vm._e(),
                 _vm._v(" "),

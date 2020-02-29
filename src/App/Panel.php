@@ -30,6 +30,13 @@ class Panel extends MergeValue implements JsonSerializable
     protected $inline = false;
 
     /**
+     * Is panel hidden in tabs menu or not
+     *
+     * @var boolean
+     */
+    public $hidden = false;
+
+    /**
      * Create a new panel instance.
      *
      * @param string $name
@@ -46,6 +53,12 @@ class Panel extends MergeValue implements JsonSerializable
     public function inline($value = true)
     {
         $this->inline = $value;
+        return $this;
+    }
+
+    public function hidden($value = true)
+    {
+        $this->hidden = $value;
         return $this;
     }
 
@@ -84,7 +97,8 @@ class Panel extends MergeValue implements JsonSerializable
             'component' => 'panel',
             'name'      => $this->name,
             'inline'    => $this->inline,
-            'fields'    => []
+            'hidden'    => $this->hidden,
+            'fields'    => [],
         ];
     }
 }
