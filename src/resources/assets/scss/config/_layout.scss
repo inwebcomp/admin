@@ -33,7 +33,7 @@ $header-height: 50px !default;
 $header-icon-size: rem(32px) !default;
 
 // Sidebar
-$sidebar-color: #191f2d;
+$sidebar-color: $background-color;
 $sidebar-children-color: #293045;
 $sidebar-icon-color: #788197;
 $sidebar-item-height: 0; // rem(46px);
