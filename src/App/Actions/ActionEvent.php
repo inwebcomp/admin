@@ -3,17 +3,14 @@
 namespace InWeb\Admin\App\Actions;
 
 use DateTime;
-use InWeb\Admin\App\Models\AdminUser;
-use InWeb\Admin\App\Nova;
-use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\Model;
-use InWeb\Admin\App\Http\Requests\NovaRequest;
-use InWeb\Admin\App\Http\Requests\ActionRequest;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
+use InWeb\Admin\App\Http\Requests\ActionRequest;
+use InWeb\Admin\App\Models\AdminUser;
 use InWeb\Base\Entity;
 
-class ActionEvent extends Model
+class ActionEvent extends Entity
 {
     /**
      * The attributes that aren't mass assignable.
@@ -465,7 +462,7 @@ class ActionEvent extends Model
     /**
      * @param string                              $batchId
      * @param \Illuminate\Database\Eloquent\Model $model
-     * @param string                                 $value
+     * @param string                              $value
      * @return int
      */
     public static function progressStatus($batchId, $model, $value)

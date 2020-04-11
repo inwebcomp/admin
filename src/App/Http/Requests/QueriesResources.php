@@ -61,6 +61,8 @@ trait QueriesResources
             return [$this->orderBy => $this->orderByDirection ?? 'asc'];
         } else if ($resource->defaultOrdering($this)) {
             return $resource->defaultOrdering($this);
+        } else {
+            return [];
         }
     }
 }

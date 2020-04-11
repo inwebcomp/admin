@@ -18,13 +18,13 @@ trait PerformsQueries
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function buildIndexQuery(AdminRequest $request, $query, $search = null,
-                                      array $filters = [], array $orderings = [])
+                                           array $filters = [], array $orderings = [])
     {
         return static::applyOrderings(static::applyFilters(
-            $request, static::initializeQuery($request, $query, $search), $filters
-        ), $orderings)->tap(function ($query) use ($request) {
-            static::indexQuery($request, $query->with(static::$with));
-        });
+            $request, static::initializeQuery($request,
+            static::indexQuery($request, $query->with(static::$with))
+            , $search), $filters
+        ), $orderings);
     }
 
     /**
@@ -38,20 +38,20 @@ trait PerformsQueries
     protected static function initializeQuery(AdminRequest $request, $query, $search)
     {
         return static::usesScout()
-                ? static::initializeQueryUsingScout($request, $query, $search)
-                : static::applySearch($query, $search);
+            ? static::initializeQueryUsingScout($request, $query, $search)
+            : static::applySearch($query, $search);
     }
 
     /**
      * Apply the search query to the query.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string  $search
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param  string                                $search
      * @return \Illuminate\Database\Eloquent\Builder
      */
     protected static function applySearch($query, $search)
     {
-        if  ($search == '')
+        if ($search == '')
             return $query;
 
         return $query->where(function ($query) use ($search) {
@@ -67,9 +67,9 @@ trait PerformsQueries
 
             foreach (static::searchableColumns() as $column) {
                 if ($model->translatable() and $model->isTranslationAttribute($column))
-                    $query->orWhereTranslationLike($column, '%'.$search.'%');
+                    $query->orWhereTranslationLike($column, '%' . $search . '%');
                 else
-                    $query->orWhere($model->qualifyColumn($column), $likeOperator, '%'.$search.'%');
+                    $query->orWhere($model->qualifyColumn($column), $likeOperator, '%' . $search . '%');
             }
         });
     }
@@ -109,16 +109,16 @@ trait PerformsQueries
     /**
      * Apply any applicable orderings to the query.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  array  $orderings
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param  array                                 $orderings
      * @return \Illuminate\Database\Eloquent\Builder
      */
     protected static function applyOrderings($query, array $orderings)
     {
         if (empty($orderings)) {
-            return empty($query->orders)
-                        ? static::coreOrdering($query)
-                        : $query;
+            return empty($query->getQuery()->orders)
+                ? static::coreOrdering($query)
+                : $query;
         }
 
         foreach ($orderings as $column => $direction) {
@@ -131,7 +131,7 @@ trait PerformsQueries
     /**
      * Apply any applicable orderings to the query.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Illuminate\Database\Eloquent\Builder $query
      * @return string
      */
     protected static function coreOrdering($query)

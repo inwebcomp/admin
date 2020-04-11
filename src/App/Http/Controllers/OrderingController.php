@@ -17,12 +17,18 @@ class OrderingController extends Controller
     {
         $default = array_divide($request->newResource()->defaultOrdering($request));
 
+        $orderings = $request->newResource()->availableOrderings($request);
+
+        if (empty($default) or empty($default[0])) {
+            $default = $orderings->first();
+        } else {
+            $default['field'] = $default[0][0];
+            $default['direction'] = $default[1][0];
+        }
+
         return response()->json([
-            'orderings'       => $request->newResource()->availableOrderings($request),
-            'defaultOrdering' => [
-                'field' => $default[0][0],
-                'direction' => $default[1][0],
-            ],
+            'orderings'       => $orderings,
+            'defaultOrdering' => $default,
         ]);
     }
 }
