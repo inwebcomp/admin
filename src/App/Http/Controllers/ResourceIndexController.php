@@ -100,6 +100,7 @@ class ResourceIndexController extends Controller
     {
         return [
             'currentPage' => $paginator->currentPage(),
+            'perPage'       => $paginator->perPage(),
             'total'       => $paginator->total(),
             'lastPage'    => $paginator->lastPage(),
         ];

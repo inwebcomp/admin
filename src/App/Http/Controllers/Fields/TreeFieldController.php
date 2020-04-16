@@ -42,6 +42,8 @@ class TreeFieldController extends Controller
                 $query = $relatedModel->children()->withoutGlobalScopes();
             }
 
+            $query->defaultOrder();
+
             if (new $model instanceof Sortable)
                 $query->ordered();
 
@@ -58,7 +60,7 @@ class TreeFieldController extends Controller
             });
         }
 
-        $query = $object->ancestors()->withoutGlobalScopes();
+        $query = $object->ancestors()->withoutGlobalScopes()->defaultOrder();
 
         if (new $model instanceof Sortable)
             $query->ordered();
@@ -103,7 +105,7 @@ class TreeFieldController extends Controller
             $tree->push($item);
 
             if ($item->id == $object->id and ! $object->isLeaf()) {
-                $query = $object->descendant()->withoutGlobalScopes();
+                $query = $object->descendant()->defaultOrder()->withoutGlobalScopes();
 
                 if ($object instanceof Sortable)
                     $query->ordered();

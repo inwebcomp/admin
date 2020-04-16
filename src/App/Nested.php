@@ -60,7 +60,7 @@ trait Nested
         if (! $node)
             return $path;
 
-        $node->ancestors()->withoutGlobalScopes()->ordered()->each(function(NestedContract $ancestor) use (&$path) {
+        $node->ancestors()->withoutGlobalScopes()->defaultOrder()->ordered()->each(function(NestedContract $ancestor) use (&$path) {
             $path[] = [
                 'title' => $ancestor->title,
                 'id' => $ancestor->getKey()
