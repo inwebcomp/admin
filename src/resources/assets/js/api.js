@@ -24,7 +24,7 @@ export default class Api {
         return this.request(params);
     }
 
-    request({ resourceName, action, resourceId, full, url, method, data, params }) {
+    request({ resourceName, action, resourceId, full, url, method, data, params }, ...other) {
         if (url)
             url = Api.root + '/' + url
         else
@@ -37,6 +37,7 @@ export default class Api {
             url,
             data,
             params,
+            ...other
         }).then(response => {
             if (response.data && response.data.redirect)
                 App.app.$router.push({ path: response.data.redirect })
