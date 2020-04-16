@@ -6123,6 +6123,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 //
 //
 //
@@ -6151,6 +6153,16 @@ __webpack_require__.r(__webpack_exports__);
     images: function images() {
       if (!this.field.limit) return this.field.value;
       return this.field.value.slice(0, this.field.limit);
+    },
+    styles: function styles() {
+      if (_typeof(this.field.value) != 'object') return {
+        'min-width': '3rem'
+      };
+      var count = this.field.value.length;
+      if (this.field.limit && count > this.field.limit) count = this.field.limit;
+      return {
+        'min-width': (count + 1) * 3 + 'rem'
+      };
     }
   }
 });
@@ -41741,7 +41753,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "flex" },
+    { staticClass: "flex", style: _vm.styles },
     [
       typeof _vm.field.value == "object"
         ? [

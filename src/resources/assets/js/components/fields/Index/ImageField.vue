@@ -1,5 +1,5 @@
 <template>
-    <div class="flex">
+    <div class="flex" :style="styles">
         <template v-if="typeof field.value == 'object'">
             <div class="mr-2" v-for="(image, $i) in images">
                 <img v-if="image" class="m-auto block h-12" :src="img(image)" />
@@ -33,6 +33,18 @@
                     return this.field.value
 
                 return this.field.value.slice(0, this.field.limit)
+            },
+
+            styles() {
+                if (typeof this.field.value != 'object')
+                    return {'min-width': '3rem'}
+
+                let count = this.field.value.length
+
+                if (this.field.limit && count > this.field.limit)
+                    count = this.field.limit
+
+                return {'min-width': ((count + 1) * 3) + 'rem'}
             }
         }
     }

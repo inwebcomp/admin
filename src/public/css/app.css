@@ -533,7 +533,7 @@ html {
 body {
   overflow-x: hidden;
   font-family: "Raleway", sans-serif;
-  min-width: 320px;
+  min-width: 1170px;
   color: #333;
   background-color: #f2f3f6;
           font-feature-settings: 'lnum';
