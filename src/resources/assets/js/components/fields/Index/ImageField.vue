@@ -22,6 +22,9 @@
 
         computed: {
             hasMore() {
+                if (! this.field.value)
+                    return false
+
                 if (! this.field.limit)
                     return false
 
@@ -36,6 +39,9 @@
             },
 
             styles() {
+                if (! this.field.value)
+                    return {}
+
                 if (typeof this.field.value != 'object')
                     return {'min-width': '3rem'}
 

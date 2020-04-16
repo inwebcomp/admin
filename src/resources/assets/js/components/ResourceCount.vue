@@ -14,10 +14,6 @@
             },
         },
 
-        created() {
-           console.log(this.pagination)
-        },
-
         computed: {
             min() {
                 return (this.pagination.currentPage - 1) * this.pagination.perPage + 1
