@@ -42,9 +42,9 @@
                 let count = this.field.value.length
 
                 if (this.field.limit && count > this.field.limit)
-                    count = this.field.limit
+                    count = this.field.limit + 0.5
 
-                return {'min-width': ((count + 1) * 3) + 'rem'}
+                return {'min-width': (count * 3) + 'rem'}
             }
         }
     }
