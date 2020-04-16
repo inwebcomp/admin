@@ -22,6 +22,7 @@
 
         <floating-panel>
             <pagination :pagination="pagination" @changePage="changePage"></pagination>
+            <resource-count :pagination="pagination"></resource-count>
         </floating-panel>
     </div>
 </template>
