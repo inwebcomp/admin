@@ -32,4 +32,9 @@ class Image extends Field
 
         return $this;
     }
+
+    public function limit($value)
+    {
+        return $this->withMeta(['limit' => $value]);
+    }
 }
