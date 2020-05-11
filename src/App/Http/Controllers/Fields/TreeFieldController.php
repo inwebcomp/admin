@@ -42,9 +42,7 @@ class TreeFieldController extends Controller
                 $query = $relatedModel->children()->withoutGlobalScopes();
             }
 
-            $query->defaultOrder();
-
-            if (new $model instanceof Sortable)
+            if ((new $model) instanceof Sortable)
                 $query->ordered();
 
             $tree = $query->get();
@@ -62,7 +60,7 @@ class TreeFieldController extends Controller
 
         $query = $object->ancestors()->withoutGlobalScopes()->defaultOrder();
 
-        if (new $model instanceof Sortable)
+        if ((new $model) instanceof Sortable)
             $query->ordered();
 
         $tree = $query->get();
