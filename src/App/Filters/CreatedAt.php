@@ -29,7 +29,7 @@ class CreatedAt extends DateFilter
             $value = explode(' - ', $value);
 
             if (($value[0] ?? false) && ($value[1] ?? false)) {
-                $query->whereBetween('created_at', [Carbon::make($value[0]), Carbon::make($value[1])]);
+                $query->whereBetween('created_at', [Carbon::make($value[0])->toDateString(), Carbon::make($value[1])->toDateString()]);
             } else if (($value[0] ?? false) && ! ($value[1] ?? false)) {
                 return $query->whereDate('created_at', '>=', $value[0]);
             } else if ($value[1] ?? false) {
