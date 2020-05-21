@@ -2,6 +2,7 @@
     <div :class="{'popup-wrapper': popup.active}">
         <div class="side-popup-mask" v-show="sidePopup.active" @click="closeSidePopup"></div>
         <div class="popup-mask" v-show="popup.active" @click="closePopup"></div>
+        <div class="popup-aligner" v-show="popup.active" @click="closePopup"></div>
 
         <side-popup>
             <component :is="sidePopup.component" v-bind="sidePopup.payload"></component>
