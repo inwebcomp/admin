@@ -48,6 +48,48 @@ class DispatchAction
     }
 
     /**
+     * Dispatch the given action for entire resource
+     *
+     * @param \InWeb\Admin\App\Http\Requests\ActionRequest $request
+     * @param \InWeb\Admin\App\Actions\Action $action
+     * @param string $method
+     * @param \InWeb\Admin\App\Fields\ActionFields $fields
+     * @return mixed
+     * @throws \Throwable
+     */
+    public static function forEntireResource(
+        ActionRequest $request,
+        Action $action,
+        $method,
+        ActionFields $fields
+    ) {
+        if ($action instanceof ShouldQueue) {
+            return Transaction::run(function ($batchId) use ($request, $action, $method) {
+                if (! $action->withoutActionEvents) {
+                    ActionEvent::createForResource($request, $action, $batchId, 'waiting');
+                }
+
+                Queue::connection(static::connection($action))->pushOn(
+                    static::queue($action),
+                    new CallQueuedAction(
+                        $action, $method, $request->resolveFields(), $batchId
+                    )
+                );
+            });
+        }
+
+        return Transaction::run(function ($batchId) use ($fields, $request, $action, $method) {
+            if (! $action->withoutActionEvents) {
+                ActionEvent::createForResource($request, $action, $batchId);
+            }
+
+            return $action->withBatchId($batchId)->{$method}($fields);
+        }, function ($batchId) use ($action) {
+            ActionEvent::markBatchAsFinished($batchId);
+        });
+    }
+
+    /**
      * Dispatch the given action in the background.
      *
      * @param \InWeb\Admin\App\Http\Requests\ActionRequest $request

@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InWeb\Admin\App\Http\Requests\ActionRequest;
+use InWeb\Admin\App\Http\Requests\AdminRequest;
 use InWeb\Admin\App\Models\AdminUser;
 use InWeb\Base\Entity;
+use InWeb\Admin\App\Admin;
 
 class ActionEvent extends Entity
 {
@@ -108,12 +110,12 @@ class ActionEvent extends Entity
     /**
      * Create a new action event instance for an attached resource.
      *
-     * @param \InWeb\Admin\App\Http\Requests\NovaRequest $request
+     * @param \InWeb\Admin\App\Http\Requests\AdminRequest $request
      * @param \Illuminate\Database\Eloquent\Model        $parent
      * @param \Illuminate\Database\Eloquent\Model        $pivot
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public static function forAttachedResource(NovaRequest $request, $parent, $pivot)
+    public static function forAttachedResource(AdminRequest $request, $parent, $pivot)
     {
         return new static([
             'batch_id'        => (string) Str::orderedUuid(),
@@ -121,7 +123,7 @@ class ActionEvent extends Entity
             'name'            => 'Attach',
             'actionable_type' => $parent->getMorphClass(),
             'actionable_id'   => $parent->getKey(),
-            'target_type'     => Nova::modelInstanceForKey($request->relatedResource)->getMorphClass(),
+            'target_type'     => Admin::modelInstanceForKey($request->relatedResource)->getMorphClass(),
             'target_id'       => $parent->getKey(),
             'model_type'      => $pivot->getMorphClass(),
             'model_id'        => $pivot->getKey(),
@@ -136,12 +138,12 @@ class ActionEvent extends Entity
     /**
      * Create a new action event instance for an attached resource update.
      *
-     * @param \InWeb\Admin\App\Http\Requests\NovaRequest $request
+     * @param \InWeb\Admin\App\Http\Requests\AdminRequest $request
      * @param \Illuminate\Database\Eloquent\Model        $parent
      * @param \Illuminate\Database\Eloquent\Model        $pivot
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public static function forAttachedResourceUpdate(NovaRequest $request, $parent, $pivot)
+    public static function forAttachedResourceUpdate(AdminRequest $request, $parent, $pivot)
     {
         return new static([
             'batch_id'        => (string) Str::orderedUuid(),
@@ -149,7 +151,7 @@ class ActionEvent extends Entity
             'name'            => 'Update Attached',
             'actionable_type' => $parent->getMorphClass(),
             'actionable_id'   => $parent->getKey(),
-            'target_type'     => Nova::modelInstanceForKey($request->relatedResource)->getMorphClass(),
+            'target_type'     => Admin::modelInstanceForKey($request->relatedResource)->getMorphClass(),
             'target_id'       => $request->relatedResourceId,
             'model_type'      => $pivot->getMorphClass(),
             'model_id'        => $pivot->getKey(),
@@ -283,6 +285,24 @@ class ActionEvent extends Entity
         });
 
         static::prune($models);
+    }
+
+    /**
+     * Create the action records for the given models.
+     *
+     * @param \InWeb\Admin\App\Http\Requests\ActionRequest $request
+     * @param \InWeb\Admin\App\Actions\Action              $action
+     * @param string                                       $batchId
+     * @param string                                       $status
+     * @return void
+     */
+    public static function createForResource(ActionRequest $request, Action $action, $batchId, $status = 'running')
+    {
+        $data = static::defaultAttributes($request, $action, $batchId, $status);
+
+        static::insert($data);
+
+        static::prune(collect([$data]));
     }
 
     /**

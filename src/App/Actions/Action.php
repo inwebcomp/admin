@@ -86,7 +86,37 @@ class Action implements JsonSerializable
      * @var int
      */
     public static $chunkCount = 200;
+    /**
+     * If action is disabled, but visible
+     *
+     * @var bool
+     */
     public $disabled = false;
+    /**
+     * The text to be used for the action's confirm button.
+     *
+     * @var string
+     */
+    public $confirmButtonText;
+    /**
+     * The text to be used for the action's cancel button.
+     *
+     * @var string
+     */
+    public $cancelButtonText;
+    /**
+     * The text to be used for the action's confirmation text.
+     *
+     * @var string
+     */
+    public $confirmText;
+
+    public function __construct()
+    {
+        $this->confirmButtonText = __('Выполнить');
+        $this->cancelButtonText = __('Отмена');
+        $this->confirmText = __('Вы уверены, что хотите запустить это действие?');
+    }
 
     /**
      * Determine if the action is executable for the given request.
@@ -166,6 +196,23 @@ class Action implements JsonSerializable
         return ['download' => $url, 'name' => $name];
     }
 
+    /**
+     * Return a Vue router response from the action.
+     *
+     * @param  string $path
+     * @param  array  $query
+     * @return array
+     */
+    public static function push($path, $query = [])
+    {
+        return [
+            'push' => [
+                'path'  => $path,
+                'query' => $query,
+            ],
+        ];
+    }
+
     public function disabled($value = true)
     {
         $this->disabled = $value;
@@ -192,19 +239,22 @@ class Action implements JsonSerializable
 
         $fields = $request->resolveFields();
 
-        $results = $request->chunks(
-            static::$chunkCount, function ($models) use ($fields, $request, $method, &$wasExecuted) {
-            $models = $models->filterForExecution($request);
+        if ($this->availableForEntireResource) {
+            DispatchAction::forEntireResource($request, $this, $method, $fields);
+        } else {
+            $results = $request->chunks(
+                static::$chunkCount, function ($models) use ($fields, $request, $method, &$wasExecuted) {
+                $models = $models->filterForExecution($request);
 
-            if (count($models) > 0) {
-                $wasExecuted = true;
-            }
+                if (count($models) > 0) {
+                    $wasExecuted = true;
+                }
 
-            return DispatchAction::forModels(
-                $request, $this, $method, $models, $fields
-            );
+                return DispatchAction::forModels(
+                    $request, $this, $method, $models, $fields
+                );
+            });
         }
-        );
 
         if (! $wasExecuted) {
             return static::danger(__('Sorry! You are not authorized to perform this action.'));
@@ -378,7 +428,7 @@ class Action implements JsonSerializable
      */
     public function uriKey()
     {
-        return Str::slug($this->name());
+        return Str::slug($this->name(), '-', null);
     }
 
     /**
@@ -406,6 +456,45 @@ class Action implements JsonSerializable
     }
 
     /**
+     * Set the text for the action's confirmation button.
+     *
+     * @param  string $text
+     * @return $this
+     */
+    public function confirmButtonText($text)
+    {
+        $this->confirmButtonText = $text;
+
+        return $this;
+    }
+
+    /**
+     * Set the text for the action's cancel button.
+     *
+     * @param  string $text
+     * @return $this
+     */
+    public function cancelButtonText($text)
+    {
+        $this->cancelButtonText = $text;
+
+        return $this;
+    }
+
+    /**
+     * Set the text for the action's confirmation message.
+     *
+     * @param  string $text
+     * @return $this
+     */
+    public function confirmText($text)
+    {
+        $this->confirmText = $text;
+
+        return $this;
+    }
+
+    /**
      * Prepare the action for JSON serialization.
      *
      * @return array
@@ -414,14 +503,15 @@ class Action implements JsonSerializable
     {
         return array_merge([
             'component'                  => $this->component(),
+            'cancelButtonText'           => __($this->cancelButtonText),
+            'confirmButtonText'          => __($this->confirmButtonText),
+            'confirmText'                => __($this->confirmText),
             'destructive'                => $this instanceof DestructiveAction,
             'name'                       => $this->name(),
             'icon'                       => $this->icon(),
             'disabled'                   => $this->disabled,
             'uriKey'                     => $this->uriKey(),
-            'fields'                     => collect($this->fields())->each->resolve(new class
-            {
-            })->all(),
+            'fields'                     => collect($this->fields())->each->resolve(new class{})->all(),
             'availableForEntireResource' => $this->availableForEntireResource,
             'onlyOnDetail'               => $this->onlyOnDetail,
             'onlyOnIndex'                => $this->onlyOnIndex,

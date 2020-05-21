@@ -1,17 +1,21 @@
 <template>
     <card class="card--form" :caption="withHeader ? panel.name : null">
         <div class="p-8" :class="classes">
-            <component
-                :key="index"
-                v-for="(field, index) in panel.fields"
-                :is="resolveComponentName(field)"
-                :resource-name="resourceName"
-                :resource-id="resourceId"
-                :field="field"
-                v-model="field.value"
-                :errors="errors"
-                :inline="panel.inline"
-            />
+            <slot>
+                <template v-if="panel">
+                    <component
+                        :key="index"
+                        v-for="(field, index) in panel.fields"
+                        :is="resolveComponentName(field)"
+                        :resource-name="resourceName"
+                        :resource-id="resourceId"
+                        :field="field"
+                        v-model="field.value"
+                        :errors="errors"
+                        :inline="panel.inline"
+                    />
+                </template>
+            </slot>
         </div>
     </card>
 </template>
@@ -37,7 +41,7 @@ export default {
         classes() {
             let classes = []
 
-            if (! this.panel.inline) {
+            if (! this.panel || ! this.panel.inline) {
                 classes.push('flex', 'flex-wrap', '-mx-2', 'form--flex')
             }
 
