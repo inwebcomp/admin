@@ -1,12 +1,3 @@
-<!--<template>-->
-    <!--<div>-->
-        <!--<td v-if="! field.fullCell" class="data-table__value" :class="classes">-->
-            <!--<slot></slot>-->
-        <!--</td>-->
-        <!--<slot v-if="field.fullCell" class="data-table__value" :class="classes"></slot>-->
-    <!--</div>-->
-<!--</template>-->
-
 <script>
     export default {
         name: "table-value",
@@ -14,12 +5,19 @@
         props: [
             'field',
             'resourceId',
+            'resourceName',
+            'fastEdit',
         ],
 
         render(createElement) {
-            if (! this.field.fullCell) {
-                return createElement('td', {
+            if (!this.field.fullCell) {
+                return createElement(this.isFastEdit ? 'fast-edit-field' : 'td', {
                     class: ['data-table__value', ...this.classes],
+                    props: {
+                        resourceName: this.resourceName,
+                        resourceId: this.resourceId,
+                        field: this.field,
+                    }
                 }, this.$slots.default);
             } else {
                 return this.$slots.default[0]
@@ -32,6 +30,10 @@
                     'text-' + this.field.textAlign,
                     ...this.field.classes
                 ]
+            },
+
+            isFastEdit() {
+                return this.fastEdit && this.field.fastEdit
             }
         },
     }

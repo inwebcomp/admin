@@ -72,7 +72,7 @@ class DispatchAction
                 Queue::connection(static::connection($action))->pushOn(
                     static::queue($action),
                     new CallQueuedAction(
-                        $action, $method, $request->resolveFields(), $batchId
+                        $action, $method, $request->resolveFields(), null, $batchId
                     )
                 );
             });

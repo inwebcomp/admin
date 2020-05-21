@@ -1,6 +1,6 @@
 <template>
     <aside id="sidebar">
-        <div class="sidebar">
+        <div class="sidebar styled-scrollbar">
             <div v-for="(group, $i) of groups" :key="$i" class="sidebar__item"
                  :class="{ 'sidebar__item--active': isSelected(group) }">
                 <!--<router-link :to="{-->

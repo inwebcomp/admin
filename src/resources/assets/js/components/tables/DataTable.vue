@@ -22,8 +22,8 @@
                     <table-checkbox @change="select(resource.id.value)" :value="selected.includes(resource.id.value)"/>
 
                     <template v-for="(field, $i) of resource.fields">
-                        <table-value :field="field" :resourceId="resource.id.value">
-                            <component :is="'index-' + field.component" :field="field" :resourceId="resource.id.value"></component>
+                        <table-value :fastEdit="resource.authorizedToFastUpdate" :field="field" :resourceName="resourceName" :resourceId="resource.id.value">
+                            <component :is="'index-' + field.component" :field="field" :resourceName="resourceName" :resourceId="resource.id.value"></component>
                         </table-value>
                     </template>
                 </tr>
@@ -66,6 +66,7 @@
                     return {}
                 }
             },
+            resourceName: {},
             loading: {
                 type: Boolean,
                 default: true
@@ -73,7 +74,7 @@
             sortable: {
                 type: Boolean,
                 default: false
-            }
+            },
         },
 
         data() {

@@ -18,6 +18,10 @@ Route::put('{resource}/{resourceId}/update', 'ResourceUpdateController@handle')-
 Route::delete('{resource}/destroy', 'ResourceDestroyController@handle')->name('resource.destroy');
 Route::put('{resource}/positions', 'ResourcePositionsController@handle')->name('positions.index');
 
+// Fast Edit Field
+Route::get('{resource}/{resourceId}/fast-edit/{field}', 'ResourceFastEditFieldController@edit')->name('resource.field.fast-edit');
+Route::post('{resource}/{resourceId}/fast-edit/{field}', 'ResourceFastEditFieldController@update')->name('resource.field.fast-update');
+
 // Search...
 Route::get('{resource}/search', 'SearchController@index')->name('resource.search');
 

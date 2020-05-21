@@ -43,10 +43,12 @@ class GlobalSearch
         $formatted = [];
 
         foreach ($this->getSearchResults() as $resource => $models) {
+            $group = [];
+
             foreach ($models as $model) {
                 $instance = new $resource($model);
 
-                $formatted[] = [
+                $group[] = [
                     'resourceName'  => $resource::uriKey(),
                     'resourceTitle' => $resource::label(),
                     'title'         => $instance->title(),
@@ -57,6 +59,11 @@ class GlobalSearch
                     'visibility'    => in_array(WithStatus::class, class_uses($model)) ? $model->isPublished() : true,
                 ];
             }
+
+            $formatted[] = [
+                'title' => $instance::singularLabel(),
+                'items' => $group,
+            ];
         }
 
         return $formatted;

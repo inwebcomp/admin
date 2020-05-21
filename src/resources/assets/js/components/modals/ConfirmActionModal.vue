@@ -29,7 +29,7 @@
 
         <div class="flex justify-between">
             <app-button @click.native="handleClose">{{ action.cancelButtonText }}</app-button>
-            <app-button ref="runButton" :disabled="working" submit type="add">{{ action.confirmButtonText }}
+            <app-button ref="runButton" :disabled="working" submit :type="action.destructive ? 'danger' : 'save'">{{ action.confirmButtonText }}
             </app-button>
         </div>
     </form>
@@ -83,7 +83,6 @@
              */
             handleConfirm() {
                 App.$emit('executeAction-' + this.resourceId + '-' + this.uid, this.action)
-                this.$closePopup()
             },
 
             /**

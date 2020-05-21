@@ -50,6 +50,8 @@
                     classes.push('button--success')
                 else if (this.type == 'destroy')
                     classes.push('button--danger button--icon')
+                else if (this.type == 'danger')
+                    classes.push('button--danger')
                 else if (this.type == 'accent')
                     classes.push('button--accent')
                 else if (this.type == 'link')

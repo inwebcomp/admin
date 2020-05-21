@@ -173,13 +173,18 @@
                         this.handleActionResponse(response)
                         this.working = false
 
+                        this.$closePopup()
+
                         this.$store.dispatch('resource/clearSelected')
+
+                        this.errors = new Errors({})
                     })
                     .catch(({status, data}) => {
                         this.working = false
 
                         if (status == 422) {
                             this.errors = new Errors(data.errors)
+                            this.openConfirmationModal()
                         }
                     })
             },

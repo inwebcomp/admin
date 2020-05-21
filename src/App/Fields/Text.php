@@ -31,4 +31,9 @@ class Text extends Field
 
         return $this->withMeta(['extraAttributes' => ['disabled' => true]]);
     }
+
+    public function asHtml($value = true)
+    {
+        return $this->withMeta(['asHtml' => $value]);
+    }
 }

@@ -3,6 +3,7 @@
 namespace InWeb\Admin\App\Resources;
 
 use InWeb\Admin\App\Actions\ActionTarget;
+use InWeb\Admin\App\FastEditable;
 use InWeb\Admin\App\HasPermissions;
 use InWeb\Admin\App\ResolvesFilters;
 use InWeb\Admin\App\ResolvesOrderings;
@@ -38,22 +39,20 @@ abstract class Resource
         DelegatesToResource,
         WithNotification,
         ActionTarget,
-        HasPermissions;
-
+        HasPermissions,
+        FastEditable;
     /**
      * The underlying model resource instance.
      *
      * @var Entity
      */
     private $resource;
-
     /**
      * The underlying model class.
      *
      * @var string
      */
     public static $model = null;
-
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
@@ -96,7 +95,6 @@ abstract class Resource
      * @var boolean
      */
     public static $inline = true;
-
     /**
      * Classes to style all fields
      *
@@ -356,16 +354,17 @@ abstract class Resource
     /**
      * Prepare the resource for JSON serialization.
      *
-     * @param AdminRequest $request
+     * @param AdminRequest                   $request
      * @param \Illuminate\Support\Collection $fields
      * @return array
      */
     public function serializeForIndex(AdminRequest $request, $fields = null)
     {
         return array_merge($this->serializeWithId($fields ?: $this->resolveIndexFields($request)), [
-            'authorizedToView'   => $this->authorizedToView($request),
-            'authorizedToUpdate' => $this->authorizedToUpdate($request),
-            'authorizedToDelete' => $this->authorizedToDelete($request),
+            'authorizedToView'       => $this->authorizedToView($request),
+            'authorizedToUpdate'     => $this->authorizedToUpdate($request),
+            'authorizedToFastUpdate' => $this->authorizedToFastUpdate($request),
+            'authorizedToDelete'     => $this->authorizedToDelete($request),
         ]);
     }
 
@@ -408,7 +407,7 @@ abstract class Resource
 
     public function editPath()
     {
-        return '/resource/' . static::uriKey() . '#edit/' . static::uriKey() .'/' . $this->model()->getKey();
+        return '/resource/' . static::uriKey() . '#edit/' . static::uriKey() . '/' . $this->model()->getKey();
     }
 
     public static function info()

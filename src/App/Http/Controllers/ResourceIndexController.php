@@ -2,13 +2,13 @@
 
 namespace InWeb\Admin\App\Http\Controllers;
 
+use App\Admin\Resources\ActivityMonitor;
 use App\Admin\Resources\Product;
 use Illuminate\Pagination\Paginator;
 use InWeb\Admin\App\Contracts\Nested;
 use InWeb\Admin\App\Http\Requests\ResourceIndexRequest;
 use InWeb\Base\Entity;
 use InWeb\Admin\App\Parameters;
-use Session;
 
 class ResourceIndexController extends Controller
 {
@@ -24,11 +24,11 @@ class ResourceIndexController extends Controller
         $resourceObject->authorizeToViewAny($request);
 
         return response()->json(array_merge([
-            'info'               => $resource::info(),
-            'resources'          => $paginator->getCollection()->mapInto($resource)->map->serializeForIndex($request),
-            'pagination'         => $this->getPagination($paginator),
-            'authorizedToCreate' => $resource::authorizedToCreate($request),
-            'authorizedToDelete' => $resourceObject->authorizedToDelete($request),
+            'info'                   => $resource::info(),
+            'resources'              => $paginator->getCollection()->mapInto($resource)->map->serializeForIndex($request),
+            'pagination'             => $this->getPagination($paginator),
+            'authorizedToCreate'     => $resource::authorizedToCreate($request),
+            'authorizedToDelete'     => $resourceObject->authorizedToDelete($request),
         ], (new $resource instanceof Nested) ? [
             'breadcrumbs' => $this->getBreadcrumbs($request),
         ] : []));
@@ -38,7 +38,7 @@ class ResourceIndexController extends Controller
      * Get the paginator instance for the index request.
      *
      * @param ResourceIndexRequest $request
-     * @param string $resource
+     * @param string               $resource
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     protected function paginator(ResourceIndexRequest $request, $resource)
@@ -100,7 +100,7 @@ class ResourceIndexController extends Controller
     {
         return [
             'currentPage' => $paginator->currentPage(),
-            'perPage'       => $paginator->perPage(),
+            'perPage'     => $paginator->perPage(),
             'total'       => $paginator->total(),
             'lastPage'    => $paginator->lastPage(),
         ];

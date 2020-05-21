@@ -13,6 +13,8 @@ class Section extends FieldElement
 
     public $prefixComponent = true;
 
+    public $name;
+
     /**
      * Create a new field.
      *

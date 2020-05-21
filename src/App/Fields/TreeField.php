@@ -15,6 +15,8 @@ class TreeField extends Field
     {
         parent::__construct($name, $attribute, $resolveCallback);
 
+        $this->rememberParent();
+
         $this->resolveUsing(function ($value, $model) {
             if ($model instanceof Nested and $model->isLeaf())
                 $this->withMeta(['leaf' => true]);

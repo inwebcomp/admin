@@ -240,7 +240,8 @@ class Action implements JsonSerializable
         $fields = $request->resolveFields();
 
         if ($this->availableForEntireResource) {
-            DispatchAction::forEntireResource($request, $this, $method, $fields);
+            $results = [DispatchAction::forEntireResource($request, $this, $method, $fields)];
+            $wasExecuted = true;
         } else {
             $results = $request->chunks(
                 static::$chunkCount, function ($models) use ($fields, $request, $method, &$wasExecuted) {

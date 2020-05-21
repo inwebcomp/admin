@@ -5,6 +5,7 @@ namespace InWeb\Admin\App;
 use Illuminate\Support\Collection;
 use InWeb\Admin\App\Contracts\Resolvable;
 use InWeb\Admin\App\Fields\FieldCollection;
+use InWeb\Admin\App\Fields\ID;
 use InWeb\Admin\App\Http\Requests\AdminRequest;
 use InWeb\Admin\App\Http\Requests\ResourceCreateRequest;
 use InWeb\Admin\App\Http\Requests\ResourceDetailRequest;
@@ -57,7 +58,22 @@ trait ResolvesFields
      */
     public function resolveCreationFields(AdminRequest $request)
     {
-        return $this->removeNonUpdateFields($this->resolveFields($request));
+        return $this->removeNonCreationFields($this->resolveFields($request));
+    }
+
+    /**
+     * Remove non-creation fields from the given collection.
+     *
+     * @param \Illuminate\Support\Collection $fields
+     * @return \Illuminate\Support\Collection
+     */
+    protected function removeNonCreationFields(Collection $fields)
+    {
+        return $fields->reject(function ($field) {
+            return ($field instanceof ID && $field->attribute === $this->resource->getKeyName()) ||
+                $field instanceof ResourceToolElement ||
+                (isset($field->attribute) and $field->attribute === 'ComputedField');
+        });
     }
 
     /**
@@ -70,9 +86,9 @@ trait ResolvesFields
     {
         return $fields->reject(function ($field) {
             return ($field instanceof ID && $field->attribute === $this->resource->getKeyName()) ||
-                   $field instanceof ResourceToolElement ||
-                   $field instanceof Section ||
-                   $field->attribute === 'ComputedField';
+                $field instanceof ResourceToolElement ||
+                $field instanceof Section ||
+                (isset($field->attribute) and $field->attribute === 'ComputedField');
         });
     }
 
@@ -125,11 +141,11 @@ trait ResolvesFields
     public function availablePanels(AdminRequest $request)
     {
         $panels = $this->availableFields($request, false)
-                       ->whereInstanceOf(Panel::class)
-                       ->filter(function (Panel $panel) use ($request) {
-                           return $panel->authorizedToSee($request);
-                       })
-                       ->values();
+            ->whereInstanceOf(Panel::class)
+            ->filter(function (Panel $panel) use ($request) {
+                return $panel->authorizedToSee($request);
+            })
+            ->values();
 
         $default = Panel::defaultNameFor($request->newResource());
 

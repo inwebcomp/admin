@@ -51,7 +51,7 @@
         watch: {
             resourceName: {
                 immediate: true,
-                handler(value) {
+                handler() {
                     this.fetch()
                 }
             }
@@ -127,6 +127,9 @@
                     let fields = _.toArray(JSON.parse(JSON.stringify(this.resource.fields)))
 
                     fields.forEach(field => {
+                        if (!field.panel)
+                            return
+
                         if (panels[field.panel]) {
                             return panels[field.panel].fields.push(field)
                         }
@@ -134,7 +137,10 @@
                         panels[field.panel] = this.createPanelForField(field)
                     })
 
-                    return _.toArray(panels)
+                    return _.toArray(panels).map((panel, index) => {
+                        panel.id = index
+                        return panel
+                    })
                 }
             },
 

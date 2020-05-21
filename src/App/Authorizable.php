@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use InWeb\Admin\App\Http\Requests\AdminRequest;
 use Illuminate\Auth\Access\AuthorizationException;
+use InWeb\Admin\App\Models\AdminUser;
 
 trait Authorizable
 {
@@ -137,6 +138,20 @@ trait Authorizable
     }
 
     /**
+     * Determine if the current user can update the given resource or throw an exception.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return void
+     *
+     * @throws \Throwable
+     */
+    public function authorizeToFastUpdate(Request $request)
+    {
+        $this->authorizeToUpdate($request);
+        $this->authorizeTo($request, 'fast-update');
+    }
+
+    /**
      * Determine if the current user can update the given resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -145,6 +160,17 @@ trait Authorizable
     public function authorizedToUpdate(Request $request)
     {
         return $this->authorizedTo($request, 'update');
+    }
+
+    /**
+     * Determine if the current user can update the given resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    public function authorizedToFastUpdate(Request $request)
+    {
+        return $this->authorizedToUpdate($request) and $this->authorizedTo($request, 'fast-update');
     }
 
     /**

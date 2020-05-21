@@ -5,16 +5,20 @@
         <transition name="dropdown">
             <div class="dropdown__container" ref="container" v-show="opened">
                 <ul class="dropdown__values search__values">
-                    <router-link v-for="(option, $i) in options" :key="$i" tag="li" :to="option.url" class="dropdown__option" @click="select(option.value)">
-                        <span v-if="option.image" class="dropdown__option__image"
-                              :style="{ 'background-image': 'url(' + option.image + ')' }"></span>
+                    <div v-for="(group, $i) in groups" :key="$i" class="search__option__group">
+                        <div class="dropdown__option__text search__option__group__title">{{ group.title }}</div>
 
-                        <div class="dropdown__option__text search__option__text">
-                            <div class="search__option__title">{{ option.title }}</div>
-                            <div class="search__option__subtitle">{{ option.subTitle }}</div>
-                            <div class="search__option__id">ID: {{ option.resourceId }}<i v-if="! option.visibility" class="fas fa-eye-slash  text-grey ml-2"></i></div>
-                        </div>
-                    </router-link>
+                        <router-link v-for="(option, $i) in group.items" :key="$i" tag="li" :to="option.url" class="dropdown__option" @click="select(option.value)">
+                            <span v-if="option.image" class="dropdown__option__image"
+                                  :style="{ 'background-image': 'url(' + option.image + ')' }"></span>
+
+                            <div class="dropdown__option__text search__option__text">
+                                <div class="search__option__title">{{ option.title }}</div>
+                                <div class="search__option__subtitle">{{ option.subTitle }}</div>
+                                <div class="search__option__id">ID: {{ option.resourceId }}<i v-if="! option.visibility" class="fas fa-eye-slash  text-grey ml-2"></i></div>
+                            </div>
+                        </router-link>
+                    </div>
                 </ul>
             </div>
         </transition>
@@ -29,7 +33,7 @@
             return {
                 query: '',
                 opened: false,
-                options: [],
+                groups: [],
             }
         },
 
@@ -42,7 +46,7 @@
         watch: {
             query() {
                 if (this.query == '') {
-                    this.options = []
+                    this.groups = []
                     return null
                 }
 
@@ -53,7 +57,7 @@
                         search: this.query
                     }
                 }).then(data => {
-                    this.options = data
+                    this.groups = data
                 })
             }
         },

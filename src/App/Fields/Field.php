@@ -2,7 +2,6 @@
 
 namespace InWeb\Admin\App\Fields;
 
-use InWeb\Base\Entity;
 use Closure;
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -10,11 +9,14 @@ use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use InWeb\Admin\App\Contracts\Resolvable;
+use InWeb\Admin\App\Fields\Traits\FastEditable;
 use InWeb\Admin\App\Http\Requests\AdminRequest;
 use JsonSerializable;
 
 abstract class Field extends FieldElement implements JsonSerializable, Resolvable
 {
+    use FastEditable;
+
     /**
      * The displayable name of the field.
      *
@@ -307,7 +309,6 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
             }
         }
 
-//        return data_get($resource, str_replace('->', '.', $attribute));
         return $resource->{$attribute} ?? $this->default;
     }
 

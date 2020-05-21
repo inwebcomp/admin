@@ -120,7 +120,8 @@
                 }).then(({tree, item}) => {
                     this.tree = tree
                     this.item = item
-                    this.handleChange(item.id)
+                    if (item)
+                        this.handleChange(item.id)
                 })
             }
         }

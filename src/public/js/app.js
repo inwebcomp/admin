@@ -2525,7 +2525,7 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     classes: function classes() {
       var classes = [];
-      if (this.type == 'save' || this.type == 'add') classes.push('button--success');else if (this.type == 'destroy') classes.push('button--danger button--icon');else if (this.type == 'accent') classes.push('button--accent');else if (this.type == 'link') classes.push('button--link');
+      if (this.type == 'save' || this.type == 'add') classes.push('button--success');else if (this.type == 'destroy') classes.push('button--danger button--icon');else if (this.type == 'danger') classes.push('button--danger');else if (this.type == 'accent') classes.push('button--accent');else if (this.type == 'link') classes.push('button--link');
       if (this.loading) classes.push('button--loading');
       if (this.small) classes.push('button--small');
       return classes;
@@ -3978,13 +3978,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Search",
   data: function data() {
     return {
       query: '',
       opened: false,
-      options: []
+      groups: []
     };
   },
   computed: {
@@ -3997,7 +4001,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       if (this.query == '') {
-        this.options = [];
+        this.groups = [];
         return null;
       }
 
@@ -4008,7 +4012,7 @@ __webpack_require__.r(__webpack_exports__);
           search: this.query
         }
       }).then(function (data) {
-        _this.options = data;
+        _this.groups = data;
       });
     }
   },
@@ -4588,7 +4592,11 @@ __webpack_require__.r(__webpack_exports__);
 
         _this3.working = false;
 
+        _this3.$closePopup();
+
         _this3.$store.dispatch('resource/clearSelected');
+
+        _this3.errors = new form_backend_validation__WEBPACK_IMPORTED_MODULE_1__["Errors"]({});
       })["catch"](function (_ref2) {
         var status = _ref2.status,
             data = _ref2.data;
@@ -4596,6 +4604,8 @@ __webpack_require__.r(__webpack_exports__);
 
         if (status == 422) {
           _this3.errors = new form_backend_validation__WEBPACK_IMPORTED_MODULE_1__["Errors"](data.errors);
+
+          _this3.openConfirmationModal();
         }
       });
     },
@@ -4899,6 +4909,114 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     extraAttributes: function extraAttributes() {
       var attrs = this.field.extraAttributes;
       return _objectSpread({}, this.defaultAttributes, {}, attrs);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/components/fields/FastEditField.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/components/fields/FastEditField.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "FastEditField",
+  props: {
+    field: {
+      type: Object,
+      "default": null
+    },
+    resourceName: {},
+    resourceId: {}
+  },
+  data: function data() {
+    return {
+      opened: false,
+      component: this.field.fastEditComponent,
+      value: null,
+      originalValue: null,
+      props: null
+    };
+  },
+  methods: {
+    open: function open() {
+      var _this = this;
+
+      App.api.request({
+        url: this.resourceName + '/' + this.resourceId + '/fast-edit/' + this.field.fastEdit
+      }).then(function (_ref) {
+        var value = _ref.value,
+            component = _ref.component,
+            props = _ref.props;
+
+        _this.bindHide();
+
+        _this.opened = true;
+        _this.value = value;
+        _this.originalValue = value;
+        _this.props = props;
+
+        _this.$nextTick(function () {
+          if (_this.$refs.component.$refs.input) _this.$refs.component.$refs.input.focus();
+          if (_this.$refs.component.$refs.value) _this.$refs.component.$refs.value.focus();
+        });
+      });
+    },
+    hide: function hide() {
+      if (this.originalValue != this.value) {
+        this.save();
+      } else {
+        this.opened = false;
+        this.unbindHide();
+      }
+    },
+    save: function save() {
+      var _this2 = this;
+
+      App.api.request({
+        method: 'POST',
+        url: this.resourceName + '/' + this.resourceId + '/fast-edit/' + this.field.fastEdit,
+        data: {
+          value: this.value
+        }
+      }).then(function (_ref2) {
+        var value = _ref2.value;
+        _this2.field.value = value;
+      })["finally"](function () {
+        _this2.opened = false;
+
+        _this2.unbindHide();
+      });
+    },
+    bindHide: function bindHide() {
+      var _this3 = this;
+
+      var el = this.$el;
+
+      el.event = function (event) {
+        if (!(el === event.target || el.contains(event.target))) {
+          _this3.hide(event);
+        }
+      };
+
+      document.body.addEventListener('click', el.event, true);
+    },
+    unbindHide: function unbindHide() {
+      document.body.removeEventListener('click', this.$el.event, true);
     }
   }
 });
@@ -5958,8 +6076,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             item = _ref.item;
         _this.tree = tree;
         _this.item = item;
-
-        _this.handleChange(item.id);
+        if (item) _this.handleChange(item.id);
       });
     }
   }
@@ -6296,6 +6413,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['field']
 });
@@ -6553,6 +6673,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -7058,7 +7179,6 @@ __webpack_require__.r(__webpack_exports__);
      */
     handleConfirm: function handleConfirm() {
       App.$emit('executeAction-' + this.resourceId + '-' + this.uid, this.action);
-      this.$closePopup();
     },
 
     /**
@@ -7291,6 +7411,7 @@ __webpack_require__.r(__webpack_exports__);
         return {};
       }
     },
+    resourceName: {},
     loading: {
       type: Boolean,
       "default": true
@@ -7743,22 +7864,18 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "table-value",
-  props: ['field', 'resourceId'],
+  props: ['field', 'resourceId', 'resourceName', 'fastEdit'],
   render: function render(createElement) {
     if (!this.field.fullCell) {
-      return createElement('td', {
-        "class": ['data-table__value'].concat(_toConsumableArray(this.classes))
+      return createElement(this.isFastEdit ? 'fast-edit-field' : 'td', {
+        "class": ['data-table__value'].concat(_toConsumableArray(this.classes)),
+        props: {
+          resourceName: this.resourceName,
+          resourceId: this.resourceId,
+          field: this.field
+        }
       }, this.$slots["default"]);
     } else {
       return this.$slots["default"][0];
@@ -7767,6 +7884,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   computed: {
     classes: function classes() {
       return ['text-' + this.field.textAlign].concat(_toConsumableArray(this.field.classes));
+    },
+    isFastEdit: function isFastEdit() {
+      return this.fastEdit && this.field.fastEdit;
     }
   }
 });
@@ -7831,7 +7951,7 @@ __webpack_require__.r(__webpack_exports__);
   watch: {
     resourceName: {
       immediate: true,
-      handler: function handler(value) {
+      handler: function handler() {
         this.fetch();
       }
     }
@@ -7912,13 +8032,18 @@ __webpack_require__.r(__webpack_exports__);
         var fields = _.toArray(JSON.parse(JSON.stringify(this.resource.fields)));
 
         fields.forEach(function (field) {
+          if (!field.panel) return;
+
           if (panels[field.panel]) {
             return panels[field.panel].fields.push(field);
           }
 
           panels[field.panel] = _this3.createPanelForField(field);
         });
-        return _.toArray(panels);
+        return _.toArray(panels).map(function (panel, index) {
+          panel.id = index;
+          return panel;
+        });
       }
     },
     storeResourceFormData: function storeResourceFormData() {
@@ -8285,6 +8410,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -39311,58 +39437,82 @@ var render = function() {
             _c(
               "ul",
               { staticClass: "dropdown__values search__values" },
-              _vm._l(_vm.options, function(option, $i) {
+              _vm._l(_vm.groups, function(group, $i) {
                 return _c(
-                  "router-link",
-                  {
-                    key: $i,
-                    staticClass: "dropdown__option",
-                    attrs: { tag: "li", to: option.url },
-                    on: {
-                      click: function($event) {
-                        return _vm.select(option.value)
-                      }
-                    }
-                  },
+                  "div",
+                  { key: $i, staticClass: "search__option__group" },
                   [
-                    option.image
-                      ? _c("span", {
-                          staticClass: "dropdown__option__image",
-                          style: {
-                            "background-image": "url(" + option.image + ")"
-                          }
-                        })
-                      : _vm._e(),
-                    _vm._v(" "),
                     _c(
                       "div",
                       {
                         staticClass:
-                          "dropdown__option__text search__option__text"
+                          "dropdown__option__text search__option__group__title"
                       },
-                      [
-                        _c("div", { staticClass: "search__option__title" }, [
-                          _vm._v(_vm._s(option.title))
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "search__option__subtitle" }, [
-                          _vm._v(_vm._s(option.subTitle))
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "search__option__id" }, [
-                          _vm._v("ID: " + _vm._s(option.resourceId)),
-                          !option.visibility
-                            ? _c("i", {
-                                staticClass: "fas fa-eye-slash  text-grey ml-2"
+                      [_vm._v(_vm._s(group.title))]
+                    ),
+                    _vm._v(" "),
+                    _vm._l(group.items, function(option, $i) {
+                      return _c(
+                        "router-link",
+                        {
+                          key: $i,
+                          staticClass: "dropdown__option",
+                          attrs: { tag: "li", to: option.url },
+                          on: {
+                            click: function($event) {
+                              return _vm.select(option.value)
+                            }
+                          }
+                        },
+                        [
+                          option.image
+                            ? _c("span", {
+                                staticClass: "dropdown__option__image",
+                                style: {
+                                  "background-image":
+                                    "url(" + option.image + ")"
+                                }
                               })
-                            : _vm._e()
-                        ])
-                      ]
-                    )
-                  ]
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "dropdown__option__text search__option__text"
+                            },
+                            [
+                              _c(
+                                "div",
+                                { staticClass: "search__option__title" },
+                                [_vm._v(_vm._s(option.title))]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "search__option__subtitle" },
+                                [_vm._v(_vm._s(option.subTitle))]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "search__option__id" }, [
+                                _vm._v("ID: " + _vm._s(option.resourceId)),
+                                !option.visibility
+                                  ? _c("i", {
+                                      staticClass:
+                                        "fas fa-eye-slash  text-grey ml-2"
+                                    })
+                                  : _vm._e()
+                              ])
+                            ]
+                          )
+                        ]
+                      )
+                    })
+                  ],
+                  2
                 )
               }),
-              1
+              0
             )
           ]
         )
@@ -39686,7 +39836,7 @@ var render = function() {
   return _c("aside", { attrs: { id: "sidebar" } }, [
     _c(
       "div",
-      { staticClass: "sidebar" },
+      { staticClass: "sidebar styled-scrollbar" },
       _vm._l(_vm.groups, function(group, $i) {
         return _c(
           "div",
@@ -40123,6 +40273,76 @@ var render = function() {
         ],
         2
       )
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/components/fields/FastEditField.vue?vue&type=template&id=3f2e468a&":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./src/resources/assets/js/components/fields/FastEditField.vue?vue&type=template&id=3f2e468a& ***!
+  \**********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "td",
+    {
+      staticClass: "cursor-edit",
+      on: {
+        click: function($event) {
+          if (!$event.ctrlKey) {
+            return null
+          }
+          return _vm.open($event)
+        }
+      }
+    },
+    [
+      !_vm.opened ? _vm._t("default") : _vm._e(),
+      _vm._v(" "),
+      _vm.opened
+        ? _c(
+            "div",
+            [
+              _c(
+                _vm.component,
+                _vm._b(
+                  {
+                    ref: "component",
+                    tag: "component",
+                    on: { blur: _vm.hide, select: _vm.hide },
+                    model: {
+                      value: _vm.value,
+                      callback: function($$v) {
+                        _vm.value = $$v
+                      },
+                      expression: "value"
+                    }
+                  },
+                  "component",
+                  _vm.props,
+                  false
+                )
+              )
+            ],
+            1
+          )
+        : _vm._e()
     ],
     2
   )
@@ -42009,7 +42229,17 @@ var render = function() {
     "div",
     [
       !_vm.field.link
-        ? _c("span", [_vm._v(_vm._s(_vm.field.value))])
+        ? _c("div", [
+            !_vm.field.asHtml
+              ? _c("span", {
+                  domProps: { textContent: _vm._s(_vm.field.value) }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.field.asHtml
+              ? _c("span", { domProps: { innerHTML: _vm._s(_vm.field.value) } })
+              : _vm._e()
+          ])
         : _vm._e(),
       _vm._v(" "),
       _vm.field.link
@@ -42296,6 +42526,7 @@ var render = function() {
           class: { "form__group__input--h-small": _vm.small },
           attrs: { type: "button" },
           on: {
+            focus: _vm.open,
             click: _vm.toggle,
             keydown: [
               _vm.moveFocus,
@@ -42776,7 +43007,11 @@ var render = function() {
             "app-button",
             {
               ref: "runButton",
-              attrs: { disabled: _vm.working, submit: "", type: "add" }
+              attrs: {
+                disabled: _vm.working,
+                submit: "",
+                type: _vm.action.destructive ? "danger" : "save"
+              }
             },
             [_vm._v(_vm._s(_vm.action.confirmButtonText) + "\n        ")]
           )
@@ -43156,7 +43391,9 @@ var render = function() {
                           "table-value",
                           {
                             attrs: {
+                              fastEdit: resource.authorizedToFastUpdate,
                               field: field,
+                              resourceName: _vm.resourceName,
                               resourceId: resource.id.value
                             }
                           },
@@ -43165,6 +43402,7 @@ var render = function() {
                               tag: "component",
                               attrs: {
                                 field: field,
+                                resourceName: _vm.resourceName,
                                 resourceId: resource.id.value
                               }
                             })
@@ -44108,6 +44346,7 @@ var render = function() {
       _c("data-table", {
         attrs: {
           resources: _vm.resources,
+          resourceName: _vm.resourceName,
           loading: _vm.loading,
           sortable: _vm.sortable
         },
@@ -64188,6 +64427,7 @@ var map = {
 	"./elements/HomeMenu.vue": "./src/resources/assets/js/components/elements/HomeMenu.vue",
 	"./elements/Popups.vue": "./src/resources/assets/js/components/elements/Popups.vue",
 	"./fields/Detail/TextField.vue": "./src/resources/assets/js/components/fields/Detail/TextField.vue",
+	"./fields/FastEditField.vue": "./src/resources/assets/js/components/fields/FastEditField.vue",
 	"./fields/FieldWrapper.vue": "./src/resources/assets/js/components/fields/FieldWrapper.vue",
 	"./fields/FileElementForLoad.vue": "./src/resources/assets/js/components/fields/FileElementForLoad.vue",
 	"./fields/Form/BooleanField.vue": "./src/resources/assets/js/components/fields/Form/BooleanField.vue",
@@ -66636,6 +66876,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TextField_vue_vue_type_template_id_6d1103e9___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TextField_vue_vue_type_template_id_6d1103e9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./src/resources/assets/js/components/fields/FastEditField.vue":
+/*!*********************************************************************!*\
+  !*** ./src/resources/assets/js/components/fields/FastEditField.vue ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FastEditField_vue_vue_type_template_id_3f2e468a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FastEditField.vue?vue&type=template&id=3f2e468a& */ "./src/resources/assets/js/components/fields/FastEditField.vue?vue&type=template&id=3f2e468a&");
+/* harmony import */ var _FastEditField_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FastEditField.vue?vue&type=script&lang=js& */ "./src/resources/assets/js/components/fields/FastEditField.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _FastEditField_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FastEditField_vue_vue_type_template_id_3f2e468a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FastEditField_vue_vue_type_template_id_3f2e468a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "src/resources/assets/js/components/fields/FastEditField.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./src/resources/assets/js/components/fields/FastEditField.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************!*\
+  !*** ./src/resources/assets/js/components/fields/FastEditField.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FastEditField_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./FastEditField.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/components/fields/FastEditField.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FastEditField_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./src/resources/assets/js/components/fields/FastEditField.vue?vue&type=template&id=3f2e468a&":
+/*!****************************************************************************************************!*\
+  !*** ./src/resources/assets/js/components/fields/FastEditField.vue?vue&type=template&id=3f2e468a& ***!
+  \****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FastEditField_vue_vue_type_template_id_3f2e468a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./FastEditField.vue?vue&type=template&id=3f2e468a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./src/resources/assets/js/components/fields/FastEditField.vue?vue&type=template&id=3f2e468a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FastEditField_vue_vue_type_template_id_3f2e468a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FastEditField_vue_vue_type_template_id_3f2e468a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
