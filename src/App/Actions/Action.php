@@ -239,7 +239,7 @@ class Action implements JsonSerializable
 
         $fields = $request->resolveFields();
 
-        if ($this->availableForEntireResource) {
+        if ($this->availableForEntireResource and ! $request->resources) {
             $results = [DispatchAction::forEntireResource($request, $this, $method, $fields)];
             $wasExecuted = true;
         } else {
