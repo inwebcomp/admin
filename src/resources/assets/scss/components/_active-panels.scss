@@ -22,7 +22,6 @@ $active-panel-button-icon-size: rem(20px);
 	align-items: center;
 	justify-content: space-between;
 	flex-wrap: wrap;
-	position: sticky;
 	top: $header-height;
 	z-index: 1;
 
@@ -32,6 +31,12 @@ $active-panel-button-icon-size: rem(20px);
 		top: 0;
 		position: static;
 		//z-index: -1;
+	}
+
+	&--sticky {
+		padding: $padding $padding 0;
+		top: 0;
+		position: sticky;
 	}
 }
 

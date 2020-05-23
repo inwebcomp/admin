@@ -8,6 +8,7 @@
                     :value="value"
                     :placeholder="placeholder"
                     :type="type"
+                    :step="step"
                     :tabindex="tabindex"
                     @input="$emit('input', $event.target.value)"
                     @blur="$emit('blur', $event)"
@@ -39,6 +40,7 @@
             },
             placeholder: {},
             tabindex: {},
+            step: {},
             small: {
                 type: Boolean,
                 default: false,

@@ -699,6 +699,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     {
         $this->component = 'detail-' . $this->component;
         $this->prefixComponent = false;
+        $this->disabled = true;
 
         return $this;
     }

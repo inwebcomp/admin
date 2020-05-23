@@ -87,6 +87,9 @@ export default class Admin {
                 self.$on('error', message => {
                     this.$toasted.show(message, { type: 'error' })
                 })
+                self.$on('success', message => {
+                    this.$toasted.show(message, { type: 'success' })
+                })
             },
         });
     }

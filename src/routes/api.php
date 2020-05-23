@@ -2,6 +2,7 @@
 
 // Admin...
 Route::get('admin-menu/menu', 'AdminMenuController@menu')->name('admin-menu.menu');
+Route::post('settings', 'SettingsController@update')->name('settings.update');
 
 // Auth...
 Route::group(['as' => 'login.'], function() {

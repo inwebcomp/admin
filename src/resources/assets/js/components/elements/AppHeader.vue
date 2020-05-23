@@ -10,7 +10,8 @@
 
         </div>
 
-        <!--<a class="header__settings"><i class="fas fa-cogs"></i></a>-->
+        <!-- Settings -->
+        <settings-menu />
 
         <div class="header__user">{{ user }}</div>
 

@@ -6,11 +6,19 @@ use Session;
 
 class Parameters
 {
-    public static function remember($request, $resource, $param)
+    /**
+     * @param      $request
+     * @param      $resource
+     * @param      $param
+     * @param null $value
+     * @return mixed|null
+     */
+    public static function remember($request, $resource, $param, $value = null)
     {
         $key = self::getKey($resource, $param);
 
-        $value = $request->input($param);
+        if (! $value)
+            $value = $request->input($param);
 
         if ($value === null)
             $value = Session::get($key);
@@ -44,6 +52,6 @@ class Parameters
      */
     public static function getKey($resource, $param)
     {
-        return 'parameters::' . $resource . '::' . $param;
+        return 'parameters' . ($resource ? '::' . $resource : '') . '::' . $param;
     }
 }

@@ -20,7 +20,7 @@ class ResourceFastEditFieldController extends Controller
 
         return response()->json([
             'value' => $resource->fastEditValue($request, $resource),
-            'props' => $field->fastEditProps ? call_user_func($field->fastEditProps, $resource) : null,
+            'props' => is_callable($field->fastEditProps) ? call_user_func($field->fastEditProps, $resource) : $field->fastEditProps,
         ]);
     }
 

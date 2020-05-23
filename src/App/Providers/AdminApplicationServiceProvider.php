@@ -5,6 +5,7 @@ namespace InWeb\Admin\App\Providers;
 use Illuminate\Support\ServiceProvider;
 use InWeb\Admin\App\Admin;
 use InWeb\Admin\App\Events\ServingAdmin;
+use InWeb\Admin\App\Parameters;
 
 class AdminApplicationServiceProvider extends ServiceProvider
 {
@@ -24,6 +25,8 @@ class AdminApplicationServiceProvider extends ServiceProvider
             \Gate::before(function ($user, $ability) {
                 return $user->hasRole('Super Admin') ? true : null;
             });
+            
+            $this->setLanguage();
         });
     }
 
@@ -75,6 +78,17 @@ class AdminApplicationServiceProvider extends ServiceProvider
     public function tools()
     {
         return [];
+    }
+
+    private function setLanguage()
+    {
+        $value = Parameters::get('admin', 'language');
+
+        if (in_array($value, config('inweb.languages')))
+            Admin::setLocale($value);
+        
+        if (! $value and Admin::$defaultLocale)
+            Admin::setLocale(Admin::$defaultLocale);
     }
 }
 

@@ -27,6 +27,8 @@ class Alerts
             $alerts = array_merge($alerts, Session::flash(self::$prefix));
 
         Session::flash(self::$prefix, $alerts);
+
+        return $alerts;
     }
 
     public static function success($message, $time = 3)

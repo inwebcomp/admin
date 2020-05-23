@@ -4,7 +4,6 @@
          v-click-outside="close">
         <button type="button" class="dropdown__value form__group__input" :class="{'form__group__input--h-small': small}"
                 ref="value"
-                @focus="open"
                 @click="toggle"
                 @keydown="moveFocus"
                 @keydown.enter="selectFocused">
@@ -97,7 +96,7 @@
 
         methods: {
             focus() {
-                this.opened = true
+                this.open()
             },
 
             select(value) {

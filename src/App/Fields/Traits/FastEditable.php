@@ -6,17 +6,19 @@ use InWeb\Admin\App\Fields\Field;
 
 trait FastEditable
 {
-    public $fastEditProps;
+    public $fastEditProps = [];
 
     /**
-     * @param bool   $value
-     * @param string $component
+     * @param bool|string $value
+     * @param string      $component
      * @return Field|FastEditable
      */
     public function fastEdit($value = true, $component = 'text-input')
     {
         if ($value === true)
             $value = $this->attribute;
+
+        $this->fastEditProps(['small' => true]);
 
         return $this->withMeta([
             'fastEdit'          => $value,
@@ -34,19 +36,36 @@ trait FastEditable
     }
 
     /**
+     * @param bool|string $value
      * @return Field|FastEditable
      */
-    public function fastEditSelect()
+    public function fastEditSelect($value = true)
     {
-        return $this->fastEditComponent('app-select');
+        return $this->fastEdit($value, 'app-select');
     }
 
     /**
+     * @param bool|string $value
      * @return Field|FastEditable
      */
-    public function fastEditBoolean()
+    public function fastEditBoolean($value = true)
     {
-        return $this->fastEditComponent('switch-input');
+        return $this->fastEdit($value, 'switch-input');
+    }
+
+    /**
+     * @param bool|string $value
+     * @param float       $step
+     * @return Field|FastEditable
+     */
+    public function fastEditNumber($value = true, $step = 0.01)
+    {
+        $this->fastEditProps([
+            'step' => $step,
+            'type' => 'number'
+        ]);
+
+        return $this->fastEdit($value);
     }
 
     /**
@@ -56,12 +75,10 @@ trait FastEditable
     public function fastEditProps($props)
     {
         if (! is_callable($props))
-            $this->fastEditProps = function () use ($props) {
-                return $props;
-            };
+            $this->fastEditProps = array_merge($this->fastEditProps, $props);
         else
             $this->fastEditProps = $props;
-        
+
         return $this;
     }
 }

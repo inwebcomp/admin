@@ -59,6 +59,12 @@ class Admin
      * @var array
      */
     public static $jsonVariables = [];
+    /**
+     * Admin default locale
+     *
+     * @var string
+     */
+    public static $defaultLocale;
 
     /**
      * Get the URI path prefix utilized by Admin.
@@ -495,6 +501,7 @@ class Admin
                 'baseUrl'     => static::path(),
                 'storagePath' => url('storage'),
                 'language'    => \App::getLocale(),
+                'languages'    => config('inweb.languages'),
                 'sitename'    => config('app.name'),
                 'user'        => \Auth::guard('admin')->user(),
             ];
@@ -518,6 +525,18 @@ class Admin
         }
 
         return Str::title(Str::snake($value, ' '));
+    }
+
+    public static function setLocale($locale)
+    {
+        \App::setLocale($locale);
+        \Carbon\Carbon::setLocale($locale);
+        setlocale(LC_ALL, $locale . '_' . strtoupper($locale) . '.UTF-8', $locale);
+    }
+
+    public static function setDefaultLocale($locale)
+    {
+        self::$defaultLocale = $locale;
     }
 
     /**

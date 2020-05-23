@@ -1,5 +1,5 @@
 <template>
-    <td @click.ctrl="open" class="cursor-edit">
+    <td @click="open" class="data-table__value--fast-edit cursor-edit">
         <slot v-if="!opened"></slot>
         <div v-if="opened">
             <component @blur="hide" @select="hide" ref="component" :is="component" v-model="value" v-bind="props"></component>
@@ -32,6 +32,11 @@
 
         methods: {
             open() {
+                if (this.opened)
+                    return
+
+                console.log('open')
+
                 App.api.request({
                     url: this.resourceName + '/' + this.resourceId + '/fast-edit/' + this.field.fastEdit,
                 }).then(({value, component, props}) => {
@@ -42,10 +47,10 @@
                     this.props = props
 
                     this.$nextTick(() => {
-                        if (this.$refs.component.$refs.input)
+                        if (typeof this.$refs.component.focus == 'function')
+                            this.$refs.component.focus()
+                        else if (this.$refs.component.$refs.input)
                             this.$refs.component.$refs.input.focus()
-                        if (this.$refs.component.$refs.value)
-                            this.$refs.component.$refs.value.focus()
                     })
                 })
             },
@@ -54,13 +59,15 @@
                 if (this.originalValue != this.value) {
                     this.save()
                 } else {
-                    this.opened = false
-                    this.unbindHide()
+                    setTimeout(() => {
+                        this.opened = false
+                        this.unbindHide()
+                    }, 100)
                 }
             },
 
             save() {
-                App.api.request({
+                return App.api.request({
                     method: 'POST',
                     url: this.resourceName + '/' + this.resourceId + '/fast-edit/' + this.field.fastEdit,
                     data: {

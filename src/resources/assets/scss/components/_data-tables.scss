@@ -59,6 +59,13 @@ $data-table-titles-border: 1px solid $border-color;
 .data-table__value {
     font-size: 1em;
     height: $data-table-values-height;
+
+    &--fast-edit {
+        .switch {
+            width: fit-content;
+            margin: 0 auto;
+        }
+    }
 }
 
 .data-table__value__link {
