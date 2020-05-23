@@ -2,12 +2,10 @@
     <div class="fixed-content">
         <form @submit.prevent="save">
             <div class="scrollable-content">
-                <active-panel :title="title" :id="resourceId" :accent="accent" :href="href" class="active-panel--static"
+                <active-panel :title="title" :id="resourceId" :accent="accent" :href="href" class="active-panel--sticky"
                               :backRoute="$route.fullPath.substr(0, $route.fullPath.indexOf('#'))">
                     <custom-actions :resourceName="resourceName" :resourceId="resourceId"/>
-                </active-panel>
 
-                <div class="px-4">
                     <div class="tabs">
                         <div v-for="(tab, $i) in visiblePanels" :key="$i" class="tab"
                              :class="{'tab--active': activeTab == tab.id}"
@@ -31,7 +29,9 @@
                             </div>
                         </div>
                     </div>
+                </active-panel>
 
+                <div class="px-4">
                     <component
                             class="card--with-tabs"
                             v-for="(panel, $i) in availablePanels"
