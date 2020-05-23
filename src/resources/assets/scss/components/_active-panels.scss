@@ -37,6 +37,7 @@ $active-panel-button-icon-size: rem(20px);
 		padding: $padding $padding 0;
 		top: 0;
 		position: sticky;
+		z-index: 10;
 	}
 }
 

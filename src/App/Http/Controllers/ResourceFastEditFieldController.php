@@ -18,9 +18,15 @@ class ResourceFastEditFieldController extends Controller
 
         $field = $this->getField($request, $resource);
 
+        $props = $field->fastEditProps;
+
+        if (is_callable($field->fastEditCalculatedProps)) {
+            $props = array_merge($props, call_user_func($field->fastEditCalculatedProps, $resource));
+        }
+
         return response()->json([
             'value' => $resource->fastEditValue($request, $resource),
-            'props' => is_callable($field->fastEditProps) ? call_user_func($field->fastEditProps, $resource) : $field->fastEditProps,
+            'props' => $props,
         ]);
     }
 

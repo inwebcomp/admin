@@ -7,6 +7,7 @@ use InWeb\Admin\App\Fields\Field;
 trait FastEditable
 {
     public $fastEditProps = [];
+    public $fastEditCalculatedProps;
 
     /**
      * @param bool|string $value
@@ -41,6 +42,8 @@ trait FastEditable
      */
     public function fastEditSelect($value = true)
     {
+        $this->fastEditProps(['simpleSearch' => true]);
+
         return $this->fastEdit($value, 'app-select');
     }
 
@@ -77,7 +80,7 @@ trait FastEditable
         if (! is_callable($props))
             $this->fastEditProps = array_merge($this->fastEditProps, $props);
         else
-            $this->fastEditProps = $props;
+            $this->fastEditCalculatedProps = $props;
 
         return $this;
     }

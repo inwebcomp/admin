@@ -81,6 +81,8 @@ $dropdown-max-options: 8;
     box-shadow: $box-shadow;
     z-index: 6;
     min-width: 10rem;
+    max-height: 80vh;
+    overflow-y: auto;
 
     &--left {
         left: 0;
