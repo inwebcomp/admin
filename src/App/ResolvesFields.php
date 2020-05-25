@@ -72,6 +72,7 @@ trait ResolvesFields
         return $fields->reject(function ($field) {
             return ($field instanceof ID && $field->attribute === $this->resource->getKeyName()) ||
                 $field instanceof ResourceToolElement ||
+                $field instanceof Section ||
                 (isset($field->attribute) and $field->attribute === 'ComputedField');
         });
     }
