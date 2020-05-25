@@ -17,7 +17,7 @@ trait FillsFields
     {
         return static::fillFields(
             $request, $model,
-            (new static($model))->resolveCreationFields($request)
+            (new static($model))->resolveStoreFields($request)
         );
     }
 
@@ -47,7 +47,7 @@ trait FillsFields
     {
         return static::fillFields(
             $request, $model,
-            (new static($model))->resolveCreationFields($request)
+            (new static($model))->resolveStoreFields($request)
         );
     }
 

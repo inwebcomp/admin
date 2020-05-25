@@ -43,7 +43,7 @@ trait PerformsValidation
     public static function rulesForCreation(AdminRequest $request)
     {
         return static::formatRules($request, (new static(static::newModel()))
-                    ->resolveCreationFields($request)
+                    ->resolveStoreFields($request)
                     ->mapWithKeys(function ($field) use ($request) {
                         return $field->getCreationRules($request);
                     })->all());

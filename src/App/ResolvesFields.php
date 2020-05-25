@@ -58,6 +58,17 @@ trait ResolvesFields
      */
     public function resolveCreationFields(AdminRequest $request)
     {
+        return $this->resolveFields($request);
+    }
+
+    /**
+     * Resolve the store fields.
+     *
+     * @param AdminRequest $request
+     * @return \Illuminate\Support\Collection
+     */
+    public function resolveStoreFields(AdminRequest $request)
+    {
         return $this->removeNonCreationFields($this->resolveFields($request));
     }
 
