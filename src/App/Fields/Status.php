@@ -26,6 +26,16 @@ class Status extends Field
         });
     }
 
+    protected function resolveAttribute($resource, $attribute, $original = true)
+    {
+        if (is_callable($this->resolveCallback)) {
+            $value = parent::resolveAttribute($resource, $attribute);
+            return call_user_func($this->resolveCallback, $value, $resource);
+        }
+
+        return parent::resolveAttribute($resource, $attribute);
+    }
+
     public function options($options)
     {
         return $this->withMeta(['options' => $this->options = $options]);
