@@ -3,7 +3,6 @@
 namespace InWeb\Admin\App\Http\Controllers;
 
 use InWeb\Admin\App\Http\Requests\ResourceCreateRequest;
-use InWeb\Admin\App\Http\Requests\ResourceDetailRequest;
 use InWeb\Admin\App\Panel;
 
 class ResourceCreateController extends Controller

@@ -58,7 +58,7 @@ trait ResolvesFields
      */
     public function resolveCreationFields(AdminRequest $request)
     {
-        return $this->resolveFields($request);
+        return $this->removeNonCreationFields($this->resolveFields($request));
     }
 
     /**
@@ -69,7 +69,18 @@ trait ResolvesFields
      */
     public function resolveStoreFields(AdminRequest $request)
     {
-        return $this->removeNonCreationFields($this->resolveFields($request));
+        return $this->removeNonStoreFields($this->resolveFields($request));
+    }
+
+    /**
+     * Remove non-store fields from the given collection.
+     *
+     * @param \Illuminate\Support\Collection $fields
+     * @return \Illuminate\Support\Collection
+     */
+    protected function removeNonStoreFields(Collection $fields)
+    {
+        return $this->removeNonUpdateFields($fields);
     }
 
     /**
@@ -83,7 +94,7 @@ trait ResolvesFields
         return $fields->reject(function ($field) {
             return ($field instanceof ID && $field->attribute === $this->resource->getKeyName()) ||
                 $field instanceof ResourceToolElement ||
-                $field instanceof Section ||
+                $field instanceof Panel ||
                 (isset($field->attribute) and $field->attribute === 'ComputedField');
         });
     }

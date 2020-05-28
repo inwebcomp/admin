@@ -34,14 +34,18 @@ $active-panel-button-icon-size: rem(20px);
 	}
 
 	&--sticky {
-		padding: $padding $padding 0;
-		top: 0;
+		top: $header-height;
 		position: sticky;
 		z-index: 10;
 	}
 }
 
 .active-panel--edit {
+	&.active-panel--sticky {
+		padding: $padding $padding 0;
+		top: 0;
+	}
+
 	.custom-actions {
 		flex-basis: 100%;
 		margin-left: -0.7rem;

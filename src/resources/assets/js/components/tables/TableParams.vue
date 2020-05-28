@@ -1,5 +1,5 @@
 <template>
-    <div class="active-panel">
+    <div class="active-panel active-panel--sticky">
         <div @click="go" class="active-panel__button active-panel__button--back active-panel__button--icon"><i
                 class="fas fa-chevron-left"></i></div>
 
