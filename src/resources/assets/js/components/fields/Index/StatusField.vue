@@ -1,5 +1,5 @@
 <template>
-    <div class="status-field">
+    <div class="status-field" v-if="field.value !== null">
         <span class="status-field__icon mr-2" v-if="field.value.color" :class="'bg-' + field.value.color"></span>
         <span class="status-field__text">{{ field.value.title }}</span>
     </div>

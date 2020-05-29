@@ -1,7 +1,7 @@
 <template>
     <field-wrapper :inline="inline" :size="fieldSize">
         <slot>
-            <form-label :label-for="field.attribute" :inline="inline">
+            <form-label v-if="fieldLabel" :label-for="field.attribute" :inline="inline">
                 {{ fieldLabel }}
             </form-label>
         </slot>

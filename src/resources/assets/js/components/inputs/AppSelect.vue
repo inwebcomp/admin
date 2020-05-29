@@ -77,6 +77,10 @@
             emptyTitle: {
                 type: String,
                 default: null,
+            },
+            immediateSearchWord: {
+                type: String,
+                default: null,
             }
         },
 
@@ -91,7 +95,7 @@
 
         created() {
             if (this.immediate)
-                this.$emit('search', this.searchWord)
+                this.$emit('search', this.immediateSearchWord ? this.immediateSearchWord : this.searchWord)
         },
 
         methods: {

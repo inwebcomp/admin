@@ -1,8 +1,11 @@
 <template>
     <div>
-        <h3 class="text-sm uppercase tracking-wide text-80 bg-30 p-3">{{ filter.name }}</h3>
+        <div @click="opened = !opened" class="flex items-center cursor-pointer">
+            <h3 class="text-sm uppercase tracking-wide text-80 bg-30 p-3">{{ filter.name }}</h3>
+            <i class="fas text-grey" :class="opened ? 'fa-angle-down' : 'fa-angle-up'"></i>
+        </div>
 
-        <div class="p-2 pt-0">
+        <div class="p-2 pt-0" v-show="opened">
             <date-time-picker
                 class="w-full form-control form-input form-input-bordered"
                 dusk="date-filter"
@@ -36,6 +39,15 @@ export default {
             type: String,
             required: true,
         },
+    },
+
+    data: () => ({
+        opened: true,
+    }),
+
+    mounted() {
+        if (this.filter && this.filter.opened !== undefined)
+            this.opened = this.filter.opened
     },
 
     methods: {

@@ -32,6 +32,7 @@ Route::post('/{resource}/action', 'ActionController@store');
 
 // Filters...
 Route::get('/{resource}/filters', 'FilterController@index');
+Route::get('/{resource}/filters/search-callback', 'FilterController@searchCallback');
 
 // Orderings...
 Route::get('/{resource}/orderings', 'OrderingController@index');

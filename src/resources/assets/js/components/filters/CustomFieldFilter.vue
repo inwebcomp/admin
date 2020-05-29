@@ -6,13 +6,7 @@
         </div>
 
         <div class="p-2 pt-0" v-show="opened">
-            <app-select
-                small
-                :search="filter.search"
-                :simpleSearch="true"
-                :value="value"
-                :options="filter.options"
-                @change="handleChange" />
+            <field :field="field" @input="handleChange"/>
         </div>
     </div>
 </template>
@@ -32,11 +26,27 @@ export default {
 
     data: () => ({
         opened: true,
+        field: {},
     }),
 
-    mounted() {
+    created() {
         if (this.filter && this.filter.opened !== undefined)
             this.opened = this.filter.opened
+
+        this.field = Object.assign({}, this.filter.customField, this.value ? {
+            extraAttributes: {
+                immediate: true,
+                immediateSearchWord: this.value,
+            }
+        } : {})
+
+        this.field.value = this.value
+    },
+
+    watch: {
+        value() {
+            this.field.value = this.value
+        }
     },
 
     methods: {

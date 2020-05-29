@@ -17,4 +17,11 @@ class FilterController extends Controller
     {
         return response()->json($request->newResource()->availableFilters($request));
     }
+
+    public function searchCallback(AdminRequest $request)
+    {
+        $resource = $request->findRelatedModel();
+
+        return [];
+    }
 }

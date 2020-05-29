@@ -3,6 +3,7 @@
 namespace InWeb\Admin\App\Filters;
 
 use Closure;
+use InWeb\Admin\App\Fields\Field;
 use JsonSerializable;
 use InWeb\Admin\App\Admin;
 use Illuminate\Http\Request;
@@ -156,6 +157,23 @@ abstract class Filter implements JsonSerializable
         $this->meta = array_merge($this->meta, $meta);
 
         return $this;
+    }
+
+    public function closed($value = true)
+    {
+        return $this->withMeta(['opened' => ! $value]);
+    }
+
+    public function opened($value = true)
+    {
+        return $this->withMeta(['opened' => $value]);
+    }
+
+    public function customField(Field $value)
+    {
+        $this->component = 'custom-field-filter';
+
+        return $this->withMeta(['customField' => $value->jsonSerialize()]);
     }
 
     /**
