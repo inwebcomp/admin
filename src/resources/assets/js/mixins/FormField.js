@@ -59,7 +59,33 @@ export default {
                 : ''
 
             if (this.castArray) {
-                FormDataHelper.append(value, formData, this.field.attribute)
+                if (!value.length) {
+                    formData.append(this.field.attribute, '')
+
+                    if (this.field.translatable) {
+                        Object.keys(this.field.translatableValues).forEach(locale => {
+                            if (this.field.currentLocale == locale)
+                                return
+
+                            formData.append(this.field.attribute + ':' + locale, '')
+                        })
+                    }
+                } else {
+                    FormDataHelper.append(value, formData, this.field.attribute)
+
+                    if (this.field.translatable) {
+                        Object.keys(this.field.translatableValues).forEach(locale => {
+                            if (this.field.currentLocale == locale)
+                                return
+
+                            value = !(this.field.translatableValues[locale] === undefined || this.field.translatableValues[locale] === null)
+                                ? this.field.translatableValues[locale]
+                                : ''
+
+                            FormDataHelper.append(value, formData, this.field.attribute + ':' + locale)
+                        })
+                    }
+                }
             } else {
                 formData.append(this.field.attribute, value)
 

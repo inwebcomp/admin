@@ -2,9 +2,7 @@
 
 namespace InWeb\Admin\App\Http\Controllers\Fields;
 
-use App\Models\Category;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
+use InWeb\Admin\App\Fields\Contracts\TreeFieldModel;
 use InWeb\Admin\App\Http\Controllers\Controller;
 use InWeb\Admin\App\Http\Requests\ResourceDetailRequest;
 use InWeb\Admin\App\Parameters;

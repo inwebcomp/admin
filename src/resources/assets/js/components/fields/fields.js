@@ -8,6 +8,9 @@ Vue.component('index-text-field', require('~fields/Index/TextField.vue').default
 Vue.component('form-text-field', require('~fields/Form/TextField.vue').default)
 Vue.component('detail-text-field', require('~fields/Detail/TextField.vue').default)
 
+// Multiple Text Field...
+Vue.component('form-multiple-text-field', require('~fields/Form/MultipleTextField.vue').default)
+
 // Textarea Field...
 Vue.component('index-textarea-field', require('~fields/Index/TextareaField.vue').default)
 Vue.component('form-textarea-field', require('~fields/Form/TextareaField.vue').default)
