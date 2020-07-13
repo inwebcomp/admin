@@ -33,6 +33,10 @@ class Admin
      * @var array
      */
     public static $groups = [];
+    /**
+     * @var bool
+     */
+    public static $groupedMenu = false;
 
     /**
      * All of the registered Admin tools.
@@ -87,7 +91,7 @@ class Admin
     /**
      * Register an event listener for the Admin "serving" event.
      *
-     * @param  \Closure|string $callback
+     * @param \Closure|string $callback
      * @return void
      */
     public static function serving($callback)
@@ -98,7 +102,7 @@ class Admin
     /**
      * Get meta data information about all resources for client side consumption.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public static function resourceInformation(Request $request)
@@ -111,7 +115,7 @@ class Admin
     /**
      * Get the resources available for the given request.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public static function availableResources(Request $request)
@@ -125,7 +129,7 @@ class Admin
     /**
      * Get the resources available for the given request.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Support\Collection
      */
     public static function globallySearchableResources(Request $request)
@@ -139,7 +143,7 @@ class Admin
     /**
      * Register the given resources.
      *
-     * @param  array $resources
+     * @param array $resources
      * @return static
      */
     public static function resources(array $resources)
@@ -152,16 +156,17 @@ class Admin
     /**
      * Register the given group.
      *
-     * @param string       $key
+     * @param string $key
      * @param string|array $info
+     * @param string|null $icon
      * @return static
      */
-    public static function group($key, $info)
+    public static function group($key, $info, $icon = null)
     {
         if (! is_array($info)) {
             $info = [
                 'label' => $info,
-                'icon'  => null,
+                'icon'  => $icon,
             ];
         }
 
@@ -184,7 +189,7 @@ class Admin
     /**
      * Get the available resource groups for the given request.
      *
-     * @param  Request $request
+     * @param Request $request
      * @return array
      */
     public static function groups(Request $request)
@@ -198,7 +203,7 @@ class Admin
     /**
      * Get the grouped resources available for the given request.
      *
-     * @param  Request $request
+     * @param Request $request
      * @return array
      */
     public static function groupedResources(Request $request)
@@ -206,7 +211,23 @@ class Admin
         return collect(static::availableResources($request))
             ->groupBy(function ($item, $key) {
                 return $item::group();
-            })->sortKeys()->all();
+            })->all();
+    }
+
+    /**
+     * Get the grouped resources available for the given request.
+     *
+     * @param Request $request
+     * @return array
+     */
+    public static function groupedResourcesAndTools(Request $request)
+    {
+        return collect(array_merge(
+            static::availableResources($request),
+            Admin::availableToolsForNavigation($request)
+        ))->groupBy(function ($item, $key) {
+            return $item::group();
+        })->all();
     }
 
     /**
@@ -243,7 +264,7 @@ class Admin
     /**
      * Get the resource class name for a given key.
      *
-     * @param  string $key
+     * @param string $key
      * @return Resource
      */
     public static function resourceForKey($key)
@@ -256,7 +277,7 @@ class Admin
     /**
      * Get a new resource instance with the given model instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Model $model
+     * @param \Illuminate\Database\Eloquent\Model $model
      * @return Resource
      */
     public static function newResourceFromModel($model)
@@ -269,7 +290,7 @@ class Admin
     /**
      * Get the resource class name for a given model class.
      *
-     * @param  object|string $class
+     * @param object|string $class
      * @return string
      */
     public static function resourceForModel($class)
@@ -292,7 +313,7 @@ class Admin
     /**
      * Get a resource instance for a given key.
      *
-     * @param  string $key
+     * @param string $key
      * @return Resource|null
      */
     public static function resourceInstanceForKey($key)
@@ -305,7 +326,7 @@ class Admin
     /**
      * Get a fresh model instance for the resource with the given key.
      *
-     * @param  string $key
+     * @param string $key
      * @return \Illuminate\Database\Eloquent\Model
      */
     public static function modelInstanceForKey($key)
@@ -316,11 +337,10 @@ class Admin
     }
 
 
-
     /**
      * Register new tools with Nova.
      *
-     * @param  array  $tools
+     * @param array $tools
      * @return static
      */
     public static function tools(array $tools)
@@ -346,7 +366,7 @@ class Admin
     /**
      * Get the tool class name for a given key.
      *
-     * @param  string $key
+     * @param string $key
      * @return Resource
      */
     public static function toolForKey($key)
@@ -359,7 +379,7 @@ class Admin
     /**
      * Boot the available Nova tools.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return void
      */
     public static function bootTools(Request $request)
@@ -405,7 +425,7 @@ class Admin
     /**
      * Get all of the available scripts that should be registered.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public static function availableScripts(Request $request)
@@ -426,7 +446,7 @@ class Admin
     /**
      * Get all of the available stylesheets that should be registered.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public static function availableStyles(Request $request)
@@ -437,8 +457,8 @@ class Admin
     /**
      * Register the given script file with Admin.
      *
-     * @param  string $name
-     * @param  string $path
+     * @param string $name
+     * @param string $path
      * @return static
      */
     public static function script($name, $path)
@@ -451,7 +471,7 @@ class Admin
     /**
      * Register the given remote script file with Admin.
      *
-     * @param  string $path
+     * @param string $path
      * @return static
      */
     public static function remoteScript($path)
@@ -464,8 +484,8 @@ class Admin
     /**
      * Register the given CSS file with Admin.
      *
-     * @param  string $name
-     * @param  string $path
+     * @param string $name
+     * @param string $path
      * @return static
      */
     public static function style($name, $path)
@@ -478,7 +498,7 @@ class Admin
     /**
      * Get the JSON variables that should be provided to the global Admin JavaScript object.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public static function jsonVariables(Request $request)
@@ -491,7 +511,7 @@ class Admin
     /**
      * Provide additional variables to the global Admin JavaScript object.
      *
-     * @param  array $variables
+     * @param array $variables
      * @return static
      */
     public static function provideToScript(array $variables)
@@ -501,9 +521,10 @@ class Admin
                 'baseUrl'     => static::path(),
                 'storagePath' => url('storage'),
                 'language'    => \App::getLocale(),
-                'languages'    => config('inweb.languages'),
+                'languages'   => config('inweb.languages'),
                 'sitename'    => config('app.name'),
                 'user'        => \Auth::guard('admin')->user(),
+                'groupedMenu' => static::$groupedMenu,
             ];
         }
 
@@ -515,7 +536,7 @@ class Admin
     /**
      * Humanize the given value into a proper name.
      *
-     * @param  string  $value
+     * @param string $value
      * @return string
      */
     public static function humanize($value)
@@ -542,8 +563,8 @@ class Admin
     /**
      * Dynamically proxy static method calls.
      *
-     * @param  string $method
-     * @param  array  $parameters
+     * @param string $method
+     * @param array $parameters
      * @return void
      */
     public static function __callStatic($method, $parameters)
@@ -553,6 +574,11 @@ class Admin
         }
 
         return static::${$method};
+    }
+
+    public static function groupedMenu()
+    {
+        self::$groupedMenu = true;
     }
 }
 

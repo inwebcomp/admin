@@ -53,6 +53,7 @@ class AdminApplicationServiceProvider extends ServiceProvider
         ]);
 
         Admin::group('other', __('Другие'));
+        Admin::group('tools', __('Инструменты'), 'ellipsis-h');
     }
 
     /**

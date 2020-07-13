@@ -36,8 +36,9 @@ $header-icon-size: rem(32px) !default;
 $sidebar-color: #191f2d;
 $sidebar-children-color: #293045;
 $sidebar-icon-color: #788197;
-$sidebar-item-height: 0; // rem(46px);
+$sidebar-item-height: rem(46px);
 $sidebar-children-item-height: rem(46px);
 $sidebar-children-width: rem(180px);
 
-$sidebar-width: $sidebar-children-width; // $sidebar-item-height +
+$sidebar-width: $sidebar-children-width;
+$sidebar-width-grouped: $sidebar-item-height + $sidebar-children-width;

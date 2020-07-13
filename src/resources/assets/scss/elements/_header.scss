@@ -10,11 +10,17 @@
 	align-items: center;
 	justify-content: space-between;
     border-bottom: 1px solid $border-color;
+
+	&--grouped-menu {
+		.header__sitename {
+			width: $sidebar-width-grouped;
+		}
+	}
 }
 
 .header__sitename {
 	height: $header-height;
-	width: $sidebar-item-height + $sidebar-children-width;
+	width: $sidebar-width;
     background-color: #191f2e;
     margin-right: $padding;
     text-align: center;

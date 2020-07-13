@@ -36,3 +36,8 @@ body {
     margin-left: $sidebar-width;
     margin-top: $header-height;
 }
+
+#sidebar.sidebar--grouped + #content {
+    margin-left: $sidebar-width-grouped;
+    margin-top: $header-height;
+}

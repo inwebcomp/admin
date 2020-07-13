@@ -4388,7 +4388,8 @@ __webpack_require__.r(__webpack_exports__);
   name: "app-header",
   data: function data() {
     return {
-      sitename: App.config.sitename
+      sitename: App.config.sitename,
+      groupedMenu: App.config.groupedMenu
     };
   },
   computed: {
@@ -4429,7 +4430,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _js_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ~js/api */ "./src/resources/assets/js/api.js");
 //
 //
 //
@@ -4461,12 +4461,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "app-menu",
   data: function data() {
     return {
-      groups: []
+      groups: [],
+      grouped: App.config.groupedMenu
     };
   },
   props: ['resourceName', 'action', 'param'],
@@ -4483,12 +4487,23 @@ __webpack_require__.r(__webpack_exports__);
       App.api.request({
         resourceName: 'admin-menu',
         action: 'menu'
-      }).then(function (data) {
-        return _this.groups = data;
+      }).then(function (_ref) {
+        var menu = _ref.menu;
+        _this.groups = menu;
       });
     },
     isSelected: function isSelected(group) {
-      return true;
+      var _this2 = this;
+
+      return !!group.resources.find(function (resource) {
+        if (_this2.$route.name == 'index' && _this2.$route.params.resourceName == resource.uriKey) return true;
+        if (_this2.$route.name != 'index' && _this2.$route.name == resource.uriKey) return true;
+      });
+    },
+    isSelectedItem: function isSelectedItem(resource) {
+      if (this.$route.name == 'index' && this.$route.params.resourceName == resource.uriKey) return true;
+      if (this.$route.name != 'index' && this.$route.name == resource.uriKey) return true;
+      return false;
     }
   }
 });
@@ -40347,7 +40362,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "header",
-    { staticClass: "header" },
+    {
+      staticClass: "header",
+      class: { "header--grouped-menu": _vm.groupedMenu }
+    },
     [
       _c("div", { staticClass: "header__sitename" }, [
         _c(
@@ -40397,64 +40415,107 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("aside", { attrs: { id: "sidebar" } }, [
-    _c(
-      "div",
-      { staticClass: "sidebar styled-scrollbar" },
-      _vm._l(_vm.groups, function(group, $i) {
-        return _c(
-          "div",
-          {
-            key: $i,
-            staticClass: "sidebar__item",
-            class: { "sidebar__item--active": _vm.isSelected(group) }
-          },
-          [
-            _c(
-              "div",
-              { staticClass: "sidebar__children" },
-              _vm._l(group.resources, function(resource, $i2) {
-                return _c(
-                  "router-link",
-                  {
-                    key: $i2,
-                    staticClass: "sidebar__children__item",
-                    attrs: {
-                      to: {
-                        name: resource.route || "index",
-                        params: {
-                          resourceName: resource.uriKey
-                        }
-                      },
-                      title: resource.label
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(resource.label) +
-                        "\n                    "
-                    ),
-                    resource.notification
-                      ? _c(
-                          "div",
-                          {
-                            staticClass: "sidebar__children__item__notification"
-                          },
-                          [_vm._v(_vm._s(resource.notification))]
+  return _c(
+    "aside",
+    { class: { "sidebar--grouped": _vm.grouped }, attrs: { id: "sidebar" } },
+    [
+      _c(
+        "div",
+        { staticClass: "sidebar", class: { "styled-scrollbar": !_vm.grouped } },
+        _vm._l(_vm.groups, function(group, $i) {
+          return _c(
+            "div",
+            {
+              key: $i,
+              staticClass: "sidebar__item",
+              class: { "sidebar__item--active": _vm.isSelected(group) }
+            },
+            [
+              _vm.grouped
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "sidebar__item__link",
+                      attrs: {
+                        to: {
+                          name: group.resources[0].route || "index",
+                          params: {
+                            resourceName: group.resources[0].uriKey
+                          }
+                        },
+                        title: group.label
+                      }
+                    },
+                    [
+                      _c("i", {
+                        staticClass: "icon fas",
+                        class: "fa-" + (group.icon ? group.icon : "circle")
+                      })
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "sidebar__children",
+                  class: { "styled-scrollbar": _vm.grouped }
+                },
+                _vm._l(group.resources, function(resource, $i2) {
+                  return _c(
+                    "router-link",
+                    {
+                      key: $i2,
+                      staticClass: "sidebar__children__item",
+                      class: {
+                        "sidebar__children__item--active": _vm.isSelectedItem(
+                          resource
                         )
-                      : _vm._e()
-                  ]
-                )
-              }),
-              1
-            )
-          ]
-        )
-      }),
-      0
-    )
-  ])
+                      },
+                      attrs: {
+                        to: {
+                          name: resource.route || "index",
+                          params: {
+                            resourceName: resource.uriKey
+                          }
+                        },
+                        title: resource.label
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(resource.label) +
+                          "\n                    "
+                      ),
+                      resource.notification
+                        ? _c(
+                            "div",
+                            {
+                              staticClass:
+                                "sidebar__children__item__notification"
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(resource.notification) +
+                                  "\n                    "
+                              )
+                            ]
+                          )
+                        : _vm._e()
+                    ]
+                  )
+                }),
+                1
+              )
+            ],
+            1
+          )
+        }),
+        0
+      )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

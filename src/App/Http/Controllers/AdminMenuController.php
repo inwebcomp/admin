@@ -12,9 +12,13 @@ class AdminMenuController extends Controller
     {
         $menu = [];
 
-        $groups = Admin::groupedResources($request);
-
-        $groups['tools'] = Admin::availableToolsForNavigation($request);
+        if (Admin::$groupedMenu) {
+            $groups = Admin::groupedResourcesAndTools($request);
+        } else {
+            $groups = [];
+            $groups['other'] = Admin::availableResources($request);
+            $groups['tools'] = Admin::availableToolsForNavigation($request);
+        }
 
         foreach ($groups as $groupKey => $resources) {
             $group = Admin::groupInfo($groupKey);
@@ -39,6 +43,8 @@ class AdminMenuController extends Controller
             }
         };
 
-        return $menu;
+        return [
+            'menu' => $menu,
+        ];
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <header class="header">
+    <header class="header" :class="{'header--grouped-menu': groupedMenu}">
         <div class="header__sitename">
             <a target="_blank" href="/" class="header__sitename__link">{{ sitename }}</a>
         </div>
@@ -25,7 +25,8 @@
 
         data() {
             return {
-                sitename: App.config.sitename
+                sitename: App.config.sitename,
+                groupedMenu: App.config.groupedMenu,
             }
         },
 

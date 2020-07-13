@@ -9,7 +9,18 @@ abstract class Tool extends Element
 {
     use WithNotification;
 
-    public static $position = null;
+    public static $position = 999;
+    public static $group = 'tools';
+
+    /**
+     * Get the logical group associated with the resource.
+     *
+     * @return string
+     */
+    public static function group()
+    {
+        return static::$group;
+    }
 
     /**
      * Perform any tasks that need to happen on tool registration.

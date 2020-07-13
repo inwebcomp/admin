@@ -562,6 +562,11 @@ body {
   margin-top: 50px;
 }
 
+#sidebar.sidebar--grouped + #content {
+  margin-left: 16.143rem;
+  margin-top: 50px;
+}
+
 .button {
   font-size: 1.214rem;
   color: #555;
@@ -2199,6 +2204,10 @@ select {
   border-bottom: 1px solid #e6e6e6;
 }
 
+.header--grouped-menu .header__sitename {
+  width: 16.143rem;
+}
+
 .header__sitename {
   height: 50px;
   width: 12.857rem;
@@ -2449,6 +2458,7 @@ select {
 
 .sidebar {
   width: 12.857rem;
+  background-color: #293045;
   height: calc(100% - 50px);
   position: fixed;
   top: 50px;
@@ -2456,7 +2466,6 @@ select {
   bottom: 0;
   font-size: 1rem;
   z-index: 78;
-  background-color: #293045;
   overflow: hidden;
   overflow-y: auto;
 }
@@ -2482,7 +2491,7 @@ select {
 
 .sidebar__children {
   bottom: 0;
-  display: none;
+  display: block;
 }
 
 .sidebar__item__link:hover + .sidebar__children {
@@ -2496,7 +2505,7 @@ select {
 }
 
 .sidebar__item--active .sidebar__children {
-  display: block;
+  display: block !important;
 }
 
 .sidebar__children__item {
@@ -2517,7 +2526,8 @@ select {
  transition: background-color ease .15s;
 }
 
-.sidebar__children__item:hover {
+.sidebar__children__item:hover,
+.sidebar__children__item--active {
   background-color: #3c4665;
 }
 
@@ -2533,6 +2543,33 @@ select {
   background-color: #5a69c6;
   font-size: 10px;
   margin-left: 3px;
+}
+
+.sidebar--grouped .sidebar {
+  width: 16.143rem;
+  background-color: #191f2d;
+}
+
+.sidebar--grouped .sidebar__item__link {
+  display: block;
+  width: 3.286rem;
+  height: 3.286rem;
+  line-height: 3.286rem;
+  text-align: center;
+  cursor: pointer;
+ transition: background-color ease .15s;
+}
+
+.sidebar--grouped .sidebar__children {
+  width: 12.857rem;
+  height: 100%;
+  position: fixed;
+  top: 50px;
+  left: 3.286rem;
+  background-color: #293045;
+  overflow: hidden;
+  overflow-y: auto;
+  display: none;
 }
 
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */

@@ -1,32 +1,32 @@
 .sidebar {
-	width: $sidebar-children-width;
-	//background-color: $sidebar-color;
-	height: calc(100% - #{$header-height});
-	position: fixed;
-	top: $header-height;
-	left: 0;
-	bottom: 0;
-	font-size: 1rem;
+    width: $sidebar-children-width;
+    background-color: $sidebar-children-color;
+    height: calc(100% - #{$header-height});
+    position: fixed;
+    top: $header-height;
+    left: 0;
+    bottom: 0;
+    font-size: 1rem;
     z-index: $z-index-menu;
-	background-color: $sidebar-children-color;
-	overflow: hidden;
-	overflow-y: auto;
+    overflow: hidden;
+    overflow-y: auto;
 
-	.icon {
-		color: $sidebar-icon-color;
-	}
+    .icon {
+        color: $sidebar-icon-color;
+    }
 }
 
 .sidebar__item__link {
-	display: block;
-	width: $sidebar-item-height;
-	height: $sidebar-item-height;
-	line-height: $sidebar-item-height;
-	text-align: center;
-	cursor: pointer;
+    display: block;
+    width: 0;
+    height: 0;
+    line-height: 0;
+    text-align: center;
+    cursor: pointer;
 
-	@include transition(background-color $transition);
+    @include transition(background-color $transition);
 }
+
 .sidebar__item--active, .sidebar__item:hover {
     .sidebar__item__link {
         background-color: lighten($sidebar-color, 10%);
@@ -34,61 +34,96 @@
 }
 
 
-
 .sidebar__children {
-	//width: $sidebar-children-width;
-	//height: 100%;
-	//position: fixed;
-	//top: $header-height;
-	//left: $sidebar-item-height;
-	bottom: 0;
-	display: none;
+    //width: $sidebar-children-width;
+    //height: 100%;
+    //position: fixed;
+    //top: $header-height;
+    //left: $sidebar-item-height;
+    bottom: 0;
+    display: block;
 }
+
 .sidebar__item__link:hover + .sidebar__children {
-	display: block;
-	z-index: 1;
+    display: block;
+    z-index: 1;
 }
+
 .sidebar__children:hover {
-	display: block;
-	z-index: 1;
+    display: block;
+    z-index: 1;
 }
+
 .sidebar__item--active .sidebar__children {
-	display: block;
+    display: block !important;
 }
 
 .sidebar__children__item {
-	width: 100%;
-	box-sizing: border-box;
-	padding: 0 $padding;
-	height: $sidebar-children-item-height;
-	line-height: $sidebar-children-item-height;
-	text-align: left;
-	cursor: pointer;
-	color: #FFF;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 $padding;
+    height: $sidebar-children-item-height;
+    line-height: $sidebar-children-item-height;
+    text-align: left;
+    cursor: pointer;
+    color: #FFF;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-	@include transition(background-color $transition);
+    @include transition(background-color $transition);
 
-	&:hover {
-		background-color: lighten($sidebar-children-color, 10%);
-	}
+    &:hover, &--active {
+        background-color: lighten($sidebar-children-color, 10%);
+    }
 
-	&__notification {
-		display: inline-block;
-		min-width: 16px;
-		padding: 0 4px;
-		height: 15px;
-		line-height: 16px;
-		text-align: center;
-		font-weight: bold;
-		border-radius: 7px;
-		background-color: $active-panel-bg-color;
-		font-size: 10px;
-		margin-left: 3px;
-	}
+    &__notification {
+        display: inline-block;
+        min-width: 16px;
+        padding: 0 4px;
+        height: 15px;
+        line-height: 16px;
+        text-align: center;
+        font-weight: bold;
+        border-radius: 7px;
+        background-color: $active-panel-bg-color;
+        font-size: 10px;
+        margin-left: 3px;
+    }
+}
+
+
+.sidebar {
+    &--grouped {
+        .sidebar {
+            width: $sidebar-item-height + $sidebar-children-width;
+            background-color: $sidebar-color;
+        }
+
+        .sidebar__item__link {
+            display: block;
+            width: $sidebar-item-height;
+            height: $sidebar-item-height;
+            line-height: $sidebar-item-height;
+            text-align: center;
+            cursor: pointer;
+
+            @include transition(background-color $transition);
+        }
+
+        .sidebar__children {
+            width: $sidebar-children-width;
+            height: 100%;
+            position: fixed;
+            top: $header-height;
+            left: $sidebar-item-height;
+            background-color: $sidebar-children-color;
+            overflow: hidden;
+            overflow-y: auto;
+            display: none;
+        }
+    }
 }
