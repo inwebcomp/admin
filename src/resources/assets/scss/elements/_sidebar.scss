@@ -45,13 +45,13 @@
 }
 
 .sidebar__item__link:hover + .sidebar__children {
-    display: block;
-    z-index: 1;
+    display: block !important;
+    z-index: 1 !important;
 }
 
 .sidebar__children:hover {
-    display: block;
-    z-index: 1;
+    display: block !important;
+    z-index: 1 !important;
 }
 
 .sidebar__item--active .sidebar__children {

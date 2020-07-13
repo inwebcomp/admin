@@ -7,7 +7,7 @@
             <a class="header__settings"><i class="fas fa-cogs"></i></a>
         </dropdown-trigger>
 
-        <dropdown-menu class="text-black p-4" slot="menu" direction="rtl"
+        <dropdown-menu class="text-black p-4" slot="menu" direction="rtl" width="140"
                        slot-scope="{ toggle }">
             <div class="form__group form__group--inline w-full mb-0">
                 <form-label>{{ __('Язык') }}</form-label>
