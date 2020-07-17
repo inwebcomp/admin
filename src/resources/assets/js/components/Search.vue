@@ -34,6 +34,7 @@
                 query: '',
                 opened: false,
                 groups: [],
+                timer: null,
             }
         },
 
@@ -50,15 +51,19 @@
                     return null
                 }
 
-                App.api.request({
-                    controller: this.resource.uriKey,
-                    action: 'search',
-                    params: {
-                        search: this.query
-                    }
-                }).then(data => {
-                    this.groups = data
-                })
+                clearTimeout(this.timer)
+
+                this.timer = setTimeout(() => {
+                    App.api.request({
+                        controller: this.resource.uriKey,
+                        action: 'search',
+                        params: {
+                            search: this.query
+                        }
+                    }).then(data => {
+                        this.groups = data
+                    })
+                }, 300)
             }
         },
 

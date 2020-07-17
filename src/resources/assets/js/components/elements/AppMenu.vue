@@ -2,7 +2,7 @@
     <aside id="sidebar" :class="{'sidebar--grouped': grouped}">
         <div class="sidebar" :class="{'styled-scrollbar': !grouped}">
             <div v-for="(group, $i) of groups" :key="$i" class="sidebar__item"
-                 :class="{ 'sidebar__item--active': isSelected(group) }">
+                 :class="{ 'sidebar__item--active': isSelected(group, $i) }">
                 <router-link v-if="grouped" :to="{
                             name: group.resources[0].route || 'index',
                             params: {
@@ -64,7 +64,11 @@
                 })
             },
 
-            isSelected(group) {
+            isSelected(group, index) {
+                if (index == 0 && this.$route.name == 'home') {
+                    return true;
+                }
+
                 return !!group.resources.find(resource => {
                     if (this.$route.name == 'index' && this.$route.params.resourceName == resource.uriKey)
                         return true
