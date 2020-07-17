@@ -19,7 +19,7 @@
         "axios": "^0.18.0",
         "flatpickr": "^4.6.3",
         "form-backend-validation": "^2.3.6",
-        "lodash": "^4.17.11",
+        "lodash": "^4.17.19",
         "vue": "^2.6.10",
         "vue-axios": "^2.1.4",
         "vue-froala-wysiwyg": "^2.9.3",
