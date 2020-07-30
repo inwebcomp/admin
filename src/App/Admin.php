@@ -37,6 +37,10 @@ class Admin
      * @var bool
      */
     public static $groupedMenu = false;
+    /**
+     * @var array
+     */
+    public static $menu = null;
 
     /**
      * All of the registered Admin tools.
@@ -222,6 +226,10 @@ class Admin
      */
     public static function groupedResourcesAndTools(Request $request)
     {
+        if (Admin::$menu) {
+            return Admin::$menu;
+        }
+
         return collect(array_merge(
             static::availableResources($request),
             Admin::availableToolsForNavigation($request)
@@ -579,6 +587,11 @@ class Admin
     public static function groupedMenu()
     {
         self::$groupedMenu = true;
+    }
+
+    public static function setMenu($menu)
+    {
+        self::$menu = $menu;
     }
 }
 

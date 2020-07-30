@@ -18,7 +18,7 @@
                             <div class="dropdown">
                                 <transition name="dropdown">
                                     <div v-show="showTabsMenu" v-click-outside="hideTabsMenu"
-                                         class="dropdown__container rounded overflow-hidden dropdown__container--right">
+                                         class="dropdown__container rounded overflow-hidden dropdown__container--right w-auto">
                                         <div class="dropdown__option font-bold"
                                              :class="{'bg-accent text-white hover:bg-accent hover:text-white': activeTab == tab.id}"
                                              @click="changeTab(tab)" v-for="(tab, $i) in hiddenPanels" :key="$i">{{
