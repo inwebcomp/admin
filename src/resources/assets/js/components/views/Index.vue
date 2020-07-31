@@ -166,6 +166,8 @@
             App.$off('resourceStore')
             App.$off('parentSelect')
             App.$off('indexRefresh')
+            App.$off('actionExecuted')
+            App.$off('back')
         },
 
         methods: {
