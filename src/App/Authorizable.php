@@ -42,6 +42,17 @@ trait Authorizable
     }
 
     /**
+     * Determine if the element should be displayed for the given request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    public function authorize(Request $request)
+    {
+        return self::authorizedToViewAny($request);
+    }
+
+    /**
      * Determine if the resource should be available for the given request.
      *
      * @param \Illuminate\Http\Request $request

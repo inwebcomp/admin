@@ -35,9 +35,11 @@ class AdminMenuController extends Controller
             }
 
             if (isset($group['resources']) and $group['resources'] and count($group['resources'])) {
-                usort($group['resources'], function ($a, $b) {
-                    return $a['position'] > $b['position'];
-                });
+                if (! Admin::$menu) {
+                    usort($group['resources'], function ($a, $b) {
+                        return $a['position'] > $b['position'];
+                    });
+                }
 
                 $menu[] = $group;
             }

@@ -3,6 +3,7 @@
 namespace InWeb\Admin\App;
 
 use App\Admin\Resources\Page;
+use App\Admin\Resources\Product;
 use BadMethodCallException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
@@ -227,7 +228,17 @@ class Admin
     public static function groupedResourcesAndTools(Request $request)
     {
         if (Admin::$menu) {
-            return Admin::$menu;
+            $menu = Admin::$menu;
+
+            foreach ($menu as $key => $resources) {
+                $menu[$key] = collect($resources)->filter(function ($resource) use ($request) {
+                    $resource = new $resource;
+                    return $resource->authorize($request) &&
+                           $resource::availableForNavigation($request);
+                })->all();
+            }
+
+            return $menu;
         }
 
         return collect(array_merge(
