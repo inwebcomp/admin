@@ -23,16 +23,24 @@
                     </div>
                 </td>
                 <td class="py-4 px-6 border-b border-grey-light">
-                    <div :title="item.progress_status ? item.progress_status : statusTitle(item.status)" class="status-field__icon bg-grey w-32"  style="display: block" v-if="item.progress_total">
+                    <div :title="item.progress_status ? item.progress_status : statusTitle(item.status)"
+                         class="status-field__icon bg-grey w-32" style="display: block" v-if="item.progress_total">
                         <div class="text-white text-sm relative">
-                            <div class="text-center z-10 relative" :class="{'text-black': statusColor(item.status) == 'warning'}">{{ item.progress + '/' + item.progress_total }}</div>
-                            <div class="progress-bar__value" :style="{width: ((item.progress / item.progress_total) * 100) + '%'}" :class="'bg-' + statusColor(item.status)"></div>
+                            <div class="text-center z-10 relative"
+                                 :class="{'text-black': statusColor(item.status) == 'warning'}">{{ item.progress + '/' +
+                                item.progress_total }}
+                            </div>
+                            <div class="progress-bar__value"
+                                 :style="{width: ((item.progress / item.progress_total) * 100) + '%'}"
+                                 :class="'bg-' + statusColor(item.status)"></div>
                         </div>
                     </div>
 
-                    <span v-if="! item.progress_total" :title="statusTitle(item.status)" class="status-field__icon bg-grey-light" :class="'bg-' + statusColor(item.status)"></span>
+                    <span v-if="! item.progress_total" :title="statusTitle(item.status)"
+                          class="status-field__icon bg-grey-light" :class="'bg-' + statusColor(item.status)"></span>
 
-                    <a v-if="item.exception" @click="(item.showError = ! item.showError) && (watch = false)">{{ item.showError ? __('Скрыть ошибку') : __('Показать ошибку') }}</a>
+                    <a v-if="item.exception" @click="(item.showError = ! item.showError) && (watch = false)">{{
+                        item.showError ? __('Скрыть ошибку') : __('Показать ошибку') }}</a>
                     <div v-if="item.exception && item.showError"
                          class="bg-black shadow text-sm text-white p-2 mt-1 overflow-auto"
                          style="max-width: 300px; max-height: 500px">
@@ -84,6 +92,12 @@
             })
         },
 
+        destroyed() {
+            this.watch = false
+            clearInterval(this.watchIntervals[0])
+            clearInterval(this.watchIntervals[1])
+        },
+
         watch: {
             watch(value) {
                 if (value) {
@@ -97,7 +111,7 @@
                     clearInterval(this.watchIntervals[0])
                     clearInterval(this.watchIntervals[1])
                 }
-            }
+            },
         },
 
         methods: {
@@ -116,26 +130,26 @@
 
             statusColor(status) {
                 if (status == 'finished')
-                    return 'green';
+                    return 'green'
                 if (status == 'waiting')
-                    return 'blue';
+                    return 'blue'
                 if (status == 'running')
-                    return 'warning';
+                    return 'warning'
                 if (status == 'failed')
-                    return 'danger';
+                    return 'danger'
 
                 return false
             },
 
             statusTitle(status) {
                 if (status == 'finished')
-                    return this.__('Завершено');
+                    return this.__('Завершено')
                 if (status == 'waiting')
-                    return this.__('Запускается');
+                    return this.__('Запускается')
                 if (status == 'running')
-                    return this.__('Выполняется');
+                    return this.__('Выполняется')
                 if (status == 'failed')
-                    return this.__('Ошибка');
+                    return this.__('Ошибка')
 
                 return false
             },

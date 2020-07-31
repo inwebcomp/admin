@@ -75,6 +75,7 @@
 
         destroyed() {
             App.$off('executeAction' + this.resourceKey)
+            App.$off('resourceUpdate', this.fetch);
         },
 
         methods: {
