@@ -22,6 +22,7 @@
                 <div class="dropdown__search" v-if="search">
                     <text-input ref="search"
                                 :placeholder="__('Поиск')"
+                                :tabindex="tabindex"
                                 small
                                 v-model="searchWord"
                                 @input="$emit('search', searchWord)"
@@ -58,6 +59,7 @@
                 },
             },
             value: {},
+            tabindex: {},
             immediate: {
                 type: Boolean,
                 default: false
@@ -77,6 +79,10 @@
             emptyTitle: {
                 type: String,
                 default: null,
+            },
+            withEmpty: {
+                type: Boolean,
+                default: false,
             },
             immediateSearchWord: {
                 type: String,
@@ -185,6 +191,15 @@
                 if (this.search && this.simpleSearch && this.searchWord) {
                     return this.options.filter(option => option.title.toLowerCase().indexOf(this.searchWord.toLowerCase()) === 0)
                 }
+
+                if (this.withEmpty)
+                    return [
+                        {
+                            value: null,
+                            title: this.emptyTitleText
+                        },
+                        ...this.options
+                    ]
 
                 return this.options
             }
