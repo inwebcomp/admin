@@ -3,6 +3,8 @@
 namespace InWeb\Admin\App;
 
 use App\Http\Middleware\EncryptCookies;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use InWeb\Admin\App\Http\Middleware\Authorize;
 use InWeb\Base\Http\Middleware\ApiLanguage;
@@ -22,14 +24,14 @@ class AdminRoute
     {
         Route::namespace($namespace)
             ->middleware([
-                'api',
                 'throttle:5000,1',
-                'admin-auth',
                 \Illuminate\Session\Middleware\AuthenticateSession::class,
-                EncryptCookies::class,
-                StartSession::class,
-                AddQueuedCookiesToResponse::class,
+                \App\Http\Middleware\EncryptCookies::class,
+                \Illuminate\Session\Middleware\StartSession::class,
+                \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
                 DispatchServingAdminEvent::class,
+                'bindings',
+                'admin-auth',
             ])
             ->as('admin.api::')
             ->prefix(Admin::path() . '/api')

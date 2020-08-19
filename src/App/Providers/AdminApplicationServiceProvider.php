@@ -13,6 +13,7 @@ class AdminApplicationServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      *
      * @return void
+     * @throws \ReflectionException
      */
     public function boot()
     {
@@ -25,7 +26,7 @@ class AdminApplicationServiceProvider extends ServiceProvider
             \Gate::before(function ($user, $ability) {
                 return $user->hasRole('Super Admin') ? true : null;
             });
-            
+
             $this->setLanguage();
         });
     }
@@ -49,7 +50,7 @@ class AdminApplicationServiceProvider extends ServiceProvider
     {
         Admin::group('admin', [
             'label' => __('Админ-панель'),
-            'icon' => null,
+            'icon'  => null,
         ]);
 
         Admin::group('other', __('Другие'));
@@ -60,10 +61,12 @@ class AdminApplicationServiceProvider extends ServiceProvider
      * Register the application's Admin resources.
      *
      * @return void
+     * @throws \ReflectionException
      */
     protected function resources()
     {
-        Admin::resourcesIn(app_path('Admin/Resources'));
+        if (is_dir($dir = app_path('Admin/Resources')))
+            Admin::resourcesIn($dir);
     }
 
     /**
@@ -87,7 +90,7 @@ class AdminApplicationServiceProvider extends ServiceProvider
 
         if (in_array($value, config('inweb.languages')))
             Admin::setLocale($value);
-        
+
         if (! $value and Admin::$defaultLocale)
             Admin::setLocale(Admin::$defaultLocale);
     }

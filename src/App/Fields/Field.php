@@ -3,7 +3,7 @@
 namespace InWeb\Admin\App\Fields;
 
 use Closure;
-use Dimsav\Translatable\Translatable;
+use InWeb\Base\Traits\Translatable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
@@ -280,7 +280,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
 
             /** @var Translatable $resource */
             $values = [];
-            $locales = config('translatable.locales');
+            $locales = config('inweb.languages');
             array_unshift($locales, \App::getLocale());
             $locales = array_unique($locales);
 
@@ -430,7 +430,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
             if (! $model instanceof Fluent and $model->translatable() and $model->isTranslationAttribute($attribute)) {
                 /** @var Translatable|Model $model */
 
-                foreach (config('translatable.locales') as $locale) {
+                foreach (config('inweb.languages') as $locale) {
                     if ($locale == config('app.locale'))
                         continue;
 
@@ -516,7 +516,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
         if ($model->translatable() and $model->isTranslationAttribute($this->attribute)) {
             /** @var Translatable $model */
 
-            foreach (config('translatable.locales') as $locale) {
+            foreach (config('inweb.languages') as $locale) {
                 if ($locale == config('app.locale'))
                     continue;
 

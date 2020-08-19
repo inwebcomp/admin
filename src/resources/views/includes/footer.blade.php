@@ -13,7 +13,7 @@
 
 <!-- Tool Scripts -->
 @foreach (\InWeb\Admin\App\Admin::availableScripts(request()) as $name => $path)
-    @if (starts_with($path, ['http://', 'https://']))
+    @if (\Str::startsWith($path, ['http://', 'https://']))
         <script src="{!! $path !!}"></script>
     @else
         <script src="{{ route('admin::script', $name) }}"></script>

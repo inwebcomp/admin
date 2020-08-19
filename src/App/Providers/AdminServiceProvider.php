@@ -6,16 +6,17 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use InWeb\Admin\App\Admin;
 use InWeb\Admin\App\AdminRoute;
+use InWeb\Admin\App\Console\InstallCommand;
+use InWeb\Admin\App\Console\PublishCommand;
 use InWeb\Admin\App\Console\SeedCommand;
 use InWeb\Admin\App\Console\SyncResourcePermissionsCommand;
 use InWeb\Admin\App\Console\ToolCommand;
 use InWeb\Admin\App\Http\Middleware\AdminAccess;
 use InWeb\Admin\App\Tools\ResourceManager;
-use InWeb\Admin\App\Console\PublishCommand;
 
 class AdminServiceProvider extends ServiceProvider
 {
-    protected static $packagePath = __DIR__ . '/../../';
+    protected static $packagePath  = __DIR__ . '/../../';
     protected static $packageAlias = 'admin';
 
     public static function getPackageAlias()
@@ -93,6 +94,11 @@ class AdminServiceProvider extends ServiceProvider
 
     private function registerPublishing()
     {
+        // Provider
+        $this->publishes([
+            self::$packagePath . '/App/Console/stubs/AdminServiceProvider.stub' => app_path('Providers/AdminServiceProvider.php'),
+        ], 'admin-provider');
+
         // Config
         $this->publishes([
             self::$packagePath . 'config/config.php' => config_path(self::$packageAlias . '.php'),
@@ -112,6 +118,7 @@ class AdminServiceProvider extends ServiceProvider
     public function registerCommands()
     {
         $this->commands([
+            InstallCommand::class,
             PublishCommand::class,
             SeedCommand::class,
             ToolCommand::class,

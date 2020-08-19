@@ -15,7 +15,7 @@ class OrderingController extends Controller
      */
     public function index(AdminRequest $request)
     {
-        $default = array_divide($request->newResource()->defaultOrdering($request));
+        $default = \Arr::divide($request->newResource()->defaultOrdering($request));
 
         $orderings = $request->newResource()->availableOrderings($request);
 

@@ -4,6 +4,7 @@ namespace InWeb\Admin\App\Http\Middleware;
 
 use Closure;
 use Auth;
+use Illuminate\Support\Str;
 use InWeb\Admin\App\Admin;
 
 class AdminAccess
@@ -28,7 +29,7 @@ class AdminAccess
         if (strpos(\Route::current()->getName(), 'admin::login') === false and strpos(\Route::current()->getName(), 'admin.api::login') === false) {
             Auth::viaRemember();
 
-            if (! Auth::user() and in_array('api', \Route::current()->computedMiddleware)) {
+            if (! Auth::user() and Str::endsWith(\Route::current()->getPrefix(), '/api')) {
                 return abort('403');
             } else if (! Auth::user()) {
                 return redirect(Admin::path() . '/login');

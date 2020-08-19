@@ -17,6 +17,7 @@ class AdminCoreServiceProvider extends ServiceProvider
      * Bootstrap any package services.
      *
      * @return void
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function boot()
     {
