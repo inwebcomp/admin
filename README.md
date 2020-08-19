@@ -17,19 +17,25 @@ Admin Panel for Laravel Framework
     ```
     or add to your composer.json to **require** section and update your dependencies
     ```
-    "inweb/admin": "*"
+    "inweb/admin": "dev-master"
     ```
 2. Run migrations
     ```
     php artisan migrate
     ```
-3. Run seeder
+3. Run installation command
+    ```
+    php artisan admin:install
+    ```
 
-    Run seeder to create admin user with default credentials
-    ```
-    php artisan db:seed --class="InWeb\Admin\Database\Seeds\DatabaseSeeder"
-    ```
-4. Add guard in **config/auth.php**
+### Manual installation
+
+Run seeder to create admin user with default credentials
+```
+php artisan admin:seed
+```
+
+Add guard in **config/auth.php**
 ```php
 'guards' => [
      ...
@@ -40,20 +46,22 @@ Admin Panel for Laravel Framework
     ],
 ],
 ```
-5. Add provider in **config/auth.php**
-    ```php
-    'providers' => [
-         ...
 
-         'admin' => [
-             'driver' => 'eloquent',
-             'model' => InWeb\Admin\App\Models\AdminUser::class,
-         ],
-    ],
-    ```
-6. Publish assets
-    ```
-    php artisan vendor:publish --provider="InWeb\Admin\App\Providers\AdminServiceProvider" --tag=public
-    ```
+Add provider in **config/auth.php**
+```php
+'providers' => [
+     ...
+
+     'admin' => [
+         'driver' => 'eloquent',
+         'model' => InWeb\Admin\App\Models\AdminUser::class,
+     ],
+],
+```
+
+Publish assets
+```
+php artisan admin:publish
+```
     
 You are ready to go!
