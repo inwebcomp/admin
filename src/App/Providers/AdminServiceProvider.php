@@ -6,6 +6,7 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use InWeb\Admin\App\Admin;
 use InWeb\Admin\App\AdminRoute;
+use InWeb\Admin\App\Console\SeedCommand;
 use InWeb\Admin\App\Console\SyncResourcePermissionsCommand;
 use InWeb\Admin\App\Console\ToolCommand;
 use InWeb\Admin\App\Http\Middleware\AdminAccess;
@@ -112,6 +113,7 @@ class AdminServiceProvider extends ServiceProvider
     {
         $this->commands([
             PublishCommand::class,
+            SeedCommand::class,
             ToolCommand::class,
             SyncResourcePermissionsCommand::class,
         ]);

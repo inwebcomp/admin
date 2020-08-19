@@ -9,14 +9,23 @@ class AdminUserSeeder extends Seeder
 {
     public function run()
     {
-        /** @var AdminUser $user */
-        $user = AdminUser::create([
-            'login' => config('admin.auth.login'),
-            'email' => config('admin.auth.email'),
-            'password' => \Hash::make(config('admin.auth.password')),
-            'admin' => true
-        ]);
+        $user = AdminUser::where('login', '=', config('admin.auth.login'))
+                    ->orWhere('email', '=', config('admin.auth.email'))
+                    ->exists();
 
-        $user->assignRole('Super Admin');
+        if (! $user) {
+            /** @var AdminUser $user */
+            $user = AdminUser::create([
+                'login'    => config('admin.auth.login'),
+                'email'    => config('admin.auth.email'),
+                'password' => \Hash::make(config('admin.auth.password')),
+            ]);
+
+            $user->assignRole('Super Admin');
+        } else {
+            if ($this->command) {
+                $this->command->warn('User `' . config('admin.auth.login') . '` - `' . config('admin.auth.email') . '` already exists');
+            }
+        }
     }
 }
