@@ -3,6 +3,8 @@
 namespace InWeb\Admin\App;
 
 use App\Http\Middleware\EncryptCookies;
+use App\Http\Middleware\VerifyCsrfToken;
+use Closure;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
@@ -18,22 +20,23 @@ class AdminRoute
      * Group admin routers for api requests
      *
      * @param string $namespace
-     * @param \Closure $callback
+     * @param Closure $callback
      */
-    public static function api(string $namespace, \Closure $callback)
+    public static function api(string $namespace, Closure $callback)
     {
         Route::namespace($namespace)
             ->middleware([
+                EncryptCookies::class,
+                AddQueuedCookiesToResponse::class,
+                StartSession::class,
                 'throttle:5000,1',
-                \Illuminate\Session\Middleware\AuthenticateSession::class,
-                \App\Http\Middleware\EncryptCookies::class,
-                \Illuminate\Session\Middleware\StartSession::class,
-                \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+                // AuthenticateSession::class,
+                VerifyCsrfToken::class,
                 DispatchServingAdminEvent::class,
-                'bindings',
+                SubstituteBindings::class,
                 'admin-auth',
             ])
-            ->as('admin.api::')
+            ->as('admin.api.')
             ->prefix(Admin::path() . '/api')
             ->group($callback);
     }
@@ -41,13 +44,13 @@ class AdminRoute
     /**
      * Group admin routers for web requests
      *
-     * @param \Closure $callback
+     * @param Closure $callback
      */
-    public static function web(\Closure $callback)
+    public static function web(Closure $callback)
     {
         Route::namespace('\InWeb\Admin\App\Http\Controllers')
             ->middleware(config('admin.middleware', []))
-            ->as('admin::')
+            ->as('admin.')
             ->prefix(Admin::path())
             ->group($callback);
     }

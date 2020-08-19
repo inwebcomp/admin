@@ -16,7 +16,7 @@
     @if (\Str::startsWith($path, ['http://', 'https://']))
         <script src="{!! $path !!}"></script>
     @else
-        <script src="{{ route('admin::script', $name) }}"></script>
+        <script src="{{ route('admin.script', $name) }}"></script>
     @endif
 @endforeach
 

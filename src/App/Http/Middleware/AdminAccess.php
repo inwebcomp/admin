@@ -10,8 +10,8 @@ use InWeb\Admin\App\Admin;
 class AdminAccess
 {
     static public $availableRoutes = [
-        'admin::script',
-        'admin::style',
+        'admin.script',
+        'admin.style',
     ];
 
     /**
@@ -26,7 +26,7 @@ class AdminAccess
         if ($this->availableRoute())
             return $next($request);
 
-        if (strpos(\Route::current()->getName(), 'admin::login') === false and strpos(\Route::current()->getName(), 'admin.api::login') === false) {
+        if (strpos(\Route::current()->getName(), 'admin.login') === false and strpos(\Route::current()->getName(), 'admin.api.login') === false) {
             Auth::viaRemember();
 
             if (! Auth::user() and Str::endsWith(\Route::current()->getPrefix(), '/api')) {
@@ -34,7 +34,7 @@ class AdminAccess
             } else if (! Auth::user()) {
                 return redirect(Admin::path() . '/login');
             }
-        } else if (strpos(\Route::current()->getName(), 'admin::login.login-form') !== false) {
+        } else if (strpos(\Route::current()->getName(), 'admin.login.login-form') !== false) {
             if (Auth::user()) {
                 return redirect(Admin::path());
             }

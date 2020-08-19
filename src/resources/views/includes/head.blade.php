@@ -4,7 +4,7 @@
 
 <!-- Tool Styles -->
 @foreach(\InWeb\Admin\App\Admin::availableStyles(request()) as $name => $path)
-    <link rel="stylesheet" href="{{ route('admin::style', $name) }}">
+    <link rel="stylesheet" href="{{ route('admin.style', $name) }}">
 @endforeach
 
 <!-- CSRF Token -->
