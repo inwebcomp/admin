@@ -17,7 +17,7 @@ Admin Panel for Laravel Framework
     ```
     or add to your composer.json to **require** section and update your dependencies
     ```
-    "inweb/admin": "*"
+    "inweb/admin": "dev-master"
     ```
 2. Run migrations
     ```
@@ -27,7 +27,7 @@ Admin Panel for Laravel Framework
 
     Run seeder to create admin user with default credentials
     ```
-    php artisan db:seed --class="InWeb\Admin\Database\Seeds\DatabaseSeeder"
+    php artisan admin:seed
     ```
 4. Add guard in **config/auth.php**
 ```php
@@ -53,7 +53,7 @@ Admin Panel for Laravel Framework
     ```
 6. Publish assets
     ```
-    php artisan vendor:publish --provider="InWeb\Admin\App\Providers\AdminServiceProvider" --tag=public
+    php artisan admin:publish
     ```
     
 You are ready to go!
