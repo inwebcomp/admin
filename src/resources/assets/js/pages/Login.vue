@@ -38,7 +38,7 @@
                     id: '',
                     password: '',
                     remember: false,
-                    redirect: null,
+                    redirect: this.$route.query.redirect,
                 })
             }
         },
@@ -54,7 +54,10 @@
                     method: 'POST',
                     url: 'signin',
                     data: this.formData('POST')
-                }).then(({user}) => {
+                }).then(({user, fullRedirect}) => {
+                    if (fullRedirect)
+                        window.location.href = fullRedirect
+
                     this.loading = false
 
                     this.$store.commit('user/set', user)

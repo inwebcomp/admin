@@ -32,7 +32,12 @@ class AdminAccess
             if (! Auth::user() and Str::endsWith(\Route::current()->getPrefix(), '/api')) {
                 return abort('403');
             } else if (! Auth::user()) {
-                return redirect(Admin::path() . '/login');
+                $redirect = trim($request->getRequestUri(), '/');
+
+                if ($redirect == Admin::path())
+                    $redirect = null;
+
+                return redirect(Admin::path() . '/login' . ($redirect ? '?redirect=' . $redirect : ''));
             }
         } else if (strpos(\Route::current()->getName(), 'admin.login.login-form') !== false) {
             if (Auth::user()) {

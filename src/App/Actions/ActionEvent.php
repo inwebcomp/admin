@@ -82,7 +82,7 @@ class ActionEvent extends Entity
      */
     public static function forResourceUpdate($user, $model)
     {
-        $original = array_intersect_key($model->getOriginal(), $model->getDirty());
+        $original = array_intersect_key($model->getRawOriginal(), $model->getDirty());
         $changes = $model->getDirty();
 
         if ($model->translatable()) {
@@ -156,7 +156,7 @@ class ActionEvent extends Entity
             'model_type'      => $pivot->getMorphClass(),
             'model_id'        => $pivot->getKey(),
             'fields'          => '',
-            'original'        => array_intersect_key($pivot->getOriginal(), $pivot->getDirty()),
+            'original'        => array_intersect_key($pivot->getRawOriginal(), $pivot->getDirty()),
             'changes'         => $pivot->getDirty(),
             'status'          => 'finished',
             'exception'       => '',
@@ -523,7 +523,7 @@ class ActionEvent extends Entity
     protected static function prepareTranslatableFields($model, $original, $changes)
     {
         foreach (config('inweb.languages') as $language) {
-            $originalFields = array_intersect_key($model->getTranslation($language)->getOriginal(), $model->getTranslation($language)->getDirty());
+            $originalFields = array_intersect_key($model->getTranslation($language)->getRawOriginal(), $model->getTranslation($language)->getDirty());
             $fields = [];
             foreach ($originalFields as $field => $value) {
                 $fields[$language . ':' . $field] = Str::limit(strip_tags($value), 255);

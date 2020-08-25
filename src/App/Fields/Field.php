@@ -289,7 +289,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
                     continue;
 
                 if ($original and $this->original)
-                    $values[$locale] = optional($resource->translate($locale))->getOriginal($attribute);
+                    $values[$locale] = optional($resource->translate($locale))->getRawOriginal($attribute);
                 else
                     $values[$locale] = optional($resource->translate($locale))->{$attribute};
             }
@@ -303,9 +303,9 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
                 ! (new \ReflectionClass($resource))->isAnonymous() and
                 $resource->translatable() && $resource->isTranslationAttribute($attribute)
             ) {
-                return optional($resource->translate())->getOriginal($attribute) ?? $this->default;
+                return optional($resource->translate())->getRawOriginal($attribute) ?? $this->default;
             } else {
-                return $resource->getOriginal($attribute) ?? $this->default;
+                return $resource->getRawOriginal($attribute) ?? $this->default;
             }
         }
 

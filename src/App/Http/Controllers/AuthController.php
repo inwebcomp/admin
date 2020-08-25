@@ -5,6 +5,7 @@ namespace InWeb\Admin\App\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use InWeb\Admin\App\Admin;
 
 class AuthController extends Controller
 {
@@ -22,10 +23,16 @@ class AuthController extends Controller
             return abort(Response::HTTP_UNPROCESSABLE_ENTITY, __('Неверный логин или пароль'));
         }
 
-        return [
+        $data = [
             'user' => Auth::user(),
-            'redirect' => '/'
         ];
+
+        if (strpos($redirect, Admin::path()) === 0)
+            $data['redirect'] = trim(str_replace(Admin::path(), '', $redirect), '/');
+        else
+            $data['fullRedirect'] = '/' . $redirect;
+
+        return $data;
     }
 
     public function logout()
