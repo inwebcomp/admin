@@ -27,10 +27,14 @@ class AuthController extends Controller
             'user' => Auth::user(),
         ];
 
-        if (strpos($redirect, Admin::path()) === 0)
-            $data['redirect'] = trim(str_replace(Admin::path(), '', $redirect), '/');
-        else
-            $data['fullRedirect'] = '/' . $redirect;
+        if ($redirect) {
+            if (strpos($redirect, Admin::path()) === 0)
+                $data['redirect'] = trim(str_replace(Admin::path(), '', $redirect), '/');
+            else
+                $data['fullRedirect'] = '/' . $redirect;
+        } else {
+            $data['redirect'] = '/';
+        }
 
         return $data;
     }

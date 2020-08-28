@@ -1,6 +1,6 @@
 <template>
     <td class="data-table__value cursor-pointer link w-1 p-0" :class="classes">
-        <router-link :to="this.field.edit" class="h-full block p-4">
+        <router-link :to="{ path: field.edit, query: $route.query }" class="h-full block p-4">
             <i class="fas fa-edit"></i>
         </router-link>
     </td>
