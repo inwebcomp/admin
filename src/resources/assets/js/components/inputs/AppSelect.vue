@@ -11,7 +11,7 @@
             <template v-if="selected">
                 <div v-if="selected.image" class="dropdown__option__image"
                      :style="{ 'background-image': 'url(' + selected.image + ')' }"></div>
-                <div v-if="selected.color" class="dropdown__option__color" :class="'bg-' + selected.color"></div>
+                <div v-if="selected.color" class="dropdown__option__color" :class="'bg-' + selected.color" :style="selected.color.charAt(0) == '#' ? 'background-color: ' + selected.color : ''"></div>
             </template>
 
             <span class="dropdown__value__text">{{ selected ? selected.title : this.emptyTitleText }}</span>
@@ -38,7 +38,7 @@
                             <div v-if="option.image" class="dropdown__option__image"
                                  :style="{ 'background-image': 'url(' + option.image + ')' }"></div>
                             <div v-if="option.color" class="dropdown__option__color"
-                                 :class="'bg-' + option.color"></div>
+                                 :class="'bg-' + option.color" :style="option.color.charAt(0) == '#' ? 'background-color: ' + option.color : ''"></div>
                             <div class="dropdown__option__text">{{ option.title }}</div>
                         </li>
                     </ul>
