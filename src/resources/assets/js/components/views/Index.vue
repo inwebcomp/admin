@@ -114,29 +114,19 @@
             await this.initializeOrderings()
             await this.fetch()
 
-            App.$on('resourceUpdate', () => {
-                this.fetch()
-            })
+            App.$on('resourceUpdate', this.fetch)
 
-            App.$on('resourceDestroyed', () => {
-                this.fetch()
-            })
+            App.$on('resourceDestroyed', this.fetch)
 
-            App.$on('resourceStore', () => {
-                this.fetch()
-            })
+            App.$on('resourceStore', this.fetch)
 
             App.$on('parentSelect', (parent) => {
                 this.fetch(parent)
             })
 
-            App.$on('indexRefresh', () => {
-                this.fetch()
-            })
+            App.$on('indexRefresh', this.fetch)
 
-            App.$on('actionExecuted', () => {
-                this.fetch()
-            })
+            App.$on('actionExecuted', this.fetch)
 
             App.$on('back', () => {
                 if (this.isNested && this.breadcrumbs.path.length >= 2)
@@ -161,12 +151,12 @@
         },
 
         destroyed() {
-            App.$off('resourceUpdate')
-            App.$off('resourceDestroyed')
-            App.$off('resourceStore')
+            App.$off('resourceUpdate', this.fetch)
+            App.$off('resourceDestroyed', this.fetch)
+            App.$off('resourceStore', this.fetch)
             App.$off('parentSelect')
-            App.$off('indexRefresh')
-            App.$off('actionExecuted')
+            App.$off('indexRefresh', this.fetch)
+            App.$off('actionExecuted', this.fetch)
             App.$off('back')
         },
 
