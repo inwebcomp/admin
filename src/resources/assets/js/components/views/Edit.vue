@@ -116,7 +116,7 @@
         },
 
         destroyed() {
-            App.$off('actionExecuted')
+            App.$off('actionExecuted', this.fetch)
         },
 
         methods: {

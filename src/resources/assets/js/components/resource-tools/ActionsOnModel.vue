@@ -82,20 +82,16 @@
 
             App.$on('actionExecuted', this.fetch)
 
-            App.$on('editFormTabChange', (tab) => {
-                if (tab.uid == 'actions-on-model-tool') {
-                    this.watch = true
-                    this.fetch()
-                } else {
-                    this.watch = false
-                }
-            })
+            App.$on('editFormTabChange', this.onEditFormTabChange)
         },
 
         destroyed() {
             this.watch = false
             clearInterval(this.watchIntervals[0])
             clearInterval(this.watchIntervals[1])
+
+            App.$off('actionExecuted', this.fetch)
+            App.$off('editFormTabChange', this.onEditFormTabChange)
         },
 
         watch: {
@@ -126,6 +122,15 @@
                         return item
                     })
                 })
+            },
+
+            onEditFormTabChange(tab) {
+                if (tab.uid == 'actions-on-model-tool') {
+                    this.watch = true
+                    this.fetch()
+                } else {
+                    this.watch = false
+                }
             },
 
             statusColor(status) {
