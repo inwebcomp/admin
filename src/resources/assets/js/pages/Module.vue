@@ -14,20 +14,20 @@
 
         props: {
             resourceName: {
-                default: 'home'
+                default: 'home',
             },
             resourceId: {
-                default: null
+                default: null,
             },
             action: {
-                default: 'index'
-            }
+                default: 'index',
+            },
         },
 
         computed: {
             component() {
                 return 'index'
-            }
+            },
         },
 
         watch: {
@@ -43,7 +43,7 @@
                         if (oldValue != undefined)
                             this.$closeSidePopup()
                     }
-                }
+                },
             },
         },
 
@@ -55,13 +55,22 @@
 
         methods: {
             showPopup(action, resourceName = null, resourceId = null) {
+                let data = {
+                    closeOnOverlayClick: false,
+                }
+
+                resourceName = resourceName || this.resourceName
+                resourceId = resourceId || this.resourceId
+
+                let sidePopupConfig = App.config.sidePopup
+                if (sidePopupConfig && sidePopupConfig[resourceName])
+                    Object.assign(data, sidePopupConfig[resourceName])
+
                 this.$showSidePopup(action, {
-                    resourceName: resourceName || this.resourceName,
-                    resourceId: resourceId || this.resourceId
-                }, {
-                    closeOnOverlayClick: false
-                })
-            }
+                    resourceName: resourceName,
+                    resourceId: resourceId,
+                }, data)
+            },
         },
     }
 </script>

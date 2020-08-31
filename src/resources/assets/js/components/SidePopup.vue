@@ -1,6 +1,6 @@
 <template>
     <transition :name="transition">
-        <div class="side-popup-wrapper" v-show="show">
+        <div class="side-popup-wrapper" v-show="show" :class="{'side-popup-wrapper--wide': options.wide}">
             <div class="side-popup-container">
                 <div class="side-popup-content">
                     <slot></slot>
@@ -17,7 +17,7 @@
         props: {
             transition: {
                 default: 'side-popup'
-            }
+            },
         },
 
         computed: {
