@@ -32,7 +32,7 @@
 
         computed: {
             user() {
-                return this.$store.state.user.info ? this.$store.state.user.info.login : null
+                return this.$store.state.user.info ? this.$store.state.user.info.name : null
             }
         },
 

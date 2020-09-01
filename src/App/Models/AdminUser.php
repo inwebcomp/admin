@@ -8,7 +8,9 @@ use InWeb\Admin\App\Actions\Actionable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * @property bool admin
+ * @property bool login
+ * @property bool email
+ * @property bool name
  */
 class AdminUser extends Authenticatable
 {
@@ -22,7 +24,7 @@ class AdminUser extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'login', 'email', 'password',
+        'login', 'email', 'password', 'name',
     ];
     /**
      * The attributes that should be hidden for arrays.
@@ -31,6 +33,10 @@ class AdminUser extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    protected $appends = [
+        'name'
     ];
 
     /**
@@ -51,5 +57,10 @@ class AdminUser extends Authenticatable
     public function translatable()
     {
         return false;
+    }
+
+    public function getNameAttribute($value)
+    {
+        return $this->getRawOriginal('name') ?? $this->login;
     }
 }
