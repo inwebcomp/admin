@@ -103,6 +103,13 @@ abstract class Resource
     public $classes = [];
 
     /**
+     * If specified, resources will be separated in groups by value (by collect()->groupBy($groupBy))
+     *
+     * @var null|array|callable|string
+     */
+    public static $groupBy = null;
+
+    /**
      * Create a new resource instance.
      *
      * @param \Illuminate\Database\Eloquent\Model $resource
@@ -121,6 +128,22 @@ abstract class Resource
     public static function group()
     {
         return static::$group;
+    }
+
+    /**
+     * @param null|array|callable|string $value
+     */
+    public static function groupBy($value)
+    {
+        static::$groupBy = $value;
+    }
+
+    public function groupInfo(AdminRequest $request, $value)
+    {
+        return [
+            'title' => $value,
+            'selected' => false,
+        ];
     }
 
     /**
@@ -354,7 +377,7 @@ abstract class Resource
     /**
      * Prepare the resource for JSON serialization.
      *
-     * @param AdminRequest                   $request
+     * @param AdminRequest $request
      * @param \Illuminate\Support\Collection $fields
      * @return array
      */
@@ -418,8 +441,9 @@ abstract class Resource
             'singularLabel' => static::singularLabel(),
             'searchable'    => static::searchable(),
             'inline'        => static::$inline,
+            'grouped'       => $grouped = (static::$groupBy !== null),
             'position'      => static::position(),
-            'positionable'  => (new static)->model()->positionable(),
+            'positionable'  => $grouped ? false : (new static)->model()->positionable(),
         ];
     }
 }

@@ -4,8 +4,10 @@
             <thead>
             <tr class="data-table__header">
                 <td v-if="sortable"></td>
-                <table-checkbox :all="true" :value="selected.length == resources.length" @change="selectAll"></table-checkbox>
-                <table-heading v-for="(field, $i) of fields" :key="$i" :field="field">{{ field.indexName }}</table-heading>
+                <table-checkbox :all="true" :value="selectedCheckbox"
+                                @change="selectAll(selectedCheckbox = $event)"></table-checkbox>
+                <table-heading v-for="(field, $i) of fields" :key="$i" :field="field">{{ field.indexName }}
+                </table-heading>
             </tr>
             </thead>
             <draggable class="data-table__body"
@@ -16,17 +18,30 @@
                        @start="drag = true"
                        @end="dragEnd">
 
-                <tr class="data-table__line" :class="resource.classes" v-for="(resource, $n) of resources" :key="$n">
-                    <table-sort-handle v-if="sortable"/>
+                <template v-for="(group, $g) in resourcesToDisplay">
 
-                    <table-checkbox @change="select(resource.id.value)" :value="selected.includes(resource.id.value)"/>
+                    <tr class="data-table__line" v-if="group.groupInfo">
+                        <table-checkbox class="bg-grey-lightest pt-4"
+                                        :value="group.groupInfo.selected"
+                                        @change="selectMany(groupIds(group), group.groupInfo.selected = $event)" />
 
-                    <template v-for="(field, $i) of resource.fields">
-                        <table-value :fastEdit="resource.authorizedToFastUpdate" :field="field" :resourceName="resourceName" :resourceId="resource.id.value">
-                            <component :is="'index-' + field.component" :field="field" :resourceName="resourceName" :resourceId="resource.id.value"></component>
-                        </table-value>
-                    </template>
-                </tr>
+                        <table-group-info :info="group.groupInfo" :length="fields.length"/>
+                    </tr>
+
+                    <tr class="data-table__line" :class="resource.classes" v-for="(resource, $n) in group.resources" :key="resource.id.value">
+                        <table-sort-handle v-if="sortable"/>
+
+                        <table-checkbox @change="select(resource.id.value)" :value="selected.includes(resource.id.value)"/>
+
+                        <template v-for="(field, $i) of resource.fields">
+                            <table-value :fastEdit="resource.authorizedToFastUpdate" :field="field"
+                                         :resourceName="resourceName" :resourceId="resource.id.value">
+                                <component :is="'index-' + field.component" :field="field" :resourceName="resourceName"
+                                           :resourceId="resource.id.value"></component>
+                            </table-value>
+                        </template>
+                    </tr>
+                </template>
             </draggable>
         </table>
 
@@ -41,21 +56,11 @@
 </template>
 
 <script>
-    import TableCheckbox from "~components/tables/TableCheckbox"
-    import TableValue from "~components/tables/TableValue"
-    import NoDataFound from "~components/tables/NoDataFound"
-    import DataTableLoading from "./DataTableLoading"
-    import TableHeading from "~js/components/tables/TableHeading"
     import Draggable from "vuedraggable"
 
     export default {
         components: {
-            TableHeading,
-            DataTableLoading,
-            NoDataFound,
-            TableValue,
-            TableCheckbox,
-            Draggable
+            Draggable,
         },
 
         name: "data-table",
@@ -64,22 +69,27 @@
             resources: {
                 default() {
                     return {}
-                }
+                },
             },
             resourceName: {},
             loading: {
                 type: Boolean,
-                default: true
+                default: true,
             },
             sortable: {
                 type: Boolean,
-                default: false
+                default: false,
+            },
+            grouped: {
+                type: Boolean,
+                default: false,
             },
         },
 
         data() {
             return {
                 drag: false,
+                selectedCheckbox: false,
             }
         },
 
@@ -89,7 +99,16 @@
             },
 
             fields() {
-                return this.resources[0].fields
+                return this.resourcesToDisplay[0].resources[0].fields
+            },
+
+            resourcesToDisplay() {
+                if (this.grouped)
+                    return this.resources
+
+                return [
+                    {resources: this.resources},
+                ]
             },
 
             dragOptions() {
@@ -103,7 +122,7 @@
                     handle: ".handle",
                     dragClass: "sortable-drag",
                 }
-            }
+            },
         },
 
         methods: {
@@ -115,10 +134,31 @@
             },
 
             selectAll(value) {
-                if (! value)
+                if (!value)
                     this.$store.commit('resource/setSelected', [])
                 else
-                    this.$store.commit('resource/setSelected', this.resources.map(item => item.id.value))
+                    this.$store.commit('resource/setSelected', this.allVisibleIds())
+            },
+
+            groupIds(group) {
+                return group.resources.map(i => i.id.value)
+            },
+
+            allVisibleIds() {
+                let ids = []
+
+                this.resourcesToDisplay.forEach(group => {
+                    Array.prototype.push.apply(ids, this.groupIds(group))
+                })
+
+                return ids
+            },
+
+            selectMany(ids, value) {
+                if (! value)
+                    this.$store.commit('resource/deleteSelected', ids)
+                else
+                    this.$store.commit('resource/addSelected', ids)
             },
 
             link(...args) {
@@ -129,7 +169,7 @@
             dragEnd() {
                 this.drag = false
                 this.$emit('sort')
-            }
-        }
+            },
+        },
     }
 </script>

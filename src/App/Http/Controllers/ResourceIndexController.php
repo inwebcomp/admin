@@ -5,8 +5,10 @@ namespace InWeb\Admin\App\Http\Controllers;
 use App\Admin\Resources\ActivityMonitor;
 use App\Admin\Resources\Product;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
 use InWeb\Admin\App\Contracts\Nested;
 use InWeb\Admin\App\Http\Requests\ResourceIndexRequest;
+use InWeb\Admin\App\Resources\Resource;
 use InWeb\Base\Entity;
 use InWeb\Admin\App\Parameters;
 
@@ -14,21 +16,43 @@ class ResourceIndexController extends Controller
 {
     public $perPage = 20;
 
+    /**
+     * @param ResourceIndexRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
+     */
     public function handle(ResourceIndexRequest $request)
     {
         $paginator = $this->paginator(
             $request, $resource = $request->resource()
         );
 
+        /** @var Resource $resourceObject */
         $resourceObject = new $resource;
         $resourceObject->authorizeToViewAny($request);
 
+        /** @var Collection $resources */
+        $resources = $paginator->getCollection();
+
+        if ($resource::$groupBy) {
+            $resources = $resources->groupBy($resource::$groupBy)->values()->map(function ($group, $value) use ($resourceObject, $request, $resource) {
+                $resources = collect($group)->mapInto($resource);
+
+                return [
+                    'groupInfo' => $resources->first()->groupInfo($request, $value),
+                    'resources' => $resources->map->serializeForIndex($request)
+                ];
+            });
+        } else {
+            $resources = $resources->mapInto($resource)->map->serializeForIndex($request);
+        }
+
         return response()->json(array_merge([
-            'info'                   => $resource::info(),
-            'resources'              => $paginator->getCollection()->mapInto($resource)->map->serializeForIndex($request),
-            'pagination'             => $this->getPagination($paginator),
-            'authorizedToCreate'     => $resource::authorizedToCreate($request),
-            'authorizedToDelete'     => $resourceObject->authorizedToDelete($request),
+            'info'               => $resource::info(),
+            'resources'          => $resources,
+            'pagination'         => $this->getPagination($paginator),
+            'authorizedToCreate' => $resource::authorizedToCreate($request),
+            'authorizedToDelete' => $resourceObject->authorizedToDelete($request),
         ], (new $resource instanceof Nested) ? [
             'breadcrumbs' => $this->getBreadcrumbs($request),
         ] : []));
@@ -38,7 +62,7 @@ class ResourceIndexController extends Controller
      * Get the paginator instance for the index request.
      *
      * @param ResourceIndexRequest $request
-     * @param string               $resource
+     * @param string $resource
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     protected function paginator(ResourceIndexRequest $request, $resource)

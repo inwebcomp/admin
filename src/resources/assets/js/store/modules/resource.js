@@ -13,16 +13,22 @@ let mutations = {
     },
 
     deleteSelected(state, id) {
-        state.selected = state.selected.filter(item => item != id)
+        if (typeof id == 'object')
+            state.selected = state.selected.filter(item => ! id.includes(item))
+        else
+            state.selected = state.selected.filter(item => item != id)
     },
 
     addSelected(state, id) {
-        state.selected.push(id)
+        if (typeof id == 'object')
+            Array.prototype.push.apply(state.selected, id)
+        else
+            state.selected.push(id)
     },
 }
 
 let actions = {
-    clearSelected({ commit }) {
+    clearSelected({commit}) {
         commit('setSelected', [])
     },
 }

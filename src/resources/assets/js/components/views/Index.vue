@@ -14,7 +14,9 @@
 
         <breadcrumbs v-if="isNested" :items="breadcrumbs.path" :options="breadcrumbs.options" :value="selected"/>
 
-        <data-table :resources="resources"
+        <data-table v-if="info"
+                    :grouped="grouped"
+                    :resources="resources"
                     :resourceName="resourceName"
                     :loading="loading"
                     @input="resources = $event"
@@ -22,7 +24,7 @@
                     @sort="savePositions"></data-table>
 
         <floating-panel>
-            <pagination :pagination="pagination" @changePage="changePage"></pagination>
+            <pagination v-if="pagination" :pagination="pagination" @changePage="changePage"></pagination>
             <resource-count :pagination="pagination"></resource-count>
         </floating-panel>
     </div>
@@ -52,10 +54,10 @@
 
         data() {
             return {
-                resources: [],
+                resources: null,
                 info: null,
                 positions: [],
-                pagination: {},
+                pagination: null,
                 breadcrumbs: [],
                 authorizedToCreate: false,
                 authorizedToDelete: false,
@@ -69,6 +71,9 @@
             },
             sortable() {
                 return this.info && this.info.positionable
+            },
+            grouped() {
+                return this.info && this.info.grouped
             },
             selected() {
                 return this.$store.state.resource.selected
@@ -104,7 +109,7 @@
             resourceName() {
                 this.initializeSearchFromQueryString()
                 this.initializeOrderings()
-            }
+            },
         },
 
         async created() {
@@ -146,7 +151,7 @@
                 async () => {
                     await this.initializeFilters()
                     await this.fetch()
-                }
+                },
             )
         },
 
@@ -175,15 +180,15 @@
                 this.loading = true
 
                 App.api.resource({
-                    resourceName: this.resourceName, params: this.resourceRequestQueryString(parent)
+                    resourceName: this.resourceName, params: this.resourceRequestQueryString(parent),
                 }).then(({
-                     resources,
-                     info,
-                     pagination,
-                     breadcrumbs,
-                     authorizedToCreate,
-                     authorizedToDelete,
-                 }) => {
+                             resources,
+                             info,
+                             pagination,
+                             breadcrumbs,
+                             authorizedToCreate,
+                             authorizedToDelete,
+                         }) => {
                     this.resources = resources
                     this.info = info
                     this.pagination = pagination
@@ -193,9 +198,12 @@
                     this.loading = false
 
                     this.positions = []
-                    this.resources.forEach(item => {
-                        this.positions.push(item.id.position)
-                    })
+
+                    if (this.sortable) {
+                        this.resources.forEach(item => {
+                            this.positions.push(item.id.position)
+                        })
+                    }
                 })
             },
 
@@ -220,14 +228,14 @@
                     action: 'positions',
                     data: {
                         items: this.resources.map(item => item.id.value),
-                        positions: this.positions
-                    }
+                        positions: this.positions,
+                    },
                 }).then(() => {
                     App.$emit('positionsUpdated')
 
                     this.$toasted.show(
                         this.__('Positions was updated!'),
-                        {type: 'success'}
+                        {type: 'success'},
                     )
                 })
             },
@@ -240,8 +248,8 @@
                     method: 'DELETE',
                     url: this.resourceName + '/destroy',
                     data: {
-                        resources: this.selected
-                    }
+                        resources: this.selected,
+                    },
                 }).then(() => {
                     App.$emit('resourcesDestroyed', this.selected)
 
@@ -252,10 +260,10 @@
                         this.__('Records were deleted!', {
                             resource: this.resourceName,
                         }),
-                        {type: 'success'}
+                        {type: 'success'},
                     )
                 })
-            }
-        }
+            },
+        },
     }
 </script>
