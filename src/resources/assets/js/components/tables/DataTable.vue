@@ -10,16 +10,8 @@
                 </table-heading>
             </tr>
             </thead>
-            <draggable class="data-table__body"
-                       :value="resources"
-                       @input="$emit('input', $event)"
-                       tag="tbody"
-                       v-bind="dragOptions"
-                       @start="drag = true"
-                       @end="dragEnd">
 
                 <template v-for="(group, $g) in resourcesToDisplay">
-
                     <tr class="data-table__line" v-if="group.groupInfo">
                         <table-checkbox class="bg-grey-lightest pt-4"
                                         :value="group.groupInfo.selected"
@@ -28,21 +20,29 @@
                         <table-group-info :info="group.groupInfo" :length="fields.length"/>
                     </tr>
 
-                    <tr class="data-table__line" :class="resource.classes" v-for="(resource, $n) in group.resources" :key="resource.id.value">
-                        <table-sort-handle v-if="sortable"/>
+                    <draggable class="data-table__body"
+                               :value="group.resources"
+                               @input="savePositions"
+                               tag="tbody"
+                               v-bind="dragOptions"
+                               @start="drag = true"
+                               @end="dragEnd">
 
-                        <table-checkbox @change="select(resource.id.value)" :value="selected.includes(resource.id.value)"/>
+                        <tr class="data-table__line" :class="resource.classes" v-for="(resource, $n) in group.resources" :key="resource.id.value">
+                            <table-sort-handle v-if="sortable"/>
 
-                        <template v-for="(field, $i) of resource.fields">
-                            <table-value :fastEdit="resource.authorizedToFastUpdate" :field="field"
-                                         :resourceName="resourceName" :resourceId="resource.id.value">
-                                <component :is="'index-' + field.component" :field="field" :resourceName="resourceName"
-                                           :resourceId="resource.id.value"></component>
-                            </table-value>
-                        </template>
-                    </tr>
+                            <table-checkbox @change="select(resource.id.value)" :value="selected.includes(resource.id.value)"/>
+
+                            <template v-for="(field, $i) of resource.fields">
+                                <table-value :fastEdit="resource.authorizedToFastUpdate" :field="field"
+                                             :resourceName="resourceName" :resourceId="resource.id.value">
+                                    <component :is="'index-' + field.component" :field="field" :resourceName="resourceName"
+                                               :resourceId="resource.id.value"></component>
+                                </table-value>
+                            </template>
+                        </tr>
+                    </draggable>
                 </template>
-            </draggable>
         </table>
 
         <div v-if="! resources.length && ! loading">
@@ -126,6 +126,10 @@
         },
 
         methods: {
+            savePositions(event) {
+                this.$emit('input', event)
+            },
+
             select(id) {
                 if (this.selected.includes(id))
                     this.$store.commit('resource/deleteSelected', id)

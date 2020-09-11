@@ -19,7 +19,7 @@
                     :resources="resources"
                     :resourceName="resourceName"
                     :loading="loading"
-                    @input="resources = $event"
+                    @input="setResources"
                     :sortable="sortable"
                     @sort="savePositions"></data-table>
 
@@ -166,6 +166,10 @@
         },
 
         methods: {
+            setResources(resources) {
+                this.resources = resources
+            },
+
             changePage(page) {
                 this.updateQueryString({
                     [this.pageParameter]: page,
