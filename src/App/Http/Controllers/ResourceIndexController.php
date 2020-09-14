@@ -35,14 +35,16 @@ class ResourceIndexController extends Controller
         $resources = $paginator->getCollection();
 
         if ($resource::$groupBy) {
-            $resources = $resources->groupBy($resource::$groupBy)->values()->map(function ($group, $value) use ($resourceObject, $request, $resource) {
-                $resources = collect($group)->mapInto($resource);
+            $resources = $resources->groupBy($resource::$groupBy)
+                                   ->values()
+                                   ->map(function ($group, $value) use ($resourceObject, $request, $resource) {
+                                       $resources = collect($group)->mapInto($resource);
 
-                return [
-                    'groupInfo' => $resources->first()->groupInfo($request, $value),
-                    'resources' => $resources->map->serializeForIndex($request)
-                ];
-            });
+                                       return [
+                                           'groupInfo' => $resources->first()->groupInfo($request, $value, $resources),
+                                           'resources' => $resources->map->serializeForIndex($request)
+                                       ];
+                                   });
         } else {
             $resources = $resources->mapInto($resource)->map->serializeForIndex($request);
         }

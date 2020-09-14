@@ -26,9 +26,11 @@
 
         computed: {
             classes() {
+                let classes = this.field.classes || []
+
                 return [
                     'text-' + this.field.textAlign,
-                    ...this.field.classes
+                    ...classes
                 ]
             },
 

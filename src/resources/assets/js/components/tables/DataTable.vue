@@ -17,7 +17,17 @@
                                         :value="group.groupInfo.selected"
                                         @change="selectMany(groupIds(group), group.groupInfo.selected = $event)" />
 
-                        <table-group-info :info="group.groupInfo" :length="fields.length"/>
+                        <table-group-info :info="group.groupInfo" :length="group.groupInfo.fields.length ? 1 : fields.length"/>
+
+                        <template v-for="field in group.groupInfo.fields">
+                            <table-value :field="field" class="bg-grey-lightest">
+                                <component v-if="field.component" :is="'index-' + field.component" :field="field"></component>
+                            </table-value>
+                        </template>
+
+                        <td v-if="group.groupInfo.fields.length"
+                            :colspan="fields.length - 1 - group.groupInfo.fields.length"
+                            class="bg-grey-lightest"></td>
                     </tr>
 
                     <draggable class="data-table__body"

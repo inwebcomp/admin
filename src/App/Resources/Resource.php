@@ -138,10 +138,16 @@ abstract class Resource
         static::$groupBy = $value;
     }
 
-    public function groupInfo(AdminRequest $request, $value)
+    /**
+     * @param AdminRequest $requestStockProductsResource
+     * @param $value The group by value
+     * @param Resource[]|Collection $resources Resources in group
+     * @return array
+     */
+    public function groupInfo(AdminRequest $request, $value, $resources)
     {
         return [
-            'title' => $value,
+            'title'    => $value,
             'selected' => false,
         ];
     }
