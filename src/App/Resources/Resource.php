@@ -149,6 +149,7 @@ abstract class Resource
         return [
             'title'    => $value,
             'selected' => false,
+            'fields'   => [],
         ];
     }
 
