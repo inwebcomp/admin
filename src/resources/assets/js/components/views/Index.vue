@@ -119,19 +119,19 @@
             await this.initializeOrderings()
             await this.fetch()
 
-            App.$on('resourceUpdate', this.fetch)
+            App.$on('resourceUpdate', this.fetchDefault)
 
-            App.$on('resourceDestroyed', this.fetch)
+            App.$on('resourceDestroyed', this.fetchDefault)
 
-            App.$on('resourceStore', this.fetch)
+            App.$on('resourceStore', this.fetchDefault)
 
             App.$on('parentSelect', (parent) => {
                 this.fetch(parent)
             })
 
-            App.$on('indexRefresh', this.fetch)
+            App.$on('indexRefresh', this.fetchDefault)
 
-            App.$on('actionExecuted', this.fetch)
+            App.$on('actionExecuted', this.fetchDefault)
 
             App.$on('back', () => {
                 if (this.isNested && this.breadcrumbs.path.length >= 2)
@@ -156,12 +156,12 @@
         },
 
         destroyed() {
-            App.$off('resourceUpdate', this.fetch)
-            App.$off('resourceDestroyed', this.fetch)
-            App.$off('resourceStore', this.fetch)
+            App.$off('resourceUpdate', this.fetchDefault)
+            App.$off('resourceDestroyed', this.fetchDefault)
+            App.$off('resourceStore', this.fetchDefault)
             App.$off('parentSelect')
-            App.$off('indexRefresh', this.fetch)
-            App.$off('actionExecuted', this.fetch)
+            App.$off('indexRefresh', this.fetchDefault)
+            App.$off('actionExecuted', this.fetchDefault)
             App.$off('back')
         },
 
@@ -178,6 +178,10 @@
                 this.fetch()
 
                 window.scrollTo(0, 0)
+            },
+
+            fetchDefault() {
+                this.fetch()
             },
 
             fetch(parent = null) {
