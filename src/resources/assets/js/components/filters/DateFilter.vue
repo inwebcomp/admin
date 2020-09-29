@@ -12,6 +12,7 @@
                 name="date-filter"
                 :value="value"
                 dateFormat="Y-m-d"
+                locale="ru"
                 :placeholder="placeholder"
                 :enable-time="false"
                 :enable-seconds="false"
@@ -86,7 +87,7 @@ export default {
         },
 
         firstDayOfWeek() {
-            return this.filter.firstDayOfWeek || 0
+            return this.filter.firstDayOfWeek || 1
         },
     },
 }
