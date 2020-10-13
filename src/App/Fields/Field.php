@@ -142,6 +142,11 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      * @var mixed
      */
     public $disabled = false;
+    /**
+     * Placeholder for input
+     * @var string
+     */
+    public $placeholder = null;
 
     /**
      * Create a new field.
@@ -704,6 +709,12 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
         return $this;
     }
 
+    public function placeholder($value)
+    {
+        $this->placeholder = $value;
+        return $this;
+    }
+
     /**
      * Prepare the field for JSON serialization.
      *
@@ -724,6 +735,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
             'classes'         => $this->classes,
             'fullCell'        => $this->fullCell,
             'size'            => $this->size,
+            'placeholder'     => $this->placeholder,
         ], $this->meta());
     }
 }

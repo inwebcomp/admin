@@ -96,6 +96,13 @@
             },
         },
 
+        watch: {
+            resourceName() {
+                this.selectedCheckbox = false
+                this.selectAll(false)
+            }
+        },
+
         data() {
             return {
                 drag: false,

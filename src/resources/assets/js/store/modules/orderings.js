@@ -102,6 +102,10 @@ export default {
          * Clear the orderings for this resource
          */
         clearOrderings(state) {
+            state.ordering = {
+                field: '',
+                direction: ''
+            }
             state.orderings = []
             state.originalOrdering = {
                 field: '',

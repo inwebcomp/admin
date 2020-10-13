@@ -68,7 +68,7 @@
             },
 
             fieldClasses() {
-                let classes = []
+                let classes = this.field.classes || []
 
                 if (this.inline) {
                     classes.push(this.fieldSize)

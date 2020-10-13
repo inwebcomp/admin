@@ -72,7 +72,7 @@ export default {
             await this.initializeOrderingFromQueryString()
 
             // Clear out the orderings from the store first
-            this.$store.commit(`${this.resourceName}/clearOrderings`)
+            await this.$store.commit(`${this.resourceName}/clearOrderings`)
 
             await this.$store.dispatch(`${this.resourceName}/fetchOrderings`, {
                 resourceName: this.resourceName,
