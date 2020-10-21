@@ -36,7 +36,6 @@ class ResourceIndexController extends Controller
 
         if ($resource::$groupBy) {
             $resources = $resources->groupBy($resource::$groupBy)
-                                   ->values()
                                    ->map(function ($group, $value) use ($resourceObject, $request, $resource) {
                                        $resources = collect($group)->mapInto($resource);
 
@@ -44,7 +43,8 @@ class ResourceIndexController extends Controller
                                            'groupInfo' => $resources->first()->groupInfo($request, $value, $resources),
                                            'resources' => $resources->map->serializeForIndex($request)
                                        ];
-                                   });
+                                   })
+                                   ->values();
         } else {
             $resources = $resources->mapInto($resource)->map->serializeForIndex($request);
         }
