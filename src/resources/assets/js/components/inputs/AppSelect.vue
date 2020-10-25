@@ -123,6 +123,12 @@
 
             toggle() {
                 this.opened ? this.close() : this.open()
+
+                if (this.opened) {
+                    this.$emit('open')
+                } else {
+                    this.$emit('close')
+                }
             },
 
             close() {
@@ -180,7 +186,7 @@
 
         computed: {
             selected() {
-                return this.options.find(item => item.value === this.value);
+                return this.options.find(item => this.value !== null && item.value == this.value);
             },
 
             emptyTitleText() {
@@ -189,7 +195,7 @@
 
             filteredOptions() {
                 if (this.search && this.simpleSearch && this.searchWord) {
-                    return this.options.filter(option => option.title.toLowerCase().indexOf(this.searchWord.toLowerCase()) === 0)
+                    return this.options.filter(option => option.title.toLowerCase().indexOf(this.searchWord.toLowerCase()) >= 0)
                 }
 
                 if (this.withEmpty)

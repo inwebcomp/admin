@@ -13,7 +13,7 @@
 
         <div class="dropdown__container" v-show="opened">
             <ul class="dropdown__values search-input__values" :class="{ 'dropdown--top': atTop }" ref="container">
-                <li v-for="(option, $i) in options" :key="$i" class="dropdown__option" :class="{'dropdown__option--focused': focused == $i + 1}" @mousedown="select($i)">
+                <li v-for="(option, $i) in filteredOptions" :key="$i" class="dropdown__option" :class="{'dropdown__option--focused': focused == $i + 1}" @mousedown="select($i)">
                     <a>
                         <span v-if="option.image" class="dropdown__option__image"
                               :style="{ 'background-image': 'url(' + option.image + ')' }"></span>
@@ -42,6 +42,10 @@
                 default: false
             },
             immediate: {
+                type: Boolean,
+                default: false
+            },
+            autoFilter: {
                 type: Boolean,
                 default: false
             },
@@ -80,10 +84,11 @@
             },
 
             select(index) {
-                let selected = this.options[index]
+                let selected = this.filteredOptions[index]
                 this.close()
 
                 this.$emit('input', selected.value, selected.title)
+                this.$emit('select', selected.value, selected.title)
             },
 
             toggle() {
@@ -134,9 +139,17 @@
             }
         },
 
+
         computed: {
+            filteredOptions() {
+                if (! this.autoFilter || ! this.value)
+                    return this.options;
+
+                return this.options.filter(option => option.title.toLowerCase().indexOf(this.value.toLowerCase()) > -1)
+            },
+
             height() {
-                return (Math.min(this.options.length, 8) + 1) * 34 + 16
+                return (Math.min(this.filteredOptions.length, 8) + 1) * 34 + 16
             }
         }
     }
