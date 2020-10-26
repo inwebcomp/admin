@@ -4,7 +4,7 @@ namespace InWeb\Admin\App\Providers;
 
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Support\ServiceProvider;
-use InWeb\Admin\Http\Middleware\ServeAdmin;
+use InWeb\Admin\App\Http\Middleware\ServeAdmin;
 
 /**
  * The primary purpose of this service provider is to push the ServeAdmin

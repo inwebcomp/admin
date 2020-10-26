@@ -1,6 +1,6 @@
 <?php
 
-namespace InWeb\Admin\Http\Middleware;
+namespace InWeb\Admin\App\Http\Middleware;
 
 use InWeb\Admin\App\Admin;
 use InWeb\Admin\App\Events\AdminServiceProviderRegistered;
