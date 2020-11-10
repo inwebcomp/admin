@@ -139,7 +139,7 @@ abstract class Resource
     }
 
     /**
-     * @param AdminRequest $requestStockProductsResource
+     * @param AdminRequest $request
      * @param $value The group by value
      * @param Resource[]|Collection $resources Resources in group
      * @return array
