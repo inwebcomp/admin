@@ -17,7 +17,7 @@
                        @start="drag = true"
                        @end="dragEnd">
 
-                    <tr v-for="(item, $i) of value" :key="$i" :class="{'hover:bg-grey-lighter': !drag}">
+                    <tr v-for="(item, $i) of value" :key="item.key !== null ? item.key : $i" :class="{'hover:bg-grey-lighter': !drag}">
                         <slot :item="item" :index="$i">
                             <td class="py-4 px-6 border-b border-grey-light cursor-move handle text-grey w-1"><i class="icon icon--handle"></i></td>
 
