@@ -78,6 +78,9 @@
                     videoUpload: false,
                     pastePlain: true,
                     imageUploadURL: App.api.url('field/editor-field/image/' + this.resourceName + '/' + this.resourceId),
+                    requestHeaders: {
+                        'X-CSRF-TOKEN': Laravel.csrfToken
+                    },
                     imageAllowedTypes: ['jpeg', 'jpg', 'png', 'svg', 'gif'],
                     imageMaxSize: 1024 * 1024 * 2,
                     imageInsertButtons: ['imageBack', '|', 'imageUpload', 'imageByURL'],

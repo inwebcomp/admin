@@ -2,7 +2,7 @@
 
 namespace InWeb\Admin\App;
 
-use App\Http\Middleware\EncryptCookies;
+use Illuminate\Cookie\Middleware\EncryptCookies;
 use App\Http\Middleware\VerifyCsrfToken;
 use Closure;
 use Illuminate\Routing\Middleware\SubstituteBindings;
