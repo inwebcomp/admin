@@ -51,7 +51,7 @@ trait DecodesFilters
             return [];
         }
 
-        $filters = json_decode(base64_decode($this->filters), true);
+        $filters = json_decode(urldecode(base64_decode($this->filters)), true);
 
         return is_array($filters) ? $filters : [];
     }

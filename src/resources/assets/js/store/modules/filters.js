@@ -39,7 +39,7 @@ export default {
         /**
          * Return the current filters encoded to a string.
          */
-        currentEncodedFilters: (state, getters) => btoa(JSON.stringify(getters.currentFilters)),
+        currentEncodedFilters: (state, getters) => btoa(encodeURIComponent(JSON.stringify(getters.currentFilters))),
 
         /**
          * Determine whether any filters are applied
@@ -129,7 +129,7 @@ export default {
          */
         async initializeCurrentFilterValuesFromQueryString({commit, getters}, encodedFilters) {
             if (encodedFilters) {
-                const initialFilters = JSON.parse(atob(encodedFilters))
+                const initialFilters = JSON.parse(decodeURIComponent(atob(encodedFilters)))
                 _.each(initialFilters, f => {
                     commit('updateFilterState', {filterClass: f.class, value: f.value})
                 })
