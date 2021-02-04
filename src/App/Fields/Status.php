@@ -40,4 +40,9 @@ class Status extends Field
     {
         return $this->withMeta(['options' => $this->options = $options]);
     }
+
+    public function small($value = true)
+    {
+        return $this->withMeta(['small' => $value]);
+    }
 }

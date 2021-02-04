@@ -1,5 +1,5 @@
 <template>
-    <div class="status-field" v-if="field.value !== null">
+    <div class="status-field" v-if="field.value !== null" :class="{'status-field--small': field.small}">
         <span class="status-field__icon mr-2" v-if="field.value.color" :class="'bg-' + field.value.color" :style="field.value.color.charAt(0) == '#' ? 'background-color: ' + field.value.color : ''"></span>
         <span class="status-field__text">{{ field.value.title }}</span>
     </div>
@@ -27,6 +27,17 @@
 
         &__text {
             line-height: 1;
+        }
+
+        &--small {
+            flex-direction: column;
+
+            .status-field__text {
+                font-size: 12px;
+            }
+            .status-field__icon {
+                margin-right: 0 !important;
+            }
         }
     }
 </style>
