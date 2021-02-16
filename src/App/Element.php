@@ -47,7 +47,7 @@ class Element implements \JsonSerializable
     /**
      * Create a new element.
      *
-     * @param  string|null  $component
+     * @param string|null $component
      * @return void
      */
     public function __construct($component = null)
@@ -58,7 +58,7 @@ class Element implements \JsonSerializable
     /**
      * Determine if the element should be displayed for the given request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return bool
      */
     public function authorize(Request $request)
@@ -69,7 +69,7 @@ class Element implements \JsonSerializable
     /**
      * Set the callback to be run to authorize viewing the card.
      *
-     * @param  \Closure  $callback
+     * @param \Closure $callback
      * @return $this
      */
     public function canSee(\Closure $callback)
@@ -82,7 +82,7 @@ class Element implements \JsonSerializable
     /**
      * Determine if the card should be available for the given request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return bool
      */
     public function authorizedToSee(Request $request)
@@ -113,7 +113,7 @@ class Element implements \JsonSerializable
     /**
      * Set additional meta information for the element.
      *
-     * @param  array  $meta
+     * @param array $meta
      * @return $this
      */
     public function withMeta(array $meta)
@@ -131,8 +131,9 @@ class Element implements \JsonSerializable
     public function jsonSerialize()
     {
         return array_merge([
-            'component' => $this->component(),
+            'component'       => $this->component(),
             'prefixComponent' => false,
+            'onlyOnDetail'    => $this->onlyOnDetail,
         ], $this->meta());
     }
 }

@@ -82,3 +82,19 @@ $card-form-header-height: rem(50px);
 		margin-bottom: $padding;
 	}
 }
+
+
+
+
+
+.card-panel, .card--statistics{
+	height: 150px;
+}
+
+.card-refresh {
+	@apply p-1 ml-auto text-sm inline-flex items-center;
+}
+
+.card-refresh:hover {
+	color: var(--primary)
+}

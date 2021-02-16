@@ -6,15 +6,31 @@ use App\Admin\Resources\Page;
 use App\Admin\Resources\Product;
 use BadMethodCallException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use InWeb\Admin\App\Events\ServingAdmin;
+use InWeb\Admin\App\Http\Requests\AdminRequest;
 use InWeb\Admin\App\Resources\Resource;
 use Symfony\Component\Finder\Finder;
 
 class Admin
 {
     use AuthorizesRequests;
+
+    /**
+     * The registered dashboard names.
+     *
+     * @var array
+     */
+    public static $dashboards = [];
+
+    /**
+     * The registered cards for the default dashboard.
+     *
+     * @var array
+     */
+    public static $defaultDashboardCards = [];
 
     /**
      * The registered resource names.
@@ -51,6 +67,13 @@ class Admin
     public static $tools = [];
 
     /**
+     * All of the registered Admin cards.
+     *
+     * @var array
+     */
+    public static $cards = [];
+
+    /**
      * All of the registered Admin tool scripts.
      *
      * @var array
@@ -75,6 +98,19 @@ class Admin
      */
     public static $defaultLocale;
 
+    /* The callable that resolves the user's timezone.
+     *
+     * @var callable
+     */
+    public static $userTimezoneCallback;
+
+    /**
+     * The debounce amount to use when using global search.
+     *
+     * @var float
+     */
+    public static $debounce = 0.5;
+
     /**
      * Get the URI path prefix utilized by Admin.
      *
@@ -86,7 +122,7 @@ class Admin
     }
 
     /**
-     * Register the Nova routes.
+     * Register the Admin routes.
      */
     public static function routes()
     {
@@ -357,7 +393,7 @@ class Admin
 
 
     /**
-     * Register new tools with Nova.
+     * Register new tools with Admin.
      *
      * @param array $tools
      * @return static
@@ -373,7 +409,7 @@ class Admin
     }
 
     /**
-     * Get the tools registered with Nova.
+     * Get the tools registered with Admin.
      *
      * @return array
      */
@@ -396,7 +432,7 @@ class Admin
     }
 
     /**
-     * Boot the available Nova tools.
+     * Boot the available Admin tools.
      *
      * @param \Illuminate\Http\Request $request
      * @return void
@@ -407,7 +443,7 @@ class Admin
     }
 
     /**
-     * Get the tools registered with Nova.
+     * Get the tools registered with Admin.
      *
      * @param \Illuminate\Http\Request $request
      * @return array
@@ -418,7 +454,7 @@ class Admin
     }
 
     /**
-     * Get the tools registered with Nova.
+     * Get the tools registered with Admin.
      *
      * @param \Illuminate\Http\Request $request
      * @return array
@@ -429,6 +465,158 @@ class Admin
             return $tool->authorize($request) &&
                    $tool::availableForNavigation($request);
         })->all();
+    }
+
+    /**
+     * Set the callable that resolves the user's preferred timezone.
+     *
+     * @param callable $userTimezoneCallback
+     * @return static
+     */
+    public static function userTimezone($userTimezoneCallback)
+    {
+        static::$userTimezoneCallback = $userTimezoneCallback;
+
+        return new static;
+    }
+
+    /**
+     * Resolve the user's preferred timezone.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return string|null
+     */
+    public static function resolveUserTimezone(Request $request)
+    {
+        if (static::$userTimezoneCallback) {
+            return call_user_func(static::$userTimezoneCallback, $request);
+        }
+    }
+
+    /**
+     * Register new dashboard cards with Admin.
+     *
+     * @param array $cards
+     * @return static
+     */
+    public static function cards(array $cards)
+    {
+        static::$cards = array_merge(
+            static::$cards,
+            $cards
+        );
+
+        return new static;
+    }
+
+    /**
+     * Get the cards registered with Admin.
+     *
+     * @return array
+     */
+    public static function registeredCards()
+    {
+        return static::$cards;
+    }
+
+    /**
+     * Get the cards registered with Admin.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return array
+     */
+    public static function availableCards(Request $request)
+    {
+        return collect(static::$cards)->filter->authorize($request)->all();
+    }
+
+    /**
+     * Copy the cards to cards to the default dashboard.
+     *
+     * @return static
+     */
+    public static function copyDefaultDashboardCards()
+    {
+        static::$defaultDashboardCards = static::$cards;
+
+        return new static;
+    }
+
+    /**
+     * Get the dashboards registered with Admin.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return array
+     */
+    public static function availableDashboards(Request $request)
+    {
+        return collect(static::$dashboards)->filter->authorize($request)->all();
+    }
+
+    /**
+     * Register the dashboards.
+     *
+     * @param array $dashboards
+     * @return static
+     */
+    public static function dashboards(array $dashboards)
+    {
+        static::$dashboards = array_merge(static::$dashboards, $dashboards);
+
+        return new static;
+    }
+
+    /**
+     * Get the available dashboard cards for the given request.
+     *
+     * @param AdminRequest $request
+     * @return Collection
+     */
+    public static function allAvailableDashboardCards(AdminRequest $request)
+    {
+        return collect(static::$dashboards)
+            ->filter
+            ->authorize($request)
+            ->flatMap(function ($dashboard) {
+                return $dashboard->cards();
+            })->merge(static::$cards)
+            ->unique()
+            ->filter
+            ->authorize($request)
+            ->values();
+    }
+
+    /**
+     * Get the available dashboard for the given request.
+     *
+     * @param string $dashboard
+     * @param AdminRequest $request
+     * @return Collection
+     */
+    public static function dashboardForKey($dashboard, AdminRequest $request)
+    {
+        return collect(static::$dashboards)
+            ->filter
+            ->authorize($request)
+            ->first(function ($dash) use ($dashboard) {
+                return $dash::uriKey() === $dashboard;
+            });
+    }
+
+    /**
+     * Get the available dashboard cards for the given request.
+     *
+     * @param string $dashboard
+     * @param AdminRequest $request
+     * @return Collection
+     */
+    public static function availableDashboardCardsForDashboard($dashboard, AdminRequest $request)
+    {
+        return collect(static::$dashboards)->filter->authorize($request)->filter(function ($dash) use ($dashboard) {
+            return $dash->uriKey() === $dashboard;
+        })->flatMap(function ($dashboard) {
+            return $dashboard->cards();
+        })->filter->authorize($request)->values();
     }
 
     /**
@@ -544,6 +732,7 @@ class Admin
                 'sitename'    => config('app.name'),
                 'user'        => \Auth::guard('admin')->user(),
                 'groupedMenu' => static::$groupedMenu,
+                'debounce'    => static::$debounce * 1000,
             ];
         }
 
@@ -603,6 +792,18 @@ class Admin
     public static function setMenu($menu)
     {
         self::$menu = $menu;
+    }
+
+    /**
+     * Return the debounce amount to use when using global search.
+     *
+     * @var int
+     */
+    public static function globalSearchDebounce($debounce)
+    {
+        static::$debounce = $debounce;
+
+        return new static;
     }
 }
 

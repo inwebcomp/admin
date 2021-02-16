@@ -2,6 +2,7 @@ import Home from '~pages/Home';
 import Login from '~pages/Login';
 import Module from '~pages/Module';
 import NotFound from '~pages/NotFound';
+import Dashboard from '~pages/Dashboard';
 import AppHeader from '~elements/AppHeader';
 import AppMenu from '~elements/AppMenu';
 
@@ -27,6 +28,19 @@ export default [
         components: {
             default: Login
         }
+    },
+    {
+        name: 'dashboard',
+        path: '/dashboards/:name',
+        components: {
+            default: Dashboard,
+            header: AppHeader,
+            sidebar: AppMenu
+        },
+        props: {
+            default: true,
+            sidebar: true
+        },
     },
     {
         name: 'index',

@@ -14,6 +14,21 @@
 
         <breadcrumbs v-if="isNested" :items="breadcrumbs.path" :options="breadcrumbs.options" :value="selected"/>
 
+        <div v-if="shouldShowCards" class="mt-4">
+            <cards
+                    v-if="smallCards.length > 0"
+                    :cards="smallCards"
+                    :resource-name="resourceName"
+            />
+
+            <cards
+                    v-if="largeCards.length > 0"
+                    :cards="largeCards"
+                    size="large"
+                    :resource-name="resourceName"
+            />
+        </div>
+
         <data-table v-if="info"
                     :grouped="grouped"
                     :resources="resources"
@@ -31,11 +46,11 @@
 </template>
 
 <script>
-    import Api from "~js/api"
     import Filterable from "~mixins/Filterable"
     import Orderable from "~mixins/Orderable"
     import Searchable from "~mixins/Searchable"
     import InteractsWithQueryString from "~mixins/InteractsWithQueryString"
+    import HasCards from "~mixins/HasCards"
 
     export default {
         name: "index",
@@ -49,6 +64,7 @@
             Filterable,
             Orderable,
             Searchable,
+            HasCards,
             InteractsWithQueryString,
         ],
 
@@ -102,6 +118,24 @@
              */
             initialEncodedFilters() {
                 return this.$route.query[this.filterParameter] || ''
+            },
+
+            /**
+             * Determine if the resource should show any cards
+             */
+            shouldShowCards() {
+                // Don't show cards if this resource is beings shown via a relations
+                return (
+                    this.cards.length > 0 &&
+                    this.resourceName == this.$route.params.resourceName
+                )
+            },
+
+            /**
+             * Get the endpoint for this resource's metrics.
+             */
+            cardsEndpoint() {
+                return `${this.resourceName}/cards`
             },
         },
 

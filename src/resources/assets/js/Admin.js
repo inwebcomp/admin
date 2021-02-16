@@ -15,6 +15,8 @@ import SidePopup from './plugins/sidePopup'
 import Popup from './plugins/popup'
 import Toasted from 'vue-toasted'
 import _ from 'lodash'
+import numbro from './plugins/numbro'
+import moment from './plugins/moment'
 
 import ClickOutside from "~directives/ClickOutside";
 
@@ -131,6 +133,19 @@ export default class Admin {
         this.config.resources.forEach(resource => {
             store.registerModule(resource.uriKey, _.merge(filters, orderings))
         })
+    }
+
+    /**
+     * Format a number using numbro.js for consistent number formatting.
+     */
+    formatNumber(number, format) {
+        const num = numbro(number)
+
+        if (format !== undefined) {
+            return num.format(format)
+        }
+
+        return num.format()
     }
 
     /**

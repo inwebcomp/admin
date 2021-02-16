@@ -19,6 +19,13 @@ $dropdown-max-options: 8;
             }
         }
     }
+
+    &--nowrap {
+        .dropdown__container {
+            width: fit-content;
+            right: 0;
+        }
+    }
 }
 
 .dropdown__option {

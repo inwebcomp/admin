@@ -8,6 +8,7 @@ use InWeb\Admin\App\HasPermissions;
 use InWeb\Admin\App\ResolvesFilters;
 use InWeb\Admin\App\ResolvesOrderings;
 use InWeb\Admin\App\WithNotification;
+use InWeb\Admin\App\ResolvesCards;
 use InWeb\Base\Entity;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
@@ -40,7 +41,8 @@ abstract class Resource
         WithNotification,
         ActionTarget,
         HasPermissions,
-        FastEditable;
+        FastEditable,
+        ResolvesCards;
     /**
      * The underlying model resource instance.
      *

@@ -10,6 +10,20 @@ Route::group(['as' => 'login.'], function() {
     Route::post('logout', 'AuthController@logout')->name('logout');
 });
 
+// Cards / Metrics...
+Route::get('/metrics', 'DashboardMetricController@index');
+Route::get('/metrics/{metric}', 'DashboardMetricController@show');
+Route::get('/{resource}/metrics', 'MetricController@index');
+Route::get('/{resource}/metrics/{metric}', 'MetricController@show');
+Route::get('/{resource}/{resourceId}/metrics/{metric}', 'DetailMetricController@show');
+
+Route::get('/cards', 'DashboardCardController@index');
+Route::get('/{resource}/cards', 'CardController@index');
+
+// Dashboards...
+Route::get('/dashboards/{dashboard}', 'DashboardController@index');
+Route::get('/dashboards/cards/{dashboard}', 'DashboardCardController@index');
+
 // Resource...
 Route::get('{resource}', 'ResourceIndexController@handle')->name('resource.index');
 Route::get('{resource}/create', 'ResourceCreateController@handle')->name('resource.create');

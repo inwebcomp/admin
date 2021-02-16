@@ -13,16 +13,17 @@ class AdminApplicationServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      *
      * @return void
-     * @throws \ReflectionException
      */
     public function boot()
     {
         $this->routes();
-        $this->groups();
-        $this->resources();
-        Admin::tools($this->tools());
-
         Admin::serving(function (ServingAdmin $event) {
+            $this->groups();
+            $this->resources();
+            Admin::tools($this->tools());
+            Admin::cards($this->cards());
+            Admin::dashboards($this->dashboards());
+
             \Gate::before(function ($user, $ability) {
                 return $user->hasRole('Super Admin') ? true : null;
             });
@@ -55,6 +56,28 @@ class AdminApplicationServiceProvider extends ServiceProvider
 
         Admin::group('other', __('Другие'));
         Admin::group('tools', __('Инструменты'), 'ellipsis-h');
+    }
+
+    /**
+     * Get the cards that should be displayed on the Nova dashboard.
+     *
+     * @return array
+     */
+    protected function cards()
+    {
+        return [];
+    }
+
+    /**
+     * Get the extra dashboards that should be displayed on the Admin dashboard.
+     *
+     * @return array
+     */
+    protected function dashboards()
+    {
+        return [
+            //
+        ];
     }
 
     /**

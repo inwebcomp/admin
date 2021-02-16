@@ -1,6 +1,6 @@
 <template>
     <div class="dropdown select"
-         :class="{ 'dropdown--opened': opened, 'dropdown--top': atTop, 'dropdown--small': small }"
+         :class="{ 'dropdown--opened': opened, 'dropdown--top': atTop, 'dropdown--small': small, 'dropdown--nowrap': nowrap }"
          v-click-outside="close">
         <button type="button" class="dropdown__value form__group__input" :class="{'form__group__input--h-small': small}"
                 ref="value"
@@ -33,7 +33,7 @@
                     <ul class="dropdown__values select__values" ref="container">
                         <li v-for="(option, $i) in filteredOptions" :key="$i"
                             class="dropdown__option"
-                            :class="{'dropdown__option--focused': focused == $i + 1}"
+                            :class="{'dropdown__option--focused': focused == $i + 1, 'whitespace-no-wrap': nowrap}"
                             @click="select(option.value)">
                             <div v-if="option.image" class="dropdown__option__image"
                                  :style="{ 'background-image': 'url(' + option.image + ')' }"></div>
@@ -61,6 +61,10 @@
             value: {},
             tabindex: {},
             immediate: {
+                type: Boolean,
+                default: false
+            },
+            nowrap: {
                 type: Boolean,
                 default: false
             },

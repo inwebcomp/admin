@@ -16,7 +16,8 @@
                     <router-link :to="{
                             name: resource.route || 'index',
                             params: {
-                                resourceName: resource.uriKey
+                                resourceName: resource.uriKey,
+                                name: resource.uriKey,
                             }
                         }" class="sidebar__children__item"
                                  :title="resource.label"
@@ -70,16 +71,15 @@
                 }
 
                 return !!group.resources.find(resource => {
-                    if (this.$route.name == 'index' && this.$route.params.resourceName == resource.uriKey)
-                        return true
-
-                    if (this.$route.name != 'index' && this.$route.name == resource.uriKey)
-                        return true
+                    return this.isSelectedItem(resource)
                 })
             },
 
             isSelectedItem(resource) {
                 if (this.$route.name == 'index' && this.$route.params.resourceName == resource.uriKey)
+                    return true
+
+                if (this.$route.name == 'dashboard' && this.$route.params.name == resource.uriKey)
                     return true
 
                 if (this.$route.name != 'index' && this.$route.name == resource.uriKey)

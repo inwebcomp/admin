@@ -3,6 +3,7 @@
 namespace InWeb\Admin\App\Providers;
 
 use Illuminate\Routing\Router;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\ServiceProvider;
 use InWeb\Admin\App\Admin;
 use InWeb\Admin\App\AdminRoute;
@@ -12,6 +13,8 @@ use InWeb\Admin\App\Console\SeedCommand;
 use InWeb\Admin\App\Console\SyncResourcePermissionsCommand;
 use InWeb\Admin\App\Console\ToolCommand;
 use InWeb\Admin\App\Http\Middleware\AdminAccess;
+use InWeb\Admin\App\Macros\FirstDayOfPreviousQuarter;
+use InWeb\Admin\App\Macros\FirstDayOfQuarter;
 use InWeb\Admin\App\Tools\ResourceManager;
 
 class AdminServiceProvider extends ServiceProvider
@@ -34,6 +37,7 @@ class AdminServiceProvider extends ServiceProvider
      *
      * @param Router $router
      * @return void
+     * @throws \ReflectionException
      */
     public function boot(Router $router)
     {
@@ -43,6 +47,8 @@ class AdminServiceProvider extends ServiceProvider
 
         $this->registerJsonVariables();
 
+        $this->registerCarbonMacros();
+        $this->registerDashboards();
         $this->registerResources();
         $this->registerTools();
 
@@ -57,6 +63,30 @@ class AdminServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerCommands();
+    }
+
+    /**
+     * Register the dashboards used by Nova.
+     *
+     * @return void
+     */
+    protected function registerDashboards()
+    {
+        Admin::serving(function () {
+            Admin::copyDefaultDashboardCards();
+        });
+    }
+
+    /**
+     * Register the Nova Carbon macros.
+     *
+     * @return void
+     * @throws \ReflectionException
+     */
+    protected function registerCarbonMacros()
+    {
+        Carbon::mixin(new FirstDayOfQuarter());
+        Carbon::mixin(new FirstDayOfPreviousQuarter());
     }
 
     /**

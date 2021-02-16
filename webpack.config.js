@@ -11,6 +11,7 @@ module.exports = {
             "~fields": `${srcRoot}/components/fields`,
             "~views": `${srcRoot}/components/views`,
             "~elements": `${srcRoot}/components/elements`,
+            "~util": `${srcRoot}/util`,
             "~components": `${srcRoot}/components`,
         }
     },

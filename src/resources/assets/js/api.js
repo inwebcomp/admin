@@ -24,7 +24,7 @@ export default class Api {
         return this.request(params);
     }
 
-    request({ resourceName, action, resourceId, full, url, method, data, params }, other) {
+    request({ resourceName, action, resourceId, full, url, method, data, params }, other = []) {
         if (url)
             url = Api.root + '/' + url
         else
