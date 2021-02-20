@@ -365,6 +365,8 @@ trait Authorizable
      */
     public function authorizedWithoutGateTo(Request $request, $ability)
     {
-        return $request->user()->can($this::permissionActionName($ability));
+        /** @var AdminUser $user */
+        $user = $request->user();
+        return $user->can($this::permissionActionName($ability));
     }
 }
