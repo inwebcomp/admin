@@ -5,6 +5,7 @@ namespace InWeb\Admin\App\Providers;
 use Illuminate\Support\ServiceProvider;
 use InWeb\Admin\App\Admin;
 use InWeb\Admin\App\Events\ServingAdmin;
+use InWeb\Admin\App\Models\AdminUser;
 use InWeb\Admin\App\Parameters;
 
 class AdminApplicationServiceProvider extends ServiceProvider
@@ -25,6 +26,7 @@ class AdminApplicationServiceProvider extends ServiceProvider
             Admin::dashboards($this->dashboards());
 
             \Gate::before(function ($user, $ability) {
+                /** @var AdminUser $user */
                 return $user->hasRole('Super Admin') ? true : null;
             });
 

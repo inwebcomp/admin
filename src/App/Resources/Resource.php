@@ -392,12 +392,16 @@ abstract class Resource
      */
     public function serializeForIndex(AdminRequest $request, $fields = null)
     {
-        return array_merge($this->serializeWithId($fields ?: $this->resolveIndexFields($request)), [
-            'authorizedToView'       => $this->authorizedToView($request),
-            'authorizedToUpdate'     => $this->authorizedToUpdate($request),
-            'authorizedToFastUpdate' => $this->authorizedToFastUpdate($request),
-            'authorizedToDelete'     => $this->authorizedToDelete($request),
-        ]);
+        $permissions = \Cache::driver('array')->rememberForever('admin::permissions.' . static::uriKey(), function () use ($request) {
+            return [
+                'authorizedToView'       => $this->authorizedToView($request),
+                'authorizedToUpdate'     => $this->authorizedToUpdate($request),
+                'authorizedToFastUpdate' => $this->authorizedToFastUpdate($request),
+                'authorizedToDelete'     => $this->authorizedToDelete($request),
+            ];
+        });
+
+        return array_merge($this->serializeWithId($fields ?: $this->resolveIndexFields($request)), $permissions);
     }
 
     /**
