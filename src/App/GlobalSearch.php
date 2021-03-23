@@ -55,7 +55,7 @@ class GlobalSearch
                     'subTitle'      => $instance->subtitle(),
                     'image'         => $instance->preview(),
                     'resourceId'    => $model->getKey(),
-                    'url'           => $instance->editPath(),
+                    'url'           => $instance->editPathRelative(),
                     'visibility'    => in_array(WithStatus::class, class_uses($model)) ? $model->isPublished() : true,
                 ];
             }

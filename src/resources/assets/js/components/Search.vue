@@ -8,7 +8,7 @@
                     <div v-for="(group, $i) in groups" :key="$i" class="search__option__group">
                         <div class="dropdown__option__text search__option__group__title">{{ group.title }}</div>
 
-                        <router-link v-for="(option, $i) in group.items" :key="$i" tag="li" :to="option.url" class="dropdown__option" @click="select(option.value)">
+                        <router-link v-for="(option, $i) in group.items" :key="$i" tag="li" :to="url(option)" class="dropdown__option" @click="select(option.value)">
                             <span v-if="option.image" class="dropdown__option__image"
                                   :style="{ 'background-image': 'url(' + option.image + ')' }"></span>
 
@@ -38,12 +38,6 @@
             }
         },
 
-        computed: {
-            resource() {
-                return this.$store.state.resource.info
-            },
-        },
-
         watch: {
             query() {
                 if (this.query == '') {
@@ -55,7 +49,7 @@
 
                 this.timer = setTimeout(() => {
                     App.api.request({
-                        controller: this.resource.uriKey,
+                        resourceName: this.resourceName,
                         action: 'search',
                         params: {
                             search: this.query
@@ -71,8 +65,6 @@
             search() {
                 if (this.query == '')
                     return false
-
-
             },
 
             focus() {
@@ -99,6 +91,13 @@
             open() {
                 this.opened = true
             },
+
+            url(option) {
+                if (this.$route.name != 'index')
+                    return this.$makeRoute.edit(option.resourceName, option.resourceId)
+
+                return { path: option.url, query: this.$route.query }
+            }
         },
     }
 </script>
