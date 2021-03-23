@@ -24,6 +24,7 @@
                         @click="select(item)">
                         <div class="tree__item__line">
                             <i class="far mr-2" :class="getIconClasses(item)"></i>
+                            <i class="mr-2" v-if="item.customIcon" :class="item.customIcon"></i>
                             {{ item.title }}
                         </div>
                     </li>
@@ -90,8 +91,8 @@
 
             getIconClasses(item) {
                 let classes = {}
-                classes['fa-folder' + (item.ancestor ? '-open' : '')] = true;
-                classes['tree__item__arrow--hidden'] = item.isLeaf;
+                    classes['fa-folder' + (item.ancestor ? '-open' : '')] = true;
+                    classes['tree__item__arrow--hidden'] = item.isLeaf;
 
                 return classes
             },

@@ -2,6 +2,7 @@
 
 namespace InWeb\Admin\App\Http\Controllers\Fields;
 
+use InWeb\Admin\App\Contracts\TreeCustomIcon;
 use InWeb\Admin\App\Fields\Contracts\TreeFieldModel;
 use InWeb\Admin\App\Http\Controllers\Controller;
 use InWeb\Admin\App\Http\Requests\ResourceDetailRequest;
@@ -121,6 +122,7 @@ class TreeFieldController extends Controller
                 'ancestor' => $item->ancestor,
                 'isLeaf'   => $item->isLeaf(),
                 'active'   => $item->active,
+                'customIcon' => ($item instanceof TreeCustomIcon ? $item->treeCustomIcon() : null),
             ];
         });
     }
