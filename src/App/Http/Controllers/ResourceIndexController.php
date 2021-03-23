@@ -141,6 +141,6 @@ class ResourceIndexController extends Controller
 
         $item = $model::withoutGlobalScopes()->find($parent);
 
-        return $request->newResource()->nestedRelationResource()->breadcrumbs($item);
+        return $request->newResource()->nestedRelationResource()->breadcrumbs($request, $item);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace InWeb\Admin\App;
 
+use InWeb\Admin\App\Http\Requests\ResourceIndexRequest;
 use \InWeb\Base\Contracts\Nested as NestedContract;
 
 trait Nested
@@ -16,7 +17,7 @@ trait Nested
         return $this;
     }
 
-    public function breadcrumbs(NestedContract $node = null, $withOptions = true)
+    public function breadcrumbs(ResourceIndexRequest $request, NestedContract $node = null, $withOptions = true)
     {
         $path = $this->breadcrumbsPath($node);
 
@@ -24,6 +25,8 @@ trait Nested
             $options = $node ? $node->children() : $this->nestedRelationResource()->whereIsRoot();
 
 //            $options->hasChildren();
+
+            static::indexQuery($request, $options);
 
             $options = $options->withoutGlobalScopes()->ordered();
 
