@@ -35,8 +35,6 @@
     import HandlesValidationErrors from "~mixins/HandlesValidationErrors"
     import FormField from "~mixins/FormField"
 
-    // @todo Вывести id и название выбранной модели где-то рядом
-
     export default {
         mixins: [FormField, HandlesValidationErrors],
 
@@ -58,6 +56,12 @@
         data() {
             return {
                 options: []
+            }
+        },
+
+        mounted() {
+            if (this.value && ! this.options.length) {
+                this.search(this.value)
             }
         },
 
