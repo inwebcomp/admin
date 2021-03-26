@@ -78,9 +78,19 @@
 
         created() {
             this.fetch(this.field.value)
+
+            App.$on('actionExecuted', this.fetchWithCurrentValue)
+        },
+
+        destroyed() {
+            App.$off('actionExecuted', this.fetchWithCurrentValue)
         },
 
         methods: {
+            fetchWithCurrentValue() {
+                this.fetch(this.field.value)
+            },
+
             getTreeClasses(item) {
                 let classes = {}
                 classes['tree__item--level-' + item.level] = true
