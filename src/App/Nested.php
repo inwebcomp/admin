@@ -17,6 +17,11 @@ trait Nested
         return $this;
     }
 
+    public function findInDescendants()
+    {
+        return false;
+    }
+
     public function breadcrumbs(ResourceIndexRequest $request, NestedContract $node = null, $withOptions = true)
     {
         $path = $this->breadcrumbsPath($node);

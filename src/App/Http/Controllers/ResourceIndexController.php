@@ -11,6 +11,7 @@ use InWeb\Admin\App\Http\Requests\ResourceIndexRequest;
 use InWeb\Admin\App\Resources\Resource;
 use InWeb\Base\Entity;
 use InWeb\Admin\App\Parameters;
+use Kalnoy\Nestedset\NodeTrait;
 
 class ResourceIndexController extends Controller
 {
@@ -76,6 +77,7 @@ class ResourceIndexController extends Controller
 
         // @todo Refactor this
         if ($res instanceof Nested) {
+            /** @var \InWeb\Admin\App\Nested $res */
             $wasParent = Parameters::get($resource, 'parent');
             $parent = Parameters::remember($request, $resource, 'parent');
 
@@ -84,8 +86,8 @@ class ResourceIndexController extends Controller
             }
 
             if ($parent and $item = $res->nestedRelationResource()->model()->withoutGlobalScopes()->find($parent)) {
-                if ($res instanceof Product) { // @todo
-                    $query->whereIn('category_id', array_merge(
+                if ($res->findInDescendants()) {
+                    $query->whereIn($res->nestedRelationResourceField(), array_merge(
                         $item->getDescendants([$item->getKeyName()])->pluck($item->getKeyName())->toArray(),
                         [$item->id]
                     ));
@@ -93,8 +95,9 @@ class ResourceIndexController extends Controller
                     $query->where($res->nestedRelationResourceField(), $item->id);
                 }
             } else {
+                /** @var NodeTrait $model */
                 if ($model instanceof \InWeb\Base\Contracts\Nested) {
-                    $query->whereIsRoot();
+                    $query->whereNull($res->nestedRelationResourceField());
                 }
             }
         }
