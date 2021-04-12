@@ -359,6 +359,9 @@ class Admin
         }
 
         $resource = collect(static::$resources)->first(function ($value) use ($class) {
+            if (! $value::$canBeFoundByModel)
+                return false;
+
             return $value::$model === $class;
         });
 

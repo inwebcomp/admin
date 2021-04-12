@@ -56,6 +56,12 @@ abstract class Resource
      */
     public static $model = null;
     /**
+     * Set to false, to remove resource from Admin::resourceForModel search
+     *
+     * @var bool
+     */
+    public static $canBeFoundByModel = true;
+    /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
