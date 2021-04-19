@@ -138,12 +138,18 @@ class ResourceIndexController extends Controller
     private function getBreadcrumbs(ResourceIndexRequest $request)
     {
         $item = null;
-        $model = $request->newResource()->nestedRelationResource()->model();
+        $resource = $request->newResource();
+        $model = $resource->nestedRelationResource()->model();
 
         $parent = Parameters::get($request->resource(), 'parent');
 
         $item = $model::withoutGlobalScopes()->find($parent);
 
-        return $request->newResource()->nestedRelationResource()->breadcrumbs($request, $item);
+        return array_merge(
+            $resource->nestedRelationResource()->breadcrumbs($request, $item),
+            [
+                'type' => $resource::breadcrumbsType(),
+            ]
+        );
     }
 }

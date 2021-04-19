@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="flex flex-col flex-1">
         <table-params :title="title"
                       :resourceName="resourceName"
                       :navigate="! isNested"
@@ -12,36 +12,42 @@
                       @ordering-changed="orderingChanged"
                       :search="search" @search="performSearch"/>
 
-        <breadcrumbs v-if="isNested" :items="breadcrumbs.path" :options="breadcrumbs.options" :value="selected"/>
+        <div class="resizable-content" :class="{'flex flex-1': breadcrumbs.type == 'tree'}">
+            <breadcrumbs v-if="isNested && breadcrumbs.type == 'chain'" :items="breadcrumbs.path" :options="breadcrumbs.options" :value="selected"/>
+            <breadcrumbs-tree v-if="isNested && breadcrumbs.type == 'tree'" :items="breadcrumbs.path" :options="breadcrumbs.options" :value="selected"/>
 
-        <div v-if="shouldShowCards" class="mt-4">
-            <cards
-                    v-if="smallCards.length > 0"
-                    :cards="smallCards"
-                    :resource-name="resourceName"
-            />
+            <div class="flex flex-col flex-1">
+                <div v-if="shouldShowCards" class="mt-4">
+                    <cards
+                            v-if="smallCards.length > 0"
+                            :cards="smallCards"
+                            :resource-name="resourceName"
+                    />
 
-            <cards
-                    v-if="largeCards.length > 0"
-                    :cards="largeCards"
-                    size="large"
-                    :resource-name="resourceName"
-            />
+                    <cards
+                            v-if="largeCards.length > 0"
+                            :cards="largeCards"
+                            size="large"
+                            :resource-name="resourceName"
+                    />
+                </div>
+
+                <data-table v-if="info"
+                            class="flex-1"
+                            :grouped="grouped"
+                            :resources="resources"
+                            :resourceName="resourceName"
+                            :loading="loading"
+                            @input="setResources"
+                            :sortable="sortable"
+                            @sort="savePositions"></data-table>
+
+                <floating-panel>
+                    <pagination v-if="pagination" :pagination="pagination" @changePage="changePage"></pagination>
+                    <resource-count :pagination="pagination"></resource-count>
+                </floating-panel>
+            </div>
         </div>
-
-        <data-table v-if="info"
-                    :grouped="grouped"
-                    :resources="resources"
-                    :resourceName="resourceName"
-                    :loading="loading"
-                    @input="setResources"
-                    :sortable="sortable"
-                    @sort="savePositions"></data-table>
-
-        <floating-panel>
-            <pagination v-if="pagination" :pagination="pagination" @changePage="changePage"></pagination>
-            <resource-count :pagination="pagination"></resource-count>
-        </floating-panel>
     </div>
 </template>
 

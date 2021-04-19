@@ -191,6 +191,18 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
         return $this;
     }
 
+    public function minSize($value = 0)
+    {
+        $this->classes[] = 'min-w-' . $value;
+        return $this;
+    }
+
+    public function noWrap()
+    {
+        $this->classes[] = 'whitespace-no-wrap';
+        return $this;
+    }
+
     public function default($value)
     {
         $this->default = $value;

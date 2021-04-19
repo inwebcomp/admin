@@ -3,7 +3,7 @@
 @section('content')
     <router-view name="header"></router-view>
     <router-view name="sidebar"></router-view>
-    <div id="content">
+    <div id="content" class="flex-1 flex flex-col">
         <router-view></router-view>
     </div>
     <popups></popups>

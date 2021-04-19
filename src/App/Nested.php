@@ -22,6 +22,11 @@ trait Nested
         return false;
     }
 
+    public static function breadcrumbsType()
+    {
+        return static::BREADCRUMBS_CHAIN;
+    }
+
     public function breadcrumbs(ResourceIndexRequest $request, NestedContract $node = null, $withOptions = true)
     {
         $path = $this->breadcrumbsPath($node);
@@ -38,7 +43,7 @@ trait Nested
             if ($options->getModel()->translatable())
                 $options->withTranslation();
 
-            $options = $options->get()->map(function($item) {
+            $options = $options->get()->map(function ($item) {
                 return [
                     'title' => $item->title,
                     'value' => $item->getKey(),
@@ -54,7 +59,7 @@ trait Nested
         }
 
         return [
-            'path' => $path,
+            'path'    => $path,
             'options' => $options,
         ];
     }
@@ -68,26 +73,27 @@ trait Nested
         if (! $node)
             return $path;
 
-        $node->ancestors()->withoutGlobalScopes()->defaultOrder()->ordered()->each(function(NestedContract $ancestor) use (&$path) {
+        $node->ancestors()->withoutGlobalScopes()->defaultOrder()->ordered()->each(function (NestedContract $ancestor) use (&$path) {
             $path[] = [
                 'title' => $ancestor->title,
-                'id' => $ancestor->getKey()
+                'id'    => $ancestor->getKey()
             ];
         });
 
         $path[] = [
             'title' => $node->title,
-            'id' => $node->getKey()
+            'id'    => $node->getKey()
         ];
 
         return $path;
     }
 
-    private static function root() {
+    private static function root()
+    {
         return [
             'title' => __('Корень'),
-            'id' => '___default',
-            'root' => true,
+            'id'    => '___default',
+            'root'  => true,
         ];
     }
 }

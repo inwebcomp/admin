@@ -17,3 +17,33 @@
 .breadcrumbs__item--home {
     color: $dark-color;
 }
+
+// Tree
+
+.breadcrumbs-tree {
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    position: sticky;
+    top: 118px;
+    padding: $padding / 2 $padding;
+
+    &__container {
+        background-color: $background-color;
+        border-right: 3px solid $border-color;
+        width: 100%;
+        max-width: 300px;
+        min-width: fit-content;
+    }
+}
+
+.breadcrumbs-tree__separator {
+    margin: 0 10px;
+    font-size: 18px;
+    line-height: 21px;
+}
+
+.breadcrumbs-tree__item--home {
+    color: $dark-color;
+}
