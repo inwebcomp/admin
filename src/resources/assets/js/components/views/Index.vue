@@ -12,7 +12,7 @@
                       @ordering-changed="orderingChanged"
                       :search="search" @search="performSearch"/>
 
-        <div class="resizable-content" :class="{'flex flex-1': breadcrumbs.type == 'tree'}">
+        <div class="resizable-content" :class="{'flex flex-1': isNested && breadcrumbs.type == 'tree'}">
             <breadcrumbs v-if="isNested && breadcrumbs.type == 'chain'" :items="breadcrumbs.path" :options="breadcrumbs.options" :value="selected"/>
             <breadcrumbs-tree v-if="isNested && breadcrumbs.type == 'tree'" :items="breadcrumbs.path" :options="breadcrumbs.options" :value="selected"/>
 
