@@ -8,8 +8,6 @@ use Closure;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
-use InWeb\Admin\App\Http\Middleware\Authorize;
-use InWeb\Base\Http\Middleware\ApiLanguage;
 use Route;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use InWeb\Admin\App\Http\Middleware\DispatchServingAdminEvent;
