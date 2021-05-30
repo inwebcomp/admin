@@ -6,6 +6,7 @@
                         :value="value"
                         @input="$emit('input', $event)"
                         @search="searchWord = $event"
+                        :simpleSearch="search"
                         :search="search"
                         v-bind="extraAttributes"
                         :class="errorClasses()"/>
@@ -45,10 +46,6 @@
             },
 
             options() {
-                if (this.search && this.searchWord) {
-                    return this.field.options.filter(option => option.title.toLowerCase().indexOf(this.searchWord.toLowerCase()) === 0)
-                }
-
                 return this.field.options
             }
         },
