@@ -99,7 +99,7 @@ trait PerformsQueries
      * @param  array                                 $filters
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    protected static function applyFilters(AdminRequest $request, $query, array $filters)
+    public static function applyFilters(AdminRequest $request, $query, array $filters)
     {
         collect($filters)->each->__invoke($request, $query);
 
@@ -113,7 +113,7 @@ trait PerformsQueries
      * @param  array                                 $orderings
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    protected static function applyOrderings($query, array $orderings)
+    public static function applyOrderings($query, array $orderings)
     {
         if (empty($orderings)) {
             return empty($query->getQuery()->orders)

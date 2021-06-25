@@ -24,6 +24,14 @@
             },
             resourceName: {},
             resourceId: {},
+
+            queryString: {
+                type: Object,
+                default: () => ({
+                    currentSearch: '',
+                    encodedFilters: '',
+                }),
+            },
         },
 
         data: () => ({
@@ -264,8 +272,8 @@
             actionRequestQueryString() {
                 return {
                     action: this.selectedActionKey,
-                    // search: this.queryString.currentSearch,
-                    // filters: this.queryString.encodedFilters,
+                    search: this.queryString.currentSearch,
+                    filters: this.queryString.encodedFilters,
                     // viaResource: this.queryString.viaResource,
                     // viaResourceId: this.queryString.viaResourceId,
                     // viaRelationship: this.queryString.viaRelationship,

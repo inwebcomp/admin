@@ -12,7 +12,7 @@
             {{ __('Добавить') }}
         </router-link>
 
-        <table-actions :resourceName="resourceName" :remove="remove" class="ml-auto" @action="$emit($event)"/>
+        <table-actions :queryString="queryString" :resourceName="resourceName" :remove="remove" class="ml-auto" @action="$emit($event)"/>
 
         <!-- Search -->
         <table-search class="mr-4" @search="$emit('search', $event)" :query="search" />
@@ -71,7 +71,15 @@
             navigate: {
                 type: Boolean,
                 default: true
-            }
+            },
+
+            queryString: {
+                type: Object,
+                default: () => ({
+                    currentSearch: '',
+                    encodedFilters: '',
+                }),
+            },
         },
 
         methods: {

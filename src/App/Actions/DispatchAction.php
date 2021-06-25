@@ -41,7 +41,7 @@ class DispatchAction
                 ActionEvent::createForModels($request, $action, $batchId, $models);
             }
 
-            return $action->withBatchId($batchId)->{$method}($fields, $models);
+            return $action->withBatchId($batchId)->{$method}($fields, $models, $request);
         }, function ($batchId) use ($action) {
             ActionEvent::markBatchAsFinished($batchId);
         });
@@ -83,7 +83,7 @@ class DispatchAction
                 ActionEvent::createForResource($request, $action, $batchId);
             }
 
-            return $action->withBatchId($batchId)->{$method}($fields);
+            return $action->withBatchId($batchId)->{$method}($fields, $request);
         }, function ($batchId) use ($action) {
             ActionEvent::markBatchAsFinished($batchId);
         });

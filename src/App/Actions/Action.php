@@ -225,7 +225,7 @@ class Action implements JsonSerializable
      *
      * @param \InWeb\Admin\App\Http\Requests\ActionRequest $request
      * @return mixed
-     * @throws MissingActionHandlerException
+     * @throws \Throwable
      */
     public function handleRequest(ActionRequest $request)
     {

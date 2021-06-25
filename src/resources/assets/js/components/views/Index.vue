@@ -10,11 +10,18 @@
                       @filter-changed="filterChanged"
                       @clear-selected-orderings="clearSelectedOrderings"
                       @ordering-changed="orderingChanged"
-                      :search="search" @search="performSearch"/>
+                      :search="search" @search="performSearch"
+                      :query-string="{
+                          currentSearch,
+                          encodedFilters,
+                        }"
+        />
 
         <div class="resizable-content" :class="{'flex flex-1': isNested && breadcrumbs.type == 'tree'}">
-            <breadcrumbs v-if="isNested && breadcrumbs.type == 'chain'" :items="breadcrumbs.path" :options="breadcrumbs.options" :value="selected"/>
-            <breadcrumbs-tree v-if="isNested && breadcrumbs.type == 'tree'" :items="breadcrumbs.path" :options="breadcrumbs.options" :value="selected"/>
+            <breadcrumbs v-if="isNested && breadcrumbs.type == 'chain'" :items="breadcrumbs.path"
+                         :options="breadcrumbs.options" :value="selected"/>
+            <breadcrumbs-tree v-if="isNested && breadcrumbs.type == 'tree'" :items="breadcrumbs.path"
+                              :options="breadcrumbs.options" :value="selected"/>
 
             <div class="flex flex-col flex-1">
                 <div v-if="shouldShowCards" class="mt-4">

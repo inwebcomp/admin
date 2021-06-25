@@ -1,6 +1,6 @@
 <template>
     <div class="flex">
-        <custom-actions :resourceName="resourceName" />
+        <custom-actions :resourceName="resourceName" :query-string="queryString" />
 
         <div v-if="selected.length && remove" class="active-panel__button" @click="$emit('action', 'destroy')">
             <i class="fas fa-trash-alt mr-2 text-grey-light"></i>
@@ -19,6 +19,14 @@
                 default: true,
             },
             resourceName: {},
+
+            queryString: {
+                type: Object,
+                default: () => ({
+                    currentSearch: '',
+                    encodedFilters: '',
+                }),
+            },
         },
 
         computed: {
