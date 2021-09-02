@@ -65,8 +65,8 @@
                 this.flatpickr = flatpickr(this.$refs.datePicker, {
                     enableTime: this.enableTime,
                     enableSeconds: this.enableSeconds,
-                    onClose: this.onChange,
-                    onChange: this.onClose,
+                    onClose: this.onClose,
+                    onChange: this.onChange,
                     dateFormat: this.dateFormat,
                     allowInput: true,
                     // static: true,
