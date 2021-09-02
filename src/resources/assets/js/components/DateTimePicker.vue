@@ -66,7 +66,7 @@
                     enableTime: this.enableTime,
                     enableSeconds: this.enableSeconds,
                     onClose: this.onChange,
-                    onChange: this.onChange,
+                    onChange: this.onClose,
                     dateFormat: this.dateFormat,
                     allowInput: true,
                     // static: true,
@@ -83,6 +83,9 @@
         methods: {
             onChange(event) {
                 this.$emit('change', this.$refs.datePicker.value)
+            },
+            onClose(event) {
+                this.$emit('close', this.$refs.datePicker.value)
             },
         },
     }
