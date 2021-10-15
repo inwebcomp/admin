@@ -45,4 +45,9 @@ class Status extends Field
     {
         return $this->withMeta(['small' => $value]);
     }
+
+    public function onlyIcon($value = true)
+    {
+        return $this->withMeta(['onlyIcon' => $value]);
+    }
 }

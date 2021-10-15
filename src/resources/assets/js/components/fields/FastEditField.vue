@@ -2,7 +2,7 @@
     <td @click="open" class="data-table__value--fast-edit cursor-edit">
         <slot v-if="!opened"></slot>
         <div v-if="opened">
-            <component @blur="hide" @select="hide" ref="component" :is="component" v-model="value" v-bind="props"></component>
+            <component @change="hide" ref="component" :is="component" v-model="value" v-bind="props"></component>
         </div>
     </td>
 </template>

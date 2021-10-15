@@ -11,7 +11,7 @@ trait FastEditable
 
     /**
      * @param bool|string $value
-     * @param string      $component
+     * @param string $component
      * @return Field|FastEditable
      */
     public function fastEdit($value = true, $component = 'text-input')
@@ -58,7 +58,7 @@ trait FastEditable
 
     /**
      * @param bool|string $value
-     * @param float       $step
+     * @param float $step
      * @return Field|FastEditable
      */
     public function fastEditNumber($value = true, $step = 0.01)
@@ -70,6 +70,40 @@ trait FastEditable
 
         return $this->fastEdit($value);
     }
+
+    /**
+     * @param bool|string $value
+     * @return Field|FastEditable
+     */
+    public function fastEditTextarea($value = true)
+    {
+        return $this->fastEdit($value, 'textarea-input');
+    }
+
+    /**
+     * @param bool|string $value
+     * @return Field|FastEditable
+     */
+    public function fastEditDate($value = true)
+    {
+        $this->fastEditProps([
+            'type' => 'date'
+        ]);
+        return $this->fastEdit($value);
+    }
+
+    /**
+     * @param bool|string $value
+     * @return Field|FastEditable
+     */
+    public function fastEditDatetime($value = true)
+    {
+        $this->fastEditProps([
+            'type' => 'datetime-local'
+        ]);
+        return $this->fastEdit($value);
+    }
+
 
     /**
      * @param \Closure|array $props
