@@ -8,7 +8,7 @@
                     ref="input"
                     :placeholder="__('Поиск')"
                     @esc="close"
-                    @input="handleInput"
+                    @erase="$emit('search', '')"
                     @enter="handleInput($event.target.value)"/>
 
         <div v-show="! visible && query" class="active-panel__search__query" @click="open">

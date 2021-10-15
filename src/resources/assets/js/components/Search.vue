@@ -26,9 +26,11 @@
 </template>
 
 <script>
-    export default {
-        name: "Search",
+    import axios from 'axios'
 
+    let cancel
+
+    export default {
         data() {
             return {
                 query: '',
@@ -45,6 +47,10 @@
                     return null
                 }
 
+                if (cancel) {
+                    cancel("New search was requested")
+                }
+
                 clearTimeout(this.timer)
 
                 this.timer = setTimeout(() => {
@@ -54,8 +60,13 @@
                         params: {
                             search: this.query
                         }
+                    }, {
+                        cancelToken: new axios.CancelToken(function executor(c) {
+                            cancel = c
+                        }),
                     }).then(data => {
                         this.groups = data
+                        cancel = null
                     })
                 }, 300)
             }
