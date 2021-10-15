@@ -270,6 +270,7 @@
                             this.positions.push(item.id.position)
                         })
                     }
+
                     cancel = null
                 })
             },

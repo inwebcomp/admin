@@ -38,14 +38,6 @@ export default class Api {
 
         method = method || 'get'
 
-        console.log('Requesting with params', {
-            method,
-            url,
-            data,
-            params,
-            ...other,
-        })
-
         return axios({
             method,
             url,
@@ -67,7 +59,7 @@ export default class Api {
             if (response)
                 App.$emit('error', (response.data.message != '' ? response.data.message : response.status + ' ' + response.statusText))
 
-            throw r
+            throw (response || r)
         })
     }
 }
