@@ -35,13 +35,13 @@
     },
     "autoload": {
         "psr-4": {
-            "InWeb\\Admin\\": "src/"
+            "InWeb\\Admin\\": "src/",
+            "InWeb\\Admin\\Database\\Seeds\\": "database/seeds/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "InWeb\\Admin\\Tests\\": "tests/",
-            "InWeb\\Admin\\Database\\Seeds\\": "database/seeds/"
+            "InWeb\\Admin\\Tests\\": "tests/"
         },
         "files": [
             "tests/utilities/functions.php"
