@@ -41,7 +41,7 @@
     "autoload-dev": {
         "psr-4": {
             "InWeb\\Admin\\Tests\\": "tests/",
-            "InWeb\\Admin\\Database\\Seeds\\": "src/database/seeds/"
+            "InWeb\\Admin\\Database\\Seeds\\": "database/seeds/"
         },
         "files": [
             "tests/utilities/functions.php"

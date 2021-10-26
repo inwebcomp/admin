@@ -103,7 +103,7 @@ class AdminServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(self::$packagePath . 'translations', self::$packageAlias);
         $this->loadJsonTranslationsFrom(self::$packagePath . 'translations');
 
-        $this->loadMigrationsFrom(self::$packagePath . 'database/migrations');
+        $this->loadMigrationsFrom(self::$packagePath . '../database/migrations');
     }
 
     /**
