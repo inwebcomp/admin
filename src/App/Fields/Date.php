@@ -31,7 +31,7 @@ class Date extends Text
         $this->fillUsing(function($request, $model, $attribute, $requestAttribute) {
             $value = $request->input($requestAttribute);
             try {
-                $model->{$attribute} = $value ? Carbon::createFromFormat('Y-m-d', $value) : null;
+                $model->{$attribute} = $value ? Carbon::createFromFormat('Y-m-d', $value)->format('Y-m-d') : null;
             } catch (\Exception $ex) {}
         });
     }
