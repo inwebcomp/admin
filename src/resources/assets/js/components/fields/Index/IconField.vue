@@ -1,5 +1,5 @@
 <template>
-    <div class="icon-field" :class="'bg-' + field.background" :style="{color: field.color || 'inherit', background: (field.background.charAt(0) == '#' ? field.background : null) || null}" :title="field.title" v-if="field.value !== null && field.value !== false">
+    <div class="icon-field" :class="'bg-' + field.background" :style="{color: field.color || 'inherit', background: (field.background && field.background.charAt(0) == '#' ? field.background : null) || null}" :title="field.title" v-if="field.value !== null && field.value !== false">
         <i v-if="! field.img && ! field.html" :class="field.icon"></i>
         <img v-if="field.img && ! field.html" :src="field.icon" height="26" width="26" :alt="field.title">
         <span class="icon-field-container" v-if="field.html" v-html="field.icon"></span>

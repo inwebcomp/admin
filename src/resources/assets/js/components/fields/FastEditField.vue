@@ -1,5 +1,5 @@
 <template>
-    <td @click="open" class="data-table__value--fast-edit cursor-edit">
+    <td @click="open" :colspan="field.colspan" class="data-table__value--fast-edit cursor-edit">
         <slot v-if="!opened"></slot>
         <div v-if="opened">
             <component @change="hide" ref="component" :is="component" v-model="value" v-bind="props"></component>

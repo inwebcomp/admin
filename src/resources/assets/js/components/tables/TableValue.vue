@@ -16,7 +16,10 @@
                     props: {
                         resourceName: this.resourceName,
                         resourceId: this.resourceId,
-                        field: this.field,
+                        field: this.field
+                    },
+                    attrs: {
+                        colspan: this.field.colspan,
                     }
                 }, this.$slots.default);
             } else {
