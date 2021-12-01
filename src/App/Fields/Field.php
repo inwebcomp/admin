@@ -147,6 +147,10 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      * @var string
      */
     public $placeholder = null;
+    /**
+     * @var string
+     */
+    public $colspan = 1;
 
     /**
      * Create a new field.
@@ -727,6 +731,12 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
         return $this;
     }
 
+    public function colspan($value)
+    {
+        $this->colspan = $value;
+        return $this;
+    }
+
     /**
      * Prepare the field for JSON serialization.
      *
@@ -748,6 +758,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
             'fullCell'        => $this->fullCell,
             'size'            => $this->size,
             'placeholder'     => $this->placeholder,
+            'colspan'         => $this->colspan,
         ], $this->meta());
     }
 }

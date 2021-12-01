@@ -78,6 +78,7 @@ $dropdown-max-options: 8;
 .dropdown__option__color {
     height: 16px;
     width: 16px;
+    min-width: 16px;
     border-radius: 8px;
     margin-right: 1rem;
 }

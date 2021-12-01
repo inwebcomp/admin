@@ -18,7 +18,7 @@
                     @keypress.esc="$emit('esc', $event)"
             />
 
-            <div class="form__group__erase" :class="{'form__group__erase--h-small': small}" v-show="eraseIcon && value != ''" @click="$emit('input', '')">
+            <div class="form__group__erase" :class="{'form__group__erase--h-small': small}" v-show="eraseIcon && value != ''" @click="$emit('input', '') && $emit('erase', '')">
                 <i class="fal fa-times"></i>
             </div>
         </slot>

@@ -64,6 +64,9 @@
     import Searchable from "~mixins/Searchable"
     import InteractsWithQueryString from "~mixins/InteractsWithQueryString"
     import HasCards from "~mixins/HasCards"
+    import axios from 'axios'
+
+    let cancel
 
     export default {
         name: "index",
@@ -234,8 +237,16 @@
             fetch(parent = null) {
                 this.loading = true
 
+                if (cancel) {
+                    cancel("New resource view was requested")
+                }
+
                 App.api.resource({
                     resourceName: this.resourceName, params: this.resourceRequestQueryString(parent),
+                }, {
+                    cancelToken: new axios.CancelToken(function executor(c) {
+                        cancel = c
+                    }),
                 }).then(({
                              resources,
                              info,
@@ -259,6 +270,8 @@
                             this.positions.push(item.id.position)
                         })
                     }
+
+                    cancel = null
                 })
             },
 

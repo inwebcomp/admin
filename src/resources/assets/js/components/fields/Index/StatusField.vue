@@ -1,7 +1,7 @@
 <template>
-    <div class="status-field" v-if="field.value !== null" :class="{'status-field--small': field.small}">
-        <span class="status-field__icon mr-2" v-if="field.value.color" :class="'bg-' + field.value.color" :style="field.value.color.charAt(0) == '#' ? 'background-color: ' + field.value.color : ''"></span>
-        <span class="status-field__text">{{ field.value.title }}</span>
+    <div class="status-field" v-if="field.value !== null" :class="{'status-field--small': field.small, 'status-field--only-icon': field.onlyIcon}">
+        <span class="status-field__icon mr-2" :title="field.value.title" v-if="field.value.color" :class="'bg-' + field.value.color + ' ' + (field.onlyIcon ? 'ml-2' : '')" :style="field.value.color.charAt(0) == '#' ? 'background-color: ' + field.value.color : ''"></span>
+        <span class="status-field__text" v-if="!field.onlyIcon">{{ field.value.title }}</span>
     </div>
 </template>
 
@@ -38,6 +38,11 @@
             .status-field__icon {
                 margin-right: 0 !important;
             }
+        }
+
+        &--only-icon {
+            display: block;
+            text-align: center;
         }
     }
 </style>
