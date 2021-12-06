@@ -4,6 +4,7 @@ namespace InWeb\Admin\App\Resources;
 
 use InWeb\Admin\App\Actions\ActionTarget;
 use InWeb\Admin\App\FastEditable;
+use InWeb\Admin\App\Fields\Text;
 use InWeb\Admin\App\HasPermissions;
 use InWeb\Admin\App\ResolvesFilters;
 use InWeb\Admin\App\ResolvesOrderings;
@@ -155,9 +156,12 @@ abstract class Resource
     public function groupInfo(AdminRequest $request, $value, $resources)
     {
         return [
-            'title'    => $value,
             'selected' => false,
-            'fields'   => [],
+            'fields'   => [
+                Text::make('', function() use ($value) {
+                    return $value;
+                })->classes(['text-grey-darker', 'font-bold', 'p-4 pt-8'])
+            ],
         ];
     }
 

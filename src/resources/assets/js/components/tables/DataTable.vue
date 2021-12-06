@@ -17,18 +17,15 @@
                                     :value="group.groupInfo.selected"
                                     @change="selectMany(groupIds(group), group.groupInfo.selected = $event)"/>
 
-                    <table-group-info :info="group.groupInfo"
-                                      :length="group.groupInfo.fields.length ? 1 : fields.length"/>
-
-                    <template v-for="field in group.groupInfo.fields">
-                        <table-value :field="field" class="bg-grey-lightest">
+                    <template v-if="group.groupInfo.fields">
+                        <table-value :field="field" v-if="field" class="bg-grey-lightest" v-for="(field, $i) in group.groupInfo.fields" :key="$i">
                             <component v-if="field.component" :is="'index-' + field.component"
                                        :field="field"></component>
                         </table-value>
                     </template>
 
                     <td v-if="group.groupInfo.fields.length"
-                        :colspan="fields.length - 1 - groupInfoColspan(group.groupInfo)"
+                        :colspan="fields.length - groupInfoColspan(group.groupInfo)"
                         class="bg-grey-lightest"></td>
                 </tr>
 

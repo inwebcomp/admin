@@ -7,6 +7,7 @@ use App\Admin\Resources\Product;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use InWeb\Admin\App\Contracts\Nested;
+use InWeb\Admin\App\Fields\Field;
 use InWeb\Admin\App\Http\Requests\ResourceIndexRequest;
 use InWeb\Admin\App\Resources\Resource;
 use InWeb\Base\Entity;
@@ -40,8 +41,20 @@ class ResourceIndexController extends Controller
                                    ->map(function ($group, $value) use ($resourceObject, $request, $resource) {
                                        $resources = collect($group)->mapInto($resource);
 
+                                       $info = $resources->first()->groupInfo($request, $value, $resources);
+
+                                       if ($info['fields'] and is_iterable($info['fields'])) {
+                                           foreach ($info['fields'] as $field) {
+                                               if (! $field)
+                                                   continue;
+
+                                               /** @var Field $field */
+                                               $field->resolve($resources[0]);
+                                           }
+                                       }
+
                                        return [
-                                           'groupInfo' => $resources->first()->groupInfo($request, $value, $resources),
+                                           'groupInfo' => $info,
                                            'resources' => $resources->map->serializeForIndex($request)
                                        ];
                                    })
