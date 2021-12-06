@@ -139,7 +139,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     public $default = null;
     /**
      * If true, field value will not be mutated
-     * @var mixed
+     * @var bool
      */
     public $disabled = false;
     /**

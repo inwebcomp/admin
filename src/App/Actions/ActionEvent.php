@@ -309,10 +309,11 @@ class ActionEvent extends Entity
      * Get the default attributes for creating a new action event.
      *
      * @param \InWeb\Admin\App\Http\Requests\ActionRequest $request
-     * @param \InWeb\Admin\App\Actions\Action              $action
-     * @param string                                       $batchId
-     * @param string                                       $status
+     * @param \InWeb\Admin\App\Actions\Action $action
+     * @param string $batchId
+     * @param string $status
      * @return array
+     * @throws \Exception
      */
     public static function defaultAttributes(ActionRequest $request, Action $action,
                                              $batchId, $status = 'running')

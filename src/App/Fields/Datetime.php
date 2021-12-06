@@ -30,6 +30,7 @@ class Datetime extends Text
 
         $this->fillUsing(function($request, $model, $attribute, $requestAttribute) {
             $value = $request->input($requestAttribute);
+
             try {
                 $model->{$attribute} = $value ? Carbon::createFromFormat('Y-m-d\TH:i', $value) : null;
             } catch (\Exception $ex) {}
