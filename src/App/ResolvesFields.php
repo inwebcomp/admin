@@ -112,7 +112,7 @@ trait ResolvesFields
             return ($field instanceof ID && $field->attribute === $this->resource->getKeyName()) ||
                    $field instanceof ResourceToolElement ||
                    $field instanceof Section ||
-                   $field->disabled ||
+                   ($field->disabled ?? true) ||
                    (isset($field->attribute) and $field->attribute === 'ComputedField');
         });
     }
