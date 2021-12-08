@@ -135,11 +135,20 @@ let colors = {
     'red-lighter': '#f9acaa',
     'red-lightest': '#fcebea',
     'green': 'var(--success)',
-    'blue': '#3f51b5',
     'turquoise': '#07e6ee',
+
     'green-light': '#51d88a',
     'green-lighter': '#a2f5bf',
     'green-lightest': '#f6fef9',
+
+    'blue-darkest': '#12283a',
+    'blue-darker': '#1c3d5a',
+    'blue-dark': '#2779bd',
+    'blue': '#3f51b5',
+    'blue-light': '#6cb2eb',
+    'blue-lighter': '#dbf0ff',
+    'blue-lightest': '#eff8ff',
+
     info: 'var(--info)',
     danger: 'var(--danger)',
     warning: 'var(--warning)',
