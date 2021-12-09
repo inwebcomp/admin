@@ -31,6 +31,7 @@ Vue.component('form-tree-field', require('~fields/Form/TreeField.vue').default)
 // Boolean Field...
 Vue.component('index-boolean-field', require('~fields/Index/BooleanField.vue').default)
 Vue.component('form-boolean-field', require('~fields/Form/BooleanField.vue').default)
+Vue.component('detail-boolean-field', require('~fields/Detail/BooleanField.vue').default)
 
 // Editor Field...
 Vue.component('form-editor-field', require('~fields/Form/EditorField.vue').default)
