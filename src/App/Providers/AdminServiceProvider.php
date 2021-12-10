@@ -19,15 +19,15 @@ use InWeb\Admin\App\Tools\ResourceManager;
 
 class AdminServiceProvider extends ServiceProvider
 {
-    protected static $packagePath  = __DIR__ . '/../../';
-    protected static $packageAlias = 'admin';
+    public static string $packagePath  = __DIR__ . '/../../';
+    protected static string $packageAlias = 'admin';
 
-    public static function getPackageAlias()
+    public static function getPackageAlias(): string
     {
         return self::$packageAlias;
     }
 
-    public static function getPackagePath()
+    public static function getPackagePath(): string
     {
         return self::$packagePath;
     }
@@ -96,30 +96,12 @@ class AdminServiceProvider extends ServiceProvider
      */
     protected function registerResources()
     {
-        $this->registerRoutes();
-
         $this->loadViewsFrom(self::$packagePath . 'resources/views', self::$packageAlias);
 
         $this->loadTranslationsFrom(self::$packagePath . 'translations', self::$packageAlias);
         $this->loadJsonTranslationsFrom(self::$packagePath . 'translations');
 
         $this->loadMigrationsFrom(self::$packagePath . '../database/migrations');
-    }
-
-    /**
-     * Register the package routes.
-     *
-     * @return void
-     */
-    protected function registerRoutes()
-    {
-        AdminRoute::api('\InWeb\Admin\App\Http\Controllers', function () {
-            $this->loadRoutesFrom(self::$packagePath . 'routes/api.php');
-        });
-
-        if (! $this->app->routesAreCached()) {
-            \Route::getRoutes()->refreshNameLookups();
-        }
     }
 
     private function registerPublishing()

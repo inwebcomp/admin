@@ -4,6 +4,7 @@ namespace InWeb\Admin\App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use InWeb\Admin\App\Admin;
+use InWeb\Admin\App\AdminRoute;
 use InWeb\Admin\App\Events\ServingAdmin;
 use InWeb\Admin\App\Models\AdminUser;
 use InWeb\Admin\App\Parameters;
@@ -18,6 +19,7 @@ class AdminApplicationServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->routes();
+
         Admin::serving(function (ServingAdmin $event) {
             $this->groups();
             $this->resources();
@@ -42,6 +44,14 @@ class AdminApplicationServiceProvider extends ServiceProvider
     protected function routes()
     {
         Admin::routes();
+
+        if (! app()->routesAreCached()) {
+            AdminRoute::api('\InWeb\Admin\App\Http\Controllers', function () {
+                $this->loadRoutesFrom(AdminServiceProvider::$packagePath . 'routes/api.php');
+            });
+
+            \Route::getRoutes()->refreshNameLookups();
+        }
     }
 
     /**

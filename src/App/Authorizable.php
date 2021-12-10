@@ -52,6 +52,13 @@ trait Authorizable
         return self::authorizedToViewAny($request);
     }
 
+    public static function policyMethodExistsForClass($class, $method): bool
+    {
+        $policy = Gate::getPolicyFor($class);
+
+        return (bool) ($policy and method_exists($policy, $method));
+    }
+
     /**
      * Determine if the resource should be available for the given request.
      *
@@ -62,7 +69,7 @@ trait Authorizable
     public function authorizeToViewAny(Request $request)
     {
         if (static::authorizableByGate()) {
-            if (method_exists(Gate::getPolicyFor(static::newModel()), 'viewAny')) {
+            if (static::policyMethodExistsForClass(static::newModel(), 'viewAny')) {
                 $this->authorizeTo($request, 'viewAny');
             }
         } else if (static::authorizableByPermissions()) {
@@ -82,7 +89,7 @@ trait Authorizable
             return true;
         }
 
-        return method_exists(Gate::getPolicyFor(static::newModel()), 'viewAny')
+        return static::policyMethodExistsForClass(static::newModel(), 'viewAny')
                         ? Gate::check('viewAny', get_class(static::newModel()))
                         : (new static)->authorizedWithoutGateTo($request, 'viewAny');
     }
@@ -245,7 +252,7 @@ trait Authorizable
 
         $method = 'add'.class_basename($model);
 
-        return method_exists(Gate::getPolicyFor($this->model()), $method)
+        return static::policyMethodExistsForClass($this->model(), $method)
                         ? Gate::check($method, $this->model())
                         : true;
     }
@@ -265,7 +272,7 @@ trait Authorizable
 
         $method = 'attachAny'.Str::singular(class_basename($model));
 
-        return method_exists(Gate::getPolicyFor($this->model()), $method)
+        return static::policyMethodExistsForClass($this->model(), $method)
                     ? Gate::check($method, [$this->model()])
                     : true;
     }
@@ -285,7 +292,7 @@ trait Authorizable
 
         $method = 'attach'.Str::singular(class_basename($model));
 
-        return method_exists(Gate::getPolicyFor($this->model()), $method)
+        return static::policyMethodExistsForClass($this->model(), $method)
                     ? Gate::check($method, [$this->model(), $model])
                     : true;
     }
@@ -306,7 +313,7 @@ trait Authorizable
 
         $method = 'detach'.Str::singular(class_basename($model));
 
-        return method_exists(Gate::getPolicyFor($this->model()), $method)
+        return static::policyMethodExistsForClass($this->model(), $method)
                     ? Gate::check($method, [$this->model(), $model])
                     : true;
     }
