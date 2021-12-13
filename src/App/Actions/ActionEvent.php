@@ -50,7 +50,7 @@ class ActionEvent extends Entity
      * Create a new action event instance for a resource creation.
      *
      * @param \Illuminate\Contracts\Auth\Authenticatable $user
-     * @param \Illuminate\Database\Eloquent\Model        $model
+     * @param \Illuminate\Database\Eloquent\Model $model
      * @return \Illuminate\Database\Eloquent\Model
      */
     public static function forResourceCreate($user, $model)
@@ -77,7 +77,7 @@ class ActionEvent extends Entity
      * Create a new action event instance for a resource update.
      *
      * @param \Illuminate\Contracts\Auth\Authenticatable $user
-     * @param Entity                                     $model
+     * @param Entity $model
      * @return \Illuminate\Database\Eloquent\Model
      */
     public static function forResourceUpdate($user, $model)
@@ -111,8 +111,8 @@ class ActionEvent extends Entity
      * Create a new action event instance for an attached resource.
      *
      * @param \InWeb\Admin\App\Http\Requests\AdminRequest $request
-     * @param \Illuminate\Database\Eloquent\Model        $parent
-     * @param \Illuminate\Database\Eloquent\Model        $pivot
+     * @param \Illuminate\Database\Eloquent\Model $parent
+     * @param \Illuminate\Database\Eloquent\Model $pivot
      * @return \Illuminate\Database\Eloquent\Model
      */
     public static function forAttachedResource(AdminRequest $request, $parent, $pivot)
@@ -139,8 +139,8 @@ class ActionEvent extends Entity
      * Create a new action event instance for an attached resource update.
      *
      * @param \InWeb\Admin\App\Http\Requests\AdminRequest $request
-     * @param \Illuminate\Database\Eloquent\Model        $parent
-     * @param \Illuminate\Database\Eloquent\Model        $pivot
+     * @param \Illuminate\Database\Eloquent\Model $parent
+     * @param \Illuminate\Database\Eloquent\Model $pivot
      * @return \Illuminate\Database\Eloquent\Model
      */
     public static function forAttachedResourceUpdate(AdminRequest $request, $parent, $pivot)
@@ -167,7 +167,7 @@ class ActionEvent extends Entity
      * Create new action event instances for resource deletes.
      *
      * @param \Illuminate\Contracts\Auth\Authenticatable $user
-     * @param \Illuminate\Support\Collection             $models
+     * @param \Illuminate\Support\Collection $models
      * @return \Illuminate\Support\Collection
      */
     public static function forResourceDelete($user, Collection $models)
@@ -179,7 +179,7 @@ class ActionEvent extends Entity
      * Create new action event instances for resource restorations.
      *
      * @param \Illuminate\Contracts\Auth\Authenticatable $user
-     * @param \Illuminate\Support\Collection             $models
+     * @param \Illuminate\Support\Collection $models
      * @return \Illuminate\Support\Collection
      */
     public static function forResourceRestore($user, Collection $models)
@@ -190,9 +190,9 @@ class ActionEvent extends Entity
     /**
      * Create new action event instances for resource soft deletions.
      *
-     * @param string                                     $action
+     * @param string $action
      * @param \Illuminate\Contracts\Auth\Authenticatable $user
-     * @param \Illuminate\Support\Collection             $models
+     * @param \Illuminate\Support\Collection $models
      * @return \Illuminate\Support\Collection
      */
     public static function forSoftDeleteAction($action, $user, Collection $models)
@@ -225,9 +225,9 @@ class ActionEvent extends Entity
      * Create new action event instances for resource detachments.
      *
      * @param \Illuminate\Contracts\Auth\Authenticatable $user
-     * @param \Illuminate\Database\Eloquent\Model        $parent
-     * @param \Illuminate\Support\Collection             $models
-     * @param string                                     $pivotClass
+     * @param \Illuminate\Database\Eloquent\Model $parent
+     * @param \Illuminate\Support\Collection $models
+     * @param string $pivotClass
      * @return \Illuminate\Support\Collection
      */
     public static function forResourceDetach($user, $parent, Collection $models, $pivotClass)
@@ -260,14 +260,14 @@ class ActionEvent extends Entity
      * Create the action records for the given models.
      *
      * @param \InWeb\Admin\App\Http\Requests\ActionRequest $request
-     * @param \InWeb\Admin\App\Actions\Action              $action
-     * @param string                                       $batchId
-     * @param \Illuminate\Support\Collection               $models
-     * @param string                                       $status
+     * @param \InWeb\Admin\App\Actions\Action $action
+     * @param string $batchId
+     * @param \Illuminate\Support\Collection $models
+     * @param string $status
      * @return void
      */
     public static function createForModels(ActionRequest $request, Action $action,
-                                           $batchId, Collection $models, $status = 'running')
+                                                         $batchId, Collection $models, $status = 'running')
     {
         $models = $models->map(function ($model) use ($request, $action, $batchId, $status) {
             return array_merge(
@@ -291,9 +291,9 @@ class ActionEvent extends Entity
      * Create the action records for the given models.
      *
      * @param \InWeb\Admin\App\Http\Requests\ActionRequest $request
-     * @param \InWeb\Admin\App\Actions\Action              $action
-     * @param string                                       $batchId
-     * @param string                                       $status
+     * @param \InWeb\Admin\App\Actions\Action $action
+     * @param string $batchId
+     * @param string $status
      * @return void
      */
     public static function createForResource(ActionRequest $request, Action $action, $batchId, $status = 'running')
@@ -316,7 +316,7 @@ class ActionEvent extends Entity
      * @throws \Exception
      */
     public static function defaultAttributes(ActionRequest $request, Action $action,
-                                             $batchId, $status = 'running')
+                                                           $batchId, $status = 'running')
     {
         if ($request->isPivotAction()) {
             $pivotClass = $request->pivotRelation()->getPivotClass();
@@ -349,38 +349,38 @@ class ActionEvent extends Entity
      * Prune the action events for the given types.
      *
      * @param \Illuminate\Support\Collection $models
-     * @param int                            $limit
+     * @param int $limit
      */
     public static function prune($models, $limit = 25)
     {
         $models->each(function ($model) use ($limit) {
             static::where('actionable_id', $model['actionable_id'])
-                ->where('actionable_type', $model['actionable_type'])
-                ->whereNotIn('id', function ($query) use ($model, $limit) {
-                    $query->select('id')->fromSub(
-                        static::select('id')->orderBy('id', 'desc')
-                            ->where('actionable_id', $model['actionable_id'])
-                            ->where('actionable_type', $model['actionable_type'])
-                            ->limit($limit)->toBase(),
-                        'action_events_temp'
-                    );
-                })->delete();
+                  ->where('actionable_type', $model['actionable_type'])
+                  ->whereNotIn('id', function ($query) use ($model, $limit) {
+                      $query->select('id')->fromSub(
+                          static::select('id')->orderBy('id', 'desc')
+                                ->where('actionable_id', $model['actionable_id'])
+                                ->where('actionable_type', $model['actionable_type'])
+                                ->limit($limit)->toBase(),
+                          'action_events_temp'
+                      );
+                  })->delete();
         });
     }
 
     /**
      * Get action by batch.
      *
-     * @param string                              $batchId
+     * @param string $batchId
      * @param \Illuminate\Database\Eloquent\Model $model
      * @return string
      */
     public static function getAction($batchId, $model)
     {
         return static::where('batch_id', $batchId)
-            ->where('model_type', $model->getMorphClass())
-            ->where('model_id', $model->getKey())
-            ->first();
+                     ->where('model_type', $model->getMorphClass())
+                     ->where('model_id', $model->getKey())
+                     ->first();
     }
 
     /**
@@ -392,7 +392,7 @@ class ActionEvent extends Entity
     public static function markBatchAsRunning($batchId)
     {
         return static::where('batch_id', $batchId)
-            ->whereNotIn('status', ['finished', 'failed'])->update([
+                     ->whereNotIn('status', ['finished', 'failed'])->update([
                 'status' => 'running',
             ]);
     }
@@ -406,7 +406,7 @@ class ActionEvent extends Entity
     public static function markBatchAsFinished($batchId)
     {
         return static::where('batch_id', $batchId)
-            ->whereNotIn('status', ['finished', 'failed'])->update([
+                     ->whereNotIn('status', ['finished', 'failed'])->update([
                 'status' => 'finished',
             ]);
     }
@@ -414,7 +414,7 @@ class ActionEvent extends Entity
     /**
      * Mark a given action event record as finished.
      *
-     * @param string                              $batchId
+     * @param string $batchId
      * @param \Illuminate\Database\Eloquent\Model $model
      * @return int
      */
@@ -426,14 +426,14 @@ class ActionEvent extends Entity
     /**
      * Mark the given batch as failed.
      *
-     * @param string     $batchId
+     * @param string $batchId
      * @param \Throwable $e
      * @return int
      */
     public static function markBatchAsFailed($batchId, $e = null)
     {
         return static::where('batch_id', $batchId)
-            ->whereNotIn('status', ['finished', 'failed'])->update([
+                     ->whereNotIn('status', ['finished', 'failed'])->update([
                 'status'    => 'failed',
                 'exception' => $e ? (string) $e : '',
             ]);
@@ -442,9 +442,9 @@ class ActionEvent extends Entity
     /**
      * Mark a given action event record as failed.
      *
-     * @param string                              $batchId
+     * @param string $batchId
      * @param \Illuminate\Database\Eloquent\Model $model
-     * @param \Throwable|string                   $e
+     * @param \Throwable|string $e
      * @return int
      */
     public static function markAsFailed($batchId, $model, $e = null)
@@ -453,62 +453,62 @@ class ActionEvent extends Entity
     }
 
     /**
-     * @param string                              $batchId
+     * @param string $batchId
      * @param \Illuminate\Database\Eloquent\Model $model
-     * @param int                                 $value
+     * @param int $value
      * @return int
      */
     public static function progressStart($batchId, $model, $value)
     {
         return static::where('batch_id', $batchId)
-            ->where('model_type', $model->getMorphClass())
-            ->where('model_id', $model->getKey())
-            ->increment('progress_total', $value);
+                     ->where('model_type', $model->getMorphClass())
+                     ->where('model_id', $model->getKey())
+                     ->increment('progress_total', $value);
     }
 
     /**
-     * @param string                              $batchId
+     * @param string $batchId
      * @param \Illuminate\Database\Eloquent\Model $model
-     * @param int                                 $value
+     * @param int $value
      * @return int
      */
     public static function progressAdvance($batchId, $model, $value = 1)
     {
         return static::where('batch_id', $batchId)
-            ->where('model_type', $model->getMorphClass())
-            ->where('model_id', $model->getKey())
-            ->increment('progress', $value);
+                     ->where('model_type', $model->getMorphClass())
+                     ->where('model_id', $model->getKey())
+                     ->increment('progress', $value);
     }
 
     /**
-     * @param string                              $batchId
+     * @param string $batchId
      * @param \Illuminate\Database\Eloquent\Model $model
-     * @param string                              $value
+     * @param string $value
      * @return int
      */
     public static function progressStatus($batchId, $model, $value)
     {
         return static::where('batch_id', $batchId)
-            ->where('model_type', $model->getMorphClass())
-            ->where('model_id', $model->getKey())
-            ->update(['progress_status' => $value]);
+                     ->where('model_type', $model->getMorphClass())
+                     ->where('model_id', $model->getKey())
+                     ->update(['progress_status' => $value]);
     }
 
     /**
      * Update the status of a given action event.
      *
-     * @param string                              $batchId
+     * @param string $batchId
      * @param \Illuminate\Database\Eloquent\Model $model
-     * @param string                              $status
-     * @param \Throwable|string                   $e
+     * @param string $status
+     * @param \Throwable|string $e
      * @return int
      */
     public static function updateStatus($batchId, $model, $status, $e = null)
     {
         return static::where('batch_id', $batchId)
-            ->where('model_type', $model->getMorphClass())
-            ->where('model_id', $model->getKey())
-            ->update(['status' => $status, 'exception' => (string) $e]);
+                     ->where('model_type', $model->getMorphClass())
+                     ->where('model_id', $model->getKey())
+                     ->update(['status' => $status, 'exception' => (string) $e]);
     }
 
     /**
@@ -524,16 +524,29 @@ class ActionEvent extends Entity
     protected static function prepareTranslatableFields($model, $original, $changes)
     {
         foreach (config('inweb.languages') as $language) {
-            $originalFields = array_intersect_key($model->getTranslation($language)->getRawOriginal(), $model->getTranslation($language)->getDirty());
+            $translation = $model->getTranslation($language);
+
+            $dirtyFields = [];
+
+            if ($translation) {
+                $originalFields = array_intersect_key(
+                    $translation->getRawOriginal(),
+                    $dirtyFields = $translation->getDirty(),
+                );
+            } else {
+                $originalFields = array_map(function() {
+                    return null;
+                }, array_flip($model->translatedAttributes));
+            }
+
             $fields = [];
             foreach ($originalFields as $field => $value) {
                 $fields[$language . ':' . $field] = Str::limit(strip_tags($value), 255);
             }
             $original = array_merge($original, $fields);
 
-            $originalFields = $model->getTranslation($language)->getDirty();
             $fields = [];
-            foreach ($originalFields as $field => $value) {
+            foreach ($dirtyFields as $field => $value) {
                 $fields[$language . ':' . $field] = Str::limit(strip_tags($value), 255);
             }
             $changes = array_merge($changes, $fields);

@@ -28,9 +28,9 @@ class ResourceTool extends Panel
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($name = null, $fields = null)
     {
-        parent::__construct($this->name(), [new ResourceToolElement($this->component())]);
+        parent::__construct($name ?: $this->name(), $fields ?: [new ResourceToolElement($this->component())]);
 
         $this->element = $this->data[0];
         $this->withMeta(['uid' => $this->component()]);
