@@ -19,8 +19,8 @@ use InWeb\Admin\App\Tools\ResourceManager;
 
 class AdminServiceProvider extends ServiceProvider
 {
-    public static string $packagePath  = __DIR__ . '/../../';
-    protected static string $packageAlias = 'admin';
+    public static $packagePath  = __DIR__ . '/../../';
+    protected static $packageAlias = 'admin';
 
     public static function getPackageAlias(): string
     {
