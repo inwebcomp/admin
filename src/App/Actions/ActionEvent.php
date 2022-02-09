@@ -531,7 +531,7 @@ class ActionEvent extends Entity
             if ($translation) {
                 $originalFields = array_intersect_key(
                     $translation->getRawOriginal(),
-                    $dirtyFields = $translation->getDirty(),
+                    $dirtyFields = $translation->getDirty()
                 );
             } else {
                 $originalFields = array_map(function() {
