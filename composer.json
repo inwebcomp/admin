@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": "^7.1|^8.0",
-        "laravel/scout": "^8.6",
+        "laravel/scout": ">=8",
         "spatie/laravel-permission": "^5.4",
         "cakephp/chronos": "^1.0|^2.0"
     },
