@@ -4,6 +4,7 @@
                     :small="small"
                     :value="value"
                     :tabindex="tabindex"
+                    :placeholder="placeholder"
                     @input="input"
                     @focus="focus"
                     @blur="blur"
@@ -49,6 +50,10 @@
                 type: Boolean,
                 default: false
             },
+            placeholder: {
+                type: String,
+                default: ''
+            },
         },
 
         data() {
@@ -83,9 +88,14 @@
                 this.$emit('blur', event)
             },
 
-            select(index) {
+            select(index, close = true) {
                 let selected = this.filteredOptions[index]
-                this.close()
+
+                if (! selected)
+                    return
+
+                if (close)
+                    this.close()
 
                 this.$emit('input', selected.value, selected.title)
                 this.$emit('select', selected.value, selected.title)
@@ -134,7 +144,7 @@
                             this.$refs.container.scrollTop += dif;
                     }
                 } else if (event.keyCode == 13) { // Enter
-                    this.select(this.focused - 1)
+                    this.select(this.focused - 1, false)
                 }
             }
         },

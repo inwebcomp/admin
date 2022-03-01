@@ -61,4 +61,29 @@ class Select extends Field
 
         return $result;
     }
+
+    public static function prepareOptions(
+        $collection,
+        $titleAttribute = 'title',
+        $valueAttribute = 'id',
+        $icon = null,
+        $color = null
+    ) : array
+    {
+        if (! ($collection instanceof Collection))
+            $collection = new Collection($collection);
+
+        $result = [];
+
+        foreach ($collection as $item) {
+            $result[] = [
+                'title' => is_callable($titleAttribute) ? $titleAttribute($item) : $item->{$titleAttribute},
+                'value' => is_callable($valueAttribute) ? $valueAttribute($item) : $item->{$valueAttribute},
+                'icon'  => is_callable($icon) ? $icon($item) : ($icon ? $item->{$icon} : null),
+                'color' => is_callable($color) ? $color($item) : ($color ? $item->{$color} : null),
+            ];
+        }
+
+        return $result;
+    }
 }
