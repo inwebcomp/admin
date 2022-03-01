@@ -22,7 +22,7 @@
         "flatpickr": "^4.6.3",
         "form-backend-validation": "^2.3.6",
         "inflector-js": "^1.0.1",
-        "lodash": "^4.17.11",
+        "lodash": "^4.17.21",
         "moment": "^2.29.1",
         "moment-timezone": "^0.5.33",
         "numbro": "2.1.1",
