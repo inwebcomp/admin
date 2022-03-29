@@ -66,7 +66,7 @@ class Select extends Field
         $collection,
         $titleAttribute = 'title',
         $valueAttribute = 'id',
-        $icon = null,
+        $image = null,
         $color = null
     ) : array
     {
@@ -79,7 +79,7 @@ class Select extends Field
             $result[] = [
                 'title' => is_callable($titleAttribute) ? $titleAttribute($item) : $item->{$titleAttribute},
                 'value' => is_callable($valueAttribute) ? $valueAttribute($item) : $item->{$valueAttribute},
-                'icon'  => is_callable($icon) ? $icon($item) : ($icon ? $item->{$icon} : null),
+                'image' => is_callable($image) ? $image($item) : ($image ? $item->{$image} : null),
                 'color' => is_callable($color) ? $color($item) : ($color ? $item->{$color} : null),
             ];
         }
