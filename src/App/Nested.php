@@ -27,12 +27,27 @@ trait Nested
         return static::BREADCRUMBS_CHAIN;
     }
 
-    public function breadcrumbs(ResourceIndexRequest $request, NestedContract $node = null, $withOptions = true)
+    public function breadcrumbs(ResourceIndexRequest $request, $node = null, $withOptions = true)
     {
         $path = $this->breadcrumbsPath($node);
 
+        $options = null;
+        $relationResource = $this->nestedRelationResource();
+
         if ($withOptions) {
-            $options = $node ? $node->children() : $this->nestedRelationResource()->whereIsRoot();
+            if ($relationResource->model() instanceof NestedContract) {
+                if ($node) {
+                    if ($node->isLeaf())
+                        $options = $node->siblingsAndSelf();
+                    else
+                        $options = $node->children();
+                } else {
+                    $options = $relationResource->whereIsRoot();
+                }
+            } else {
+                $options = $relationResource;
+//                $options = ($node) ? $relationResource->where('id', '=', '0') : $relationResource;
+            }
 
 //            $options->hasChildren();
 
@@ -54,17 +69,16 @@ trait Nested
                 'title' => '-- ' . __('Выберите значение'),
                 'value' => null,
             ]);
-        } else {
-            $options = null;
         }
 
         return [
-            'path'    => $path,
-            'options' => $options,
+            'path'     => $path,
+            'options'  => $options,
+            'selected' => $node?->getKey(),
         ];
     }
 
-    public function breadcrumbsPath(NestedContract $node = null)
+    public function breadcrumbsPath($node = null)
     {
         $path = [
             self::root()
@@ -73,17 +87,21 @@ trait Nested
         if (! $node)
             return $path;
 
-        $node->ancestors()->withoutGlobalScopes()->defaultOrder()->ordered()->each(function (NestedContract $ancestor) use (&$path) {
-            $path[] = [
-                'title' => $ancestor->title,
-                'id'    => $ancestor->getKey()
-            ];
-        });
+        if ($node instanceof NestedContract) {
+            $node->ancestors()->withoutGlobalScopes()->defaultOrder()->ordered()->each(function (NestedContract $ancestor) use (&$path) {
+                $path[] = [
+                    'title' => $ancestor->title,
+                    'id'    => $ancestor->getKey()
+                ];
+            });
 
-        $path[] = [
-            'title' => $node->title,
-            'id'    => $node->getKey()
-        ];
+            if (! $node->isLeaf()) {
+                $path[] = [
+                    'title' => $node->title,
+                    'id'    => $node->getKey()
+                ];
+            }
+        }
 
         return $path;
     }

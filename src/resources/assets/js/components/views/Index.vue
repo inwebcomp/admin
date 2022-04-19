@@ -21,7 +21,7 @@
             <breadcrumbs v-if="isNested && breadcrumbs.type == 'chain'" :items="breadcrumbs.path"
                          :options="breadcrumbs.options" :value="selected"/>
             <breadcrumbs-tree v-if="isNested && breadcrumbs.type == 'tree'" :items="breadcrumbs.path"
-                              :options="breadcrumbs.options" :value="selected"/>
+                              :options="breadcrumbs.options" :value="breadcrumbs.selected"/>
 
             <div class="flex flex-col flex-1">
                 <div v-if="shouldShowCards" class="mt-4">
