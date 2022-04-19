@@ -82,7 +82,7 @@
                 if (this.$route.name == 'dashboard' && this.$route.params.name == resource.uriKey)
                     return true
 
-                if (this.$route.name != 'index' && this.$route.name == resource.uriKey)
+                if (this.$route.name != 'index' && this.$route.name.indexOf(resource.uriKey) === 0)
                     return true
 
                 return false
