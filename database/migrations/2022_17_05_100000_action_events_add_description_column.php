@@ -14,7 +14,7 @@ class AdminUsersAddNameColumn extends Migration
     public function up()
     {
         Schema::table('action_events', function (Blueprint $table) {
-            $table->text('description')->nullable()->after('name');
+            $table->string('description')->nullable()->after('name');
         });
     }
 
