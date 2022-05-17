@@ -555,4 +555,9 @@ class ActionEvent extends Entity
 
         return [$original, $changes];
     }
+
+    public function getDescription()
+    {
+        return 'sdf';
+    }
 }
