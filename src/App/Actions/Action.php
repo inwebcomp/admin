@@ -413,6 +413,14 @@ class Action implements JsonSerializable
     }
 
     /**
+     * @return string|null
+     */
+    public function description()
+    {
+        return null;
+    }
+
+    /**
      * Get the displayable name of the action.
      *
      * @return string

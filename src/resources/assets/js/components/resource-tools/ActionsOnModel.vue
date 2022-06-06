@@ -17,9 +17,12 @@
                     <div class="font-bold" v-if="item.user">{{ item.user.login }}</div>
                     <div class="text-grey-dark text-sm">{{ item.created_at }}</div>
                 </td>
-                <td class="py-4 px-6 border-b border-grey-light">
+                <td class="py-4 px-6 border-b border-grey-light" style="min-width: 11rem;">
                     <div class="flex items-center">
                         <span>{{ item.name }}</span>
+                    </div>
+                    <div v-if="item.description" class="flex items-center text-sm ">
+                        <span>{{ item.description }}</span>
                     </div>
                 </td>
                 <td class="py-4 px-6 border-b border-grey-light">

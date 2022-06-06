@@ -332,6 +332,7 @@ class ActionEvent extends Entity
             'batch_id'        => $batchId,
             'user_id'         => $request->user()->getAuthIdentifier(),
             'name'            => $action->name(),
+            'description'     => $action->description(),
             'actionable_type' => $request->actionableModel()->getMorphClass(),
             'target_type'     => $request->model()->getMorphClass(),
             'model_type'      => $modelType,
@@ -534,7 +535,7 @@ class ActionEvent extends Entity
                     $dirtyFields = $translation->getDirty()
                 );
             } else {
-                $originalFields = array_map(function() {
+                $originalFields = array_map(function () {
                     return null;
                 }, array_flip($model->translatedAttributes));
             }
@@ -553,5 +554,10 @@ class ActionEvent extends Entity
         }
 
         return [$original, $changes];
+    }
+
+    public function getDescription()
+    {
+        return 'sdf';
     }
 }
