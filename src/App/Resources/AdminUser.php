@@ -12,6 +12,7 @@ use InWeb\Admin\App\Fields\PasswordConfirmation;
 use InWeb\Admin\App\Fields\Text;
 use InWeb\Admin\App\Http\Requests\AdminRequest;
 use InWeb\Admin\App\Resources\Resource;
+use InWeb\Admin\App\Section;
 
 class AdminUser extends Resource
 {
@@ -57,7 +58,6 @@ class AdminUser extends Resource
             Text::make(__('Логин'), 'login')->link($this->editPath()),
             Text::make(__('Имя'), 'name')->original(),
             Text::make(__('Email'), 'email'),
-            Number::make(__('CRM ID'), 'crm_id'),
             Date::make(__('Дата регистрации'), 'created_at'),
         ];
     }
@@ -72,18 +72,24 @@ class AdminUser extends Resource
     {
         $id = $request->findModelOrFail()->id;
 
-        return [
+        $fields = [
             Text::make(__('Логин'), 'login')
                 ->rules(['required', Rule::unique('admin_users')->ignore($id)]),
             Text::make(__('Имя'), 'name')
                 ->original(),
             Text::make(__('Email'), 'email')
                 ->rules(['required', Rule::unique('admin_users')->ignore($id)]),
-            Number::make(__('CRM ID'), 'crm_id'),
+
+            Section::make(__('')),
 
             Password::make(__('Пароль'), 'password')->rules(['nullable']),
             PasswordConfirmation::make(__('Повторите пароль'), 'password_confirm')->rules(['same:password']),
         ];
+
+        if (class_exists(\Inweb\Tools\PermissionsTool\RolesResourceTool::class))
+            $fields[] = new \Inweb\Tools\PermissionsTool\RolesResourceTool();
+
+        return $fields;
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace InWeb\Admin\App\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Http\Request;
 use InWeb\Admin\App\Admin;
 use InWeb\Admin\App\Events\ServingAdmin;
 use InWeb\Admin\App\HasPermissions;
@@ -35,6 +36,8 @@ class SyncResourcePermissionsCommand extends Command
         if ($resource) {
             $resources = [$resource];
         } else {
+            event(new ServingAdmin(new Request()));
+
             $resources = array_merge(
                 Admin::$resources,
                 Admin::$tools

@@ -28,7 +28,10 @@ class Select extends Field
         if ($options instanceof Collection)
             $options = $options->toArray();
 
-        $this->default(current($options)['value']);
+        $current = current($options);
+
+        if ($current)
+            $this->default($current['value']);
 
         return $this->withMeta(['options' => $options]);
     }
