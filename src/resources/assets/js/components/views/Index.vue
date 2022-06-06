@@ -17,7 +17,10 @@
                         }"
         />
 
-        <div class="resizable-content" :class="{'flex flex-1': isNested && breadcrumbs.type == 'tree'}">
+        <div class="resizable-content" :class="{
+            'flex flex-1': isNested && breadcrumbs.type == 'tree',
+            'flex flex-1 flex-col': ! (isNested && breadcrumbs.type == 'tree'),
+            }">
             <breadcrumbs v-if="isNested && breadcrumbs.type == 'chain'" :items="breadcrumbs.path"
                          :options="breadcrumbs.options" :value="selected"/>
             <breadcrumbs-tree v-if="isNested && breadcrumbs.type == 'tree'" :items="breadcrumbs.path"
