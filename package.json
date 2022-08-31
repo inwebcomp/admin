@@ -24,7 +24,7 @@
         "inflector-js": "^1.0.1",
         "lodash": "^4.17.11",
         "moment": "^2.29.1",
-        "moment-timezone": "^0.5.33",
+        "moment-timezone": "^0.5.35",
         "numbro": "2.1.1",
         "vue": "^2.6.10",
         "vue-axios": "^2.1.4",
